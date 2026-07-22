@@ -1,0 +1,4 @@
+interface:
+  display_name: "ADR Writer"
+  short_description: "Creates evidence-based architecture decision records"
+  default_prompt: "Use $adr-writer to capture this architectural decision."

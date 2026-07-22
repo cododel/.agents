@@ -1,0 +1,4 @@
+interface:
+  display_name: "Troubleshooter"
+  short_description: "Diagnoses runtime failures to their root cause"
+  default_prompt: "Use $troubleshooter to diagnose this failure before changing code."

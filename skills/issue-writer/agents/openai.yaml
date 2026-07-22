@@ -1,0 +1,4 @@
+interface:
+  display_name: "Issue Writer"
+  short_description: "Manages repository-local Markdown issues"
+  default_prompt: "Use $issue-writer to track or close this repository issue."

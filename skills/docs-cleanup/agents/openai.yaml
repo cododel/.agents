@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docs Cleanup"
+  short_description: "Audits and safely reduces repository documentation noise"
+  default_prompt: "Use $docs-cleanup to audit these repository documents."
