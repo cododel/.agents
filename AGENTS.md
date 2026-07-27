@@ -40,8 +40,8 @@ alone.
 ## File Size And Modules
 
 - Prefer decomposing new functionality before a file becomes large.
-- Around 300 LOC, explicitly evaluate whether the file should become a module. Around 800 LOC
-  is a strong signal to split unless a clear reason justifies the size.
+- Around 300 LOC, explicitly evaluate whether the file should become a module.
+- Source files must not exceed 500 LOC without an explicit, documented reason.
 - Separate orchestration, domain/state models, services or database helpers, and worker/actor
   responsibilities. Keep top-level entrypoints declarative.
 
@@ -57,8 +57,8 @@ alone.
   project's `.gitignore` solely to accommodate agent scratch files.
 - Purpose-built HTTPS documentation and read-only API clients are allowed. Never send secrets,
   private source, logs, or customer data to an external documentation service.
-- Never open remote shell sessions or use `ssh`, `scp`, remote-spec `rsync`, or shell-transport
-  Git. Use purpose-built scoped tools or give the operator the exact command to run.
+- Do not open remote shell sessions or use `ssh`, `scp`, remote-spec `rsync`, or shell-transport
+  Git without explicit operator authorization for the exact remote action and target.
 - Remote mutations and arbitrary authenticated or write-capable HTTP requests require explicit
   operator authorization.
 
@@ -135,6 +135,45 @@ alone.
 - Reusable personal workflows belong in Agent Skills, not duplicated client-specific prompts.
 - Instructional and reference documentation uses a neutral register without marketing language,
   superlatives, or decorative emoji.
+
+## Task Journal And Deferred Questions
+
+- Multi-step or long-running work keeps a task journal: one plain-text file in the scratch
+  location defined under Shell, Files, And Network. Short single-step work does not need one.
+- The journal holds what a context compaction would destroy: the request as stated, decisions
+  already made, assumptions taken, verification already run, work remaining, and open questions.
+  It is working memory for the current task, not a deliverable, and not a substitute for
+  `issue-writer`, which records work deferred beyond the current task.
+- Update the journal as work progresses, after each completed step and before any long-running or
+  context-heavy operation. A journal written only at the end cannot survive the compaction it
+  exists to survive.
+- Continue through every part of the task that is unambiguous and record each unresolved question
+  in the journal instead of stopping at it. Many are answered by the implementation itself;
+  re-check the list and drop those before reporting.
+- Ask immediately when an unresolved question is structural, meaning a different answer would
+  invalidate work built on top of it. Defer only local questions whose answers do not change what
+  is already done.
+- Deferring a question is not authorization. Operator gates stay closed regardless of what the
+  journal records, and an unanswered question never becomes an assumption that unlocks a gated
+  action.
+- On completion, state the assumptions taken and the questions that remain genuine blockers in the
+  response itself, as a decision request rather than a retelling of the journal. Leave the file in
+  place.
+
+## Subagent Fan-Out
+
+- Before fanning out to subagents, look at the set of tasks and group it. Launching an agent
+  costs a fixed preamble (system prompt, tool definitions, CLAUDE.md, skills), and each subagent
+  has its own cache, so that preamble is paid in full whether the agent performs one check or a
+  dozen.
+- An agent given a coherent group of work is usually both cheaper and better than an agent per
+  unit of work: it sees adjacent items, does not rediscover the same facts, and does not
+  duplicate findings.
+- Group along natural boundaries such as module, directory, topic, or dimension of analysis,
+  rather than by units of input such as file, function, or checklist entry.
+- Do not group for its own sake. Split when tasks are genuinely independent and long-running, or
+  when a batch grows large enough that accumulated context degrades the work. Decide from the
+  substance of the tasks, not from a target count.
 
 ## Current Documentation
 
