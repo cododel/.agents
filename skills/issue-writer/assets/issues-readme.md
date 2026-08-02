@@ -1,7 +1,7 @@
 # Repository Issues
 
-This directory tracks bugs, incidents, regressions, technical debt, and operational follow-ups
-as Markdown files close to the code they affect.
+This directory tracks bugs, incidents, regressions, deferred questions or features, technical
+debt, and operational follow-ups as Markdown files close to the code they affect.
 
 ## Naming
 
@@ -15,6 +15,8 @@ Use `[STATUS]P<priority>-YYYY-MM-DD-<english-kebab-slug>.md`.
 
 Each issue records evidence, affected scope, root cause when known, a recommended fix, and a
 verification checklist. Unknown facts remain explicit `TODO:` items rather than guesses.
+Deferred work also records the known context, why it was deferred, and concrete conditions for
+resuming it.
 
 ## Lifecycle
 

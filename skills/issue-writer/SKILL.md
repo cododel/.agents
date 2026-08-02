@@ -1,13 +1,6 @@
 ---
 name: issue-writer
-description: >
-  Create, update, or close repository-local Markdown issue documents for bugs, incidents,
-  regressions, technical debt, and operational follow-ups. Use for "create issue", "track this
-  bug", "log a follow-up", "напиши issue", "зафиксируй баг", "close resolved", "clean up
-  resolved issues", "закрой resolved", or "почисти issues". This is the user's portable
-  file-based workflow: bootstrap its project structure when absent; on close, extract durable
-  knowledge into ADRs/runbooks before gated source deletion. Do not use for GitHub, GitLab,
-  Jira, or Linear issues.
+description: "Create, update, or close repository-local Markdown issue records for bugs, incidents, deferred work, technical debt, and operational follow-ups. Use for `создай/напиши issue`, `зафиксируй баг`, `отложим`, `defer this`, or `close resolved`, including deferral intent without the word issue. Do not use for hosted trackers or broad read-only docs classification (`docs-cleanup`)."
 ---
 
 # Issue Writer
@@ -17,7 +10,9 @@ description: >
 Manage the lifecycle of issue tracking documents in the location and format proven by the
 current repository. Two distinct modes:
 
-1. **Create / update** an active issue from facts in the conversation or a user report.
+1. **Create / update** an active issue from facts in the conversation or a user report,
+   including a deferred question or feature captured with its decision context and resume
+   conditions.
 2. **Close** resolved issues by extracting any documentation value (architectural
    decisions → ADRs; operational procedures → runbooks; unique repros/commands → relevant
    docs) and then deleting the source files. Resolved issues are not retained in an
@@ -27,12 +22,14 @@ Work from repo evidence, not similar-looking guesses.
 
 ## Mode selector
 
-Pick the mode from the user's phrasing **before** loading the detailed workflow.
+Pick the mode from the user's **intent** before loading the detailed workflow. The phrases in
+the table are non-exhaustive examples, not literals to match.
 
-| User says…                                                                                                                          | Mode    | Read next                |
+| User intent and example wording                                                                                                      | Mode    | Read next                |
 |-------------------------------------------------------------------------------------------------------------------------------------|---------|--------------------------|
-| "create issue", "log a bug", "track this", "напиши issue", "зафиксируй"                                                             | create  | `references/create.md`   |
-| "close resolved", "clean up resolved", "sweep closed", "delete resolved", "закрой resolved", "почисти issues", "архивируй resolved" | close   | `references/close.md`    |
+| Record or update tracked work: "create issue", "log a bug", "track this", "напиши issue", "зафиксируй"                              | create  | `references/create.md`   |
+| Stop a concrete question/feature now and preserve it for later: "отложим это", "вернёмся к этому позже", "defer this", "park this"   | create  | `references/create.md`   |
+| Close tracked work: "close resolved", "sweep closed", "delete resolved", "закрой resolved", "почисти issues", "архивируй resolved" | close   | `references/close.md`    |
 
 Archive-style trigger phrases route to `close` for muscle-memory compatibility — the
 operation itself is delete-after-extraction, not move-to-archive. The close gate makes
@@ -60,6 +57,8 @@ Then branch into `create.md` or `close.md` per the selector above.
 
 - `assets/fallback-template.md` — full markdown template for a new issue when the target
   directory has no stronger local format. Used by `create.md`.
+- `assets/deferred-template.md` — fallback template for an explicitly deferred question,
+  feature, or follow-up. Used by `create.md`.
 - `assets/issues-readme.md` — fallback local convention installed as `README.md` when the
   skill bootstraps a new issues directory.
 

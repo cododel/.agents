@@ -1,13 +1,6 @@
 ---
 name: design-system-extractor
-description: >-
-  Extract an existing product's visual/UI design language into DESIGN.md so future interfaces
-  preserve it. Use for web, mobile, desktop, or cross-platform projects when the user asks to
-  document, reverse-engineer, audit, regenerate, or update a design system, style guide, visual
-  language, or DESIGN.md. Reconstruct both implemented tokens and patterns (color, typography,
-  spacing, shape, layout, components, states, motion, assets) and the underlying intent from
-  code, UI resources, existing docs, and git history. Optional agent-session history may enrich
-  rationale only with explicit approval. Do not use to invent a new design from scratch.
+description: "Extract or update an existing product's visual/UI language in DESIGN.md from code, UI assets, docs, and approved session evidence. Use when asked to document, reverse-engineer, audit, regenerate, or update a design system/style guide (`вытащи дизайн-систему`) for web, mobile, or desktop. Do not use to invent a new visual system."
 ---
 
 # Design System Extractor

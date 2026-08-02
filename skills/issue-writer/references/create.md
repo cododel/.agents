@@ -24,6 +24,32 @@ Collect from the user request and repository context:
 Facts you can't confirm from the conversation or the repo become **questions to the
 user**, not invented values. Asking is cheap; fabricating loses audit trail.
 
+### Explicit deferral intent
+
+Recognize the semantic intent, not a keyword. When the user clearly wants to stop work on a
+concrete question, feature, or follow-up now, preserve it, and return to it later, treat that as
+a request to create a **new active issue now**. Phrases such as "отложить", "давай не сейчас,
+но вернёмся к этому", "зафиксируй на потом", "defer this", and "park this" are non-exhaustive
+examples, not a whitelist. Do not require the user to name the skill or say "issue", and do not
+treat the request as only a conversational reminder or ask for another confirmation.
+
+Capture the complete usable context already available in the conversation and repository:
+
+- what question, feature, or follow-up was deferred
+- the current state and all established facts, constraints, decisions, rejected options,
+  attempted work, and relevant artifacts
+- the deferral decision: why work stops now and which constraint, tradeoff, dependency, or
+  competing priority led to it
+- the **resume conditions**: concrete events, evidence, prerequisites, dates, capacity, or
+  decision changes that should cause the issue to be reconsidered
+- the first next steps once resumed and the acceptance or completion criteria
+- unresolved questions, clearly separated from established facts
+
+Do not infer a reason or resume condition merely from the deferral intent. If the conversation
+does not establish one, write an explicit `TODO:` instead of flattening the missing context into
+a generic phrase such as "not a priority". Avoid making the user repeat context that is already
+present in the conversation or provable from the repository.
+
 ## Step C2 — Read local examples
 
 Before writing, check the issues directory for:
@@ -46,10 +72,12 @@ If the user is reporting something that overlaps an existing active issue:
 
 1. Search for related slugs and probes in the issues directory (`grep -r` on a few
    distinctive terms).
-2. If you find a likely match, **ask** before either creating a new file or modifying
-   the existing one. The user may want a fresh issue (different root cause), an update
-   (new evidence on the same bug), or a recurrence note appended.
-3. For updates: bump `**Last refreshed:**`, append new evidence in a dated subsection,
+2. If this is an explicit deferral request, create the requested new issue and link a
+   related existing issue when relevant. Do not silently turn "отложить" into an update.
+3. Otherwise, if you find a likely match, **ask** before either creating a new file or
+   modifying the existing one. The user may want a fresh issue (different root cause),
+   an update (new evidence on the same bug), or a recurrence note appended.
+4. For updates: bump `**Last refreshed:**`, append new evidence in a dated subsection,
    and only change `**Status:**` if the user explicitly says so.
 
 Some projects (per their template `NOTE` comments) reserve specific sections for
@@ -59,9 +87,12 @@ NOTE comments**: don't include the section when creating, don't overwrite when u
 ## Step C4 — Write the issue
 
 - Match the directory's existing structure when 2+ examples exist.
-- Use `assets/fallback-template.md` only when no local example or template exists.
+- When no local example or template exists, use `assets/deferred-template.md` for an explicit
+  deferral request and `assets/fallback-template.md` for other issues.
 - Preserve the user's prose language (see `conventions.md` § Language rules).
 - Keep filenames English kebab-case regardless of prose language.
+- For an explicit deferral request, preserve the deferred context, reason, and resume conditions
+  as distinct sections even when adapting them to a stronger local template.
 - Include concrete code paths, function names, and line numbers **only when proven**
   from the repo or provided by the user. Use the `**Probe:**` pattern (a short,
   grep-able snippet) when the local template supports it — line numbers drift, probes
@@ -90,5 +121,7 @@ Tell the user:
 - Chosen scope and why it was proven (single-hit `find`, repo instructions, user input)
 - Priority and status
 - Convention used (local template, sampled from existing issues, or fallback)
+- For an explicit deferral: the recorded deferral reason and resume conditions, including any
+  `TODO:` values
 - Any `TODO:` placeholders or facts you couldn't confirm
 - Whether you updated an index, and which one

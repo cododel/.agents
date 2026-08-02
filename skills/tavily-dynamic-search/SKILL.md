@@ -1,7 +1,6 @@
 ---
 name: tavily-dynamic-search
-description: |
-  Programmatic web search with context isolation. Use this skill for any research task where you need to search the web, filter results, and extract specific information — without polluting your context window with raw HTML and boilerplate. This is the default skill for web research. Triggered by "search for", "look up", "find", "research", "what's the latest on", or any query that requires current web information. Also use when asked to "search and filter", "find the important parts", or "extract the key details" — any case where the user wants curated, noise-free content.
+description: "Run a programmatic Tavily search→filter→extract workflow with results isolated from the main context. Use for curated key details without raw-HTML noise (`найди и отфильтруй`). Do not use for plain result lists (`tavily-search`), known URLs, site crawling, or full research reports (`tavily-research`)."
 allowed-tools: Bash(tvly *), Bash(python3 *), Bash(uv run *), Bash(jq *)
 ---
 

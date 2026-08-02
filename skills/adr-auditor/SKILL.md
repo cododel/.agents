@@ -1,14 +1,6 @@
 ---
 name: adr-auditor
-description: >
-  Audit an existing corpus of Architecture Decision Records against the ADR quality
-  spec, diagnose its health, and propose a concrete clean-up plan. Use whenever the user
-  wants to analyze, review, or tidy existing ADRs — including phrasing like "audit our
-  ADRs", "приведи в порядок ADR", "проанализируй ADR", "are our ADRs stale?", "check ADR
-  drift", "which ADRs are dead?", "adr-review", "наши ADR — каша". Input is the ADR files
-  plus the codebase (NOT a conversation); output is a diagnosis report plus a gated list
-  of fixes. Distinct from `adr-writer` (which creates one ADR from a decision) — this
-  skill measures and repairs a whole corpus. All mutating fixes pass an operator gate.
+description: "Audit the quality, relevance, and code drift of an existing ADR corpus. Use for `audit our ADRs`, `проанализируй ADR`, `check ADR drift`, or requests to tidy stale/dead ADRs. Do not use to create an ADR from a conversation or issue; use `adr-writer`."
 ---
 
 # ADR Auditor

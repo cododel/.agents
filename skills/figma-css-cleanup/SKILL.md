@@ -1,9 +1,6 @@
 ---
 name: figma-css-cleanup
-description: >
-  Audit and simplify CSS exported from Figma or visual builders without changing rendered
-  behavior. Use when the user asks to clean generated CSS, remove redundant declarations, or
-  reduce style noise while preserving layout, browser resets, responsive states, and variants.
+description: "Audit and simplify CSS exported from Figma or visual builders without changing rendered behavior. Use for `почисти generated/Figma CSS`, redundant declarations, or style-noise reduction while preserving layout, resets, responsive states, and variants."
 ---
 
 ## CSS Hygiene For Generated Designs

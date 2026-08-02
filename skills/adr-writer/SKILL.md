@@ -1,13 +1,6 @@
 ---
 name: adr-writer
-description: >
-  Generate detailed Architecture Decision Record (ADR) documents — either from the full
-  chat conversation, or by scanning resolved issues to identify and promote architectural
-  decisions buried inside them. Use whenever the user asks to create an ADR, document an
-  architectural decision, capture a design choice, or audit existing issues for ADR
-  candidates — including short requests like "сделай ADR", "create ADR",
-  "зафиксировать решение", "document this decision", "promote this resolved issue to ADR",
-  "какие resolved issues стоит превратить в ADR", "find ADR candidates in docs/issues".
+description: "Create a detailed ADR from the current conversation or promote an architectural decision from resolved issues. Use for `create/write an ADR`, `сделай ADR`, `зафиксируй архитектурное решение`, or requests to find/promote ADR candidates. Do not use to audit an existing ADR corpus; use `adr-auditor`."
 ---
 
 # ADR Writer

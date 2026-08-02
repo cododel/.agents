@@ -1,12 +1,6 @@
 ---
 name: cododel-writer
-description: >
-  Editorial assistant that turns Alexander (Cododel)'s raw drafts and stream-of-consciousness notes
-  into clean, readable Telegram posts that preserve his voice, mood, and authorship.
-  Use whenever the user shares a draft, rough notes, or a stream of thoughts and wants it shaped into a post.
-  Trigger on: "напиши пост", "причеши", "сделай из этого пост", "набросал черновик", "вот мысли",
-  "напиши в моём стиле", "помоги с постом", or any raw text that reads like unedited notes.
-  Do NOT rewrite from scratch — the draft is the source of truth.
+description: "Turn Alexander (Cododel)'s raw notes or draft into a polished Telegram post while preserving his voice, mood, and authorship. Use for `напиши/причеши пост`, `сделай из этого пост`, `вот черновик/мысли`, or equivalent English requests. Do not use for writing from scratch without source material."
 ---
 
 # Cododel Post Writer — Editorial Mode

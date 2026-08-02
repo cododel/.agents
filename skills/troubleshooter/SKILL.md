@@ -1,16 +1,6 @@
 ---
 name: troubleshooter
-description: >
-  Diagnose tracebacks, stack traces, panics, logs, crashes, and runtime errors down to the
-  exact root cause and propose a minimal patch. Use whenever the user wants an error
-  investigated rather than blindly patched — including "разберись с ошибкой", "почему
-  падает", "что упало", "разбери стектрейс", "вот traceback", "отладь это", "почему
-  крашится", "найди причину", "разбери лог", "что кидает исключение", "debug this", "why is
-  this failing", "fix this crash", "diagnose this exception", "trace this bug", "what's
-  throwing", "find the root cause". Investigation starts read-only. If the user explicitly
-  asked to fix the failure, apply the proven minimal patch after diagnosis; otherwise present
-  it for approval. Confirmed bugs may be tracked with issue-writer and architectural causes
-  documented with adr-writer when the user requests it.
+description: "Diagnose tracebacks, panics, logs, crashes, exceptions, and runtime failures to an evidence-backed root cause and minimal patch. Use for `почему падает`, `разбери лог/стектрейс`, `найди причину`, `debug/fix this crash`, or equivalent debugging intent. Do not use for general architecture exploration (`graphify`) or non-runtime code review."
 ---
 
 # Troubleshooter

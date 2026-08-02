@@ -1,17 +1,6 @@
 ---
 name: docs-cleanup
-description: >
-  Audits repository docs (issues, ADRs, decision records, incident notes, runbooks)
-  and classifies each as keep, repair, resolve, merge, supersede, delete, or
-  promote-to-adr. Use whenever the user wants to clean up, deduplicate, surface stale
-  records, or reduce noise in docs — including casual phrasing like "our issues are a
-  mess", "which issues can we close", "too many stale docs", "почисти доки",
-  "разбери docs/issues". Do NOT use when the user wants the ADR corpus specifically
-  audited or repaired ("audit our ADRs", "проанализируй ADR", "check ADR drift") —
-  that's `adr-auditor`, which goes deeper on ADR semantics; this skill is the wide,
-  shallower sweep across all doc types. All deletions go through an explicit
-  operator review gate. Composes with `issue-writer:close` and
-  `adr-writer:from-issue` by surfacing items that fit those flows.
+description: "Audit and classify existing repository docs—issues, ADRs, decisions, incidents, and runbooks—for broad cleanup. Use for stale/duplicate docs, `почисти доки`, `docs are a mess`, or read-only questions such as `which issues can we close`. Do not use for ADR-only audits (`adr-auditor`) or creating/updating/closing issue records (`issue-writer`)."
 ---
 
 # Docs Cleanup

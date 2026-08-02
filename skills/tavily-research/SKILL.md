@@ -1,7 +1,6 @@
 ---
 name: tavily-research
-description: |
-  Conduct comprehensive AI-powered research with citations via the Tavily CLI. Use this skill when the user wants deep research, a detailed report, a comparison, market analysis, literature review, or says "research", "investigate", "analyze in depth", "compare X vs Y", "what does the market look like for", or needs multi-source synthesis with explicit citations. Returns a structured report grounded in web sources. Takes 30-120 seconds. For quick fact-finding, use tavily-search instead.
+description: "Produce a comprehensive multi-source Tavily research report with citations. Use for in-depth investigation, comparisons, market analysis, literature reviews, `исследуй`, or `сравни`. Do not use for quick source discovery (`tavily-search`) or search/filter/extract workflows (`tavily-dynamic-search`)."
 allowed-tools: Bash(tvly *)
 ---
 
