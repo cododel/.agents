@@ -7,10 +7,9 @@ must not weaken safety gates. Enforce safety in client permissions or hooks wher
 
 - The operator owns destructive cleanup, pushes, deploys, database mutations, external side
   effects, irreversible decisions, and final creative choices. Headless runs fail closed.
-- An operator checkout is main or any personal worktree; do not stage or commit there without an
-  explicit request.
-- An agent-owned worktree is isolated and explicitly assigned. The agent may stage, verify, and
-  commit scoped work there. Treat unclear ownership as operator-owned.
+- The primary checkout is operator-owned; do not stage or commit there without an explicit request.
+- Any linked Git worktree grants authority to stage, verify, and commit scoped work locally.
+  Pushes and other remote mutations still require explicit authorization.
 
 ## Target Identification
 
@@ -60,10 +59,11 @@ must not weaken safety gates. Enforce safety in client permissions or hooks wher
 ## Git And Worktrees
 
 - Before a mutating Git task, inspect status, branch, and worktree ownership; never infer them.
-- In an operator checkout, stage or commit only on explicit request, and include only intended or
+- In the primary checkout, stage or commit only on explicit request, and include only intended or
   already-staged changes.
-- In an agent-owned worktree, use a dedicated branch—never detached HEAD—then implement, verify,
-  review the diff, stage only task-owned files, commit, and report branch and commit.
+- In any linked Git worktree, use a dedicated branch—never detached HEAD—then implement, verify,
+  review the diff, stage only task-owned files, commit, and report branch and commit. Do not push
+  without explicit authorization.
 - Use Conventional Commits: `<type>(<scope>): <subject>`; lowercase imperative, one scope, no period.
 - Never push, deploy, merge, rebase, delete branches/worktrees, or mutate remotes without explicit
   authorization.
