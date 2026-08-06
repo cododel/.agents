@@ -16,7 +16,8 @@ Total candidates: N
 Counts by verdict:
   keep:            N
   repair:          N
-  resolve:         N
+  close:           N
+  stale:           N
   merge:           N
   supersede:       N
   promote-to-adr:  N
@@ -28,7 +29,7 @@ Counts by verdict:
   the source issues after the ADR is saved, with explicit operator confirmation):
     - <path>
     - <path>
-- `issue-writer:close` could sweep these <N> `[RESOLVED]` issue files (it runs its
+- `issue-writer:close` could sweep these <N> `[CLOSED]` issue files (it runs its
   own pre-extraction check before any `rm`, so anything ADR-worthy gets caught a
   second time):
     - <path>
@@ -37,7 +38,12 @@ Counts by verdict:
 ### Repair candidates (need attention but not destructive)
 | Path | Issue | Suggested fix |
 |------|-------|---------------|
-| <path> | filename/body status mismatch | rename to [RESOLVED] or update body |
+| <path> | filename/body status mismatch | rename to [CLOSED] or update body |
+
+### Stale open Issues
+| Path | Last reviewed | Evidence-based stale note |
+|------|---------------|---------------------------|
+| <path> | YYYY-MM-DD | <premise that no longer matches current evidence> |
 
 ### Supersede candidates (ADRs replaced by newer decisions)
 | Path | Superseded by | Action |
@@ -64,7 +70,8 @@ Audit of <scope> (N files):
   keep:      <path>, <path>, <path>
   repair:    <path> — filename/body mismatch
   promote:   <path>  → fits `adr-writer:from-issue` (architectural decision)
-  delete:    <path>, <path>  → resolved issues; consider `issue-writer:close` instead
+  stale:     <path> — keep Open; update Last reviewed and add Stale note
+  delete:    <path>, <path>  → closed issues; consider `issue-writer:close` instead
                               of this skill's gate (it re-checks for extractable value)
 
   (No ambiguous items.)
@@ -83,7 +90,8 @@ Deleted (N):
 
 Non-delete actions applied:
   - <path>: added "Superseded by: <newer-adr>" header
-  - <path>: renamed [ACTIVE] → [RESOLVED] to match body
+  - <path>: renamed [OPEN] → [CLOSED] after verified completion
+  - <path>: updated Last reviewed and added an evidence-based Stale note; kept Open
 
 Approved paths skipped at apply time (final re-check changed the picture):
   - <path>: re-read showed updated body with new evidence; left in place
@@ -91,7 +99,7 @@ Approved paths skipped at apply time (final re-check changed the picture):
 Recommended next steps:
   - Run `adr-writer:from-issue` on `docs/issues/` to promote <M> architectural items
     (it deletes the source issues itself, with operator confirmation)
-  - Run `issue-writer:close` on `docs/issues/` to sweep <N> remaining `[RESOLVED]`
+  - Run `issue-writer:close` on `docs/issues/` to sweep <N> remaining `[CLOSED]`
     files (pre-extraction check + delete)
   - <Other manual follow-ups>
 ```

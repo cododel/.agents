@@ -33,7 +33,7 @@ For each candidate path:
    the subagent existing.
 2. **Apply the value criteria** from `value-criteria.md`. Pick exactly one verdict
    from the supported labels (or `ambiguous` when the signal is genuinely unclear).
-   There is no `archive` verdict — resolved issues either route to `promote-to-adr`,
+   There is no `archive` verdict — closed issues either route to `promote-to-adr`,
    to `repair` (with a note to move unique content into a runbook / troubleshooting
    doc before close), or to `delete`.
 3. **Record evidence.** A one-sentence quote or paraphrase of the signal that matched
@@ -54,31 +54,31 @@ Return a single JSON array with one object per candidate, in the same order as i
 ```json
 [
   {
-    "path": "/abs/path/to/docs/issues/[RESOLVED]P2-2026-01-12-foo.md",
+    "path": "/abs/path/to/docs/issues/[CLOSED]-2026-01-12-foo.md",
     "verdict": "promote-to-adr",
     "evidence": "Body has 'Options Considered' with three rejected alternatives and rationale for picking Bun; establishes package-manager policy across the monorepo.",
     "fp_risk": "low",
     "recommended_alt": null,
-    "title": "[RESOLVED] Package manager policy: Bun only",
-    "status_filename": "[RESOLVED]",
-    "status_body": "Resolved"
+    "title": "[CLOSED] Package manager policy: Bun only",
+    "status_filename": "[CLOSED]",
+    "status_body": "Closed"
   },
   {
-    "path": "/abs/path/to/docs/issues/[ACTIVE]P3-2025-09-04-bar.md",
-    "verdict": "repair",
-    "evidence": "Status is [ACTIVE] but body says 'fixed in #1234, verified in staging' — looks resolved; filename and body disagree.",
+    "path": "/abs/path/to/docs/issues/[OPEN]-2025-09-04-bar.md",
+    "verdict": "close",
+    "evidence": "Status is Open but body says 'fixed in #1234, verified in staging' — completion is verified.",
     "fp_risk": null,
-    "recommended_alt": "rename to [RESOLVED] and let issue-writer:close sweep it",
-    "title": "[ACTIVE] Foo bar timeout",
-    "status_filename": "[ACTIVE]",
-    "status_body": "Active"
+    "recommended_alt": "rename to [CLOSED] and let issue-writer:close sweep it",
+    "title": "[OPEN] Foo bar timeout",
+    "status_filename": "[OPEN]",
+    "status_body": "Open"
   }
 ]
 ```
 
 Field rules:
 
-- `verdict` — one of: `keep`, `repair`, `resolve`, `merge`, `supersede`,
+- `verdict` — one of: `keep`, `repair`, `close`, `stale`, `merge`, `supersede`,
   `promote-to-adr`, `delete`, `ambiguous`, `skipped`.
 - `evidence` — one sentence quoting or paraphrasing the matched signal. **Required.**
   Cite specific phrases from the body if useful.
@@ -86,12 +86,13 @@ Field rules:
 - `recommended_alt` — short text suggesting an alternative if `verdict` is `delete`
   and `fp_risk >= medium`, OR if `verdict == ambiguous`, OR if `verdict == repair`
   and the suggested fix is "move content into a different doc home" (specify the
-  target: runbook path, troubleshooting doc, ADR via `adr-writer:from-issue`). Null
-  otherwise.
+  target: runbook path, troubleshooting doc, ADR via `adr-writer:from-issue`). For
+  `close`, state the `[CLOSED]` rename and body update; for `stale`, state the
+  `Last reviewed` and `Stale note` update while keeping `Status: Open`. Null otherwise.
 - `title` — the document's H1 heading or filename if no H1.
-- `status_filename` — status tag from filename (`[ACTIVE]`, `[RESOLVED]`, etc.) or
+- `status_filename` — status tag from filename (`[OPEN]`, `[CLOSED]`, etc.) or
   null if no convention.
-- `status_body` — status from body header (`**Status:** Resolved`) or null if
+- `status_body` — status from body header (`**Status:** Closed`) or null if
   missing.
 
 The `status_filename` / `status_body` fields are critical: the orchestrator uses

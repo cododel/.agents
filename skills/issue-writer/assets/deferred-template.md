@@ -1,9 +1,11 @@
 # [DEFERRED] Short question, feature, or follow-up
 
 **Date:** YYYY-MM-DD
-**Last refreshed:** YYYY-MM-DD
-**Priority:** {P0|P1|P2|P3}
-**Status:** Active
+**Last reviewed:** YYYY-MM-DD
+**Priority:** {Critical|High|Medium|Low}
+**Severity:** {Critical|High|Medium|Low}
+**Status:** Open
+<!-- Add `**Stale note:** <evidence>` only after a review finds stale premises while completion remains unverified. -->
 **Scope affected:** `{scope-or-service}`
 **Files:** `path/to/file.ext` or `TODO: no proven file scope yet`
 **Discovered via:** {Design discussion | Implementation follow-up | Code review | User request | …}

@@ -1,6 +1,6 @@
 # Create / update workflow
 
-This is the detailed workflow for creating a new issue or updating an existing active
+This is the detailed workflow for creating a new issue or updating an existing open
 one. By the time you're reading this, you've already loaded `discovery.md` and
 `conventions.md` from `SKILL.md`'s shared steps.
 
@@ -9,8 +9,9 @@ one. By the time you're reading this, you've already loaded `discovery.md` and
 Collect from the user request and repository context:
 
 - title or short summary
-- severity (`Critical | High | Medium | Low`) and priority (`P0–P3`)
-- status (default `[ACTIVE]`; `[INVESTIGATING]` if evidence is incomplete)
+- priority (`Critical | High | Medium | Low`) as urgency and sequencing
+- severity (`Critical | High | Medium | Low`) as impact or harm
+- status (default `[OPEN]`; use `[IMPLEMENTING]` only after implementation starts)
 - affected scope: app, package, service, module, or files
 - discovered-via: code review, production incident, log analysis, user report,
   implementation follow-up, …
@@ -21,17 +22,22 @@ Collect from the user request and repository context:
 - next steps / verification checklist
 - related issues or ADRs
 
-Facts you can't confirm from the conversation or the repo become **questions to the
-user**, not invented values. Asking is cheap; fabricating loses audit trail.
+Facts you can't confirm from the conversation or the repo become explicit `TODO:` values or,
+when they would invalidate downstream work, questions to the user. Never derive priority from
+severity or severity from priority.
 
 ### Explicit deferral intent
 
 Recognize the semantic intent, not a keyword. When the user clearly wants to stop work on a
-concrete question, feature, or follow-up now, preserve it, and return to it later, treat that as
-a request to create a **new active issue now**. Phrases such as "отложить", "давай не сейчас,
+concrete independently resumable question, feature, or follow-up now, preserve it, and return to
+it later, treat that as a request to create a **new open issue now**. Phrases such as "отложить", "давай не сейчас,
 но вернёмся к этому", "зафиксируй на потом", "defer this", and "park this" are non-exhaustive
 examples, not a whitelist. Do not require the user to name the skill or say "issue", and do not
 treat the request as only a conversational reminder or ask for another confirmation.
+
+Do not create an Issue for a nuance that can be handled or reported within the current task.
+If the work is not being deferred or cannot be resumed independently, keep it in the current
+task context instead.
 
 Capture the complete usable context already available in the conversation and repository:
 
@@ -54,7 +60,7 @@ present in the conversation or provable from the repository.
 
 Before writing, check the issues directory for:
 
-- 1-2 recent active issues — to match the prose style, header field set, and section
+- 1-2 recent open issues — to match the prose style, header field set, and section
   ordering people actually use
 - a `README.md` / `ISSUE_TEMPLATE.md` in the same directory — already covered in
   `discovery.md` Step D4, but re-confirm if you skipped reading it
@@ -63,12 +69,12 @@ For a newly bootstrapped directory there are no examples: use the installed fall
 and template directly. Do not ask for examples that cannot exist yet.
 
 If the local convention has fields not in the fallback (e.g. `**Probe:**`,
-`**FSD Slice:**`, `**Last refreshed:**`), include them. If it omits sections from the
+`**FSD Slice:**`, `**Last reviewed:**`), include them. If it omits sections from the
 fallback, omit them too — match the local style.
 
 ## Step C3 — Update vs create
 
-If the user is reporting something that overlaps an existing active issue:
+If the deferred work overlaps an existing open issue:
 
 1. Search for related slugs and probes in the issues directory (`grep -r` on a few
    distinctive terms).
@@ -77,7 +83,7 @@ If the user is reporting something that overlaps an existing active issue:
 3. Otherwise, if you find a likely match, **ask** before either creating a new file or
    modifying the existing one. The user may want a fresh issue (different root cause),
    an update (new evidence on the same bug), or a recurrence note appended.
-4. For updates: bump `**Last refreshed:**`, append new evidence in a dated subsection,
+4. For updates: bump `**Last reviewed:**`, append new evidence in a dated subsection,
    and only change `**Status:**` if the user explicitly says so.
 
 Some projects (per their template `NOTE` comments) reserve specific sections for
@@ -105,11 +111,11 @@ NOTE comments**: don't include the section when creating, don't overwrite when u
 After writing, run a quick sanity check:
 
 - File is at the expected path with the expected filename.
-- Filename matches the local pattern (status tag, priority, date, slug).
+- Filename matches the local pattern (fallback: status tag, date, slug).
 - Header fields match the local template's required set.
 - No fabricated paths or line numbers.
 
-If the issues directory has an index (`README.md` listing active issues, or an
+If the issues directory has an index (`README.md` listing open issues, or an
 `index.md`), update it in the same change — but only if the local convention is
 unambiguous about how. If unclear, mention it in the report and let the user decide.
 

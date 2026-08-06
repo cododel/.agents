@@ -1,10 +1,10 @@
 # From-issue (promote) workflow
 
-Scan resolved issues, identify the ones that are actually architectural decisions, and
+Scan closed issues, identify the ones that are actually architectural decisions, and
 promote them to proper ADRs. The ADR becomes the canonical reference; provenance lives
 in the ADR's `Source issue:` header and in git history. After the ADRs are saved, the
 source issue files are deleted in a gated final step — there is no `archive/`
-directory and no retention of resolved issues on disk.
+directory and no retention of closed issues on disk.
 
 By the time you're reading this, you've loaded `discovery.md`, `path-resolution.md`,
 and `candidate-criteria.md` from `SKILL.md`'s shared steps. The quality bar the
@@ -17,7 +17,7 @@ P6), it follows the same template and depth rules as `from-chat`.
 
 `from-chat` is the primary way ADRs are produced — capture decisions the user just
 articulated, with full rationale visible in the conversation. `from-issue` is the
-**exception**: resolved issues sometimes carry decisions worth surfacing as ADRs
+**exception**: closed issues sometimes carry decisions worth surfacing as ADRs
 (choice of package manager, "no monorepo for now", "balances always go through
 service X"), and without promotion these stay buried in the issues directory.
 
@@ -32,10 +32,10 @@ calibrates the evidence bar for Step P3.
 
 | Variant            | Trigger                                                                 | Evidence bar                                                                                  |
 |--------------------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| **same-chat**      | The current conversation also resolved one or more of the candidate issues | Slightly relaxed: you can cross-check the body against what was actually decided in this chat. Quote the chat reasoning in the ADR if the issue body is sparse but the chat covered the rationale.    |
+| **same-chat**      | The current conversation also closed one or more of the candidate issues | Slightly relaxed: you can cross-check the body against what was actually decided in this chat. Quote the chat reasoning in the ADR if the issue body is sparse but the chat covered the rationale.    |
 | **cold audit**     | Cold scan with no recent chat lineage for the candidates                | Strict: the **issue body itself** must contain an explicit Promote signal (see `candidate-criteria.md`). No reading between the lines, no extrapolation from filenames or topic shape. |
 
-Record the variant once at the top of the run (e.g. `context: same-chat (resolved
+Record the variant once at the top of the run (e.g. `context: same-chat (closed
 the bun-as-pm issue in this conversation)` or `context: cold audit (no recent chat
 lineage)`) and surface it in the gate so the user knows which calibration was used.
 
@@ -52,19 +52,23 @@ all by default — the user almost always means one specific scope.
 (For locating the *target* `docs/adr/` directory, use `path-resolution.md` per
 candidate after Step P3 — different ADRs may go to different scopes.)
 
-## Step P2 — Enumerate resolved issues
+## Step P2 — Enumerate closed issues
 
 A file is in the candidate pool if **either**:
 
-1. Its filename starts with `[RESOLVED]` (or `[RESOLVED-100%]`), OR
-2. Its body header contains `**Status:** Resolved` (case-insensitive)
+1. Its filename starts with `[CLOSED]`, OR
+2. Its body header contains `**Status:** Closed` (case-insensitive)
+
+For compatibility with an established local convention, also recognize legacy `[RESOLVED]`
+or `[RESOLVED-100%]` filenames and `Status: Resolved`. Keep legacy naming in provenance;
+do not silently migrate source files during promotion.
 
 ```bash
 # By filename
-find <issues-dir> -maxdepth 1 -type f -name '\[RESOLVED*' -name '*.md'
+find <issues-dir> -maxdepth 1 -type f \( -name '[[]CLOSED]*.md' -o -name '[[]RESOLVED*' \)
 
 # By body status
-grep -lEi '^\*\*Status:\*\*[[:space:]]+Resolved' <issues-dir>/*.md
+grep -lEi '^\*\*Status:\*\*[[:space:]]+(Closed|Resolved)' <issues-dir>/*.md
 ```
 
 Take the union. If a legacy `<issues-dir>/archive/` directory exists from before the
@@ -177,7 +181,7 @@ Decisions required from you:
 
 === Individual promotes (N) ===
 
-  docs/issues/[RESOLVED]P1-2026-01-12-package-manager-bun-only.md
+  docs/issues/[CLOSED]-2026-01-12-package-manager-bun-only.md
     → docs/adr/ADR-20260515-bun-as-only-package-manager.md
     reason: choice of package manager for monorepo, with rejected pnpm/yarn/npm
     rejection_reasons_present: yes
@@ -187,20 +191,20 @@ Decisions required from you:
   Group #1 — monorepo posture (2 issues)
     signals: slug overlap (`monorepo`, `cabinet`), scope overlap (`platform`)
     members:
-      - docs/issues/[RESOLVED]P2-2026-02-03-no-monorepo-root-contract.md
-      - docs/issues/[RESOLVED]P2-2026-02-04-cabinet-temporary.md
+      - docs/issues/[CLOSED]-2026-02-03-no-monorepo-root-contract.md
+      - docs/issues/[CLOSED]-2026-02-04-cabinet-temporary.md
     → docs/adr/ADR-20260515-monorepo-postponed-and-cabinet-temporary.md
     why grouped: both describe the "we don't commit to a monorepo right now"
                   decision; cabinet-temporary is a consequence of that posture
 
 === Skip (K) ===
 
-  docs/issues/[RESOLVED]P3-2026-03-01-typo-in-readme.md   (doc drift)
-  docs/issues/[RESOLVED]P2-2026-03-15-bumped-react-version.md   (ops task)
+  docs/issues/[CLOSED]-2026-03-01-typo-in-readme.md   (doc drift)
+  docs/issues/[CLOSED]-2026-03-15-bumped-react-version.md   (ops task)
 
 === Ambiguous (J) — please review ===
 
-  docs/issues/[RESOLVED]P2-2026-02-22-error-handling-pattern.md
+  docs/issues/[CLOSED]-2026-02-22-error-handling-pattern.md
     reason: body is thin but topic (error handling pattern) looks architectural
 
 Counts: individual=N, groups=G (from M issues), skip=K, ambiguous=J
@@ -243,8 +247,8 @@ For each individual `promote` and each cluster group:
    For cluster ADRs use the plural form with all members listed:
    ```
    **Source issues:**
-     - docs/issues/[RESOLVED]P2-2026-02-03-no-monorepo-root-contract.md
-     - docs/issues/[RESOLVED]P2-2026-02-04-cabinet-temporary.md
+     - docs/issues/[CLOSED]-2026-02-03-no-monorepo-root-contract.md
+     - docs/issues/[CLOSED]-2026-02-04-cabinet-temporary.md
    ```
 4. For **cluster ADRs**, the body must reconcile context from multiple sources:
    - **Context and Problem Statement** — unify the problem framing across issues.
@@ -277,7 +281,7 @@ For each individual `promote` and each cluster group:
 After all ADRs in this run are saved, each source issue has done its job: its
 extractable content now lives in the ADR, and the ADR's `Source issue:` header
 preserves provenance. Leaving the files behind creates noise in the active issues
-directory and makes the `[RESOLVED]` set drift over time. There is no `archive/`
+directory and makes the `[CLOSED]` set drift over time. There is no `archive/`
 directory and there will be no back-links — back-links to deleted files aren't
 useful.
 
@@ -302,19 +306,19 @@ Source issue deletion plan:
 Each source issue below has been promoted to an ADR. Reply with your decision (or
 use a bulk option). I will not delete anything until you confirm.
 
-  docs/issues/[RESOLVED]P1-2026-02-15-bun-package-manager.md
+  docs/issues/[CLOSED]-2026-02-15-bun-package-manager.md
     one-liner: choice of Bun over npm/pnpm/yarn with explicit rejections.
     promoted to: docs/adr/ADR-20260515-bun-as-only-package-manager.md
     recovery: tracked and committed
     fingerprint: <hash>
     intent: delete
 
-  docs/issues/[RESOLVED]P2-2026-02-04-cabinet-temporary.md
+  docs/issues/[CLOSED]-2026-02-04-cabinet-temporary.md
     one-liner: cabinet classified as temporary migration input.
     promoted to: docs/adr/ADR-20260515-cabinet-temporary-migration-posture.md
     intent: delete (cluster member)
 
-  docs/issues/[RESOLVED]P2-2026-02-03-no-monorepo-root-contract.md
+  docs/issues/[CLOSED]-2026-02-03-no-monorepo-root-contract.md
     one-liner: flat git repo, no root workspace contract.
     promoted to: docs/adr/ADR-20260515-cabinet-temporary-migration-posture.md
     intent: delete (cluster member — same ADR as above)

@@ -1,10 +1,11 @@
-# [{SEVERITY}] `path/to/file.ext` — short error message or symptom
+# Short error message or symptom
 
 **Date:** YYYY-MM-DD
-**Last refreshed:** YYYY-MM-DD
-**Priority:** {P0|P1|P2|P3}
+**Last reviewed:** YYYY-MM-DD
+**Priority:** {Critical|High|Medium|Low}
 **Severity:** {Critical|High|Medium|Low}
-**Status:** {Active|Investigating|Resolved}
+**Status:** {Open|Implementing|Closed}
+<!-- Add `**Stale note:** <evidence>` only after a review finds stale premises while completion remains unverified. -->
 **Scope affected:** `{scope-or-service}`
 **Files:** `path/to/file.ext`
 **Probe:** `unique_function_or_grep_snippet` — one-line description of what's wrong
@@ -23,8 +24,8 @@ review) so the next reader can reconstruct the discovery.}
 ## Root Cause
 
 {Be specific: which function, which line or grep-able snippet, which condition or
-assumption is violated. If root cause is not yet known, say so explicitly and mark
-status `Investigating` rather than guess.}
+assumption is violated. If root cause is not yet known, say so explicitly and keep
+status `Open` rather than guess.}
 
 ### Why was this mistake made?
 
@@ -82,7 +83,7 @@ mention it in `## Related`.}
 - [ ] Fix applied in `path/to/file.ext`
 - [ ] Test added or existing test updated
 - [ ] Verified in {staging | local repro | production after deploy}
-- [ ] Local links updated if this issue was renamed (e.g. `[ACTIVE]` → `[RESOLVED]`)
+- [ ] Local links updated if this issue was renamed (e.g. `[OPEN]` → `[IMPLEMENTING]`)
 
 ---
 

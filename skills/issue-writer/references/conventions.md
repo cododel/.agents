@@ -16,13 +16,12 @@ the documented rules match actual practice.
 ## Filename pattern (fallback)
 
 ```
-[STATUS]P<0-3>-YYYY-MM-DD-english-domain-symptom-slug.md
+[STATUS]-YYYY-MM-DD-english-domain-symptom-slug.md
 ```
 
 Components:
 
 - **`[STATUS]`** — see status tags below
-- **`P<0-3>`** — priority, see priorities below
 - **`YYYY-MM-DD`** — original issue date (today for new issues; **never change** when
   status or priority is updated — date encodes when the issue was first opened)
 - **`slug`** — English kebab-case, 3-7 words, `domain-symptom` shape (e.g.
@@ -39,7 +38,8 @@ Some repositories track implementation drift over time and use a richer prefix:
 [STATUS-PERCENT%]-...-slug.md
 ```
 
-Where `STATUS-PERCENT%` is one of `[ACTIVE-25%]`, `[INVESTIGATING-60%]`, `[RESOLVED-100%]`.
+Where `STATUS-PERCENT%` is a locally defined legacy form such as `[ACTIVE-25%]` or
+`[RESOLVED-100%]`.
 The percentage reflects requirement coverage, not optimism about planned work.
 
 Use this only when the local README explicitly calls for it. Don't impose it on a
@@ -47,27 +47,30 @@ repository that uses the simpler `[STATUS]` form.
 
 ## Status tags
 
-| Tag                | Meaning                                                                                  |
-|--------------------|------------------------------------------------------------------------------------------|
-| `[ACTIVE]`         | Confirmed issue still requiring code, data, or operator action. Default for new issues.  |
-| `[INVESTIGATING]`  | Evidence is incomplete or production verification is still required.                     |
-| `[RESOLVED]`       | Code, config, or docs are updated and the issue is closed for current scope. Verified.   |
+| Tag                | Meaning                                                                                |
+|--------------------|----------------------------------------------------------------------------------------|
+| `[OPEN]`           | Deferred work is independently resumable but implementation has not started. Default. |
+| `[IMPLEMENTING]`   | Scoped implementation is actively in progress.                                        |
+| `[CLOSED]`         | Completion criteria are met and verified for the recorded scope.                       |
+
+Incomplete evidence or investigation does not introduce another lifecycle state: keep the
+Issue `Open` and record the uncertainty explicitly. Recognize `ACTIVE`, `INVESTIGATING`, and
+`RESOLVED` only when reading an established local or legacy convention; do not emit them in
+the fallback format.
 
 When status changes, **rename the file** in the same change that updates the body. Local
 links (in indexes, READMEs, sibling issues) must be updated too.
 
-## Priority levels
+## Priority and severity
 
-| Code | Severity                                                                  |
-|------|---------------------------------------------------------------------------|
-| `P0` | Critical — data loss, crash loop, security breach, full outage            |
-| `P1` | High — major feature broken for a subset of users, no workaround          |
-| `P2` | Medium — degraded behavior, workaround exists, intermittent failures      |
-| `P3` | Low — edge case, cosmetic, low frequency, easy workaround                 |
+Use the same literals for two independent fields:
 
-Priority is rarely changed after creation; severity often is. If the local convention
-distinguishes the two (e.g. has both `**Priority:**` and `**Severity:**` fields), reflect
-both in the body but keep the filename `P<n>` stable.
+- `Priority: Critical | High | Medium | Low` records urgency and sequencing.
+- `Severity: Critical | High | Medium | Low` records impact or harm.
+
+Do not derive either field from the other. Keep both in the body and out of the filename so
+priority can change without renaming the Issue. Recognize `P0` through `P3` only where an
+established local or legacy convention requires them.
 
 ## Language rules
 
@@ -76,24 +79,25 @@ both in the body but keep the filename `P<n>` stable.
 - **Issue body**: preserve the user's language (Russian, English, etc.) unless the local
   convention clearly enforces one. Code, paths, error messages, and identifiers stay in
   their original language regardless.
-- **Status tags and priority codes**: always English literals (`[ACTIVE]`, `P2`).
+- **Status, priority, and severity values**: always use the English literals above.
 
 ## Refresh notes
 
 For long-lived or evolving issues, append a refresh line near the header when revisiting:
 
 ```markdown
-**Last refreshed:** YYYY-MM-DD
+**Last reviewed:** YYYY-MM-DD
 ```
 
 or, when material context shifted:
 
 ```markdown
-**Refresh 2026-04-30:** Re-checked — root cause unchanged, but workaround in PR #1234
-removes the user-visible impact. Keeping ACTIVE until full fix lands.
+**Stale note:** Re-checked on YYYY-MM-DD; the named dependency no longer exists, but the
+completion criteria have not been verified. Keeping the Issue Open pending operator review.
 ```
 
-Refresh notes preserve audit trail without rewriting history.
+Use `Stale note` only with evidence. It annotates an `Open` Issue and never acts as a fourth
+status. Review notes preserve audit trail without rewriting history.
 
 ## Stop and ask, never invent fields
 

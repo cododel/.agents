@@ -117,10 +117,10 @@ spec is later created (e.g. via `spec-writer`), that workflow adds both the
 `Aligned with:` line in the spec and back-fills this field in the ADR — don't
 write a dangling reference now.
 
-For ADRs reconstructed from a resolved issue (promote mode), add:
+For ADRs reconstructed from a closed issue (promote mode), add:
 
 ```markdown
-**Source issue:** `docs/issues/[RESOLVED]P2-2026-01-12-foo.md`
+**Source issue:** `docs/issues/[CLOSED]-2026-01-12-foo.md`
 ```
 
 For ADRs revisited later, append a refresh note near the header (don't rewrite history):

@@ -13,6 +13,7 @@ against the conversation. An ADR is **not** needed when the decision is reversib
 cheap, has no real alternatives (mandated by the platform), is a local implementation
 detail that crosses no contract boundary, is really an execution plan, is already
 covered by an existing ADR or standard, or is obvious with no consequential fork.
+An implementation summary without a significant choice and alternatives also fails this gate.
 
 Weigh the **counter-signals** too: irreversibility / high cost of error is a scope
 criterion in its own right — a small but one-way-door decision warrants an ADR even

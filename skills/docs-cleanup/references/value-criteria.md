@@ -1,24 +1,25 @@
 # Value criteria: classification labels and signals
 
 This is the rulebook the classifier (subagent or inline) uses to assign verdicts.
-Seven labels, ordered from "definitely keep as-is" to "definitely remove."
+Eight labels, ordered from "definitely keep as-is" to "definitely remove."
 
-There is intentionally **no `archive` verdict**. Resolved issues either have extractable
+There is intentionally **no `archive` verdict**. Closed issues either have extractable
 documentation value (`promote-to-adr`, or — for non-architectural value like ops
 procedures or unique repros — `repair` to move the value into the right home first),
 or they are `delete`. The `issue-writer:close` workflow enforces this at sweep time
 with a mandatory pre-extraction check.
 
-## The seven labels
+## The eight labels
 
 | Label              | Meaning                                                                                          |
 |--------------------|--------------------------------------------------------------------------------------------------|
-| `keep`             | Still changes future engineering behavior. Active, accurate, useful as written.                  |
-| `repair`           | Potentially useful but under-specified, stale on details, missing evidence, or poorly formatted. Also covers "extract content into a different doc home (runbook / troubleshooting / README) before close." |
-| `resolve`          | Active issue is no longer actionable (fix has landed); rename to `[RESOLVED]` so the next `issue-writer:close` sweep handles it. |
+| `keep`             | Still changes future engineering behavior. Open, accurate, useful as written.                    |
+| `repair`           | Potentially useful but under-specified, stale in document details, missing evidence, or poorly formatted while the tracked work remains valid. Also covers "extract content into a different doc home (runbook / troubleshooting / README) before close." |
+| `close`            | Open/implementing issue is complete and verified; rename to `[CLOSED]` so the next `issue-writer:close` sweep handles it.         |
+| `stale`            | Open issue has stale premises but completion is unverified; add review evidence without changing status.                        |
 | `merge`            | Duplicate or fragmented record that should be folded into a canonical document.                  |
 | `supersede`        | ADR or decision record replaced by a newer decision; mark superseded with link.                  |
-| `promote-to-adr`   | Resolved issue that's actually an architectural decision; should live as an ADR instead.         |
+| `promote-to-adr`   | Closed issue that's actually an architectural decision; should live as an ADR instead.           |
 | `delete`           | No unique long-term value remains after reference and evidence checks.                           |
 
 ## Keep an issue if any of these is true
@@ -46,22 +47,25 @@ with a mandatory pre-extraction check.
 A document is `repair` (not `delete`) when:
 
 - The decision or issue is real, but the body is thin, vague, or missing key fields
-- Filename status doesn't match body status (e.g. `[RESOLVED]` filename, `Status:
-  Active` body)
+- Filename status doesn't match body status (e.g. `[CLOSED]` filename, `Status: Open` body)
 - Evidence (logs, repro steps, file paths, line numbers) is missing where the local
   template expects them
 - Project guardrails (the local README's "respect these rules" list) are violated by
   the recommended fix or are absent from the rationale
 
-## Resolve signals (issues only)
+## Close and stale signals (issues only)
 
-A document is `resolve` when:
+A document is `close` when:
 
 - The original problem is gone in the current codebase, but the issue still has
-  `[ACTIVE]` or `[INVESTIGATING]` status
+  `[OPEN]` or `[IMPLEMENTING]` status
 - The fix can be pointed to (commit, PR, file path) — leave the issue file in place,
-  rename to `[RESOLVED]`, add a brief resolution note. The next sweep
+  rename to `[CLOSED]`, add a brief completion note. The next sweep
   (`issue-writer:close`) will handle extraction-then-delete.
+
+A document is `stale` when its premises no longer match current evidence but completion
+cannot be verified. Keep `Status: Open`, update `Last reviewed`, and recommend a concise
+`Stale note` that states the evidence. Do not use stale as a fourth lifecycle status.
 
 ## Merge signals
 
@@ -83,9 +87,9 @@ A document is `supersede` when:
 The action: keep the file, add a `**Superseded by:** <newer-adr-path>` header line.
 Do not delete superseded ADRs — they explain why the current state was chosen.
 
-## Resolved issues with no ADR signal
+## Closed issues with no ADR signal
 
-A `[RESOLVED]` issue whose body does **not** match any promote-to-ADR signal (no
+A `[CLOSED]` issue whose body does **not** match any promote-to-ADR signal (no
 rejected options, no invariant, no framework/policy choice) and whose unique knowledge
 (if any) is operational, not architectural, is handled like this:
 
@@ -97,12 +101,12 @@ rejected options, no invariant, no framework/policy choice) and whose unique kno
   The operator will run `issue-writer:close`, which re-checks for extractable value
   in its own gate before any `rm`.
 
-There is no `archive` verdict. Resolved issues either get their value extracted into
+There is no `archive` verdict. Closed issues either get their value extracted into
 a real doc home or they get deleted — they don't accumulate in an archive subdirectory.
 
 ## Promote-to-ADR signals (issues only)
 
-A resolved issue should be `promote-to-adr` when its body matches any of:
+A closed issue should be `promote-to-adr` when its body matches any of:
 
 - Non-trivial trade-off with rejected options spelled out
 - Establishes an architectural invariant
@@ -121,10 +125,10 @@ A document is `delete` only when **all** of these are true:
 
 - The pre-delete-checker subagent confirmed no incoming references
 - Content is not unique (rationale, evidence, commands not preserved elsewhere)
-- No `repair` / `merge` / `supersede` / `promote-to-adr` is a better fit
+- No `repair` / `close` / `stale` / `merge` / `supersede` / `promote-to-adr` is a better fit
 - Operator approves explicitly via the gate
 
-For `[RESOLVED]` issue files specifically, prefer routing through `issue-writer:close`
+For `[CLOSED]` issue files specifically, prefer routing through `issue-writer:close`
 rather than deleting via this skill's gate — `close` runs a second-pass pre-extraction
 check that's tuned for issue bodies (rejected options, ops procedures, unique repros).
 The two safety nets are intentional: this skill catches `delete` candidates that
@@ -137,7 +141,7 @@ These signals are **insufficient on their own** — they often look like delete
 candidates but usually deserve `repair`, `merge`, or `promote-to-adr`:
 
 - Old age. A 3-year-old ADR may still be the only record of why X exists.
-- Low priority. P3 doesn't mean "no value."
+- Low priority. Urgency does not determine documentation value or severity.
 - Weak formatting. Poor markdown is a `repair` task, not a delete reason.
 - Looks duplicate-ish. Confirm with the classifier — superficial similarity isn't
   the same as actual duplication. Mark `merge` if confirmed.

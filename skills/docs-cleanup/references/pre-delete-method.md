@@ -44,7 +44,7 @@ Note especially:
 Search from the repo root for distinctive strings that would indicate something links to this
 file. Probe with at least:
 
-- The exact filename (e.g. `[RESOLVED]P2-2026-01-12-foo.md`)
+- The exact filename (e.g. `[CLOSED]-2026-01-12-foo.md`)
 - The slug part of the filename (without status tag / priority)
 - The H1 title (if distinctive)
 - 1-2 distinctive identifiers from the body
@@ -74,8 +74,12 @@ Run through the alternatives:
   "move unique content into the proper doc home (runbook / troubleshooting / inline
   comment) before delete" — there is no `archive` fallback.
 - `merge` — does another doc cover the same ground and could absorb this?
+- `close` (Issues only) — is the work complete and verified, requiring lifecycle closure
+  and the `issue-writer:close` extraction gate rather than direct deletion?
+- `stale` (Issues only) — are the premises stale while completion remains unverified,
+  requiring `Last reviewed` plus a `Stale note` while the Issue stays `Open`?
 - `supersede` (ADRs only) — is there a newer ADR explicitly replacing this?
-- `promote-to-adr` — does this resolved issue actually encode an architectural
+- `promote-to-adr` — does this closed issue actually encode an architectural
   decision?
 
 If any of these fits, the verdict should change. Recommend the best alternative.
@@ -100,7 +104,7 @@ Return a single JSON object:
     "Documents rejection reason for X-approach that's not in any ADR."
   ],
   "recommended_alt": "repair: move the recursive-CTE SQL into a troubleshooting doc (e.g. docs/runbooks/sql-deadlocks.md), then let `issue-writer:close` sweep the file.",
-  "reasoning": "Two incoming references found and body contains unique recursive-CTE SQL. Delete would break the runbook link and lose the SQL. Repair (rename to [RESOLVED]) preserves both."
+  "reasoning": "Two incoming references found and body contains unique recursive-CTE SQL. Delete would break the runbook link and lose the SQL. Repair preserves both."
 }
 ```
 

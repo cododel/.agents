@@ -1,6 +1,6 @@
 ---
 name: docs-cleanup
-description: "Audit and classify existing repository docs—issues, ADRs, decisions, incidents, and runbooks—for broad cleanup. Use for stale/duplicate docs, `почисти доки`, `docs are a mess`, or read-only questions such as `which issues can we close`. Do not use for ADR-only audits (`adr-auditor`) or creating/updating/closing issue records (`issue-writer`)."
+description: "Audit and classify existing repository docs—issues, ADRs, decisions, incidents, and runbooks—for broad cleanup. Use for stale/duplicate docs, explicit milestone or release documentation cleanup, `почисти доки`, `docs are a mess`, or read-only questions such as `which issues can we close`. Diagnose by default. Do not use for ADR-only audits (`adr-auditor`) or creating/updating/closing issue records (`issue-writer`)."
 ---
 
 # Docs Cleanup
@@ -53,13 +53,16 @@ sibling skill's flow:
 - `promote-to-adr` verdicts → recommend `adr-writer:from-issue` (which has the
   promote workflow with merge support; it also deletes the source issues after the
   ADR is saved, with explicit operator confirmation).
-- Resolved issues with no ADR-worthy content (verdict `delete` on `[RESOLVED]` files
+- Closed issues with no ADR-worthy content (verdict `delete` on `[CLOSED]` files
   in `docs/issues/`) → recommend `issue-writer:close` (which has the proper sweep
   workflow with mismatch detection and a mandatory pre-extraction check that catches
   any leftover documentation value).
-- `resolve` verdicts (active issues that are actually fixed in the codebase but still
-  marked `[ACTIVE]` / `[INVESTIGATING]`) → after the operator renames them to
-  `[RESOLVED]`, the next `issue-writer:close` sweep handles them.
+- `close` verdicts (open or implementing issues that are actually fixed in the codebase) →
+  after the operator renames them to `[CLOSED]` and updates the body, the next
+  `issue-writer:close` sweep handles them.
+- `stale` verdicts (open issues whose premises no longer match current evidence, but whose
+  completion is unverified) → recommend updating `Last reviewed` and adding an evidence-based
+  `Stale note`; keep `Status: Open`.
 
 Don't invoke these directly — surface as text recommendations in the report so the
 user picks the order of operations.
@@ -71,7 +74,8 @@ For every `delete` verdict, launch a generic read-only subagent using
 
 - No incoming references from other docs, code comments, indexes
 - Content is not unique (rationale, evidence, commands, logs not preserved elsewhere)
-- A safer alternative (`repair` / `merge` / `supersede` / `promote-to-adr`) doesn't fit better
+- A safer alternative (`repair` / `close` / `stale` / `merge` / `supersede` /
+  `promote-to-adr`) doesn't fit better
 
 Only after pre-checks come back does the orchestrator present the gate per
 `references/delete-gate.md`. **Wait for explicit approval** before any deletion.
@@ -79,7 +83,8 @@ Only after pre-checks come back does the orchestrator present the gate per
 ### Step 6 — Apply approved actions
 
 Per `references/delete-gate.md` rules: only delete explicitly approved paths, never
-globs or directories. For non-delete actions (repair, supersede, merge headers),
+globs or directories. For non-delete actions (repair, close, stale note, supersede,
+merge headers),
 apply them only with explicit operator instruction; the orchestrator's job by default
 is to *recommend*, not to mutate.
 

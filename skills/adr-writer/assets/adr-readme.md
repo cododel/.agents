@@ -15,8 +15,9 @@ instead of rewriting the old rationale.
 
 ## Required Content
 
-An ADR captures one decision, its context, considered alternatives, concrete rejection reasons,
-the chosen outcome, consequences, mitigations, and invariants. Missing rationale is an explicit
+An ADR captures one significant decision, its context, considered alternatives, concrete
+rejection reasons, the chosen outcome, consequences, mitigations, and invariants. A description
+of implementation without a consequential choice is not an ADR. Missing rationale is an explicit
 `TODO:`, never an invented best-practice explanation.
 
 ## Placement

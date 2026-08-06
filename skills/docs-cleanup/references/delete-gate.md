@@ -37,7 +37,7 @@ by exact path.
 
 | Path | Type | Status | Summary | Rationale | FP risk | Safer alt |
 |------|------|--------|---------|-----------|---------|-----------|
-| `docs/issues/[RESOLVED]P3-2024-03-01-foo.md` | issue | resolved/stale | One-sentence content summary. | Why no durable value remains. | Low / Medium / High + reason. | repair / merge / supersede / promote-to-adr |
+| `docs/issues/[CLOSED]-2024-03-01-foo.md` | issue | closed | One-sentence content summary. | Why no durable value remains. | Low / Medium / High + reason. | repair / merge / supersede / promote-to-adr |
 
 Pre-delete checks summary:
   - Checked references: <N> files scanned, <M> hits — see per-candidate notes above

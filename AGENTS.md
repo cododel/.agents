@@ -108,11 +108,20 @@ must not weaken safety gates. Enforce safety in client permissions or hooks wher
   dependencies, security, compliance, and other hard-to-reverse changes require design and approval.
 - An observation, complaint, diagnosis, or taste judgment does not authorize mutation. For routine
   reversible ambiguity, proceed with a stated assumption; ask when readings differ materially.
-- Record deferred work through repository-local `issue-writer`, never an abandoned TODO or partial
-  implementation.
-- Record significant architectural decisions with `adr-writer`; accepted ADRs are immutable and
-  changed decisions require a superseding ADR.
-- Put reusable personal workflows in Agent Skills, not duplicated client prompts.
+- Create an Issue only for deferred work that is independently resumable; do not create one for
+  every observation or incidental nuance. Use `Open`, `Implementing`, and `Closed` as its lifecycle.
+- Track Issue priority and severity separately: priority is urgency and sequencing, while severity
+  is impact or harm. Use `Critical`, `High`, `Medium`, and `Low` for both scales.
+- Record a significant decision with `adr-writer` only when its choice, alternatives, and rationale
+  are worth preserving; an implementation description alone is not an ADR. Use `Proposed`,
+  `Accepted`, and `Superseded`, with `Deprecated` only when an area ends without a direct successor.
+  Accepted ADRs are immutable, and changed decisions require a superseding ADR.
+- Audit Issues and ADRs on explicit request and during explicitly requested milestone or release
+  cleanup. Close completed Issues, annotate stale open Issues with review evidence, and check ADRs
+  against current code. Audits diagnose by default; mutations retain their normal operator gates.
+- Put a reusable personal workflow in an Agent Skill only after the process has repeated or is
+  highly likely to repeat and it contains non-obvious steps. Do not create a Skill as a routine
+  after-task artifact or duplicate client prompts in one.
 - Write instructional and reference docs neutrally, without marketing, superlatives, or emoji.
 
 ## Task Journal And Deferred Questions

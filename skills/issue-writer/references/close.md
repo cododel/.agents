@@ -1,28 +1,28 @@
 # Close workflow
 
-Sweep resolved issues by extracting any documentation value first, then deleting the
-source files. The active list stays focused; no `archive/` subdirectory is used.
+Sweep closed issues by extracting any documentation value first, then deleting the
+source files. The open list stays focused; no `archive/` subdirectory is used.
 
 By the time you're reading this, you've loaded `discovery.md` and `conventions.md` from
 `SKILL.md`'s shared steps.
 
 ## Why delete after extraction (not archive)
 
-The old model moved resolved issues into `archive/`. In practice the archive directory
+The old model moved closed issues into `archive/`. In practice the archive directory
 is write-only: rarely read, adds noise to repo-wide greps, and duplicates what git
 history already keeps. The current model is simpler:
 
-- **If a resolved issue has documentation value**, extract it into the proper home:
+- **If a closed issue has documentation value**, extract it into the proper home:
   - architectural decisions → ADR (via `adr-writer:from-issue`)
   - operational procedures → runbook / `DEVELOPMENT.md` / similar
   - unique repros, commands, diagnostics → troubleshooting doc / inline comment
 - **Once the value is extracted (or there was none), delete the file.**
 
 The ADR header's `Source issue:` field preserves provenance. Git history holds the body
-if anyone ever needs to recover it. The active issues directory only contains issues
+if anyone ever needs to recover it. The issues directory only contains work
 that are still open.
 
-If the user wants to delete docs that are not resolved issues, that's the `docs-cleanup`
+If the user wants to delete docs that are not closed issues, that's the `docs-cleanup`
 skill's job (with its own safety gate).
 
 ## Step C1 — Confirm the directory to sweep
@@ -32,23 +32,26 @@ returned multiple hits (monorepo with several `docs/issues/` directories), **ask
 one** to sweep. Do not sweep all by default — the user almost always means one specific
 scope.
 
-## Step C2 — Enumerate resolved candidates
+## Step C2 — Enumerate closed candidates
 
 A file is a candidate for closing if **either**:
 
-1. Its filename starts with `[RESOLVED]` (or `[RESOLVED-100%]` for the percent-status
-   variant), OR
-2. Its body header contains `**Status:** Resolved` (case-insensitive)
+1. Its filename starts with `[CLOSED]`, OR
+2. Its body header contains `**Status:** Closed` (case-insensitive)
+
+For compatibility with an established local convention, also recognize legacy `[RESOLVED]`
+or `[RESOLVED-100%]` filenames and `Status: Resolved`. Never rename or reinterpret a legacy
+candidate silently; use its proven local convention in the mismatch check.
 
 Run two separate scans to catch both — they're not equivalent in real repos, where
 filename and body sometimes drift apart.
 
 ```bash
 # By filename
-find <issues-dir> -maxdepth 1 -type f -name '\[RESOLVED*' -name '*.md'
+find <issues-dir> -maxdepth 1 -type f \( -name '[[]CLOSED]*.md' -o -name '[[]RESOLVED*' \)
 
 # By body status (case-insensitive, anchored to a status line)
-grep -lEi '^\*\*Status:\*\*[[:space:]]+Resolved' <issues-dir>/*.md
+grep -lEi '^\*\*Status:\*\*[[:space:]]+(Closed|Resolved)' <issues-dir>/*.md
 ```
 
 Take the union of both lists.
@@ -57,8 +60,8 @@ Take the union of both lists.
 
 For each candidate, compare:
 
-- Filename status tag (`[RESOLVED]`, `[ACTIVE]`, `[INVESTIGATING]`)
-- Body status field (`**Status:** Resolved | Active | Investigating`)
+- Filename status tag (`[CLOSED]`, `[OPEN]`, `[IMPLEMENTING]`, or a proven legacy tag)
+- Body status field (`**Status:** Closed | Open | Implementing`, or its proven legacy value)
 
 If they disagree, classify the file as **ambiguous** — do not include it in the delete
 plan. Surface ambiguous files in the report so the user can fix them manually before
@@ -66,7 +69,7 @@ re-running the sweep.
 
 The reason to be strict here: a mismatch usually means someone forgot to update one of
 the two. Auto-resolving in either direction risks deleting a file that's actually still
-active.
+open.
 
 ## Step C4 — Pre-extraction check (mandatory, per candidate)
 
@@ -127,30 +130,30 @@ Decisions required from you:
 
 === To delete (N) — no extractable documentation value ===
 
-  [RESOLVED]P3-2026-04-12-readme-typo.md
+  [CLOSED]-2026-04-12-readme-typo.md
     one-liner: README typo fix; no rationale to preserve.
     recovery: tracked and committed
     fingerprint: <hash>
 
-  [RESOLVED]P2-2026-03-08-restart-after-deploy.md
+  [CLOSED]-2026-03-08-restart-after-deploy.md
     one-liner: one-off service restart; ops note already mirrored in runbook.
 
 === Blocked — extract first (M) ===
 
-  [RESOLVED]P1-2026-02-15-bun-package-manager.md
+  [CLOSED]-2026-02-15-bun-package-manager.md
     one-liner: choice of Bun over npm/pnpm/yarn with explicit rejections.
     signal: rejected options (npm/pnpm/yarn) + package-manager invariant.
     suggested: `adr-writer:from-issue` → then re-run close.
 
-  [RESOLVED]P2-2026-01-22-mysql-deadlock-repro.md
+  [CLOSED]-2026-01-22-mysql-deadlock-repro.md
     one-liner: unique SQL repro for deadlock under concurrent writes.
     signal: unique repro + observed timing pattern.
     suggested: move into a troubleshooting doc → then re-run close.
 
 === Ambiguous — status mismatch, NOT in plan (K) ===
 
-  [RESOLVED]P2-2026-05-01-flaky-test.md
-    reason: filename [RESOLVED] but body says Status: Active.
+  [CLOSED]-2026-05-01-flaky-test.md
+    reason: filename [CLOSED] but body says Status: Open.
 
 Counts: delete=N, blocked=M, ambiguous=K
 
@@ -183,7 +186,7 @@ rm -- "$path"
 
 ## Step C7 — Update indexes if present
 
-If the issues directory has an unambiguous index (`README.md` with an "Active issues"
+If the issues directory has an unambiguous index (`README.md` with an "Open issues"
 table, or an `index.md`), remove the deleted entries in the same change.
 
 If the index format is **unclear** (free-form prose, mixed sections, no obvious table),

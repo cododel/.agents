@@ -1,6 +1,6 @@
 ---
 name: adr-writer
-description: "Create a detailed ADR from the current conversation or promote an architectural decision from resolved issues. Use for `create/write an ADR`, `сделай ADR`, `зафиксируй архитектурное решение`, or requests to find/promote ADR candidates. Do not use to audit an existing ADR corpus; use `adr-auditor`."
+description: "Create a detailed ADR for a significant decision with real alternatives and rationale, or promote such a decision from closed issues. Use for `create/write an ADR`, `сделай ADR`, `зафиксируй архитектурное решение`, or requests to find/promote ADR candidates. Do not use for implementation summaries or to audit an existing ADR corpus; use `adr-auditor` for audits."
 ---
 
 # ADR Writer
@@ -17,9 +17,9 @@ options and chose one. Two modes exist:
    current conversation. The chat *is* the source of truth — rejected options,
    rationale, trade-offs all came out of the user's own reasoning. This is the
    default and the strongly preferred mode.
-2. **From resolved issues (exception).** Scan resolved issues for a decision worth
+2. **From closed issues (exception).** Scan closed issues for a decision worth
    surfacing as an ADR. Treated as an audit operation, not a routine workflow.
-   Strongest when invoked in the **same chat** that just resolved the issue — the
+   Strongest when invoked in the **same chat** that just closed the issue — the
    chain of reasoning is still visible and the model can verify body claims against
    what was actually decided. Cold scans (no recent chat lineage) require harder
    evidence: an explicit positive signal must be quoted from the issue body, no
@@ -36,8 +36,8 @@ Pick the mode from the user's phrasing **before** loading the detailed workflow.
 | User says…                                                                           | Mode          | Read next                       |
 |--------------------------------------------------------------------------------------|---------------|---------------------------------|
 | "сделай ADR", "create ADR", "document this decision", "зафиксируй решение"            | from-chat     | `references/from-chat.md`       |
-| "promote this resolved issue", "найди кандидаты в ADR", "find ADR candidates",        | from-issue    | `references/from-issue.md`      |
-| "какие resolved issues стоит превратить в ADR", "audit issues for ADR-worthy items"  |               |                                 |
+| "promote this closed issue", "найди кандидаты в ADR", "find ADR candidates",        | from-issue    | `references/from-issue.md`      |
+| "какие closed issues стоит превратить в ADR", "audit issues for ADR-worthy items"    |               |                                 |
 
 Default to **from-chat** when the request is ambiguous — and the asymmetry is
 intentional. `from-chat` is the load-bearing mode; `from-issue` is an audit

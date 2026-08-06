@@ -1,4 +1,4 @@
 interface:
   display_name: "Issue Writer"
-  short_description: "Tracks, defers, and closes repository issues"
-  default_prompt: "Use $issue-writer to defer, track, or close this repository issue."
+  short_description: "Tracks deferred work and safely sweeps closed issues"
+  default_prompt: "Use $issue-writer to defer independently resumable work or sweep closed issues."

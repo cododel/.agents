@@ -91,10 +91,10 @@ Read them in full. They typically encode the same things `issue-writer` and
 `adr-writer` need (filename pattern, status taxonomy, project guardrails) — but for
 cleanup the most important signals are:
 
-- Which status tags exist (`[ACTIVE]`, `[RESOLVED]`, `[CLOSED-100%]`, etc.) so you
-  know what "resolved" looks like in this repo.
+- Which status tags exist (`[OPEN]`, `[CLOSED]`, or legacy `[ACTIVE]` / `[RESOLVED]`)
+  so you know what "closed" looks like in this repo.
 - Whether the directory has a documented archive convention (e.g. "files move to
-  `archive/` after 90 days resolved").
+  `archive/` after 90 days closed").
 - Project guardrails the body should respect (DB rules, deprecated services, etc.).
 
 Pass these conventions to the classifier subagent as part of its task brief — the

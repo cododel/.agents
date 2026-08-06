@@ -1,6 +1,6 @@
 ---
 name: adr-auditor
-description: "Audit the quality, relevance, and code drift of an existing ADR corpus. Use for `audit our ADRs`, `проанализируй ADR`, `check ADR drift`, or requests to tidy stale/dead ADRs. Do not use to create an ADR from a conversation or issue; use `adr-writer`."
+description: "Audit the quality, relevance, and code drift of an existing ADR corpus. Use for `audit our ADRs`, `проанализируй ADR`, `check ADR drift`, explicit milestone or release ADR review, or requests to tidy stale/dead ADRs. Diagnose by default. Do not use to create an ADR from a conversation or issue; use `adr-writer`."
 ---
 
 # ADR Auditor

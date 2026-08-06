@@ -1,6 +1,6 @@
-# Candidate criteria: which resolved issues belong as ADRs?
+# Candidate criteria: which closed issues belong as ADRs?
 
-This file defines the rules for deciding whether a resolved issue should be **promoted**
+This file defines the rules for deciding whether a closed issue should be **promoted**
 to an ADR or **skipped** (and left for `issue-writer:close` to sweep, which runs its
 own pre-extraction check before any `rm`). It's
 read by `from-issue.md` Step P3 and is also useful as a standalone mental model when
@@ -45,7 +45,7 @@ When unsure which variant applies, treat the run as **cold audit**.
 
 ## The bar: would a future engineer want to find this as an ADR?
 
-ADRs answer "why does this system look the way it does?" If the resolved issue's body
+ADRs answer "why does this system look the way it does?" If the closed issue's body
 contains a non-trivial answer to that question, it's a candidate. If it just contains
 "we fixed a bug, here's the patch", it's not.
 
@@ -103,7 +103,7 @@ architectural but body lacks explicit rejected options or invariant — not enou
 ground an ADR"). The user can override individual skips in the gate.
 
 This is the opposite of "promote with a question" — and intentionally so. Most
-resolved issues are not ADRs. False-positive promotes generate noise the user has
+closed issues are not ADRs. False-positive promotes generate noise the user has
 to filter in the gate; false-negative skips generate one unanswered question. The
 asymmetry favors caution.
 
@@ -145,7 +145,7 @@ the topic":
 
 ## Cluster signals (regrouping vs 1:1 promote)
 
-Some architectural decisions are spread across **multiple resolved issues** —
+Some architectural decisions are spread across **multiple closed issues** —
 different angles or different consequences of the same posture. Individual
 classification cannot see this (each file is read in isolation). Detection happens
 in the **cluster pass** after individual classification — see `from-issue.md`
@@ -177,7 +177,7 @@ noise. See `from-issue.md` for the full clustering procedure and gate UX.
 
 For each candidate, the classifier output (in `from-issue.md` Step P3) records:
 
-- `path` — path to the resolved issue
+- `path` — path to the closed issue
 - `verdict` — `promote` | `skip` | `merge` | `ambiguous`
 - `reason` — one sentence quoting the specific positive/negative signal that matched
 - `rejection_reasons_present` — boolean (helps the user see at a glance which

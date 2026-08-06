@@ -33,8 +33,8 @@ The most destructive mistake is treating an ADR as a living design doc and "upda
 it when the decision changes. That erases exactly the value the document exists to
 preserve. The rule:
 
-- **A decision changed → write a NEW ADR.** The new one carries `Status: Superseded`
-  pointers to/from the old; the old ADR's *body* is never rewritten.
+- **A decision changed → write a NEW ADR.** The old one becomes `Superseded`, and the
+  two records carry reciprocal supersession links; the old ADR's *body* is never rewritten.
 - **The only legitimate edits to an accepted ADR** are append-only: a `Refresh
   YYYY-MM-DD:` note (re-verified, still in use, minor drift noted), a status field
   change, or back-filling a relationship link. Never a rewrite of context, options,
@@ -129,6 +129,8 @@ top of this).
 - **Without real alternatives** — mandated by the platform/framework, no genuine fork.
 - **Local — an implementation detail** that doesn't cross a module / interface /
   contract boundary.
+- **Only a description of implementation or current state.** Without a significant choice,
+  alternatives, and rationale to preserve, it belongs in ordinary documentation or code.
 - **An order of execution** → that's a plan, not an ADR. Plans and ADRs are orthogonal:
   a plan sequences work, an ADR records a fork. Don't encode a plan as an ADR.
 - **Already covered** by an existing ADR or a documented standard/convention — don't
