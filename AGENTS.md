@@ -64,6 +64,12 @@ must not weaken safety gates. Enforce safety in client permissions or hooks wher
 - In any linked Git worktree, use a dedicated branch—never detached HEAD—then implement, verify,
   review the diff, stage only task-owned files, commit, and report branch and commit. Do not push
   without explicit authorization.
+- Name new branches `<type>/<short-kebab-case-description>`. When a task-tracker ID is provided,
+  use `<type>/<task-id>/<short-kebab-case-description>` instead and preserve the ID's supplied
+  casing and format. Do not add the intermediate level without a provided task ID. Allowed types
+  are `feat`, `fix`, `refactor`, `docs`, `test`, `perf`, `build`, `ci`, and `chore`; use `fix` for
+  urgent fixes, manage releases through tags or a separate release process, and do not choose
+  `revert` as a branch type. Examples: `feat/age-gate-review`, `fix/LP-482/xtr-payout-retry`.
 - Use Conventional Commits: `<type>(<scope>): <subject>`; lowercase imperative, one scope, no period.
 - Never push, deploy, merge, rebase, delete branches/worktrees, or mutate remotes without explicit
   authorization.
