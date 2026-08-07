@@ -69,8 +69,10 @@ must not weaken safety gates. Enforce safety in client permissions or hooks wher
   casing and format. Do not add the intermediate level without a provided task ID. Allowed types
   are `feat`, `fix`, `refactor`, `docs`, `test`, `perf`, `build`, `ci`, and `chore`; use `fix` for
   urgent fixes, manage releases through tags or a separate release process, and do not choose
-  `revert` as a branch type. Examples: `feat/age-gate-review`, `fix/LP-482/xtr-payout-retry`.
+  `revert` as a branch type. Do not use vendor, product, or agent names such as `codex` or
+  `claude` as branch prefixes. Examples: `feat/age-gate-review`, `fix/LP-482/xtr-payout-retry`.
 - Use Conventional Commits: `<type>(<scope>): <subject>`; lowercase imperative, one scope, no period.
+- Do not add co-authorship or attribution trailers to commits, including `Co-authored-by` entries.
 - Never push, deploy, merge, rebase, delete branches/worktrees, or mutate remotes without explicit
   authorization.
 - Never broadly `checkout`, `restore`, `clean`, or destructively reset to tidy work. Preserve
