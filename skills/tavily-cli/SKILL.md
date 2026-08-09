@@ -1,75 +1,32 @@
 ---
 name: tavily-cli
 description: "Route Tavily CLI tasks that explicitly request multi-operation orchestration across search, extract, map, crawl, and research. Use only when the user names `tavily-cli` or combines operations; use the specialized Tavily skill for a single operation. Never use for local files, Git, deployments, or code editing."
-compatibility: Requires tavily-cli (`curl -fsSL https://cli.tavily.com/install.sh | bash`) and a Tavily API key from tavily.com.
 allowed-tools: Bash(tvly *)
 ---
 
 # Tavily CLI
 
-Web search, content extraction, site crawling, URL discovery, and deep research. Returns JSON optimized for LLM consumption.
+Coordinate two or more Tavily operations while preserving each specialized command's boundary.
 
-Run `tvly --help` or `tvly <command> --help` for full option details.
+## Route
 
-## Prerequisites
+| Need | Command | Specialized skill |
+|:--|:--|:--|
+| Discover pages or current sources | `tvly search` | `tavily-search` |
+| Extract one or more known URLs | `tvly extract` | `tavily-extract` |
+| Discover site URLs without content | `tvly map` | `tavily-map` |
+| Extract many pages from one site | `tvly crawl` | `tavily-crawl` |
+| Produce a cited multi-source synthesis | `tvly research` | `tavily-research` |
+| Search, filter, and extract with raw data isolated | search + extract | `tavily-dynamic-search` |
 
-Must be installed and authenticated. Check with `tvly --status`.
+Use the smallest sufficient sequence. Map before crawl when site scope is unknown; extract selected
+URLs instead of crawling when only a few pages matter. For a single operation, stop and use its
+specialized skill.
 
-```bash
-tavily v0.1.0
+## Shared runtime contract
 
-> Authenticated via OAuth (tvly login)
-```
+Read `references/common.md` before the first command. It owns installation, authentication,
+structured output, current-help lookup, and error behavior for all Tavily CLI skills.
 
-If not ready:
-
-```bash
-curl -fsSL https://cli.tavily.com/install.sh | bash
-```
-
-Or manually: `uv tool install tavily-cli` / `pip install tavily-cli`
-
-Then authenticate:
-
-```bash
-tvly login --api-key tvly-YOUR_KEY
-# or: export TAVILY_API_KEY=tvly-YOUR_KEY
-# or: tvly login  (opens browser for OAuth)
-```
-
-## Workflow
-
-Follow this escalation pattern — start simple, escalate when needed:
-
-1. **Search** — No specific URL. Find pages, answer questions, discover sources.
-2. **Extract** — Have a URL. Pull its content directly.
-3. **Map** — Large site, need to find the right page. Discover URLs first.
-4. **Crawl** — Need bulk content from an entire site section.
-5. **Research** — Need comprehensive, multi-source analysis with citations.
-
-| Need | Command | When |
-|------|---------|------|
-| Find pages on a topic | `tvly search` | No specific URL yet |
-| Get a page's content | `tvly extract` | Have a URL |
-| Find URLs within a site | `tvly map` | Need to locate a specific subpage |
-| Bulk extract a site section | `tvly crawl` | Need many pages (e.g., all /docs/) |
-| Deep research with citations | `tvly research` | Need multi-source synthesis |
-
-For detailed command reference, use the individual skill for each command (e.g., `tavily-search`, `tavily-crawl`) or run `tvly <command> --help`.
-
-## Output
-
-All commands support `--json` for structured, machine-readable output and `-o` to save to a file.
-
-```bash
-tvly search "react hooks" --json -o results.json
-tvly extract "https://example.com/docs" -o docs.md
-tvly crawl "https://docs.example.com" --output-dir ./docs/
-```
-
-## Tips
-
-- **Always quote URLs** — shell interprets `?` and `&` as special characters.
-- **Use `--json` for agentic workflows** — every command supports it.
-- **Read from stdin with `-`** — `echo "query" | tvly search -`
-- **Exit codes**: 0 = success, 2 = bad input, 3 = auth error, 4 = API error.
+Return the requested artifact or synthesis with source URLs. Do not paste unbounded JSON or page
+content into the conversation.

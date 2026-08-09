@@ -1,17 +1,26 @@
 # Issue conventions: filename, status, priority, language
 
 This file covers the conventions that apply to **both** modes (create and close). Read
-it after `discovery.md` and before `create.md` / `close.md`.
+it after shared repository discovery and before `create.md` / `close.md`.
 
 ## Local convention always wins
 
 If the target directory has a `README.md`, `ISSUE_TEMPLATE.md`, `CONTRIBUTING.md`, or
-similar file (see `discovery.md` Step D4), it defines the convention. The patterns below
+similar file found during discovery, it defines the convention. The patterns below
 are the **fallback** — used only when no local convention exists, or to fill gaps the
 local convention doesn't cover.
 
 When following local convention, sample 2-3 existing files in the directory to confirm
 the documented rules match actual practice.
+
+## Bootstrap when no issues root exists
+
+In create mode, an explicit request for a repository-local Issue authorizes creating
+`docs/issues/`, or `<scope>/docs/issues/` when one module is proven to own the deferral. Install
+`assets/issues-readme.md` as its `README.md` and use `assets/deferred-template.md` for the first
+Issue. Ask instead when the repository boundary or module scope is ambiguous or local instructions
+declare a different tracker/location. In close mode, report that there is no confirmed root and
+stop; never bootstrap an empty directory for a sweep.
 
 ## Filename pattern (fallback)
 

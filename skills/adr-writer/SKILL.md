@@ -56,9 +56,7 @@ one is warranted, that file is the authority. Read it before generating.
 
 Both workflows need the same setup pieces. Read them in this order:
 
-1. **`references/discovery.md`** — locate the `docs/adr/` directory (or its monorepo
-   equivalent). One `find` command with explicit exclusions; repo instruction files
-   override.
+1. **`../_shared/repository-discovery.md`** — locate and prove the ADR root and scope.
 2. **`references/path-resolution.md`** — pick the correct save path based on decision
    scope (global / module / infra). Read this only after discovery confirms which `adr/`
    directories exist.
@@ -107,10 +105,11 @@ summary instead — see `from-issue.md` Step P8.
   directory), the ADR header carries `**Implementation spec:** [link]` and the spec
   carries `**Aligned with:** [ADR link]`. One-way linkage is a smell — readers
   entering through the ADR won't discover the spec. `from-chat.md` Step F3.5 enforces
-  this for new ADRs; the future `spec-writer` skill is responsible for back-filling
-  the ADR field when a spec is created after the ADR.
-- `references/discovery.md` is duplicated from `issue-writer/` and `docs-cleanup/` by
-  design. Each skill stays installable on its own; copies are the price of autonomy.
+  this for new ADRs. A temporary feature brief is not an implementation spec and must
+  not receive this durable link. When a durable spec is created later, its owning
+  workflow is responsible for back-filling both directions.
+- Repository discovery and durable-value routing are shared across this coordinated skill set;
+  ADR significance, path resolution, and evidence gates remain local.
 - `from-chat` and `from-issue` are split into separate references because they have
   different *sources of context* (chat vs file). Only the markdown template in
   `assets/` is shared.

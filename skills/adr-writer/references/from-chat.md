@@ -3,7 +3,7 @@
 Generate an ADR from the current conversation history. This is the original adr-writer
 flow.
 
-By the time you're reading this, you've already loaded `discovery.md` and
+By the time you're reading this, you've already loaded shared repository discovery and
 `path-resolution.md` from `SKILL.md`'s shared steps.
 
 ## Step F0 — Significance check (is this even an ADR?)
@@ -141,6 +141,8 @@ Fill the chosen template with the extracted context. A few specific guardrails:
 ADRs and implementation specs are bidirectionally linked when both exist (the spec
 carries `Aligned with: [ADR-link]`; the ADR carries `Implementation spec: [spec-link]`).
 A one-way link is a smell — readers entering through the ADR won't discover the spec.
+Temporary feature briefs, including fallback files under `.agents/briefs/`, are review
+artifacts rather than durable implementation specs. Never link an ADR to one.
 
 Before saving, do a single fast scan for spec directories the project may use:
 
@@ -159,9 +161,9 @@ about this same decision** (slug overlap, date proximity, or an explicit
   the path you just wrote. If it doesn't (e.g. the spec was drafted before the ADR
   path was finalized), fix the spec's line in the same change.
 
-If no spec exists yet, omit the field. The spec-writer workflow (when later
-invoked) is responsible for adding both directions of the link — don't write a
-dangling reference here.
+If no durable spec exists yet, omit the field. The workflow that later creates or promotes the
+durable spec is responsible for adding both directions of the link — don't write a dangling
+reference here.
 
 ## Step F4 — Save and confirm
 

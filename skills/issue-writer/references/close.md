@@ -3,7 +3,7 @@
 Sweep closed issues by extracting any documentation value first, then deleting the
 source files. The open list stays focused; no `archive/` subdirectory is used.
 
-By the time you're reading this, you've loaded `discovery.md` and `conventions.md` from
+By the time you're reading this, you've loaded shared repository discovery and `conventions.md` from
 `SKILL.md`'s shared steps.
 
 ## Why delete after extraction (not archive)
@@ -12,10 +12,8 @@ The old model moved closed issues into `archive/`. In practice the archive direc
 is write-only: rarely read, adds noise to repo-wide greps, and duplicates what git
 history already keeps. The current model is simpler:
 
-- **If a closed issue has documentation value**, extract it into the proper home:
-  - architectural decisions → ADR (via `adr-writer:from-issue`)
-  - operational procedures → runbook / `DEVELOPMENT.md` / similar
-  - unique repros, commands, diagnostics → troubleshooting doc / inline comment
+- **If a closed issue has documentation value**, route it through
+  `../_shared/durable-documentation.md`.
 - **Once the value is extracted (or there was none), delete the file.**
 
 The ADR header's `Source issue:` field preserves provenance. Git history holds the body
@@ -27,7 +25,7 @@ skill's job (with its own safety gate).
 
 ## Step C1 — Confirm the directory to sweep
 
-`discovery.md` should have produced a single confirmed issues directory. If `find`
+Shared discovery should have produced a single confirmed issues directory. If it
 returned multiple hits (monorepo with several `docs/issues/` directories), **ask which
 one** to sweep. Do not sweep all by default — the user almost always means one specific
 scope.
@@ -78,6 +76,7 @@ documentation value**. Mark the candidate as `blocked` if any of these signals a
 
 | Signal in body                                                                  | Suggested extraction target                         |
 |---------------------------------------------------------------------------------|-----------------------------------------------------|
+| Durable product, UI, API, or domain behavior / acceptance contract               | Existing project contract/spec                      |
 | Rejected options spelled out (2+ approaches compared, one chosen with rationale) | ADR via `adr-writer:from-issue`                     |
 | Architectural invariant or system boundary stated ("X always goes through Y")    | ADR via `adr-writer:from-issue`                     |
 | Choice of framework / library / language / package manager / data model         | ADR via `adr-writer:from-issue`                     |
@@ -86,6 +85,9 @@ documentation value**. Mark the candidate as `blocked` if any of these signals a
 | Unique repro steps, SQL, or commands not preserved elsewhere                    | Troubleshooting doc / runbook / inline comment      |
 | Operational procedure (deploy steps, rotation playbook, incident response)      | Runbook / `DEVELOPMENT.md` / `OPERATIONS.md`        |
 | Useful diagnostic technique that took time to develop                           | Troubleshooting doc / commit message in fix         |
+
+Feature behavior alone is not an ADR signal. Route it to a project contract/spec unless the body
+also records a significant architectural choice, real alternatives, and rationale.
 
 For each `blocked` candidate, record:
 
@@ -104,9 +106,9 @@ content the user later wishes they'd kept is the failure mode to avoid.
 ## Step C5 — Confirmation gate
 
 Before deleting any file, present a plan and **wait for explicit per-decision
-approval**. The gate has no silent default — the operator must respond per-item or with
-an explicit bulk approval. Even if the user's request sounded categorical, this gate
-stays.
+approval**. The gate has no silent default: approval must identify each exact path; broad phrases
+such as "approve all" do not authorize deletion. Even if the user's request sounded categorical,
+this gate stays.
 
 Before rendering the gate, preflight each proposed deletion: resolve the canonical path,
 require a regular non-symlink file inside the confirmed issues directory, record a content

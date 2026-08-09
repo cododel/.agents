@@ -29,3 +29,27 @@ This directory is the canonical source for personal cross-client instructions an
 
 Do not copy app-managed plugins, bundled skills, credentials, caches, histories, or runtime
 databases into this tree.
+
+## External Skill Provenance
+
+- `find-skills` is externally managed by `.skill-lock.json`. Update it through the installer that
+  owns the lock entry; do not hand-edit the installed skill.
+- `graphify` is a vendor snapshot from the installed `graphifyy` package. Its pinned source version
+  is recorded in `skills/graphify/.graphify_version`; the `SKILL.md` body and every file under
+  `references/` mirror that version. The local frontmatter `description` is intentionally narrower
+  and is the only trigger override.
+- Tavily skills are locally maintained routing and production wrappers. CLI flags come from
+  `tvly <command> --help`; SDK signatures, response schemas, and framework integrations come from
+  current official documentation rather than copied references.
+
+To review a Graphify update:
+
+1. Upgrade or install the intended `graphifyy` version in an isolated tool environment and record
+   `graphify --version` in `skills/graphify/.graphify_version`.
+2. Locate that environment's `site-packages/graphify/` directory. Diff its `skill-agents.md`
+   against `skills/graphify/SKILL.md`, allowing only the documented `description` override, and run
+   a recursive diff between its `skills/agents/references/` and
+   `skills/graphify/references/` directories.
+3. Copy reviewed vendor changes as one versioned snapshot, reapply only the trigger override, then
+   run the repository skill validator and client discovery smoke tests. Never edit an installed
+   package or client cache as the source of truth.

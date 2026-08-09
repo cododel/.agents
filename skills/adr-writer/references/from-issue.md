@@ -6,7 +6,7 @@ in the ADR's `Source issue:` header and in git history. After the ADRs are saved
 source issue files are deleted in a gated final step — there is no `archive/`
 directory and no retention of closed issues on disk.
 
-By the time you're reading this, you've loaded `discovery.md`, `path-resolution.md`,
+By the time you're reading this, you've loaded shared repository discovery, `path-resolution.md`,
 and `candidate-criteria.md` from `SKILL.md`'s shared steps. The quality bar the
 generated ADRs must meet — core sections, honest alternatives, invariants, the
 significance check — lives in `references/adr-spec.md`; `candidate-criteria.md` layers
@@ -45,7 +45,7 @@ claim about evidence, not a vibe.
 
 ## Step P1 — Locate the source issues directory
 
-`discovery.md` should have produced a confirmed `docs/issues/` (or its monorepo
+Shared discovery should have produced a confirmed `docs/issues/` (or its monorepo
 equivalent). If `find` returned multiple hits, **ask which one** to scan. Don't process
 all by default — the user almost always means one specific scope.
 

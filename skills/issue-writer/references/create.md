@@ -1,7 +1,7 @@
 # Create / update workflow
 
 This is the detailed workflow for creating a new issue or updating an existing open
-one. By the time you're reading this, you've already loaded `discovery.md` and
+one. By the time you're reading this, you've already loaded shared repository discovery and
 `conventions.md` from `SKILL.md`'s shared steps.
 
 ## Step C1 — Gather facts
@@ -20,6 +20,7 @@ Collect from the user request and repository context:
 - affected files / entry points / probes (grep-able locators)
 - recommended fix (and a minimal-fix variant if the proper fix is large)
 - next steps / verification checklist
+- applicable project contracts/specs and their expected impact, when proven
 - related issues or ADRs
 
 Facts you can't confirm from the conversation or the repo become explicit `TODO:` values or,
@@ -63,7 +64,7 @@ Before writing, check the issues directory for:
 - 1-2 recent open issues — to match the prose style, header field set, and section
   ordering people actually use
 - a `README.md` / `ISSUE_TEMPLATE.md` in the same directory — already covered in
-  `discovery.md` Step D4, but re-confirm if you skipped reading it
+  the shared discovery workflow, but re-confirm if you skipped reading it
 
 For a newly bootstrapped directory there are no examples: use the installed fallback README
 and template directly. Do not ask for examples that cannot exist yet.
@@ -93,8 +94,8 @@ NOTE comments**: don't include the section when creating, don't overwrite when u
 ## Step C4 — Write the issue
 
 - Match the directory's existing structure when 2+ examples exist.
-- When no local example or template exists, use `assets/deferred-template.md` for an explicit
-  deferral request and `assets/fallback-template.md` for other issues.
+- When no local example or template exists, use `assets/deferred-template.md`. If the work is not
+  explicitly deferred and independently resumable, do not create an Issue.
 - Preserve the user's prose language (see `conventions.md` § Language rules).
 - Keep filenames English kebab-case regardless of prose language.
 - For an explicit deferral request, preserve the deferred context, reason, and resume conditions

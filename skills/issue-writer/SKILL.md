@@ -12,10 +12,9 @@ current repository. Two distinct modes:
 
 1. **Create / update** an issue only for deferred work that another session can resume
    independently from the captured decision context and resume conditions.
-2. **Close** closed issues by extracting any documentation value (architectural
-   decisions → ADRs; operational procedures → runbooks; unique repros/commands → relevant
-   docs) and then deleting the source files. Closed issues are not retained in an
-   archive — once their content is extracted, the file's job is done.
+2. **Close** closed issues by routing unique documentation value through
+   `../_shared/durable-documentation.md` and then deleting the source files. Closed
+   issues are not retained in an archive — once their content is extracted, the file's job is done.
 
 Work from repo evidence, not similar-looking guesses.
 
@@ -47,10 +46,7 @@ explicitly chooses to defer it as an independent task.
 Before branching into a mode, both workflows need the same two pieces of context. Read
 them in this order:
 
-1. **`references/discovery.md`** — locate the issues directory in the current repo or
-   monorepo scope. One `find` command, with explicit exclusions, is the source of truth;
-   repo instruction files (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`, `docs/README.md`)
-   override it when present.
+1. **`../_shared/repository-discovery.md`** — locate and prove the issues root and scope.
 2. **`references/conventions.md`** — filename pattern, status tags, priority levels, and
    language rules. The mode-specific reference assumes you've already read this.
 
@@ -58,10 +54,8 @@ Then branch into `create.md` or `close.md` per the selector above.
 
 ## Assets
 
-- `assets/fallback-template.md` — full markdown template for a new issue when the target
-  directory has no stronger local format. Used by `create.md`.
 - `assets/deferred-template.md` — fallback template for an explicitly deferred question,
-  feature, or follow-up. Used by `create.md`.
+  feature, or follow-up; every newly created Issue must pass this deferral gate.
 - `assets/issues-readme.md` — fallback local convention installed as `README.md` when the
   skill bootstraps a new issues directory.
 
@@ -77,9 +71,8 @@ After any operation, report:
 
 ## Design notes
 
-- `references/discovery.md` is duplicated in `adr-writer/` and `docs-cleanup/` by
-  intention. The trio shares the same discovery problem (locate `issues/`, `adr/`, etc.)
-  but each skill must remain installable on its own — copies are the price of autonomy.
+- Repository discovery and durable-value routing are shared because this installation is one
+  coordinated skill set. Mode-specific gates remain local to this skill.
 - The two modes split into separate `references/` so that triggering "create" doesn't
   also pull close details into context (and vice versa). Progressive disclosure is the
   reason the body of `SKILL.md` is short.
@@ -88,6 +81,7 @@ After any operation, report:
 - The close workflow includes a **mandatory pre-extraction check**: any closed issue
   whose body holds extractable value (rejected options, invariants, unique repros, ops
   procedures) is `blocked` from deletion until either the value is extracted into its
-  proper home (ADR / runbook / troubleshooting doc) or the operator explicitly overrides.
+  proper home through `../_shared/durable-documentation.md` or the operator
+  explicitly overrides.
   Closing an issue must always extract documentation value first — the archive directory
   is gone, so anything worth keeping must move to its real home before the file dies.

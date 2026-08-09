@@ -1,13 +1,14 @@
 ---
 name: docs-cleanup
-description: "Audit and classify existing repository docs—issues, ADRs, decisions, incidents, and runbooks—for broad cleanup. Use for stale/duplicate docs, explicit milestone or release documentation cleanup, `почисти доки`, `docs are a mess`, or read-only questions such as `which issues can we close`. Diagnose by default. Do not use for ADR-only audits (`adr-auditor`) or creating/updating/closing issue records (`issue-writer`)."
+description: "Audit and classify existing repository docs—issues, ADRs, decisions, temporary feature briefs, incidents, and runbooks—for broad cleanup. Use for stale/duplicate docs, explicit milestone or release documentation cleanup, `почисти доки`, `docs are a mess`, or read-only questions such as `which issues can we close`. Diagnose by default. Do not use for ADR-only audits (`adr-auditor`) or creating/updating/closing issue records (`issue-writer`)."
 ---
 
 # Docs Cleanup
 
 ## Purpose
 
-Classify documentation files (issues, ADRs, decision records, incident notes) by
+Classify documentation files (issues, ADRs, decision records, temporary feature briefs,
+incident notes) by
 long-term value, propose safe cleanup actions, and protect against false-positive
 deletion. Deletion is destructive and irreversible — it always passes through an
 explicit operator review gate.
@@ -23,7 +24,7 @@ apply → report**.
 
 ### Step 1 — Discover the documentation set
 
-Read `references/discovery.md` to locate the relevant docs directories
+Read `../_shared/repository-discovery.md` to locate the relevant docs directories
 (`docs/issues/`, `docs/adr/`, monorepo equivalents, plus less-common locations like
 `notes/`, `decisions/`, `runbooks/`). Confirm scope with the user when ambiguous —
 auditing all of a monorepo's docs without checking is the most common way to waste a
@@ -63,6 +64,9 @@ sibling skill's flow:
 - `stale` verdicts (open issues whose premises no longer match current evidence, but whose
   completion is unverified) → recommend updating `Last reviewed` and adding an evidence-based
   `Stale note`; keep `Status: Open`.
+- Completed temporary feature briefs with durable behavior → keep the `repair` verdict, route that
+  value through `../_shared/durable-documentation.md`, then use the normal delete gate. Do not
+  promote feature description to ADR without an independently significant architectural decision.
 
 Don't invoke these directly — surface as text recommendations in the report so the
 user picks the order of operations.
@@ -116,8 +120,8 @@ because the gate's safety guarantee depends on it.
 
 ## Design notes
 
-- `references/discovery.md` is duplicated from `issue-writer/` and `adr-writer/` by
-  design. Each skill stays installable on its own; copies are the price of autonomy.
+- Repository discovery and durable-value routing are shared across this coordinated skill set;
+  classification and deletion gates remain local.
 - Generic method-based subagents keep file bodies out of the orchestrator context and work
   across clients without registered Claude agents or model aliases.
 - Boundary between this skill and its siblings is **textual recommendations**, not

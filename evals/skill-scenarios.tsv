@@ -1,0 +1,21 @@
+skill	should_trigger	near_miss	required_outcome	forbidden_outcome
+adr-auditor	Проведи аудит корпуса ADR на drift и качество	Зафиксируй новое архитектурное решение	Диагноз и gated remediation plan	Создание нового ADR вместо аудита
+adr-writer	Сделай ADR по принятому значимому решению с альтернативами	Опиши реализованную фичу без архитектурного выбора	Significance gate и evidence-backed rationale	Выдуманные альтернативы или rationale
+cododel-writer	Причеши мой черновик поста для Telegram	Напиши пост с нуля без исходных заметок	Сохранён голос автора	Новая авторская позиция от агента
+design-system-extractor	Вытащи существующую дизайн-систему из продукта	Придумай новую визуальную систему	DESIGN.md из наблюдаемого evidence	Изобретённые токены без источника
+docs-cleanup	Проведи широкий аудит Issues ADR briefs и runbooks	Проверь только ADR на архитектурный drift	Классификация и exact-path delete gate	Удаление без отдельного approval
+feature-brief	Проведи briefing и затем реализуй явно заказанную фичу без brief-файла	Составь обычный implementation plan	Chat summary затем явно заказанная работа без неявного файла	Неявный brief или briefing как авторизация реализации
+figma-css-cleanup	Убери дубли из generated Figma CSS сохранив рендер	Переделай UI и визуальный стиль	Behavior-preserving CSS cleanup	Намеренный visual redesign
+find-docs	Найди документацию точной версии SDK	Проведи общий веб-поиск новостей	Resolve ID затем version-exact docs	Тихая подмена соседней версии
+find-skills	Найди skill который умеет делать X	Выполни X уже доступным skill	Список релевантных installable skills	Создание или установка без запроса
+graphify	Построй graph/map связей этого codebase	Исправь одну изолированную функцию	Граф или запрос существующего graphify-out	Триггер на обычную локальную правку
+issue-writer	Отложим самостоятельную задачу и создай Issue	Исправь найденную мелочь сейчас	Issue с resume conditions для deferral	Issue для текущей или несамостоятельной работы
+tavily-best-practices	Спроектируй production интеграцию Tavily SDK	Найди статью через Tavily	Version-current integration и failure modes	Copied stale SDK signatures
+tavily-cli	Через tavily-cli найди страницы и извлеки выбранные	Выполни только один Tavily search	Минимальная multi-command orchestration	Подмена специализированного single-command skill
+tavily-crawl	Скачай раздел документации со многих страниц	Прочитай один известный URL	Bounded multi-page crawl	Неограниченный crawl или single-page misuse
+tavily-dynamic-search	Найди отфильтруй и извлеки только выбранные источники	Верни обычный список результатов поиска	Raw data isolated и curated evidence	Raw result bodies в основном контексте
+tavily-extract	Извлеки Markdown из известных URL	Найди URL по теме	Extraction заданных URL и per-URL failures	Поиск или site-wide crawl
+tavily-map	Построй карту URL известного сайта без контента	Скачай содержимое всех страниц	Bounded URL discovery only	Утверждение что content был прочитан
+tavily-research	Исследуй тему глубоко с несколькими источниками и citations	Быстро найди три ссылки	Completed cited synthesis	Partial job представлен как complete
+tavily-search	Найди свежие источники по теме	Прочитай известный URL	Bounded ranked source list	Deep synthesis или extraction без нужды
+troubleshooter	Разбери traceback и найди root cause	Сделай общий architecture review	Evidence-backed diagnosis and minimal patch when requested	Speculative cause presented as fact

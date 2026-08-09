@@ -1,6 +1,6 @@
 # Path resolution: choosing the save path
 
-This file picks the *target path* for a new ADR after `discovery.md` has confirmed which
+This file picks the *target path* for a new ADR after shared repository discovery has confirmed which
 `adr/` directories exist (or that none do).
 
 ## Decision matrix

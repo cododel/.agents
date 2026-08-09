@@ -113,7 +113,7 @@ is a smell. Place it directly under `Status:`:
 ```
 
 If the ADR is being created **before** any spec exists, omit the field. When the
-spec is later created (e.g. via `spec-writer`), that workflow adds both the
+durable spec is later created, its owning workflow adds both the
 `Aligned with:` line in the spec and back-fills this field in the ADR — don't
 write a dangling reference now.
 

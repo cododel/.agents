@@ -1,0 +1,4 @@
+interface:
+  display_name: "Feature Brief"
+  short_description: "Runs briefings or drafts temporary briefs"
+  default_prompt: "Use $feature-brief to conduct an operator briefing and summarize it in chat."

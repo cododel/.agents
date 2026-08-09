@@ -46,7 +46,7 @@ The full path: **discover → enumerate → per-ADR audit → corpus audit → g
 
 ### Step 1 — Discover the ADR set
 
-Read `references/discovery.md` to locate the ADR directories (`docs/adr/`, monorepo
+Read `../_shared/repository-discovery.md` to locate the ADR directories (`docs/adr/`, monorepo
 per-app equivalents, infra-specific ones). Read each directory's `README.md` to learn the
 **local convention** — its status taxonomy, filename pattern, and routing rules win over
 the fallback template, and the audit must judge ADRs against *their own* project's
@@ -150,9 +150,8 @@ repository convention) — surface hand-offs in the report and let the user orde
   the autonomy-via-duplication convention is deliberately broken: the whole point of the
   spec is a *single* definition both skills obey. The cost is that `adr-auditor` is not
   standalone — it needs `adr-writer` installed beside it.
-- `references/discovery.md` *is* duplicated from `adr-writer/` (and `issue-writer/`,
-  `docs-cleanup/`) by design — the discovery technique is generic and each skill keeps its
-  own copy.
+- Repository discovery is shared with the sibling lifecycle skills; audit criteria and
+  remediation remain local.
 - Generic read-only subagents keep bulk ADR bodies out of the orchestrator context. The method
   is a reference file rather than a registered agent, so the workflow works in both Claude Code
   and OpenCode.

@@ -116,6 +116,20 @@ must not weaken safety gates. Enforce safety in client permissions or hooks wher
   dependencies, security, compliance, and other hard-to-reverse changes require design and approval.
 - An observation, complaint, diagnosis, or taste judgment does not authorize mutation. For routine
   reversible ambiguity, proceed with a stated assumption; ask when readings differ materially.
+- Inspect established project contracts when work changes documented behavior or crosses a
+  hard-to-reverse interface. Classify the impact as `unchanged`, `extend`, `conflict`, or `missing`;
+  resolve conflicts with the operator and align affected code, tests, and contracts.
+- Use a briefing as optional operator-led discovery when repository research leaves decisions that
+  can materially change planning. Benefits: exposes assumptions, competing interpretations,
+  non-goals, and acceptance before a plan hardens. Costs: interaction time, duplicated context,
+  premature narrowing, and stale conclusions; ask only questions that can change the work.
+- A briefing covers intent, users and scenarios, scope and non-goals, constraints, contract impact,
+  acceptance, assumptions, and open questions. It does not prove current state or feasibility,
+  replace contracts, specs, or ADRs, create a plan, or authorize work. It may end with a chat
+  summary; explicitly requested planning or implementation may proceed without a brief file.
+- Create or revise a brief only on explicit request. It is a temporary review contract, not a
+  durable spec and not implementation authority; `Agreed` requires confirmation of the current
+  text, and material changes return it to `Draft`.
 - Create an Issue only for deferred work that is independently resumable; do not create one for
   every observation or incidental nuance. Use `Open`, `Implementing`, and `Closed` as its lifecycle.
 - Track Issue priority and severity separately: priority is urgency and sequencing, while severity
