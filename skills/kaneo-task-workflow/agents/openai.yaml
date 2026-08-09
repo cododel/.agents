@@ -1,0 +1,9 @@
+interface:
+  display_name: "Kaneo Task Workflow"
+  short_description: "Routes and manages work through Kaneo tasks"
+  default_prompt: "Use $kaneo-task-workflow to resolve the correct Kaneo project and manage its tasks safely."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "kaneo"
+      description: "Kaneo task-management MCP server"

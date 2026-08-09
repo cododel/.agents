@@ -10,6 +10,7 @@ find-docs	Найди документацию точной версии SDK	Пр
 find-skills	Найди skill который умеет делать X	Выполни X уже доступным skill	Список релевантных installable skills	Создание или установка без запроса
 graphify	Построй graph/map связей этого codebase	Исправь одну изолированную функцию	Граф или запрос существующего graphify-out	Триггер на обычную локальную правку
 issue-writer	Отложим самостоятельную задачу и создай Issue	Исправь найденную мелочь сейчас	Issue с resume conditions для deferral	Issue для текущей или несамостоятельной работы
+kaneo-task-workflow	Создай задачу в явно указанном Kaneo project	Создай обычную задачу без упоминания Kaneo или repo routing	Verified Kaneo scope and explicit write intent	Inferred tracker or duplicate Markdown mirror
 tavily-best-practices	Спроектируй production интеграцию Tavily SDK	Найди статью через Tavily	Version-current integration и failure modes	Copied stale SDK signatures
 tavily-cli	Через tavily-cli найди страницы и извлеки выбранные	Выполни только один Tavily search	Минимальная multi-command orchestration	Подмена специализированного single-command skill
 tavily-crawl	Скачай раздел документации со многих страниц	Прочитай один известный URL	Bounded multi-page crawl	Неограниченный crawl или single-page misuse
