@@ -56,6 +56,17 @@ must not weaken safety gates. Enforce safety in client permissions or hooks wher
 - Do not use remote shells, `ssh`, `scp`, remote `rsync`, shell-transport Git, remote mutations, or
   authenticated/write-capable HTTP without explicit authorization for the exact action and target.
 
+## Background Process Lifecycle
+
+- Every server, watcher, worker, or other long-running process started by an agent is task-owned.
+  Record its PID or tool session identifier when it starts; do not rely on later process discovery.
+- Before completing, handing off, or abandoning the task, terminate every task-owned process and
+  verify that its session ended and any bound port was released. Use graceful termination first.
+- A process may remain running only when the operator explicitly requests it. Report its command,
+  PID or session identifier, bound address or port, and how the operator can stop it.
+- Browser checks, previews, test web servers, and detached or PTY-backed commands follow the same
+  lifecycle. Losing the calling tool session does not transfer ownership or permit leaving them.
+
 ## Git And Worktrees
 
 - Before a mutating Git task, inspect status, branch, and worktree ownership; never infer them.
