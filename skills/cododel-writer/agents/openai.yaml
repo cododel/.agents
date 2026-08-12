@@ -1,4 +1,0 @@
-interface:
-  display_name: "Cododel Writer"
-  short_description: "Причёсывает черновики в Telegram-посты"
-  default_prompt: "Use $cododel-writer to turn this draft into a clean Telegram post."
