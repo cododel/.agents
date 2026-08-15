@@ -11,6 +11,8 @@ Write in the user's or project's working language. Keep identifiers and verdict 
    - class: `contract-violation`
    - rule/risk: `<id>` — `<contract path>`
    - confidence/proof: `<0.00-1.00>` / `<executed or two-vector deterministic confirmation>`
+   - cascade: `<root | confirmed consequence through exact edge | candidate plus missing proof | independent>`
+   - blocker gate: `<six explicit true/false checks>`
    - reachability: `<production entry to harmful result>`
    - mitigations checked: `<guards/fallbacks>`
    - evidence: `<current code/runtime evidence>`
@@ -24,7 +26,8 @@ No confirmed findings.  <!-- use only when the list is empty -->
 `READY | READY WITH ACCEPTED RISKS | NOT READY | UNVERIFIED`
 
 Target: `<worktree, head, base, staged/unstaged scope, snapshot fingerprint>`
-Mode: `<mode>`; strict: `<yes/no>`; convergence: `<pass n/3 on frozen matrix or n/a>`
+Mode: `<mode>`; strict: `<yes/no>`; protocol: `<discovery/confirmation/conflict status>`
+Budget: `<vectors, agents, passes>`
 Reason: `<one evidence-based sentence>`
 
 ## Contract traceability

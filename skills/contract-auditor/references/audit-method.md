@@ -75,9 +75,30 @@ Ordinary audits run one bounded parallel wave and no automatic full repeat. Stri
 uses at least two independent subagents, even for a small diff. If the platform cannot provide that
 independence, continue the useful inline review but the overall verdict cannot exceed `UNVERIFIED`.
 
+Before launching, record a finite audit budget in the matrix: `max_vectors`, `max_agents`,
+`max_discovery_passes=1`, `max_confirmation_passes=1`, and whether one conflict-resolution pass is
+available. The strict default is at most four vectors with one agent per vector. Group named risks
+into those vectors; exceed the default only when the operator explicitly names more independent
+risks, and freeze the higher bound before discovery. Subagents never spawn audit subagents.
+
 Freeze the contract inventory, rule IDs, vectors, named risks, scope exclusions, and snapshot
-fingerprint before the first pass. Every later pass repeats this exact matrix; do not add search
-areas or reinterpret rules between passes.
+fingerprint before discovery. Any later confirmation uses these exact IDs and scope; do not add
+search areas or reinterpret rules between phases.
+
+### Cascade boundary
+
+A cascade is a finite downstream consequence of one root defect through an exact control-flow,
+data-flow, persistence, ownership, or resource-lifecycle edge. Record `root_finding_id`,
+`causal_parent`, `causal_edge`, and `depth` for every claimed cascade consequence. Follow it only
+inside the frozen causal frontier and audit budget. Deduplicate consequences that share one root
+cause instead of inflating the finding count.
+
+When a shared root is plausible but one causal edge is still missing, classify the observation as a
+`cascade-candidate`, name the proposed root and missing proof, and keep it separate from confirmed
+cascade consequences. Without either a demonstrable edge or a bounded falsifiable edge hypothesis,
+classify it as an independent finding. If it is outside the frozen matrix, report an out-of-scope
+hand-off and do not inspect it further. Changing code, contracts, configuration, or the snapshot
+ends cascade analysis; it never starts a new recursive audit.
 
 Pass each agent the resolved method paths, repository root, snapshot fingerprint, exact target/base
 hashes, change inventory, contract inventory with rule IDs, known risks, and scope exclusions. Do
@@ -90,28 +111,36 @@ not include the expected answer or prior conclusions. Use `subagent-method.md` a
 - Run the strongest focused read-only checks available. Distinguish product failures from harness,
   environment, permission, and configuration failures.
 - Apply the blocker confirmation gate from `evidence-and-verdicts.md`. A candidate below the gate is
-  a risk or verification gap, never a release blocker and never a convergence reset.
+  a risk or verification gap, never a release blocker and never a reason to extend the audit.
 - Include non-contract findings only when they create correctness, security, or operability risk
   for the rollout. Exclude style and maintainability-only observations.
 - Deduplicate by `<class>|<rule-or-risk-id>|<root-cause>|<affected-surface>`, not prose similarity.
 - Treat earlier review findings as hypotheses. Mark each `confirmed`, `obsolete`, `duplicate`, or
   `unverified` against the current target.
 
-## 6. Converge strict and repeat review
+## 6. Confirm strict and repeat review
 
-Run at most three total passes over the frozen matrix and snapshot:
+Use at most one full discovery pass, one candidate-confirmation pass, and one optional
+conflict-resolution pass over the frozen matrix and snapshot. A clean streak is not required and
+must not be simulated by repeating the full search.
 
-1. Recompute the snapshot fingerprint before every pass. If it changed, stop with `UNVERIFIED`;
-   never continue the old streak or silently adopt the new target.
-2. If a pass confirms a unique finding that satisfies the blocker gate, stop immediately with
-   `NOT READY`. Do not fix it, broaden the matrix, or start another audit.
-3. If no blocker is confirmed, repeat the same matrix until three passes are clean. New risks below
-   the blocker gate are reported but do not reset or extend the bounded sequence.
-4. Claim strict convergence only after all three passes complete against the identical fingerprint.
+1. Recompute the snapshot fingerprint after every vector and before integration or confirmation.
+   If it changed, stop with `UNVERIFIED`; never continue or silently adopt the new target.
+2. Complete the already-launched discovery wave. Do not add vectors, rules, or search areas after
+   launch.
+3. Confirm only `blocker`/`high` candidates and disputed prior findings with the strongest bounded
+   read-only evidence. If there are no candidates, re-open only the material traceability rows
+   needed to validate integration; do not rerun discovery.
+4. Once one finding satisfies the blocker gate, fix the overall verdict at `NOT READY`. Collect
+   results from the already-launched discovery vectors to inventory coexisting blockers, but start
+   no new test, vector, or pass.
+5. Use the optional third pass only to resolve conflicting independent evidence. It cannot discover
+   new surfaces or reset the audit.
 
-Any implementation hand-off ends this audit invocation. After a fix, a new explicit audit resolves
-a new fingerprint and starts from pass one. If time, context, tool availability, independence, or
-required evidence prevents the bounded sequence, report completed passes and return `UNVERIFIED`.
+Any implementation hand-off ends this audit invocation. After a fix, only a new operator request
+may authorize a new audit with a newly resolved fingerprint; a standing "until clean" instruction
+does not. If time, context, tool availability, independence, or required evidence prevents this
+bounded protocol, report completed work and return `UNVERIFIED`.
 
 ## 7. Decide and report
 

@@ -64,11 +64,28 @@ Return one JSON object only:
   ],
   "findings": [
     {
+      "finding_id": "<stable per-run id>",
       "class": "verification-gap",
       "severity": "high",
       "readiness_effect": "risk",
       "confidence": 0.72,
       "proof_kind": "observed|executed|derived|none",
+      "cascade": {
+        "classification": "root|confirmed-consequence|cascade-candidate|independent",
+        "root_finding_id": "<stable finding id or null>",
+        "causal_parent": "<finding id or null>",
+        "causal_edge": "<control/data/persistence/ownership/resource edge or null>",
+        "missing_proof": "<required evidence for a cascade-candidate or null>",
+        "depth": 0
+      },
+      "blocker_gate": {
+        "rule_or_named_risk": false,
+        "production_reachable": false,
+        "trace_complete": false,
+        "mitigations_insufficient": false,
+        "impact_high_or_blocker": false,
+        "proof_sufficient": false
+      },
       "rule_or_risk_id": "server-leak",
       "root_cause": "No concurrent shutdown exercise",
       "affected_surface": "worker lifecycle",

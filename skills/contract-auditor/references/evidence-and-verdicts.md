@@ -21,8 +21,9 @@ production state. A previous report is a hypothesis until refreshed against the 
 
 ## Blocker confirmation gate
 
-Confidence measures certainty that the claimed defect exists on the frozen target, separately from
-impact. A finding can block rollout only when all of these are true:
+Confidence is the reviewer's bounded certainty that the claimed defect exists on the frozen target,
+separately from impact. It is not an evidence percentage or a measure of checklist completeness.
+A finding can block rollout only when all of these are true:
 
 - confidence is at least `0.80`;
 - an exact normative rule or named material risk is identified;
@@ -35,7 +36,11 @@ impact. A finding can block rollout only when all of these are true:
 
 `derived` evidence alone, a hypothetical path, missing runtime proof, or one unconfirmed vector
 cannot produce a release blocker. Record it as `verification-gap`, `risk`, or `unverified`. Such a
-finding remains visible but does not stop or extend bounded convergence.
+finding remains visible but does not stop or extend the bounded audit.
+
+For every blocking candidate, record each gate item as an explicit boolean alongside confidence.
+No aggregate score substitutes for a missing rule, reachability trace, mitigation check, impact, or
+proof requirement.
 
 ## Finding classes
 
@@ -91,11 +96,13 @@ Apply in this order:
    satisfies the blocker confirmation gate.
 2. `UNVERIFIED` when no confirmed blocker exists but a material rule/risk is `partial` or
    `unverified`, a missing contract prevents comparison, required production-like evidence is
-   absent, independent strict fan-out was unavailable, or strict convergence was not reached.
+   absent, independent strict fan-out was unavailable, or the bounded confirmation protocol was
+   not completed.
 3. `READY WITH ACCEPTED RISKS` when all material contract rules and required evidence are complete,
    no violation/blocker remains, and the only remaining rollout risks were explicitly accepted.
 4. `READY` when all material rules are compliant, all named risks are closed, required evidence is
-   present, no rollout-relevant finding remains, and strict convergence was reached when required.
+   present, no rollout-relevant finding remains, and the strict confirmation protocol completed
+   when required.
 
 Explicit risk acceptance cannot waive a contract violation or unresolved conflict. Green tests
 cannot raise a lower verdict. When `NOT READY` and verification gaps coexist, report `NOT READY`

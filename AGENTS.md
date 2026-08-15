@@ -139,6 +139,13 @@ must not weaken safety gates. Enforce safety in client permissions or hooks wher
 - Use `contract-auditor` only for explicit compliance, final, repeated, or rollout reviews. It is
   read-only, targets one frozen snapshot, and ends with a verdict; findings never authorize fixes
   or re-audits. Its skill owns the detailed evidence and convergence protocol.
+- One operator request authorizes one audit invocation for one snapshot fingerprint, never an
+  audit-fix-audit loop. A standing request such as "until clean" does not authorize mutation or a
+  later audit after the target changes. A confirmed blocker fixes the verdict at `NOT READY`; finish
+  only the already-started bounded discovery wave to inventory coexisting blockers, then stop.
+  Treat a downstream problem as a confirmed cascade only when it has a recorded causal edge to a
+  root finding inside the frozen matrix; label a plausible but unproven edge as a cascade candidate,
+  and an unrelated problem as an independent hand-off.
 - Recommend it before high-risk rollout, not as a prerequisite for every delivery.
 - Use a briefing as optional operator-led discovery when repository research leaves decisions that
   can materially change planning. Benefits: exposes assumptions, competing interpretations,
