@@ -32,7 +32,7 @@ discussion without invoking this workflow. Do not turn every feature conversatio
 Before either mode:
 
 1. Resolve the repository root and read its instructions.
-2. Inspect the relevant code, documentation, and existing project contracts before asking
+2. Inspect the relevant code, documentation, and existing living project contracts before asking
    questions or drafting requirements.
 3. Separate observed facts, operator decisions, assumptions, and open questions.
 4. Identify contract impact as `unchanged`, `extend`, `conflict`, or `missing` for relevant
@@ -64,9 +64,11 @@ current `Agreed` version and stops for material divergence.
 
 ## Completion
 
-At implementation completion, compare the result with the agreed brief and current project
-contracts. Route durable value through `../_shared/durable-documentation.md`. A temporary brief is
-not an implementation spec and must not receive a durable ADR link.
+At implementation completion, compare the result with the agreed brief and current living project
+contracts. Route `extend` updates to the existing owner through `$contract-writer`; stop on
+`conflict`; for `missing`, report the gap and obtain separate operator approval before creating a
+new contract file. A temporary brief is not a living contract and must not receive a durable ADR
+link.
 
 Never delete a repository-local brief automatically. Present the exact path for the operator's
 normal deletion gate after durable value has been extracted.

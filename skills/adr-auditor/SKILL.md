@@ -10,7 +10,8 @@ description: "Audit the quality, relevance, and code drift of an existing ADR co
 Run over a project's ADR corpus, measure it against the quality contract in
 `../adr-writer/references/adr-spec.md`, and produce a **diagnosis plus a remediation
 plan** — which ADRs drifted from the code, which are hollow, which supersession chains
-are broken, which major decisions have no ADR at all.
+are broken, which major decisions have no ADR at all, and where an ADR is incorrectly
+serving as the only current-state contract.
 
 This is the **review-time twin** of `adr-writer`. The writer *enforces* the spec when a
 decision is captured; the auditor *measures* an existing corpus against the same spec.
@@ -72,7 +73,8 @@ paths:
 
 Per-ADR checks include: one-decision, valid/true status, real alternatives,
 **decision-still-holds (drift vs code)**, concrete reasons, **immutability respected (git
-history)**, honest consequences, self-sufficiency, invariants captured.
+history)**, honest consequences, self-sufficiency, decision invariants captured, and
+ADR-as-contract ownership leaks.
 
 ### Step 4 — Corpus audit
 
@@ -136,6 +138,10 @@ repository convention) — surface hand-offs in the report and let the user orde
   ADR, the fix is a *new* ADR. Recommend `adr-writer` (from-chat if the user can supply
   the reasoning, from-issue if it's buried in a resolved issue). The auditor itself only
   flips the old one to `Superseded`/`Deprecated` and wires links once the successor exists.
+- **`contract-writer`** — when current behavior or architecture exists only in an ADR,
+  report contract impact as `missing`; when a living contract exists but provenance is
+  one-way, recommend a relationship-link backfill. Contract creation remains separately
+  operator-approved.
 - **`docs-cleanup`** — the broad, all-doc-types audit. `adr-auditor` goes *deeper* on ADR
   semantics (drift, immutability, coverage); `docs-cleanup` goes *wider* across issues,
   runbooks, and notes with shallower per-type checks. When the user wants the whole docs

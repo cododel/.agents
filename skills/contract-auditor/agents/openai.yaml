@@ -1,0 +1,4 @@
+interface:
+  display_name: "Contract Auditor"
+  short_description: "Audits contract compliance and rollout readiness"
+  default_prompt: "Use $contract-auditor to run a strict contract compliance and rollout-readiness review."

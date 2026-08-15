@@ -65,8 +65,10 @@ sibling skill's flow:
   completion is unverified) → recommend updating `Last reviewed` and adding an evidence-based
   `Stale note`; keep `Status: Open`.
 - Completed temporary feature briefs with durable behavior → keep the `repair` verdict, route that
-  value through `../_shared/durable-documentation.md`, then use the normal delete gate. Do not
-  promote feature description to ADR without an independently significant architectural decision.
+  value to the existing living contract through `$contract-writer`, then use the normal delete
+  gate. If the contract is `missing`, request separate operator approval before creating a file.
+  Do not promote feature description to ADR without an independently significant architectural
+  decision with alternatives and rationale.
 
 Don't invoke these directly — surface as text recommendations in the report so the
 user picks the order of operations.

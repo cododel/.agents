@@ -17,7 +17,8 @@ Total ADRs: N   (Accepted: a · Proposed: p · Superseded: s · Deprecated: d ·
   drifted from code:        N
   status untrue:            N
   hollow alternatives:      N
-  missing invariants:       N
+  missing decision invariants: N
+  ADR as current contract:     N
   bundled decisions:        N
   immutability violations:  N   (rewritten after acceptance — history already lost)
   clean:                    N
@@ -38,6 +39,8 @@ Total ADRs: N   (Accepted: a · Proposed: p · Superseded: s · Deprecated: d ·
     - Deploy: Fly.io with multi-region config (`fly.toml`) — no ADR
 - **Conflicts (N):** ADR-…-a and ADR-…-b both `Accepted`, contradict on <area>, neither superseded
 - **Naming/placement (N):** <path> — module decision in the global dir; <path> — filename date ≠ header Date
+- **Missing current contracts (N):** <ADR> is the only normative owner for <behavior>
+  (→ `contract-writer`, separate creation approval)
 
 ### Ambiguous (need your review)
 | ADR | Unclear between | Why |
@@ -77,10 +80,11 @@ explicit approval.** Nothing mutates before it.
   relocate:  ADR-h  docs/adr/  → docs/adr/billing/  (module-scoped)
   normalize: ADR-i  rename to fix filename/header date mismatch
 
-### Tranche 3 — hand-offs (these become your next `adr-writer` runs)
+### Tranche 3 — hand-offs (these become your next writer runs)
   write-successor: ADR-c — new auth ADR (homegrown session); I wire links after
   split:           ADR-j bundles {caching, rate-limiting} → two ADRs
   fill-coverage:   DB choice, deploy target → from-chat if you can supply the why
+  establish-current-contract: ADR-k owns current auth behavior alone → contract-writer after approval
 
 Reply: apply tranche 1 | apply 1+2 | apply except <ADR> | adjust <…> | cancel
 ```
@@ -106,7 +110,8 @@ Recommended next steps (hand-offs you trigger):
   - `adr-writer` (from-chat): author the homegrown-auth successor, then I/you supersede ADR-c
   - `adr-writer`: split ADR-j into caching + rate-limiting ADRs
   - `adr-writer`: backfill coverage ADRs for the DB and deploy decisions
-  - Back-fill ADR-d's missing alternatives/invariants (needs real rationale — can't be invented)
+  - `contract-writer`: establish the missing current auth contract after separate approval
+  - Back-fill ADR-d's missing alternatives/decision invariants (needs real rationale — can't be invented)
 
 Skipped (with reason):
   - ADR-k: marked ambiguous (drift vs code-bug) — left for your call

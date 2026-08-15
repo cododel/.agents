@@ -43,7 +43,8 @@ one. Editing `Accepted` in place is a process smell.
   become a successor ADR was overwritten instead. There's no way to recover the lost
   snapshot — flag it so the pattern stops, even though the specific loss is permanent.
 - Append-only changes (a `Refresh YYYY-MM-DD:` note, flipping `Status:`, adding a
-  `Superseded by:` link) are **legitimate** — not findings.
+  `Superseded by:` or `Current contract:` relationship link) are **legitimate** — not
+  findings.
 
 ### Status truth
 
@@ -54,6 +55,24 @@ Not just "is the status a valid lifecycle value" but "is it *true*":
 - `Proposed` ADRs whose decision is plainly shipped in the code → should be `Accepted`.
 - `Superseded` with no `Superseded by:` link, or pointing at a missing ADR → broken chain
   (also a §6 corpus finding).
+
+### ADR used as the only current-state contract
+
+An ADR may contain decision invariants, but it must not be the sole normative owner of
+current behavior or architecture that implementers need to follow today.
+
+- Discover the project's living contracts and any executable contracts explicitly
+  declared canonical by project instructions.
+- If an ADR is the only place a durable current-state rule is documented, record
+  `adr-as-current-contract` and classify contract impact as `missing`.
+- Do not conclude that a contract exists merely because tests, schema, types, a README,
+  or the Accepted ADR mention the behavior. Tests/schema/types count only when the
+  project explicitly declares them canonical for that interface.
+- Do not require a living contract for every ADR. Report this only when the ADR carries
+  current normative behavior or architecture that has no other declared owner.
+- Route creation or update to `$contract-writer`; a new contract file still requires
+  separate operator approval. The ADR body remains immutable, with only a relationship
+  backfill allowed after the contract exists.
 
 ## Corpus findings (map to `adr-spec.md` §6)
 
@@ -107,7 +126,8 @@ The classifier (inline or subagent) records, per ADR:
 - `path`
 - `findings` — list of `{criterion, severity, evidence}` where `criterion` is a spec
   reference (e.g. `drift`, `immutability`, `status-untrue`, `hollow-alternatives`,
-  `missing-invariants`, `not-self-sufficient`, `bundled-decisions`), `severity` is
+  `missing-decision-invariants`, `adr-as-current-contract`, `not-self-sufficient`,
+  `bundled-decisions`), `severity` is
   `high | medium | low`, and `evidence` quotes the specific signal (a code path that
   contradicts the ADR, a git commit that rewrote it, a vague rejection line).
 - `recommended_action` — the remediation label from `remediation.md`.

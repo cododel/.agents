@@ -18,6 +18,7 @@ or wrong decision is fixed by *succession*, never by rewriting an accepted ADR's
 | `split` | One ADR bundles several decisions | Hand off to `adr-writer` to author the split ADRs (+ `Related:` links); retire the bundle via succession | Hand-off — operator decides the split |
 | `relocate` | Placement violates the routing convention | Move the file to the correct dir; update inbound links in the same change | Mutating — gated |
 | `fill-coverage` | Reverse-coverage gap: major decision in code, no ADR | Hand off to `adr-writer` (from-chat if the user can supply rationale, from-issue if buried in a resolved issue) | Hand-off — never fabricated |
+| `establish-current-contract` | ADR is the only normative owner of durable current behavior or architecture | Report `missing` and hand off to `contract-writer`; create only after separate operator approval, then backfill provenance links | Hand-off — never infer approval |
 | `normalize` | Naming/ID collision, filename↔header date mismatch | Rename to the convention, resolve the collision (more specific slug, else `-2`), fix the date field | Mutating — gated |
 
 ## What the auditor may apply directly vs hand off
@@ -34,10 +35,10 @@ the auditor's to make once the operator approves at the gate:
 **Hand off, never do silently** — these require *new reasoning*, which only `adr-writer`
 (with the user or a source issue) can legitimately produce:
 
-- `write-successor`, `split`, `fill-coverage`. The auditor identifies the need and
+- `write-successor`, `split`, `fill-coverage`, `establish-current-contract`. The auditor identifies the need and
   prepares the hand-off (which ADR, what the successor must capture, where it goes); it
-  does **not** fabricate the new decision's rationale. Anti-fabrication is the same hard
-  rule as the writer's.
+  does **not** fabricate the new decision's rationale or create a missing contract
+  without separate approval. Anti-fabrication is the same hard rule as the writer's.
 
 `flag-hollow` is a recommendation only: a hollow ADR can't be repaired by invention. The
 auditor surfaces it ("Option B is decorative — no real rejection reason; Invariants
@@ -63,9 +64,9 @@ tranches:
 
 1. **Append-only fixes** (status flips, link repairs) — low-risk, often bulk-approvable.
 2. **Mutating fixes** (relocate, normalize) — review the moves/renames.
-3. **Hand-offs** (successors, splits, coverage fills) — these become `adr-writer` runs the
-   operator triggers next; list them as next steps, don't block the append-only fixes on
-   them.
+3. **Hand-offs** (successors, splits, coverage fills, missing current contracts) — these
+   become `adr-writer` or `contract-writer` runs the operator triggers next; list them as
+   next steps, don't block the append-only fixes on them.
 
 Deletion is deliberately **not** in the action set. An ADR is history; the auditor
 deprecates or supersedes, it does not delete. If the operator genuinely wants an ADR file

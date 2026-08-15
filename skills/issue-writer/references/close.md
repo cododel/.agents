@@ -76,18 +76,20 @@ documentation value**. Mark the candidate as `blocked` if any of these signals a
 
 | Signal in body                                                                  | Suggested extraction target                         |
 |---------------------------------------------------------------------------------|-----------------------------------------------------|
-| Durable product, UI, API, or domain behavior / acceptance contract               | Existing project contract/spec                      |
+| Durable product, UI, API, domain, persistence, security, or current architecture | Existing living contract via `$contract-writer`     |
 | Rejected options spelled out (2+ approaches compared, one chosen with rationale) | ADR via `adr-writer:from-issue`                     |
-| Architectural invariant or system boundary stated ("X always goes through Y")    | ADR via `adr-writer:from-issue`                     |
-| Choice of framework / library / language / package manager / data model         | ADR via `adr-writer:from-issue`                     |
-| Cross-cutting policy (auth, errors, logging, deploy, security, observability)   | ADR via `adr-writer:from-issue`                     |
-| "By design" rationale that explains why something stays as-is                   | ADR via `adr-writer:from-issue`                     |
+| Current architectural boundary or invariant ("X always goes through Y")          | Existing living contract via `$contract-writer`     |
+| Significant framework / library / language / data-model choice with rationale   | ADR via `adr-writer:from-issue`                     |
+| Current cross-cutting policy (auth, errors, logging, deploy, security)           | Existing living contract via `$contract-writer`     |
+| "By design" choice with alternatives and concrete rationale                     | ADR via `adr-writer:from-issue`                     |
 | Unique repro steps, SQL, or commands not preserved elsewhere                    | Troubleshooting doc / runbook / inline comment      |
 | Operational procedure (deploy steps, rotation playbook, incident response)      | Runbook / `DEVELOPMENT.md` / `OPERATIONS.md`        |
 | Useful diagnostic technique that took time to develop                           | Troubleshooting doc / commit message in fix         |
 
-Feature behavior alone is not an ADR signal. Route it to a project contract/spec unless the body
-also records a significant architectural choice, real alternatives, and rationale.
+Current behavior or architecture alone is not an ADR signal. Route it to the existing living
+contract through `$contract-writer`; if no owner exists, mark `missing` and request separate
+approval before creating one. Use ADR only when the body also records a significant choice, real
+alternatives, and rationale.
 
 For each `blocked` candidate, record:
 

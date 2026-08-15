@@ -130,6 +130,16 @@ must not weaken safety gates. Enforce safety in client permissions or hooks wher
 - Inspect established project contracts when work changes documented behavior or crosses a
   hard-to-reverse interface. Classify the impact as `unchanged`, `extend`, `conflict`, or `missing`;
   resolve conflicts with the operator and align affected code, tests, and contracts.
+- Project contracts own normative current behavior; ADRs preserve immutable decision history.
+  Briefs, plans, Issues, tests, schemas, and types are not substitutes unless explicitly declared
+  canonical for a bounded interface. Keep one owner per rule and link instead of copying.
+- Update established contracts with approved behavior changes. Creating a missing contract needs
+  operator approval. Use the project's primary documentation language; translations require an
+  explicit project rule.
+- Use `contract-auditor` only for explicit compliance, final, repeated, or rollout reviews. It is
+  read-only, targets one frozen snapshot, and ends with a verdict; findings never authorize fixes
+  or re-audits. Its skill owns the detailed evidence and convergence protocol.
+- Recommend it before high-risk rollout, not as a prerequisite for every delivery.
 - Use a briefing as optional operator-led discovery when repository research leaves decisions that
   can materially change planning. Benefits: exposes assumptions, competing interpretations,
   non-goals, and acceptance before a plan hardens. Costs: interaction time, duplicated context,
@@ -148,7 +158,8 @@ must not weaken safety gates. Enforce safety in client permissions or hooks wher
 - Record a significant decision with `adr-writer` only when its choice, alternatives, and rationale
   are worth preserving; an implementation description alone is not an ADR. Use `Proposed`,
   `Accepted`, and `Superseded`, with `Deprecated` only when an area ends without a direct successor.
-  Accepted ADRs are immutable, and changed decisions require a superseding ADR.
+  Accepted ADRs are immutable, changed decisions require a superseding ADR, and current behavior
+  belongs in the linked project contract rather than an ADR refresh.
 - Audit Issues and ADRs on explicit request and during explicitly requested milestone or release
   cleanup. Close completed Issues, annotate stale open Issues with review evidence, and check ADRs
   against current code. Audits diagnose by default; mutations retain their normal operator gates.

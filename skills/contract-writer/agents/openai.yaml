@@ -1,0 +1,4 @@
+interface:
+  display_name: "Contract Writer"
+  short_description: "Maintains living project behavior and architecture contracts"
+  default_prompt: "Use $contract-writer to inspect and update the project living contract."

@@ -123,47 +123,39 @@ Fill the chosen template with the extracted context. A few specific guardrails:
 - **Options Considered**: every option gets pros, cons, and a specific rejection
   reason. The reason is the load-bearing part — vague rejection reasons are the most
   common ADR failure mode.
-- **Decision Outcome**: enough detail that someone can implement from it without
-  re-running the discussion. If the chat agreed on a specific config value, file path,
-  or schema, include it.
-- **Invariants / Constraints**: where the decision establishes a long-term contract the
-  implementation must uphold, write it down explicitly as a checkable rule — this is the
-  most commonly missed piece and the longest-reaching one (`adr-spec.md` §3). If the
-  decision imposes none, write `None` and say why, rather than dropping the section.
+- **Decision Outcome**: enough detail to reconstruct and apply the choice without
+  re-running the discussion. Record only the dated decision detail; link the living
+  contract for normative current behavior instead of duplicating it.
+- **Decision Invariants / Constraints**: where the decision depends on a lasting
+  condition, write it explicitly as a checkable decision invariant. It explains when
+  the recorded choice still holds; it does not replace or duplicate a living project
+  contract (`adr-spec.md` §3). If the decision imposes none, write `None` and say why.
 - **Consequences**: list both positive and negative. Mitigations for the negatives,
   given the risk profile. An all-upside list is a smell — surface the costs.
-- **Project guardrails**: if the local `docs/adr/README.md` enumerates current
-  invariants (DB conventions, deprecated services, forbidden APIs), call them out
-  whenever the decision touches them.
+- **Project guardrails**: if the local documentation enumerates current invariants,
+  verify compatibility and reference their normative owner. Do not restate them in the ADR.
 
-## Step F3.5 — Check for an existing companion spec
+## Step F3.5 — Check for an existing current contract
 
-ADRs and implementation specs are bidirectionally linked when both exist (the spec
-carries `Aligned with: [ADR-link]`; the ADR carries `Implementation spec: [spec-link]`).
-A one-way link is a smell — readers entering through the ADR won't discover the spec.
-Temporary feature briefs, including fallback files under `.agents/briefs/`, are review
-artifacts rather than durable implementation specs. Never link an ADR to one.
+Use shared repository discovery to inspect the project's contract index, established
+living contracts, and any executable contract explicitly declared canonical by project
+instructions. Do not treat an Accepted ADR, README summary, tests, schema, or types as
+an implicit living behavior contract.
 
-Before saving, do a single fast scan for spec directories the project may use:
+When an existing living contract owns the current behavior or architecture affected by
+this decision:
 
-```bash
-find . -type d \( -name specs -o -name spec -o -path '*/superpowers/specs' \) \
-  -not -path '*/node_modules/*' -not -path '*/.git/*' \
-  -not -path '*/dist/*' -not -path '*/build/*'
-```
+- add `**Current contract:** [<title>](<relative-path>)` to the ADR header;
+- add or extend `**Decision provenance:** [<ADR>](<relative-path>)` in the contract;
+- keep the normative rule in the contract only; do not copy current-state prose into
+  the ADR;
+- for an Accepted ADR, limit the edit to this relationship backfill and do not rewrite
+  Context, Options, Decision, or Consequences.
 
-If any directory turns up, list its files and check whether any spec is **already
-about this same decision** (slug overlap, date proximity, or an explicit
-`Aligned with:` line pointing at a placeholder/expected ADR name). If found:
-
-- Add `**Implementation spec:** [<title>](<relative-path>)` to the ADR header.
-- After saving the ADR, **verify the spec's `Aligned with:` line points back** to
-  the path you just wrote. If it doesn't (e.g. the spec was drafted before the ADR
-  path was finalized), fix the spec's line in the same change.
-
-If no durable spec exists yet, omit the field. The workflow that later creates or promotes the
-durable spec is responsible for adding both directions of the link — don't write a dangling
-reference here.
+When no living contract exists, omit the field and report `Contract impact: missing`.
+Do not create a new contract from the ADR workflow, even when ADR creation itself is
+approved. A new contract needs separate operator confirmation and is then handled by
+`$contract-writer`. Temporary feature briefs are never current contracts.
 
 ## Step F4 — Save and confirm
 

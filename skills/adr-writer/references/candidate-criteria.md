@@ -51,20 +51,24 @@ contains a non-trivial answer to that question, it's a candidate. If it just con
 
 ## Promote — clear positive signals
 
-Mark for promote when **any** of these apply:
+Mark for promote only when the issue records a **significant choice plus its rationale**.
+An invariant, boundary, policy, or current architecture statement by itself belongs in a
+living project contract and is not an ADR signal.
 
 - **Non-trivial trade-off with rejected options.** The issue body discusses two or
   more approaches and explains why one was chosen and others rejected. The rejection
   reasons are the load-bearing part.
-- **Architectural invariant or system boundary.** The issue establishes a rule that
-  applies beyond a single bug ("balances always go through `services/ledger.py`",
-  "no `os.getenv` in business logic", "no direct DB writes from bot handlers").
+- **Decision invariant tied to a significant choice.** The issue explains which
+  architectural choice established a lasting condition, what alternative was rejected,
+  and why. A bare rule such as "balances always go through `services/ledger.py`" is
+  current-state contract material, not enough to promote.
 - **Choice of data model, provider, framework, package manager, language, or
   runtime.** ("Use Bun, not npm/pnpm/yarn", "PostgreSQL JSONB for events, not a
   separate table", "Telegram Bot API directly, not aiogram-style framework").
-- **Cross-cutting policy.** Authentication, error handling, logging, i18n, deployment,
-  security, observability — anything that affects multiple parts of the codebase by
-  design.
+- **Cross-cutting policy chosen for stated reasons.** Authentication, error handling,
+  logging, i18n, deployment, security, or observability can be ADR-worthy when the issue
+  preserves the actual fork and rationale. The current policy itself belongs in a
+  living project contract.
 - **Rationale for keeping a legacy approach.** "We considered migrating X to Y;
   decided to keep X for the next 12 months because Z." Future engineers will absolutely
   want to find this when they wonder "why is this still here?"
@@ -84,11 +88,10 @@ Skip when the issue is one of:
 
 ## Hard requirement: at least one explicit positive signal
 
-A `promote` verdict requires **at least one Promote signal listed above visibly
-present in the issue body** — quoted in the `reason` field. "Topic sounds
-architectural" or "feels like cross-cutting" is not a signal; an actually-listed
-rejected option, an actually-stated invariant, or an actually-named framework
-choice is.
+A `promote` verdict requires a visible significant choice and rationale in the issue
+body — quoted in the `reason` field. "Topic sounds architectural", a bare invariant,
+or a current cross-cutting policy is not enough. When those statements have durable
+current-state value, route them to `$contract-writer` instead of discarding them.
 
 This is calibrated against the real failure mode: classifiers, especially under a
 push-against-undertriggering description, tend to find architectural-shaped reasons
@@ -133,15 +136,18 @@ the topic":
   even if the service is important. The ADR would be "we use service-X-with-tx-wrapper
   for all writes" — which already exists or doesn't.
 - **Tooling tweak.** Bumped dependency, added a CI step, configured pre-commit
-  hook. Not architectural unless the issue spells out a *rule* the tweak enforces.
+  hook. A rule it enforces may belong in a living contract; an ADR still requires a
+  significant choice, alternatives, and rationale.
 - **Reverted change.** A revert with rationale "didn't work" is not an ADR. The
   ADR would be "we don't use approach X because Y," which needs the actual reasoning
   on Y written out.
-- **Performance fix.** Specific optimization (added index, batched queries). Not
-  ADR unless it establishes a *policy* ("all list endpoints must paginate").
+- **Performance fix.** Specific optimization (added index, batched queries). A policy
+  such as "all list endpoints paginate" belongs in a living contract unless the issue
+  also records the significant choice and rationale that warrant an ADR.
 - **Documentation fix.** Updated README to match reality. Not architectural.
-- **One-off debugging session.** Even when long, even when fascinating. The ADR
-  would be the *invariant the debug session established*, not the debug itself.
+- **One-off debugging session.** Even when long, even when fascinating. A resulting
+  current-state invariant belongs in a living contract; only a significant decision
+  with alternatives and rationale belongs in an ADR.
 
 ## Cluster signals (regrouping vs 1:1 promote)
 

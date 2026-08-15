@@ -88,9 +88,10 @@ Each is a yes/no a reader (or the auditor) can answer from the document plus the
   benefits.
 - **Self-sufficient.** Understandable without the originating conversation. No "as we
   discussed above", no references to ephemeral context ("the option Vasily mentioned").
-- **Invariants captured.** Where the decision establishes a long-term contract the
-  implementation must uphold, that invariant is written down explicitly — not left
-  implicit in the prose. This is the most commonly missing piece.
+- **Decision invariants captured.** Where the recorded choice depends on a lasting
+  constraint, that decision invariant is written down explicitly rather than left
+  implicit in the prose. Decision invariants explain when the decision still holds;
+  they do not replace the living project contract that owns current-state behavior.
 
 ## 4. Enrichment, tiered by Risk Profile
 
@@ -104,8 +105,9 @@ padded out with all of them; a Tier-1 irreversible one should not omit them.
   present; this is the section that makes them explicit.)
 - **Assumptions** — what is taken as given. When an assumption breaks, the ADR is up for
   review. In solo work these otherwise stay implicit in someone's head.
-- **Invariants / Constraints** — the long-term contract the implementation must hold to.
-  (Listed in the core criteria too; in fuller ADRs it gets its own section.)
+- **Decision Invariants / Constraints** — the lasting conditions under which the
+  recorded decision remains valid. They preserve decision meaning, not current-state
+  documentation; a living project contract remains the normative owner when one exists.
 - **References** — sources, prior art, the research that produced the decision. An ADR is
   often born from an agent's research; losing the provenance is a real cost.
 - **Validation** — how we'd know the decision was right, and what would falsify it.
@@ -130,7 +132,8 @@ top of this).
 - **Local — an implementation detail** that doesn't cross a module / interface /
   contract boundary.
 - **Only a description of implementation or current state.** Without a significant choice,
-  alternatives, and rationale to preserve, it belongs in ordinary documentation or code.
+  alternatives, and rationale to preserve, it belongs in a living project contract,
+  ordinary documentation, or code according to the project's declared ownership.
 - **An order of execution** → that's a plan, not an ADR. Plans and ADRs are orthogonal:
   a plan sequences work, an ADR records a fork. Don't encode a plan as an ADR.
 - **Already covered** by an existing ADR or a documented standard/convention — don't

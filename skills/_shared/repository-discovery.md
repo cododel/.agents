@@ -1,7 +1,7 @@
 # Repository documentation discovery
 
-Use this reference when an Issue, ADR, or broad documentation audit must locate repository-local
-records. The goal is a proven scope, not a conventional-looking guess.
+Use this reference when a living contract, Issue, ADR, brief, or broad documentation audit must
+locate repository-local records. The goal is a proven scope, not a conventional-looking guess.
 
 ## 1. Establish the repository boundary
 
@@ -11,8 +11,9 @@ conventions override fallback names and layouts.
 
 ## 2. Discover candidate roots once
 
-From the confirmed repository root, use `fd` or `rg --files` to identify directories named or
-documented as Issues, ADRs/decisions, briefs, runbooks/playbooks, incidents/postmortems, or notes.
+From the confirmed repository root, use `fd` or `rg --files` to identify directories or files named
+or documented as contracts/specs, current architecture, Issues, ADRs/decisions, briefs,
+runbooks/playbooks, incidents/postmortems, or notes.
 Exclude `.git`, dependency, virtual-environment, build, cache, generated, and existing archive
 trees. Do not search a parent repository or sibling checkout unless the operator included it.
 
@@ -20,6 +21,8 @@ Classify each hit by evidence:
 
 - instruction or index explicitly declares its purpose;
 - local README/template and representative files establish a convention;
+- project documentation explicitly declares an executable schema/type surface canonical for a
+  bounded interface;
 - the operator supplied the exact root;
 - otherwise it remains an unconfirmed candidate.
 

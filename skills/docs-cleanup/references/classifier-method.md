@@ -86,8 +86,8 @@ Field rules:
 - `recommended_alt` — short text suggesting an alternative if `verdict` is `delete`
   and `fp_risk >= medium`, OR if `verdict == ambiguous`, OR if `verdict == repair`
   and the suggested fix is "move content into a different doc home" (specify the
-  target: project contract/spec, runbook path, troubleshooting doc, or ADR via
-  `adr-writer:from-issue`). For
+  target: living contract via `$contract-writer`, runbook path, troubleshooting doc,
+  or ADR via `adr-writer:from-issue`). For
   `close`, state the `[CLOSED]` rename and body update; for `stale`, state the
   `Last reviewed` and `Stale note` update while keeping `Status: Open`. Null otherwise.
 - `title` — the document's H1 heading or filename if no H1.

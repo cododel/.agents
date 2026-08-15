@@ -4,7 +4,7 @@ Use this mode to create or revise the temporary feature contract.
 
 ## 1. Establish sufficient context
 
-Read the complete relevant conversation, repository evidence, current project contracts, and an
+Read the complete relevant conversation, repository evidence, current living project contracts, and an
 existing brief when updating one. If a missing answer would materially change the feature, conduct
 the briefing workflow first. Keep unresolved non-blocking questions explicit rather than inventing
 answers.
@@ -58,6 +58,8 @@ separate implementation request and normal mutation gates.
 When implementation finishes:
 
 1. verify observable behavior against `Acceptance Criteria`;
-2. synchronize durable contract changes identified by `Contract Impact`;
-3. use an ADR only for a significant architectural choice with real alternatives and rationale;
-4. offer the exact temporary brief path for operator-approved deletion after extraction.
+2. synchronize `extend` changes with the existing living contract via `$contract-writer`;
+3. stop and resolve `conflict`; for `missing`, request separate operator confirmation before
+   `$contract-writer` creates a new file;
+4. use an ADR only for a significant architectural choice with real alternatives and rationale;
+5. offer the exact temporary brief path for operator-approved deletion after extraction.

@@ -4,8 +4,8 @@ This is the rulebook the classifier (subagent or inline) uses to assign verdicts
 Eight labels, ordered from "definitely keep as-is" to "definitely remove."
 
 There is intentionally **no `archive` verdict**. Closed issues either have extractable
-documentation value (`promote-to-adr`, or — for non-architectural value like durable feature
-contracts, ops procedures, or unique repros — `repair` to move the value into the right home first),
+documentation value (`promote-to-adr`, or — for non-decision value like durable current-state
+behavior, ops procedures, or unique repros — `repair` to move the value into the right home first),
 or they are `delete`. The `issue-writer:close` workflow enforces this at sweep time
 with a mandatory pre-extraction check.
 
@@ -14,7 +14,7 @@ with a mandatory pre-extraction check.
 | Label              | Meaning                                                                                          |
 |--------------------|--------------------------------------------------------------------------------------------------|
 | `keep`             | Still changes future engineering behavior. Open, accurate, useful as written.                    |
-| `repair`           | Potentially useful but under-specified, stale in document details, missing evidence, or poorly formatted while the tracked work remains valid. Also covers "extract content into a different doc home (project contract/spec / runbook / troubleshooting / README) before close." |
+| `repair`           | Potentially useful but under-specified, stale in document details, missing evidence, or poorly formatted while the tracked work remains valid. Also covers "extract content into a different doc home (living contract via `$contract-writer` / runbook / troubleshooting / README) before close." |
 | `close`            | Open/implementing issue is complete and verified; rename to `[CLOSED]` so the next `issue-writer:close` sweep handles it.         |
 | `stale`            | Open issue has stale premises but completion is unverified; add review evidence without changing status.                        |
 | `merge`            | Duplicate or fragmented record that should be folded into a canonical document.                  |
@@ -35,12 +35,13 @@ with a mandatory pre-extraction check.
 ## Keep an ADR if any of these is true
 
 - A non-trivial trade-off with rejected options is documented
-- An architectural invariant or system boundary is established
-- A data model, provider, framework, package manager, language, or runtime choice is
-  recorded
+- A decision invariant is tied to a significant choice and explains when that choice holds
+- A data model, provider, framework, package manager, language, or runtime choice and
+  its rationale are recorded
 - The reason a legacy approach exists is captured (so future engineers don't
   re-debate it from scratch)
-- A cross-cutting policy (auth, errors, logging, i18n, deploy, security) is set
+- A cross-cutting policy records the significant choice, alternatives, and rationale rather
+  than only the current rule
 
 ## Keep a temporary feature brief if any of these is true
 
@@ -58,8 +59,9 @@ A document is `repair` (not `delete`) when:
   template expects them
 - Project guardrails (the local README's "respect these rules" list) are violated by
   the recommended fix or are absent from the rationale
-- A completed temporary feature brief contains durable behavior not yet captured in a project
-  contract/spec; extract that value before proposing deletion
+- A completed temporary feature brief contains durable behavior not yet captured in a living
+  contract; route it through `$contract-writer` before proposing deletion. A missing contract
+  file still requires separate operator approval.
 
 ## Close and stale signals (issues only)
 
@@ -97,12 +99,12 @@ Do not delete superseded ADRs — they explain why the current state was chosen.
 
 ## Closed issues with no ADR signal
 
-A `[CLOSED]` issue whose body does **not** match any promote-to-ADR signal (no
-rejected options, no invariant, no framework/policy choice) and whose unique knowledge
-(if any) is non-architectural is handled like this:
+A `[CLOSED]` issue whose body does **not** preserve a significant choice and rationale
+and whose unique knowledge (if any) is non-decision documentation is handled like this:
 
-- If it establishes durable product, UI, API, or domain behavior: mark `repair` with a note to
-  update the appropriate project contract/spec before close. Feature behavior alone is not an ADR.
+- If it establishes durable product, UI, API, domain, persistence, security, or current
+  architecture behavior: mark `repair` with a note to update the existing living contract via
+  `$contract-writer` before close. If none exists, report `missing` and request separate approval.
 - If it contains unique repros, commands, or procedures worth keeping: mark `repair`
   with a note to move that content into the appropriate home (runbook, troubleshooting
   doc, inline code comment) before close. The classifier's `recommended_alt` field
@@ -116,12 +118,14 @@ a real doc home or they get deleted — they don't accumulate in an archive subd
 
 ## Promote-to-ADR signals (issues only)
 
-A closed issue should be `promote-to-adr` when its body matches any of:
+A closed issue should be `promote-to-adr` only when its body preserves a significant
+choice and rationale, such as:
 
 - Non-trivial trade-off with rejected options spelled out
-- Establishes an architectural invariant
-- Choice of data model, provider, framework, package manager, language, runtime
-- Cross-cutting policy
+- A decision invariant tied to a choice between real alternatives
+- Choice of data model, provider, framework, package manager, language, or runtime with
+  concrete rationale
+- Cross-cutting policy with the actual fork and rationale, not only the current rule
 - Rationale for keeping a legacy approach
 - "By design" decision
 
@@ -158,9 +162,9 @@ candidates but usually deserve `repair`, `merge`, or `promote-to-adr`:
 - "We don't need this anymore." Need-now and value-as-history are different.
 - Unique operational knowledge (procedure, repro, command sequence). That's `repair`
   with a note to move the content into a runbook or troubleshooting doc first.
-- A temporary feature brief whose implementation is complete. Extract durable behavior into the
-  project contract/spec and architectural rationale into an ADR only when it independently passes
-  the ADR significance gate; then use the normal deletion gate.
+- A temporary feature brief whose implementation is complete. Extract durable current-state value
+  into the living contract through `$contract-writer`; extract rationale into an ADR only when it
+  independently passes the significance gate; then use the normal deletion gate.
 
 ## Boundary cases the classifier surfaces
 

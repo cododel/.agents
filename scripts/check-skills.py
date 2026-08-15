@@ -52,8 +52,6 @@ def scenario_names(path: Path) -> tuple[list[str], list[str]]:
         if any(not row[field].strip() for field in required):
             errors.append(f"{path}:{number}: empty scenario field")
         names.append(row["skill"].strip())
-    if len(names) != len(set(names)):
-        errors.append(f"{path}: duplicate skill rows")
     return names, errors
 
 
@@ -105,8 +103,9 @@ def main() -> int:
     errors.extend(matrix_errors)
     skill_files = sorted((root / "skills").glob("*/SKILL.md"))
     actual_names = [path.parent.name for path in skill_files]
-    if actual_names != sorted(matrix_names):
-        errors.append(f"entrypoint mismatch: actual={actual_names!r} matrix={sorted(matrix_names)!r}")
+    matrix_skill_names = sorted(set(matrix_names))
+    if actual_names != matrix_skill_names:
+        errors.append(f"entrypoint mismatch: actual={actual_names!r} matrix={matrix_skill_names!r}")
 
     metadata_text: list[str] = []
     for path in skill_files:

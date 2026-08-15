@@ -8,7 +8,7 @@ directory and no retention of closed issues on disk.
 
 By the time you're reading this, you've loaded shared repository discovery, `path-resolution.md`,
 and `candidate-criteria.md` from `SKILL.md`'s shared steps. The quality bar the
-generated ADRs must meet — core sections, honest alternatives, invariants, the
+generated ADRs must meet — core sections, honest alternatives, decision invariants, the
 significance check — lives in `references/adr-spec.md`; `candidate-criteria.md` layers
 the issue-specific promote/skip specifics on top of it. When generating each ADR (Step
 P6), it follows the same template and depth rules as `from-chat`.
@@ -18,8 +18,10 @@ P6), it follows the same template and depth rules as `from-chat`.
 `from-chat` is the primary way ADRs are produced — capture decisions the user just
 articulated, with full rationale visible in the conversation. `from-issue` is the
 **exception**: closed issues sometimes carry decisions worth surfacing as ADRs
-(choice of package manager, "no monorepo for now", "balances always go through
-service X"), and without promotion these stay buried in the issues directory.
+(choice of package manager, "no monorepo for now", or another fork with preserved
+alternatives and rationale), and without promotion these stay buried in the issues directory.
+Bare current-state rules such as "balances always go through service X" route to a living
+contract instead.
 
 Because the evidence chain in `from-issue` is weaker than in `from-chat` (you have
 the issue body, not the live reasoning), the workflow is **more conservative** by
@@ -82,9 +84,9 @@ attention first).
 Read each candidate's body **in full** (don't sample) and assign a verdict per
 `candidate-criteria.md`:
 
-- `promote` — clear positive signal (architectural invariant, non-trivial trade-off,
-  data model / framework / runtime choice, cross-cutting policy, "by design", legacy
-  rationale)
+- `promote` — a significant architectural choice with explicit alternatives or other
+  evidence of the actual fork, plus concrete rationale; a bare invariant, boundary,
+  policy, or current-state description is not enough
 - `skip` — clear negative signal (operational fix, hygiene, doc drift, one-off
   tooling, pure ops)
 - `merge` — looks like part of a multi-issue decision worth one combined ADR
@@ -95,8 +97,9 @@ For each verdict, record:
 
 - `path` — full path to the issue
 - `verdict` — one of the four above
-- `reason` — one sentence quoting the matched signal ("establishes invariant: balance
-  writes only through `services/ledger.py`")
+- `reason` — one sentence quoting the matched decision and rationale ("chooses a
+  ledger-only write path over direct model updates because projections must remain
+  reconstructable")
 - `proposed_target_path` — for `promote` and `merge`, the ADR path per
   `path-resolution.md`
 - `rejection_reasons_present` — boolean, helps the user see which promotions need their

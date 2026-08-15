@@ -20,7 +20,8 @@ Collect from the user request and repository context:
 - affected files / entry points / probes (grep-able locators)
 - recommended fix (and a minimal-fix variant if the proper fix is large)
 - next steps / verification checklist
-- applicable project contracts/specs and their expected impact, when proven
+- applicable living project contracts and their expected `unchanged | extend | conflict | missing`
+  impact, when proven
 - related issues or ADRs
 
 Facts you can't confirm from the conversation or the repo become explicit `TODO:` values or,

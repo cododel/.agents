@@ -33,7 +33,7 @@ If any input is missing:
 2. **Document-only checks** (`adr-spec.md` §3): one decision vs bundled; valid status
    value; real vs decorative/absent alternatives; concrete vs vague rejection reasons;
    honest vs all-upside consequences; self-sufficient vs references to ephemeral context;
-   invariants captured vs missing.
+   decision invariants captured vs missing.
 3. **Drift check** (`audit-criteria.md`): extract the ADR's concrete anchors (paths in
    `Implementation:`, libraries, providers, services, config keys, invariant rules). Grep
    the codebase for each. Decision **holds** if anchors are present and used; **drifted**
@@ -49,7 +49,11 @@ If any input is missing:
    the reasoning **is** a finding. If the file isn't in git, skip this check and say so.
 5. **Status truth**: is the status not just valid but *true* given drift and the code?
    (`Accepted` but drifted → de-facto dead; `Proposed` but shipped → should be `Accepted`.)
-6. **Record evidence.** Every finding quotes the actual signal — a code path that
+6. **Current-contract ownership** (`audit-criteria.md`): discover declared living or
+   executable contracts. If the ADR is the only normative owner of durable current behavior or
+   architecture, record `adr-as-current-contract`; do not infer an owner from tests, schema,
+   types, or README summaries.
+7. **Record evidence.** Every finding quotes the actual signal — a code path that
    contradicts the ADR, a git commit hash that rewrote it, the verbatim vague line. Never
    assert a finding you can't show. When genuinely unsure, mark `ambiguous`.
 
@@ -71,7 +75,8 @@ A single JSON array, one object per candidate, in input order:
     "relationships": {
       "supersedes": [],
       "superseded_by": [],
-      "related": []
+      "related": [],
+      "current_contract": null
     },
     "anchors": [
       {"kind": "path", "value": "lib/clerk.ts", "state": "missing"},
@@ -92,12 +97,14 @@ A single JSON array, one object per candidate, in input order:
     "relationships": {
       "supersedes": [],
       "superseded_by": [],
-      "related": []
+      "related": [],
+      "current_contract": null
     },
     "anchors": [],
     "findings": [
       {"criterion": "hollow-alternatives", "severity": "medium", "evidence": "Section 2 lists only PostgreSQL; no rejected options and no stated reason none existed"},
-      {"criterion": "missing-invariants", "severity": "low", "evidence": "no Invariants/Constraints section despite establishing the persistence contract"}
+      {"criterion": "missing-decision-invariants", "severity": "low", "evidence": "no Decision Invariants/Constraints section despite a lasting condition on the recorded persistence choice"},
+      {"criterion": "adr-as-current-contract", "severity": "medium", "evidence": "the Accepted ADR is the only normative owner found for current persistence behavior; no living or declared executable contract exists"}
     ],
     "recommended_action": "flag-hollow",
     "immutability": "clean",
@@ -109,19 +116,22 @@ A single JSON array, one object per candidate, in input order:
 Field rules:
 
 - `findings` — list of `{criterion, severity, evidence}`. `criterion` is a spec-derived
-  tag: `drift`, `status-untrue`, `hollow-alternatives`, `missing-invariants`,
+  tag: `drift`, `status-untrue`, `hollow-alternatives`, `missing-decision-invariants`,
+  `adr-as-current-contract`,
   `vague-reasons`, `not-self-sufficient`, `bundled-decisions`, `dishonest-consequences`,
   `invalid-status`. `severity` is `high|medium|low`. `evidence` is one sentence quoting
   the real signal. **Required** for every finding.
 - `relationships` — normalized ADR paths or identifiers copied from `Supersedes`,
-  `Superseded by`, and `Related` fields. Use empty arrays when absent.
+  `Superseded by`, `Related`, and `Current contract` fields. Use empty arrays or null
+  when absent.
 - `anchors` — concrete implementation paths, libraries, providers, services, config keys,
   or invariant symbols extracted from the ADR, each with a `present`, `missing`, `replaced`,
   or `ambiguous` state. This lets the orchestrator perform corpus checks without rereading bodies.
 - An ADR with no problems → empty `findings`, `recommended_action: "none"`.
 - `recommended_action` — one label from `remediation.md`: `mark-superseded`,
   `mark-deprecated`, `write-successor`, `add-link`, `flip-status`, `flag-hollow`, `split`,
-  `relocate`, `fill-coverage`, `normalize`, or `none`. Pick the primary one.
+  `relocate`, `fill-coverage`, `establish-current-contract`, `normalize`, or `none`.
+  Pick the primary one.
 - `immutability` — `clean | violated | skipped-no-git`. If `violated`, include a finding
   with the offending commit hash in evidence.
 - `ambiguous` — `true` when you can't confidently classify (e.g. drift vs code-bug); put

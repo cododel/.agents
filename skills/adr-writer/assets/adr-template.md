@@ -87,8 +87,8 @@ its body (see `adr-spec.md` §1, the immutability rule).
 ### Relationship links (when applicable)
 
 ADRs form a graph, not a pile of files. When a decision relates to another ADR, record
-it in the header. Links are **bidirectional** — the same rule as ADR↔Spec: a one-way
-link is a smell. If you write one side, write the other in the same change.
+it in the header. Links are **bidirectional**. If you write one side, write the other
+in the same change.
 
 ```markdown
 **Supersedes:** [ADR-20260101-old-decision](./ADR-20260101-old-decision.md)
@@ -102,20 +102,21 @@ link is a smell. If you write one side, write the other in the same change.
 - `Related` is for decisions that touch but don't replace each other (e.g. two ADRs that
   together split one large area — see the granularity guard in `from-chat.md`).
 
-When a companion implementation spec exists (e.g. under `docs/superpowers/specs/`,
-`docs/specs/`, or a sibling design-doc directory) and references this ADR via an
-`Aligned with:` line, **add a back-link** so the relationship is discoverable from
-either direction. ADR↔Spec bidirectional linking is the convention; a one-way link
-is a smell. Place it directly under `Status:`:
+When an existing living project contract owns the current behavior or architectural
+boundary shaped by this decision, **add a back-link** so the relationship is
+discoverable without copying normative rules into the ADR. Place it directly under
+`Status:`:
 
 ```markdown
-**Implementation spec:** [<spec-title-or-date>](<relative-path-to-spec>)
+**Current contract:** [<contract-title>](<relative-path-to-contract>)
 ```
 
-If the ADR is being created **before** any spec exists, omit the field. When the
-durable spec is later created, its owning workflow adds both the
-`Aligned with:` line in the spec and back-fills this field in the ADR — don't
-write a dangling reference now.
+The contract carries the inverse `Decision provenance: <ADR links>` reference. If no
+living contract exists, omit the field and report contract impact as `missing`; do not
+create a contract or write a dangling reference from the ADR workflow. `$contract-writer`
+owns contract creation and requires separate operator approval for a new file. Adding a
+`Current contract` back-link is a permitted relationship backfill in an Accepted ADR;
+do not rewrite its body.
 
 For ADRs reconstructed from a closed issue (promote mode), add:
 
@@ -188,22 +189,23 @@ concrete reason no alternative existed. See `from-chat.md` and `adr-spec.md` §5
 
 **Chosen Option:** <Name from above>
 
-[Detailed explanation of the implementation: architecture, data models, API contracts,
-config values, sequence of operations, file paths — whatever was agreed upon. Enough
-detail that someone can implement from this without re-running the discussion.]
+[Detailed explanation of the dated choice and the architecture agreed at the time.
+Include only what is needed to reconstruct and apply the decision. Link the living
+contract for normative current behavior instead of copying its rules here.]
 
 [For percent-status ADRs, also include a brief reason this option was NOT rejected —
 the symmetric counterpart to the rejection reasons in Section 2.]
 
-## 4. Invariants / Constraints
+## 4. Decision Invariants / Constraints
 
-[The long-term contract this decision imposes — what the implementation must uphold for
-the decision to hold. State each as a checkable rule, not a vague aspiration: "all
+[The lasting conditions the implementation must uphold for the recorded decision to
+remain valid. State each as a checkable rule, not a vague aspiration: "all
 balance mutations go through `services/ledger.py`", "no `os.getenv` outside config
 loaders", "events are append-only, never updated in place". This is the most commonly
-missing piece and the one with the longest reach — it's what a future reader (and the
-auditor) checks the code against. If the decision genuinely imposes no lasting
-constraint, write `None` and say why.]
+missing piece and the one with the longest reach — it is what a future reader (and the
+auditor) checks the decision against. It is not the living current-state contract and
+must not duplicate that contract's normative rules. If the decision genuinely imposes
+no lasting constraint, write `None` and say why.]
 
 ## 5. Consequences & Mitigations
 

@@ -100,14 +100,13 @@ summary instead — see `from-issue.md` Step P8.
   `../adr-writer/references/adr-spec.md`). Keeping the definition in one file is what
   stops "how we write" and "how we audit" from drifting apart — change the contract
   there, not in the template or a workflow copy.
-- **ADR ↔ Spec bidirectional linking.** When a companion implementation spec exists
-  (typically under `docs/superpowers/specs/`, `docs/specs/`, or a sibling design-doc
-  directory), the ADR header carries `**Implementation spec:** [link]` and the spec
-  carries `**Aligned with:** [ADR link]`. One-way linkage is a smell — readers
-  entering through the ADR won't discover the spec. `from-chat.md` Step F3.5 enforces
-  this for new ADRs. A temporary feature brief is not an implementation spec and must
-  not receive this durable link. When a durable spec is created later, its owning
-  workflow is responsible for back-filling both directions.
+- **ADR ↔ living contract provenance.** When a living project contract owns the
+  current behavior shaped by a decision, the ADR header carries `**Current contract:**
+  [link]` and the contract carries `**Decision provenance:** [ADR links]`. The
+  relationship is bidirectional, while normative current-state content remains only in
+  the contract. `from-chat.md` Step F3.5 handles existing contracts. A temporary
+  feature brief is not a living contract. If the contract is missing, report the gap;
+  `$contract-writer` may create it only after separate operator approval.
 - Repository discovery and durable-value routing are shared across this coordinated skill set;
   ADR significance, path resolution, and evidence gates remain local.
 - `from-chat` and `from-issue` are split into separate references because they have
