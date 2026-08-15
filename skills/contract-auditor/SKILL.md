@@ -53,6 +53,10 @@ repeat/re-review request to `repeat-review` over the requested base mode.
   vectors so the report inventories coexisting blockers; do not start another vector, pass, or
   search area. Implementation and any later audit require a new operator request and a newly
   resolved target.
+- A declared composite release workflow may invoke this skill once as its terminal step when the
+  operator explicitly selected preparation plus final audit before any mutation. Require a newly
+  frozen target, remain read-only, and return the terminal verdict to the orchestrator. Never return
+  authority to fix a finding or repeat the audit.
 - Route `missing-contract` to `$contract-writer`; creation still needs separate operator approval.
 - Stop on a contract conflict for an operator decision. Hand off confirmed defects separately.
 

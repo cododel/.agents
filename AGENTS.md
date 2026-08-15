@@ -146,6 +146,10 @@ must not weaken safety gates. Enforce safety in client permissions or hooks wher
   Treat a downstream problem as a confirmed cascade only when it has a recorded causal edge to a
   root finding inside the frozen matrix; label a plausible but unproven edge as a cascade candidate,
   and an unrelated problem as an independent hand-off.
+- Use `$feature-closeout` for explicitly requested post-implementation feature hygiene. Its
+  `--release` mode may perform bounded implementation and verification before one terminal
+  `$contract-auditor` invocation because the operator selected both in advance. Run no audit before
+  those mutations; once the terminal audit begins, make no further mutation or automatic re-audit.
 - Recommend it before high-risk rollout, not as a prerequisite for every delivery.
 - Use a briefing as optional operator-led discovery when repository research leaves decisions that
   can materially change planning. Benefits: exposes assumptions, competing interpretations,

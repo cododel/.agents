@@ -139,8 +139,10 @@ must not be simulated by repeating the full search.
 
 Any implementation hand-off ends this audit invocation. After a fix, only a new operator request
 may authorize a new audit with a newly resolved fingerprint; a standing "until clean" instruction
-does not. If time, context, tool availability, independence, or required evidence prevents this
-bounded protocol, report completed work and return `UNVERIFIED`.
+does not. The sole exception is an explicitly declared composite release workflow that performed no
+earlier audit, completed all mutations first, froze a new fingerprint, and invokes this audit once
+as its terminal read-only step. If time, context, tool availability, independence, or required
+evidence prevents this bounded protocol, report completed work and return `UNVERIFIED`.
 
 ## 7. Decide and report
 

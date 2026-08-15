@@ -1,0 +1,6 @@
+interface:
+  display_name: "Feature Closeout"
+  short_description: "Close implemented features for release"
+  default_prompt: "Use $feature-closeout --quick to close the current feature change-set."
+policy:
+  allow_implicit_invocation: false
