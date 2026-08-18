@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wiki Maintenance"
+  short_description: "Repair a scoped structural issue in the personal LLM Wiki."
+  default_prompt: "Use $wiki-maintenance to diagnose and repair this Wiki issue."

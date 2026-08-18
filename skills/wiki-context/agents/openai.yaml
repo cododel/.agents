@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wiki Context"
+  short_description: "Retrieve relevant personal Wiki context before non-trivial work."
+  default_prompt: "Use $wiki-context to retrieve relevant personal Wiki context for this task."

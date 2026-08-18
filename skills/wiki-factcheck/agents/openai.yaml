@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wiki Factcheck"
+  short_description: "Manually fact-check selected personal Wiki pages."
+  default_prompt: "Use $wiki-factcheck to fact-check the selected Wiki pages."

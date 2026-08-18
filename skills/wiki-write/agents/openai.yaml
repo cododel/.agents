@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wiki Write"
+  short_description: "Write source-grounded knowledge into the personal LLM Wiki."
+  default_prompt: "Use $wiki-write to propose and deliver this change to my LLM Wiki."
