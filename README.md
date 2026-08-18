@@ -27,8 +27,8 @@ convention.
 Skills use a hybrid trigger model:
 
 - **automatic context/enforcement helpers:** `find-docs`, `troubleshooter`, `issue-writer` under its
-  strict debt gate, `task-journal`, existing-graph queries through `graphify`, `worktree-task` for
-  substantial autonomous isolation, and `feature-closeout` for large/high-autonomy handoff;
+  strict debt gate, `task-journal`, existing-graph queries through `graphify`, `worktree-task` when
+  a concrete isolation need exists, and `feature-closeout` for large/high-autonomy handoff;
 - **situational workflows:** `feature-brief`, `contract-writer`, design/docs/Tavily workflows;
 - **operator-intent workflows:** ADR creation/audit, contract audit, broad documentation cleanup,
   tracker writes, and release-mode closeout. They may route from an unambiguous natural-language
@@ -40,8 +40,9 @@ coordination cost is justified.
 ## Task State And Worktrees
 
 Long-running task memory is untracked and worktree-specific through `$task-journal`; it is not a new
-repository documentation layer. Autonomous implementation should use `$worktree-task` when the
-primary checkout must remain operator-owned or parallel work needs exclusive file ownership.
+repository documentation layer. Preserve the operator-selected workspace by default; use
+`$worktree-task` only when isolation is needed, such as a protected primary checkout or parallel
+writable ownership.
 
 Project-scoped non-secret MCP configuration is preferred so linked worktrees inherit it. The
 worktree workflow still verifies harness trust, path-scoped local registration, ignored setup files,

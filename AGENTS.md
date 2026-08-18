@@ -83,12 +83,19 @@ verification. Never silently choose an unresolved product or architecture branch
 
 - Before Git mutation, inspect status, branch, HEAD, and `git worktree list --porcelain`; never infer
   which checkout is primary.
+- Treat the checkout and branch selected at task start as the operator's task workspace. Work there
+  by default when it is writable and the task belongs to it; an existing linked worktree remains its
+  task workspace. A task being a feature, fix, refactor, implementation, or long-running does not
+  itself justify another worktree.
 - The primary checkout is operator-owned. A direct implementation request permits scoped file edits,
-  but staging, committing, switching, rebasing, conflict resolution, or other Git-state mutation
-  there requires an explicit request.
-- Prefer `$worktree-task` for substantial autonomous, parallel, long-running, or independently
-  reviewable work. A linked worktree owns exactly one dedicated branch and permits scoped edits,
-  staging, coherent checkpoint commits, amend of task-owned commits, and local conflict resolution.
+  including an explicit request to work in the current workspace, but staging, committing, switching,
+  rebasing, conflict resolution, or other Git-state mutation there requires an explicit request.
+- Use `$worktree-task` only when isolation has a concrete benefit: the operator requests it; another
+  base or branch is required; a parallel writable builder needs exclusive ownership; overlapping
+  operator changes make safe separation impossible; the task is unrelated to the current branch; or
+  a protected primary/default checkout cannot accept implementation without permission. A linked
+  worktree owns exactly one dedicated branch and permits scoped edits, staging, coherent checkpoint
+  commits, amend of task-owned commits, and local conflict resolution.
 - Never move the primary checkout, change `core.worktree`, share one branch across worktrees, or
   switch a task worktree to unrelated work. Create another worktree when another branch is needed.
 - Name branches `<type>/<short-kebab-description>` or, with a supplied tracker ID,

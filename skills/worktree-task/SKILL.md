@@ -1,22 +1,39 @@
 ---
 name: worktree-task
-description: "Create or prepare one isolated linked worktree and dedicated branch for substantial autonomous, parallel, or independently reviewable implementation, including setup and MCP readiness. Auto-use from an operator-owned primary checkout; not for tiny in-place edits, read-only work, or cleanup."
+description: "Create or prepare one isolated linked worktree and dedicated branch when isolation is explicitly requested or concretely needed for a separate base, parallel writable work, conflicting ownership, or protected checkout. Do not use for ordinary feature, fix, implementation, or long-running work in a suitable operator-selected workspace."
 ---
 
 # Worktree Task
 
-Create one isolated implementation workspace with one dedicated branch, prove that its development
-and MCP environment is usable, and leave the operator's primary checkout and current work intact.
+Create one isolated implementation workspace with one dedicated branch after proving that isolation
+is needed, then prove that its development and MCP environment is usable while leaving the operator's
+current workspace intact.
 
-## Trigger and authority
+## Decide whether isolation is needed
 
-Use this skill when:
+Treat the checkout and branch at task start as operator-selected. If they are writable and the task
+belongs to them, work there; an existing linked worktree is already the task workspace. Do not create
+a sibling worktree merely because the task is a feature, fix, refactor, implementation, autonomous,
+or long-running.
+
+Use this skill only when one of these concrete conditions applies:
 
 - the operator explicitly requests a worktree or isolated branch;
-- substantial autonomous implementation starts from the primary checkout;
-- a task should run in parallel with current operator work;
-- the current branch cannot correctly own the requested change;
-- a builder subagent needs an exclusive writable workspace.
+- the task requires another base or branch, or does not belong to the current branch;
+- a parallel writable builder needs an independent workspace;
+- dirty operator changes overlap the task so their scope cannot be safely separated;
+- a protected primary/default checkout cannot accept implementation without permission or a stricter
+  project rule.
+
+Read-only explorers and reviewers do not need an isolated worktree. Do not let multiple writable
+agents own the same branch or worktree unless a project workflow explicitly coordinates it.
+
+An explicit request to work in the current workspace permits reversible scoped edits there unless a
+stricter project rule prohibits it. Dirty but separable changes are not a reason to isolate: preserve
+them and do not reset, stash, discard, or overwrite them. When overlap makes ownership unsafe,
+isolation or operator clarification is justified.
+
+## Authority
 
 A direct implementation request authorizes local creation of the linked worktree, its dedicated
 branch, scoped file edits, focused verification, and coherent task-owned commits there. It does not
@@ -25,7 +42,7 @@ to shared state.
 
 ## 1. Prove repository ownership
 
-Before any Git mutation, record:
+After deciding that isolation is needed and before any Git mutation, record:
 
 ```bash
 git rev-parse --show-toplevel
@@ -93,8 +110,9 @@ environment evidence rather than silently changing package managers or dependenc
 
 ## 4. Establish MCP readiness
 
-Read `references/mcp-readiness.md`. Determine which MCP servers the project/task expects from
-project instructions, configuration, and the source session. Then, inside the worktree:
+Only after creating the isolated worktree, read `references/mcp-readiness.md`. Determine which MCP
+servers the project/task expects from project instructions, configuration, and the source session.
+Then, inside the worktree:
 
 1. prove project-scoped MCP configuration is present;
 2. verify the worktree is trusted where the harness gates project configuration;
