@@ -1,21 +1,27 @@
 ---
 name: wiki-context
-description: "Retrieve relevant context from Alexander's personal LLM Wiki before a non-trivial recommendation, plan, research task, architecture decision, or work on an ongoing project when prior principles, ideas, preferences, ADRs, or decisions could change the outcome. Use for implicit personal-Wiki context, not only when the user explicitly mentions the Wiki. Read-only."
+description: "Retrieve auxiliary context from Alexander's personal LLM Wiki only when a task explicitly depends on historical or cross-project context, the repository references the Wiki, or repository investigation leaves a material context gap. Use for personal, cross-project, research, or historical knowledge; not as default project discovery. Read-only."
 ---
 
 # Wiki Context
 
-Use the local vault at `/Users/cododel/Documents/LLM-Wiki` as personal context. It is evidence and prior decisions, not authority that overrides the current user request.
+Use the local vault at `/Users/cododel/Documents/LLM-Wiki` as auxiliary personal, cross-project, or
+research context. For a project task, its repository remains authoritative for project-specific
+behavior, architecture, contracts, and decisions.
 
 ## Relevance gate
 
-Use this skill before a non-trivial answer when any of these can materially affect it:
+Use this skill only when one of these conditions holds:
 
-- a personal preference, strategy, media taste, or working convention;
-- a named project, system, product idea, technology choice, or prior decision;
-- a plan, comparison, recommendation, design, or research question with meaningful trade-offs.
+- the task explicitly depends on historical or cross-project context;
+- the repository directly references the Wiki or a named Wiki page;
+- repository investigation leaves a material context gap that the Wiki may resolve;
+- the task concerns personal preferences, strategy, media taste, or a cross-project working
+  convention that can materially affect the outcome.
 
-Skip it for simple facts, translation, formatting, a clearly self-contained local edit, or when retrieval would not change the answer.
+Do not use this skill merely because a task is non-trivial, names a project, asks for a plan, or
+involves an architecture decision. Skip it for self-contained repository work and whenever retrieval
+would not change the outcome.
 
 ## Retrieval
 
@@ -30,5 +36,11 @@ Skip it for simple facts, translation, formatting, a clearly self-contained loca
 
 - Separate sourced facts, prior operator decisions, and the agent's new inference.
 - Do not treat an idea, draft, low-confidence page, or dated readout as settled policy.
+- For current project behavior, verify runtime, code, and tests; for intended behavior, verify
+  operator decisions and accepted contracts or ADRs. For historical rationale, check repository ADRs,
+  Issues, and Git history before relying on Wiki material.
+- When durable Wiki knowledge materially affects project behavior, promote the resulting invariant or
+  decision into the appropriate repository artifact instead of leaving the project dependent on the
+  Wiki.
 - Mention the relevant page names and the conclusion they changed only when Wiki context materially affected the recommendation, plan, or action.
 - Do not write, update indexes, modify Git state, or create derived artifacts.

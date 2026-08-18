@@ -61,6 +61,24 @@ verification. Never silently choose an unresolved product or architecture branch
 - Distinguish measured, derived, and assumed values. Do not present adjacency as causal proof or
   claim elapsed time without a real timestamp anchor.
 
+## Project Authority And Knowledge Routing
+
+- Project-local repository sources are authoritative for project-specific behavior, architecture,
+  contracts, and decisions.
+- Do not query personal or cross-project knowledge stores by default. Use external or Wiki knowledge
+  only when the task explicitly depends on historical or cross-project context, the repository
+  references that knowledge source, or repository investigation leaves a material context gap it may
+  resolve.
+- Treat Wiki content as auxiliary evidence, not project authority. When durable Wiki knowledge
+  materially affects project behavior, promote the resulting invariant or decision into the
+  appropriate repository artifact.
+- Resolve evidence by question, not by a single linear source order:
+  - for current behavior, prefer runtime, code, and tests over derived documentation;
+  - for intended behavior, prefer operator decisions and accepted contracts or ADRs over accidental
+    implementation;
+  - for external APIs, prefer official upstream documentation over local assumptions;
+  - for historical rationale, prefer ADRs, Issues, and Git history over auxiliary Wiki content.
+
 ## Git And Worktree Ownership
 
 - Before Git mutation, inspect status, branch, HEAD, and `git worktree list --porcelain`; never infer
@@ -184,8 +202,8 @@ implement the wrong behavior.
   or whenever losing motivation, requirements, decisions, or progress is a material risk. Short tasks
   need none.
 - The journal is a compact working-memory snapshot, not a transcript, plan, deliverable, or authority
-  source. Preserve motivation, target behavior, decisions, constraints, open gates, state,
-  verification, and next actions.
+  source or a Wiki knowledge-base entry. Preserve motivation, target behavior, decisions,
+  constraints, open gates, state, verification, and next actions in the task context.
 - Rewrite it at semantic boundaries: material decision/scope change, compaction/delegation, an
   approach-changing failure, or phase handoff—not after each tool call.
 - A journal never grants permission or overrides the operator. Re-resolve gated actions from surviving
