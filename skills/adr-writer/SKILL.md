@@ -1,124 +1,75 @@
 ---
 name: adr-writer
-description: "Create a detailed ADR for a significant decision with real alternatives and rationale, or promote such a decision from closed issues. Use for `create/write an ADR`, `сделай ADR`, `зафиксируй архитектурное решение`, or requests to find/promote ADR candidates. Do not use for implementation summaries or to audit an existing ADR corpus; use `adr-auditor` for audits."
+description: "Create ADRs only for significant operator-made decisions with real alternatives and rationale, including explicit closed-Issue promotion. Use for `сделай ADR/зафиксируй решение`; never infer decisions from code or implementation summaries."
 ---
 
 # ADR Writer
 
-## Purpose
+Preserve **why the operator chose one consequential path over real alternatives**. The agent may
+research options and identify an ADR candidate, but an ADR records a decision the operator actually
+made; it never upgrades the implementing agent's preference into architecture history.
 
-Produce Architecture Decision Records (ADRs) from **decisions the user has actually
-made** — never from extrapolation, best practices, or pattern-matching on topic shape.
+## Modes
 
-The canonical source of a decision is the conversation in which the user weighed
-options and chose one. Two modes exist:
+| Intent | Mode | Read next |
+|:--|:--|:--|
+| Capture a decision established in the current conversation | from-chat | `references/from-chat.md` |
+| Explicitly find/promote decision history preserved in closed Issues | from-issue | `references/from-issue.md` |
 
-1. **From the chat (primary).** Capture an architectural decision worked out in the
-   current conversation. The chat *is* the source of truth — rejected options,
-   rationale, trade-offs all came out of the user's own reasoning. This is the
-   default and the strongly preferred mode.
-2. **From closed issues (exception).** Scan closed issues for a decision worth
-   surfacing as an ADR. Treated as an audit operation, not a routine workflow.
-   Strongest when invoked in the **same chat** that just closed the issue — the
-   chain of reasoning is still visible and the model can verify body claims against
-   what was actually decided. Cold scans (no recent chat lineage) require harder
-   evidence: an explicit positive signal must be quoted from the issue body, no
-   reading-between-the-lines.
-
-Either way: work from **explicit evidence**, never from generic best practices, and
-**never invent rationale the user didn't articulate**. When evidence is thin, leave
-a `TODO:` placeholder and surface it in the report — don't paper over the gap.
-
-## Mode selector
-
-Pick the mode from the user's phrasing **before** loading the detailed workflow.
-
-| User says…                                                                           | Mode          | Read next                       |
-|--------------------------------------------------------------------------------------|---------------|---------------------------------|
-| "сделай ADR", "create ADR", "document this decision", "зафиксируй решение"            | from-chat     | `references/from-chat.md`       |
-| "promote this closed issue", "найди кандидаты в ADR", "find ADR candidates",        | from-issue    | `references/from-issue.md`      |
-| "какие closed issues стоит превратить в ADR", "audit issues for ADR-worthy items"    |               |                                 |
-
-Default to **from-chat** when the request is ambiguous — and the asymmetry is
-intentional. `from-chat` is the load-bearing mode; `from-issue` is an audit
-operation that should be invoked deliberately, not as a fallback.
+Default to `from-chat`. Treat `from-issue` as an explicit audit/promotion workflow, not a routine close
+step.
 
 ## Quality contract
 
-`references/adr-spec.md` defines **what a good ADR is** — the irreducible core, the
-immutability rule, the per-ADR and corpus quality criteria, and the significance check
-(when an ADR is *not* needed). It is the single source of truth this skill *enforces* at
-write-time and that `adr-auditor` *measures* against at review-time. The template and
-workflows below materialise it; when in doubt about what an ADR should contain or whether
-one is warranted, that file is the authority. Read it before generating.
+Read `references/adr-spec.md` before writing. It is shared with `$adr-auditor` and owns:
 
-## Shared steps (both modes)
+- the operator-decision and significance gates;
+- one-decision granularity;
+- evidence requirements for alternatives and rationale;
+- immutable Accepted records and succession;
+- proportionate context, consequences, assumptions/invariants, and revisit evidence.
 
-Both workflows need the same setup pieces. Read them in this order:
+Do not fabricate a rejected option, selection reason, confidence, or historical discussion. Ask for a
+missing load-bearing decision fact or leave an explicit `TODO:` only when the operator still wants a
+`Proposed` record. An `Accepted` ADR must be self-sufficient and must not contain unresolved core
+rationale.
 
-1. **`../_shared/repository-discovery.md`** — locate and prove the ADR root and scope.
-2. **`references/path-resolution.md`** — pick the correct save path based on decision
-   scope (global / module / infra). Read this only after discovery confirms which `adr/`
-   directories exist.
+## Discovery and path
 
-Both modes also run the **significance check** (`adr-spec.md` §5) before producing a
-file — `from-chat` against the conversation (Step F0), `from-issue` against the issue
-body (via `candidate-criteria.md`).
+Read, in order:
 
-The `from-issue` mode additionally needs:
+1. `../_shared/repository-discovery.md`;
+2. `references/path-resolution.md`;
+3. the applicable local ADR README/template and 1–2 recent representative ADRs.
 
-3. **`references/candidate-criteria.md`** — issue-specific promote/skip rules layered on
-   top of the significance check, so the classification step is reproducible.
+Project convention wins. The fallback is intentionally small and uses
+`assets/adr-template.md`; it has no implementation percentage or task-progress lifecycle.
 
-## Assets
+## Contract relationship
 
-- `assets/adr-template.md` — full markdown template covering header metadata (status
-  lifecycle, relationship links, `Scope / Component`), the core sections, the
-  Risk-Profile-tiered enrichment sections, optional percent-status filename, refresh
-  notes, and OPEN / IN-PROGRESS / CLOSED examples. Used by both modes when no stronger
-  local convention is documented in the target `docs/adr/README.md`.
-- `assets/adr-readme.md` — fallback project convention installed as `README.md` when the
-  skill bootstraps a new ADR directory.
+A living contract owns normative current behavior; an ADR owns dated decision history. When both
+exist, link them bidirectionally without copying rules. When a stable current contract is missing,
+`$contract-writer` may create one autonomously only if behavior and ownership are already explicit;
+otherwise report the unresolved semantic gate.
 
-## Output convention (preserved from original)
+## Authority and mutation
 
-The user's standing preference: **after writing the ADR file, do not echo the body
-into chat**. Respond with a short Russian confirmation only:
+- ADR creation requires an explicit operator request. A `from-issue` request authorizes unambiguous promotions in its resolved scope; ask only for missing decision history, conflicting ownership, or material grouping choices.
+- The ADR may be born `Accepted` only when the operator made the choice. Use `Proposed` only when the
+  operator explicitly wants a pending decision record.
+- Never rewrite the reasoning body of an Accepted ADR. Changed decisions require a successor and
+  bidirectional `Supersedes` / `Superseded by` links.
+- Directory/file creation and relationship-link backfills are local reversible edits covered by the
+  ADR request. Promotion does not imply source cleanup; when cleanup is explicitly requested,
+  `from-issue` may remove exact tracked, clean, committed sources and gates unrecoverable ones.
 
+## Output
+
+After writing, do not echo the ADR body. Respond in one concise line with the repository-relative path,
+for example:
+
+```text
+ADR сохранён: `docs/adr/ADR-20260818-use-event-outbox.md`
 ```
-✅ ADR успешно сохранен: `[path/to/the/file.md]`
-```
 
-For the `from-issue` mode in batch (multiple promotions in one run), use a compact
-summary instead — see `from-issue.md` Step P8.
-
-## Design notes
-
-- **One quality contract, two consumers.** `references/adr-spec.md` is the shared
-  definition of a good ADR. This skill enforces it at write-time; the `adr-auditor`
-  skill measures an existing corpus against it at review-time (reading it via
-  `../adr-writer/references/adr-spec.md`). Keeping the definition in one file is what
-  stops "how we write" and "how we audit" from drifting apart — change the contract
-  there, not in the template or a workflow copy.
-- **ADR ↔ living contract provenance.** When a living project contract owns the
-  current behavior shaped by a decision, the ADR header carries `**Current contract:**
-  [link]` and the contract carries `**Decision provenance:** [ADR links]`. The
-  relationship is bidirectional, while normative current-state content remains only in
-  the contract. `from-chat.md` Step F3.5 handles existing contracts. A temporary
-  feature brief is not a living contract. If the contract is missing, report the gap;
-  `$contract-writer` may create it only after separate operator approval.
-- Repository discovery and durable-value routing are shared across this coordinated skill set;
-  ADR significance, path resolution, and evidence gates remain local.
-- `from-chat` and `from-issue` are split into separate references because they have
-  different *sources of context* (chat vs file). Only the markdown template in
-  `assets/` is shared.
-- `candidate-criteria.md` is a separate file (not inlined in `from-issue.md`) because
-  the same criteria are useful as a mental model when answering the question "is this
-  worth an ADR?" outside the promote workflow. Keeping it separate makes it
-  re-readable on its own.
-- Promotion **deletes the source issue** after the ADR is saved (with explicit operator
-  confirmation). The ADR becomes the canonical reference; the issue file's job is done
-  once its content is extracted. Provenance lives in the ADR's `Source issue:` header
-  and in git history — there is no `archive/` directory, and back-links to deleted
-  files aren't useful. The operator can decline the delete at the gate, in which case
-  the source remains and `issue-writer:close` handles it later.
+For batch promotion, use the compact summary defined by `references/from-issue.md`.

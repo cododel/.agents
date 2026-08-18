@@ -1,87 +1,77 @@
 ---
 name: issue-writer
-description: "Create, update, or close repository-local Markdown issue records for deferred, independently resumable work. Use for `создай/напиши issue`, `отложим`, `defer this`, `park this`, or `sweep closed`, including deferral intent without the word issue. Do not create an Issue for every observation, work being completed now, hosted trackers, or broad read-only docs classification (`docs-cleanup`)."
+description: "Create or update repository-local Issues for independently resumable technical debt. Explicitly or auto-use for proven material debt outside the active radius; add one useful linked TODO. Never file speculation, current-scope work, or generic observations."
 ---
 
 # Issue Writer
 
-## Purpose
+Keep the active task focused without discarding evidence-backed technical debt. Repository Issues are
+a durable engineering backlog with historical context; they do not mirror the product task tracker and
+do not justify branching the current session into unrelated work.
 
-Manage the lifecycle of issue tracking documents in the location and format proven by the
-current repository. Two distinct modes:
+## Modes
 
-1. **Create / update** an issue only for deferred work that another session can resume
-   independently from the captured decision context and resume conditions.
-2. **Close** closed issues by routing unique documentation value through
-   `../_shared/durable-documentation.md` and then deleting the source files. Closed
-   issues are not retained in an archive — once their content is extracted, the file's job is done.
+| Intent | Mode | Reference |
+|:--|:--|:--|
+| Explicitly defer/park independently resumable work | create/update | `references/create.md` |
+| Agent proves separate material debt during another task | create/update automatically | `references/create.md` |
+| Sweep completed Issue records after extracting durable value | close | `references/close.md` |
 
-Work from repo evidence, not similar-looking guesses.
+Read `../_shared/repository-discovery.md` and `references/conventions.md` before the selected mode.
+Project-local conventions override fallback paths and templates.
 
-## Mode selector
+## Automatic creation gate
 
-Pick the mode from the user's **intent** before loading the detailed workflow. The phrases in
-the table are non-exhaustive examples, not literals to match.
+Create or update an Issue without another operator prompt only when **all** are true:
 
-| User intent and example wording                                                                                                      | Mode    | Read next                |
-|-------------------------------------------------------------------------------------------------------------------------------------|---------|--------------------------|
-| Defer independently resumable work: "create issue", "track this for later", "напиши issue", "зафиксируй на потом"                | create  | `references/create.md`   |
-| Stop a concrete question/feature now and preserve it for later: "отложим это", "вернёмся к этому позже", "defer this", "park this"   | create  | `references/create.md`   |
-| Sweep closed work: "close issues", "sweep closed", "delete closed", "почисти issues", "архивируй closed"                      | close   | `references/close.md`    |
+1. repository/runtime evidence proves a concrete defect, debt, or missing safeguard;
+2. resolving it now is outside the accepted affected radius or would materially widen regression or
+   merge-conflict risk;
+3. the work is independently resumable with a concrete locator, first next step, and completion
+   boundary;
+4. the impact is material enough that losing the context would be costly;
+5. no existing open Issue already owns it, or the matching owner is unambiguous and can be updated;
+6. the record does not require choosing unresolved product behavior or architecture.
 
-Archive-style trigger phrases route to `close` for muscle-memory compatibility — the
-operation itself is delete-after-extraction, not move-to-archive. The close gate makes
-this explicit and surfaces any item with extractable value before any `rm`.
+Otherwise keep the observation in the active task, report it as a hypothesis, or ask only for the
+material decision. Do not create Issues for cosmetic preferences, speculative improvements, every
+review note, or a bug that the current task should simply fix.
 
-If the request is ambiguous (e.g. just "issues are a mess" — sounds more like a docs
-audit), confirm intent with the user first. The `docs-cleanup` skill is a better fit for
-broad audits; this skill is for the two narrow lifecycle operations above.
+## TODO linkage
 
-If work is being implemented now or a finding is only an incidental nuance, do not create
-an Issue. Continue the current work or report the observation inline unless the operator
-explicitly chooses to defer it as an independent task.
+For an automatically deferred code-local problem, add one concise TODO at the most stable relevant
+seam using the repository's comment convention and a relative link or unique slug to the Issue. The
+TODO explains **why the deferred risk exists**, not the full remediation plan. Do not scatter several
+TODOs or add one when no stable code seam exists, comments are prohibited, or the Issue itself is the
+only useful locator.
 
-## Shared steps (both modes)
+A TODO never replaces the Issue. The Issue owns evidence, context, recommended direction, resume
+conditions, and verification.
 
-Before branching into a mode, both workflows need the same two pieces of context. Read
-them in this order:
+## Mutation and decisions
 
-1. **`../_shared/repository-discovery.md`** — locate and prove the issues root and scope.
-2. **`references/conventions.md`** — filename pattern, status tags, priority levels, and
-   language rules. The mode-specific reference assumes you've already read this.
+- Creating/updating an Issue and a linked local TODO are reversible project-local documentation edits
+  covered by an implementation or explicit deferral request.
+- Update an unambiguous existing owner rather than creating a duplicate. Ask only when two records may
+  represent different root causes/ownership or when the update would change an operator decision.
+- Do not silently mark work `Closed`; completion requires evidence for its recorded criteria.
+- Closing/sweeping Issues is explicit. `references/close.md` may delete exact tracked, clean,
+  committed sources after value extraction; unrecoverable or ambiguous sources remain operator-gated.
 
-Then branch into `create.md` or `close.md` per the selector above.
+## Durable-value routing
 
-## Assets
+Before closing/deleting an Issue, route unique value through
+`../_shared/durable-documentation.md`: current stable behavior to a living contract, significant
+operator decisions to an ADR, and repeatable operational/debugging knowledge to the appropriate
+runbook/reference. Do not keep closed Issues as a second documentation archive.
 
-- `assets/deferred-template.md` — fallback template for an explicitly deferred question,
-  feature, or follow-up; every newly created Issue must pass this deferral gate.
-- `assets/issues-readme.md` — fallback local convention installed as `README.md` when the
-  skill bootstraps a new issues directory.
+## Report
 
-## Report back
+For create/update, mention only:
 
-After any operation, report:
+- Issue path/link and whether it was created or updated;
+- one-line reason it was deferred instead of fixed now;
+- TODO location when one was useful;
+- unresolved material fact, if any.
 
-- For **create**: created path, chosen scope (and why it was proven), priority and status,
-  convention used (local or fallback), any placeholders or unresolved facts.
-- For **close**: counts of `deleted / blocked-needs-extraction / ambiguous`, the list of
-  deleted paths, per-blocked-item reason (which extraction was suggested), any index/README
-  updates made, and any items left untouched.
-
-## Design notes
-
-- Repository discovery and durable-value routing are shared because this installation is one
-  coordinated skill set. Mode-specific gates remain local to this skill.
-- The two modes split into separate `references/` so that triggering "create" doesn't
-  also pull close details into context (and vice versa). Progressive disclosure is the
-  reason the body of `SKILL.md` is short.
-- Close runs through an explicit operator gate before any `rm` — the request can sound
-  categorical, but the model never deletes files without the user confirming the plan.
-- The close workflow includes a **mandatory pre-extraction check**: any closed issue
-  whose body holds extractable value (rejected options, invariants, unique repros, ops
-  procedures) is `blocked` from deletion until either the value is extracted into its
-  proper home through `../_shared/durable-documentation.md` or the operator
-  explicitly overrides.
-  Closing an issue must always extract documentation value first — the archive directory
-  is gone, so anything worth keeping must move to its real home before the file dies.
+For close, report the exact deletion/extraction result defined by `references/close.md`.

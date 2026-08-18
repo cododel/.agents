@@ -1,0 +1,6 @@
+interface:
+  display_name: "ADR Auditor"
+  short_description: "Audits decision records without inventing decision history"
+  default_prompt: "Use $adr-auditor to diagnose this ADR corpus and separate proven drift from missing historical context."
+policy:
+  allow_implicit_invocation: true

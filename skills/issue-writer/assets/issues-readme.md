@@ -1,30 +1,23 @@
-# Repository Issues
+# Repository Technical-Debt Issues
 
-This directory tracks deferred, independently resumable work as Markdown files close to the
-code it affects. Incidental observations and work being completed now do not need Issue files.
+This directory stores deferred, independently resumable engineering work close to the code it affects.
+It is not a duplicate product tracker and not an archive for every observation.
 
-## Naming
+Create an Issue when evidence proves material work that should not widen the current task. Include a
+stable locator, context, root cause or explicit hypothesis, deferral reason, recommended direction,
+resume condition, and verification boundary. Add one linked code TODO when a stable seam benefits from
+an in-place warning.
 
-Use `[STATUS]-YYYY-MM-DD-<english-kebab-slug>.md`.
+## Naming and lifecycle
 
-- Status: `OPEN`, `IMPLEMENTING`, or `CLOSED`.
-- Priority: `Critical`, `High`, `Medium`, or `Low` for urgency and sequencing.
-- Severity: `Critical`, `High`, `Medium`, or `Low` for impact or harm.
-- Keep prose in the author's language; keep filenames in English kebab-case.
+Use `[STATUS]-YYYY-MM-DD-<english-kebab-slug>.md` unless local convention says otherwise.
 
-## Content
+- status: `OPEN`, `IMPLEMENTING`, `CLOSED`;
+- priority: `Critical`, `High`, `Medium`, `Low` for urgency/sequencing;
+- severity: `Critical`, `High`, `Medium`, `Low` for impact/harm;
+- body language follows the project/author; filenames remain English kebab-case.
 
-Each issue records evidence, affected scope, root cause when known, a recommended fix, and a
-verification checklist. Unknown facts remain explicit `TODO:` items rather than guesses.
-Deferred work also records the known context, why it was deferred, and concrete conditions for
-resuming it.
-
-## Lifecycle
-
-Status changes update both the body and filename. Priority and severity stay in the body and do
-not require a rename. Closed issues are not archived forever in this directory: first extract
-durable architectural decisions to ADRs and operational knowledge
-to runbooks or troubleshooting docs, then delete the source issue through an explicit per-path
-gate. Git history provides recovery only for tracked, committed files.
-
-Local project instructions and established examples override this fallback convention.
+Status changes update both body and filename. Before removing a closed Issue, extract unique current
+behavior, significant decisions, or repeatable operations/debugging knowledge into their canonical
+owner. An explicit close sweep may remove an exact tracked, clean, committed source; untracked or
+modified content remains separately gated because its recovery is not proven.

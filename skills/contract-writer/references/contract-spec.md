@@ -2,71 +2,79 @@
 
 ## Identity
 
-A living project contract is normative current-state documentation. It says what product, UI, API,
-domain, persistence, security, or architecture behavior implementations must satisfy now. It is
-edited in place when that behavior changes and has no decision lifecycle.
+A living contract is lightweight normative current-state documentation for a stable boundary. It says
+what a product/UI/API/domain/persistence/security/module/architecture surface guarantees, owns, does
+not own, or requires implementations to preserve now. It changes in place when current behavior
+changes.
 
 A contract is not:
 
-- an ADR: dated, immutable decision history with alternatives, rationale, and consequences;
-- a feature brief: a temporary operator-agent agreement under review;
-- a plan or Issue: execution order or deferred work;
-- a test, schema, or type merely because it checks or shapes one surface;
-- an index or README that routes readers to the normative owner.
+- an ADR with dated alternatives, rationale, and immutable decision history;
+- a feature brief or plan for one implementation;
+- an Issue for deferred work;
+- a test, schema, or type merely because it checks or constrains one example;
+- a complete specification of existing code;
+- an index/README that only routes to the owner.
 
-An executable schema, API description, or type surface may be canonical for its bounded interface
-only when project instructions or documentation explicitly declare it so. That declaration does not
-silently make it the product or architecture contract for adjacent behavior.
+## Value test
+
+A contract earns its maintenance cost when the rule is stable and at least one is true:
+
+- responsibility or exclusion is non-obvious from local code;
+- behavior spans several components, event hops, or lifecycle phases;
+- future edits can pass local tests while violating the semantic intent;
+- compatibility, ordering, idempotency, failure, security, or ownership semantics matter;
+- the project already treats the surface as a documented contract.
+
+Do not retroactively specify an entire legacy project. Document touched or discovered behavior when
+its drift risk is concrete. A concise contract for one stable boundary is preferable to a feature-by-
+feature documentation layer.
 
 ## Ownership and overlap
 
-Keep each normative rule in one owner. Split contracts by stable responsibility, not by every
-feature: for example, UI behavior belongs in a UI contract and process/service boundaries in a
-current architecture contract. When a rule touches both, choose the primary owner and link from the
-other document.
+Keep one normative owner per rule. Split by stable responsibility, not by every feature or file. When
+a rule touches several surfaces, choose the primary owner and link from the others.
 
-Duplication is not harmless reinforcement. Repeated normative prose creates multiple editable
-truths. Indexes summarize destinations; ADRs link for provenance; tests and schemas enforce the
-owner's rules.
+Project instructions may declare an executable schema/API/type/test canonical for a bounded
+interface. That declaration does not make it the owner of adjacent business, UI, or architecture
+semantics.
 
-## Content
+## Required content
 
-A contract contains:
+Include only material sections:
 
-- a clear current scope;
-- normative present-tense behavior or boundaries;
-- failure, unavailable, security, or compatibility behavior where material;
-- observable acceptance checks or concrete verification rules;
-- optional `Decision provenance` links to related ADRs.
+- scope and responsible boundary;
+- explicit responsibilities and exclusions;
+- normative present-tense behavior/invariants;
+- material failure, unavailable, security, compatibility, ordering, or lifecycle behavior;
+- observable acceptance/verification anchors;
+- optional links to decision provenance and related executable contracts.
 
-A contract does not contain:
+Do not include rejected options, why one design won, incident chronology, implementation progress,
+percent completion, task status, or copied requirements owned elsewhere.
 
-- options considered or rejected alternatives;
-- why one design won over another;
-- a chronology of incidents, discussion, or implementation;
-- decision status (`Proposed`, `Accepted`, `Superseded`) or completion percentages;
-- copied rationale or requirements already owned elsewhere.
+## Wording
 
-Small local implementation details belong in code and tests. Create a durable contract only when
-the behavior or boundary has enough maintenance value to guide future changes.
+Use testable normative language (`must`, `must not`, `owns`, `does not own`, `when X, Y occurs`). Avoid
+implementation choreography unless a concrete path/protocol itself is the stable boundary. Record
+observable rules and semantic ownership, not a snapshot of every class/function.
 
 ## Language and naming
 
-Use the primary documentation language established by applicable project `AGENTS.md`, then by an
-explicit docs index/convention, then by the dominant adjacent maintainer documentation. If several
-languages are co-equal and no primary language can be proven, ask.
+Use applicable project instructions, then an explicit documentation convention, then dominant
+adjacent maintainer documentation. If several languages/locations remain truly co-equal and choosing
+one creates a durable project convention, ask.
 
-Use language-neutral filenames. Do not add a language suffix or create/update translated siblings
-unless project `AGENTS.md` explicitly requires multilingual documentation. Existing translations
-alone are not such a requirement.
+Use stable, language-neutral filenames unless project convention says otherwise. Create translations
+only by project rule or explicit request.
 
 ## ADR relationship
 
-When both artifacts exist, link them without moving normative text into the ADR:
+When both exist, link without duplicating content:
 
-- contract header: `Decision provenance: <ADR links>`;
-- ADR header: `Current contract: <contract link>`.
+- contract: `Decision provenance: <ADR>`;
+- ADR: `Current contract: <contract>`.
 
-An ADR's decision invariants define conditions under which the recorded choice still holds. They do
-not answer whether current behavior is fully documented. If behavior exists only in an ADR and
-tests, classify the living-contract impact as `missing`.
+The ADR records why the operator chose a path. The contract records what future implementations must
+preserve. A contract may exist without an ADR when current behavior is clear but historical choice was
+never explicitly recorded.

@@ -1,6 +1,6 @@
 ---
 name: contract-auditor
-description: "Audit an implementation or change-set against living project contracts and, when requested, production rollout readiness. Use for `contract compliance review`, `финальный строгий ревью соответствия контрактам`, production-readiness verdicts, named-risk closure, or repeated deduplicated contract reviews with subagents. Read-only. Do not use to create/update contracts (`contract-writer`), audit ADR quality (`adr-auditor`), or perform a maintainability-only code review."
+description: "Read-only audit of an implementation or change-set against living contracts or explicit production-readiness criteria. Use for strict contract compliance, rollout verdicts, or named-risk closure; not contract/ADR authoring or maintainability-only review."
 ---
 
 # Contract Auditor
@@ -57,7 +57,7 @@ repeat/re-review request to `repeat-review` over the requested base mode.
   operator explicitly selected preparation plus final audit before any mutation. Require a newly
   frozen target, remain read-only, and return the terminal verdict to the orchestrator. Never return
   authority to fix a finding or repeat the audit.
-- Route `missing-contract` to `$contract-writer`; creation still needs separate operator approval.
+- Route `missing-contract` to `$contract-writer`; it may create an owner only when current semantics and ownership are explicit, otherwise it stops for an operator decision.
 - Stop on a contract conflict for an operator decision. Hand off confirmed defects separately.
 
 ## Trigger boundary

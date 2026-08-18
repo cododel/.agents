@@ -1,4 +1,6 @@
 interface:
   display_name: "Contract Writer"
-  short_description: "Maintains living project behavior and architecture contracts"
-  default_prompt: "Use $contract-writer to inspect and update the project living contract."
+  short_description: "Maintains lightweight stable-boundary contracts"
+  default_prompt: "Use $contract-writer to align the stable boundary contract with established behavior."
+policy:
+  allow_implicit_invocation: true

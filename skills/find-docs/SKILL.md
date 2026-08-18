@@ -1,36 +1,66 @@
 ---
 name: find-docs
-description: "Retrieve current, preferably version-exact documentation, API references, and code examples for a named library, framework, SDK, CLI, or cloud service. Use for API syntax, configuration, migrations, setup, CLI usage, library-specific debugging, `документация по X`, or `как настроить X`. Do not use for general web research."
+description: "Auto-retrieve current, preferably exact-version official docs when work depends on drift-prone library, framework, SDK, CLI, cloud, MCP, or harness behavior. Not for general research or stable language concepts."
 ---
 
-# Documentation Lookup
+# Current Documentation Lookup
 
-Use Context7 without a global install. Prefer `bunx ctx7@latest`; fall back to
-`npx ctx7@latest` when Bun is unavailable.
+Prevent API guessing and stale-library reasoning with the smallest relevant documentation pull.
+
+## Trigger
+
+Invoke automatically when the task depends on:
+
+- exact API signatures, configuration keys, CLI flags, lifecycle behavior, or migration guidance;
+- a library/framework/harness version not already verified in current repository evidence;
+- a runtime error whose meaning depends on current vendor behavior;
+- setup of MCP, worktrees, permissions, hooks, providers, or cloud services;
+- uncertainty between neighboring versions or recently changed behavior.
+
+Do not invoke for general programming concepts, business logic, ordinary local refactoring, or facts
+already proven by vendored/current project documentation.
+
+## Source order
+
+1. configured current-docs/MCP provider available in the harness;
+2. official vendor documentation or primary source for the exact version;
+3. an installed docs CLI/provider already declared by project/global configuration;
+4. Context7 CLI as a last local launcher fallback;
+5. training knowledge only when no current source is available, explicitly labeled stale-risk.
+
+Prefer primary sources. Community examples may explain usage but must not override official contracts.
 
 ## Workflow
 
-1. Form a focused query from the user's intent without secrets, personal data, or proprietary code.
-2. Unless the user supplied `/org/project` or `/org/project/version`, resolve first:
+1. Resolve the exact installed/requested version from lockfiles, manifests, CLI output, or the
+   operator. Do not silently substitute a nearby version.
+2. Form a narrow query from the concrete implementation/debugging need. Never send proprietary code,
+   private logs, credentials, or customer identifiers.
+3. Query one provider/source, then at most one focused follow-up for the unresolved detail. Pull only
+   the relevant section rather than an entire manual.
+4. Verify examples against the identified version and local language/runtime constraints.
+5. Apply the result to repository evidence; documentation proves the external contract, not that the
+   local code/config currently follows it.
 
-   ```bash
-   bunx ctx7@latest library <name> "<focused query>"
-   ```
+When the configured current-docs provider supports library resolution, resolve the canonical library
+ID first. If no provider is configured and Context7 CLI is available, use an ephemeral launcher
+without global installation, preferring the project's existing package runner; otherwise use:
 
-3. Select the exact project by name, relevance, source reputation, coverage, and version. Then query:
+```bash
+npx ctx7@latest library <name> "<focused query>"
+npx ctx7@latest docs <resolved-library-id> "<focused query>"
+```
 
-   ```bash
-   bunx ctx7@latest docs <library-id> "<focused query>"
-   ```
-
-Use one resolution and at most two focused documentation queries per question. Prefer an exact
-indexed version when the operator named one. If it is unavailable, disclose that before using
-current official versioned docs; never silently substitute a nearby release.
+Do not install or choose Bun/npm/pnpm merely for this skill when another configured source is
+available.
 
 ## Failure contract
 
-If resolution is ambiguous, ask. If Context7 has no good source, quota is exhausted, or the result
-does not answer the question, say so and fall back to official vendor documentation. Use training
-knowledge only last and label it potentially stale. Never expose Context7 authentication values.
+- If exact-version docs are unavailable, disclose the nearest source/version before using it.
+- If library identity is genuinely ambiguous and choosing one changes the answer, ask.
+- If the provider is unavailable/quota-limited, fall back to official docs rather than repeating the
+  same query through several wrappers.
+- Never invent a signature, flag, config key, or deprecation claim to complete the task.
 
-Answer with the verified syntax or behavior and identify the version/source actually used.
+Return or use the verified behavior concisely, naming the version and source in the task evidence when
+material. Do not paste long documentation extracts into the main context.

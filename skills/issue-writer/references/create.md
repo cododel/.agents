@@ -1,135 +1,82 @@
 # Create / update workflow
 
-This is the detailed workflow for creating a new issue or updating an existing open
-one. By the time you're reading this, you've already loaded shared repository discovery and
-`conventions.md` from `SKILL.md`'s shared steps.
+## 1. Prove the deferral
 
-## Step C1 — Gather facts
+Establish:
 
-Collect from the user request and repository context:
+- the concrete observed problem and why it matters;
+- evidence and a stable grep-able locator;
+- why fixing it now falls outside the active affected radius or materially increases regression or
+  merge-conflict risk;
+- enough independent scope that another session can resume it;
+- the first next step and observable completion/verification boundary;
+- whether an operator decision is still required.
 
-- title or short summary
-- priority (`Critical | High | Medium | Low`) as urgency and sequencing
-- severity (`Critical | High | Medium | Low`) as impact or harm
-- status (default `[OPEN]`; use `[IMPLEMENTING]` only after implementation starts)
-- affected scope: app, package, service, module, or files
-- discovered-via: code review, production incident, log analysis, user report,
-  implementation follow-up, …
-- background and evidence (what's wrong, why it matters, what was observed)
-- root cause (why it happens — be specific about the line/condition/assumption)
-- affected files / entry points / probes (grep-able locators)
-- recommended fix (and a minimal-fix variant if the proper fix is large)
-- next steps / verification checklist
-- applicable living project contracts and their expected `unchanged | extend | conflict | missing`
-  impact, when proven
-- related issues or ADRs
+For an explicit deferral, preserve the operator's stated reason and resume conditions. For automatic
+technical-debt capture, derive the deferral reason from scope/risk evidence, not from guessed priority.
+If the root cause is not proven, label it as a hypothesis and record the next falsifying probe; do not
+write a confident diagnosis.
 
-Facts you can't confirm from the conversation or the repo become explicit `TODO:` values or,
-when they would invalidate downstream work, questions to the user. Never derive priority from
-severity or severity from priority.
+## 2. Discover local ownership and duplicates
 
-### Explicit deferral intent
+Use shared repository discovery to prove one Issues root. Read its README/template and sample 1–2
+recent open records. Search distinctive symptoms, identifiers, paths, and root-cause terms before
+creating a file.
 
-Recognize the semantic intent, not a keyword. When the user clearly wants to stop work on a
-concrete independently resumable question, feature, or follow-up now, preserve it, and return to
-it later, treat that as a request to create a **new open issue now**. Phrases such as "отложить", "давай не сейчас,
-но вернёмся к этому", "зафиксируй на потом", "defer this", and "park this" are non-exhaustive
-examples, not a whitelist. Do not require the user to name the skill or say "issue", and do not
-treat the request as only a conversational reminder or ask for another confirmation.
+- Update an existing Issue when ownership/root cause clearly matches.
+- Create a related new Issue when evidence proves a distinct root cause, boundary, or completion
+  target; link the relationship.
+- Ask only when the records are plausibly competing owners and the choice would change historical or
+  operator intent.
 
-Do not create an Issue for a nuance that can be handled or reported within the current task.
-If the work is not being deferred or cannot be resumed independently, keep it in the current
-task context instead.
+When no Issues root exists, an explicit deferral or a passed automatic-creation gate authorizes
+bootstrapping `docs/issues/` or a proven module-local equivalent with the fallback README/template.
+Stop if repository or module scope is ambiguous.
 
-Capture the complete usable context already available in the conversation and repository:
+## 3. Write useful resumption context
 
-- what question, feature, or follow-up was deferred
-- the current state and all established facts, constraints, decisions, rejected options,
-  attempted work, and relevant artifacts
-- the deferral decision: why work stops now and which constraint, tradeoff, dependency, or
-  competing priority led to it
-- the **resume conditions**: concrete events, evidence, prerequisites, dates, capacity, or
-  decision changes that should cause the issue to be reconsidered
-- the first next steps once resumed and the acceptance or completion criteria
-- unresolved questions, clearly separated from established facts
+Match local convention. Otherwise use `../assets/deferred-template.md` and capture:
 
-Do not infer a reason or resume condition merely from the deferral intent. If the conversation
-does not establish one, write an explicit `TODO:` instead of flattening the missing context into
-a generic phrase such as "not a priority". Avoid making the user repeat context that is already
-present in the conversation or provable from the repository.
+- title, date, `Open` status, priority, and severity;
+- affected scope and stable code/runtime probes;
+- problem, evidence, root cause or explicit hypothesis;
+- why deferred now and the risk of leaving it unresolved;
+- recommended direction without pretending an unresolved design is decided;
+- resume conditions/first actions;
+- completion criteria and verification;
+- related contracts, ADRs, Issues, commits, or task context.
 
-## Step C2 — Read local examples
+Keep priority (urgency/sequencing) and severity (impact/harm) independent. Unknown material facts use
+`TODO:` rather than invented values. Do not paste logs or chat transcripts; preserve decisive excerpts
+and source pointers.
 
-Before writing, check the issues directory for:
+For an update, add current evidence and `Last reviewed`; revise stale claims rather than appending an
+unbounded diary. Change status/filename only when evidence supports the lifecycle transition.
 
-- 1-2 recent open issues — to match the prose style, header field set, and section
-  ordering people actually use
-- a `README.md` / `ISSUE_TEMPLATE.md` in the same directory — already covered in
-  the shared discovery workflow, but re-confirm if you skipped reading it
+## 4. Add one useful TODO
 
-For a newly bootstrapped directory there are no examples: use the installed fallback README
-and template directly. Do not ask for examples that cannot exist yet.
+When a stable code seam directly exposes the deferred risk, add one concise comment, for example:
 
-If the local convention has fields not in the fallback (e.g. `**Probe:**`,
-`**FSD Slice:**`, `**Last reviewed:**`), include them. If it omits sections from the
-fallback, omit them too — match the local style.
+```text
+TODO(issue): <why this remains unsafe/incomplete>; see docs/issues/<issue-file>.md
+```
 
-## Step C3 — Update vs create
+Adapt syntax and relative path to the language/repository. The comment must remain meaningful without
+line-number dependence. Do not add TODOs to generated files, duplicate them across consumers, or use
+a TODO as a substitute for a failing test that belongs in the current fix.
 
-If the deferred work overlaps an existing open issue:
+## 5. Verify
 
-1. Search for related slugs and probes in the issues directory (`grep -r` on a few
-   distinctive terms).
-2. If this is an explicit deferral request, create the requested new issue and link a
-   related existing issue when relevant. Do not silently turn "отложить" into an update.
-3. Otherwise, if you find a likely match, **ask** before either creating a new file or
-   modifying the existing one. The user may want a fresh issue (different root cause),
-   an update (new evidence on the same bug), or a recurrence note appended.
-4. For updates: bump `**Last reviewed:**`, append new evidence in a dated subsection,
-   and only change `**Status:**` if the user explicitly says so.
+- path and filename follow local convention;
+- status/body and filename agree;
+- evidence locators exist and no paths/SHAs are fabricated;
+- no duplicate owner remains unlinked;
+- TODO link resolves when one was added;
+- an established Issues index is updated only when its format is unambiguous;
+- `git diff --check` and project documentation checks pass when available.
 
-Some projects (per their template `NOTE` comments) reserve specific sections for
-automated tooling — e.g. an `## Incidents` table appended by a bot. **Respect those
-NOTE comments**: don't include the section when creating, don't overwrite when updating.
+## 6. Return to the active task
 
-## Step C4 — Write the issue
-
-- Match the directory's existing structure when 2+ examples exist.
-- When no local example or template exists, use `assets/deferred-template.md`. If the work is not
-  explicitly deferred and independently resumable, do not create an Issue.
-- Preserve the user's prose language (see `conventions.md` § Language rules).
-- Keep filenames English kebab-case regardless of prose language.
-- For an explicit deferral request, preserve the deferred context, reason, and resume conditions
-  as distinct sections even when adapting them to a stronger local template.
-- Include concrete code paths, function names, and line numbers **only when proven**
-  from the repo or provided by the user. Use the `**Probe:**` pattern (a short,
-  grep-able snippet) when the local template supports it — line numbers drift, probes
-  survive.
-- Leave explicit `TODO:` placeholders for unresolved facts and mention them in the
-  final report.
-
-## Step C5 — Verify the file lands
-
-After writing, run a quick sanity check:
-
-- File is at the expected path with the expected filename.
-- Filename matches the local pattern (fallback: status tag, date, slug).
-- Header fields match the local template's required set.
-- No fabricated paths or line numbers.
-
-If the issues directory has an index (`README.md` listing open issues, or an
-`index.md`), update it in the same change — but only if the local convention is
-unambiguous about how. If unclear, mention it in the report and let the user decide.
-
-## Step C6 — Report back
-
-Tell the user:
-
-- Created or updated path
-- Chosen scope and why it was proven (single-hit `find`, repo instructions, user input)
-- Priority and status
-- Convention used (local template, sampled from existing issues, or fallback)
-- For an explicit deferral: the recorded deferral reason and resume conditions, including any
-  `TODO:` values
-- Any `TODO:` placeholders or facts you couldn't confirm
-- Whether you updated an index, and which one
+Report the Issue and TODO once, update the task journal when active, and resume the original task. Do
+not begin implementing the deferred Issue in the same branch/session unless the operator changes
+scope.

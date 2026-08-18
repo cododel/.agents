@@ -1,117 +1,75 @@
 ---
 name: troubleshooter
-description: "Diagnose tracebacks, panics, logs, crashes, exceptions, and runtime failures to an evidence-backed root cause and minimal patch. Use for `почему падает`, `разбери лог/стектрейс`, `найди причину`, `debug/fix this crash`, or equivalent debugging intent. Do not use for general architecture exploration (`graphify`) or non-runtime code review."
+description: "Auto-diagnose concrete tracebacks, crashes, logs, failing commands, and runtime failures; fix when requested. Require an evidence-backed root cause and focused regression or probe. Not for generic architecture review."
 ---
 
 # Troubleshooter
 
-Diagnose before fixing. Prove the root cause from actual code and runtime behavior, name the
-incorrect assumption (not the symptom), and propose the smallest patch that fixes it.
-Investigation starts read-only. Diagnosis must precede any patch, even when the user already
-asked for a fix.
+Find the incorrect assumption that produces the observed failure, not merely the line that throws.
+Diagnosis precedes the final fix, but an explicit fix request authorizes local reversible investigation,
+reproduction, patching, and proportionate verification without an extra approval ceremony.
 
-## Default mode and the gate
+## Intent and authority
 
-The skill **always starts read-only**: investigate, prove the root cause, propose a patch.
-What happens to that patch is the gate:
+- **Explain/diagnose only:** remain read-only with respect to tracked product code. Focused local probes
+  or existing tests are allowed when they are proven disposable and do not touch shared/persistent
+  state; otherwise show the exact risky command and stop at that gate.
+- **Fix/debug request:** investigate, reproduce when useful, apply the evidence-backed fix, improve
+  directly touched code when it reduces defect risk, and verify it. Do not ask for permission for
+  ordinary local reversible edits.
+- **Material fork:** stop when plausible fixes encode different product behavior, stable contracts,
+  architecture, migration semantics, or irreversible cost.
 
-| After diagnosis…                                      | Action                                                                 |
-|-------------------------------------------------------|------------------------------------------------------------------------|
-| User asked only to diagnose / explain                 | Present the report and **stop**. Do not touch files.                   |
-| User explicitly asked to fix the failure              | Apply the proven minimal diff after diagnosis, within that scope.      |
-| User approves a subsequently proposed patch           | Apply that diff and nothing broader.                                   |
-| Bug worth tracking, or fix deferred                   | Recommend `issue-writer`; invoke it only when requested.               |
-| Root cause is an architectural decision / recurring class | Recommend `adr-writer`; invoke it only when requested.             |
-
-An explicit request such as "fix this crash" authorizes the minimal patch needed for the
-diagnosed failure; it does not authorize adjacent refactors. A diagnosis-only request does not
-authorize writes. If the requested scope or the proven patch is broader than the user could
-reasonably expect, present the diff and confirm before writing.
-
-## Read-only boundary
-
-Use these boundaries while investigating and deciding whether an execution step is covered by
-the user's request:
-
-**Safe read-only** — static file reads; repository search; reading logs, config, dependency
-manifests; `git log` / `git blame` / `git show` (history only); inspecting types; and fetching
-public official documentation through an already configured read-only documentation or web
-tool. Do not send source code, logs, credentials, or private identifiers to an external service.
-
-**Treat as stateful — require the user's fix request or specific approval:** running a test
-suite or repro script, migrations, package installs or ephemeral package launchers, formatters,
-starting servers, authenticated network calls, and anything touching a database or filesystem
-state. *"Just running the existing tests" is not guaranteed read-only* — a suite can mutate a
-database, spawn services, or write fixtures. If execution would sharpen a diagnosis-only task,
-show the exact command and ask before running it.
+A fix request does not authorize unrelated cleanup, push/deploy, destructive operations, or
+shared/persistent database mutation.
 
 ## Workflow
 
-1. **Read the failure.** Extract error type, exact message, the failing *application* frame
-   (file:line), and separate framework/library frames from the project frame that holds the
-   wrong assumption. If the artifact is incomplete and the failing target can't be proven from
-   the given identifiers or repo files, **stop and ask** for the missing traceback, log, path,
-   or command — don't guess from a similar-looking frame.
+1. **Parse the failure artifact.** Extract error type/message, execution command/environment, and the
+   first relevant application frame. Separate the symptom frame from the upstream source of invalid
+   state. If the artifact or target is genuinely insufficient, ask only for the exact missing input.
+2. **Reproduce or establish a falsifiable probe.** Prefer the smallest existing test/command that
+   isolates the failure. For a legacy seam, a temporary test or script in task scratch is acceptable.
+   Prove the probe fails for the intended reason, not setup noise.
+3. **Trace origin to failure.** Follow `references/discovery.md`; load only the applicable stack
+   playbook. Use an existing Graphify graph for cross-module/event-flow navigation when useful, then
+   verify decisive edges in source. Use `$find-docs` for drift-prone framework/library semantics.
+4. **Name the root cause.** State the violated assumption and the concrete state/data/control path
+   from origin to failure. Distinguish proven cause from remaining hypotheses.
+5. **Fix the best boundary.** Correct the origin or ownership boundary rather than adding a broad
+   catch/suppression at the crash site. Local touched-area refactoring is allowed when it reduces the
+   same failure class without widening merge-conflict or regression radius.
+6. **Verify correctness and quality.** Make the focused repro/test pass, run relevant type/lint/static
+   checks, inspect failure/unavailable paths, and check that the patch did not hide the symptom,
+   weaken validation, introduce unsafe typing, or create a security/resource leak.
+7. **Capture independent debt.** If the investigation proves a distinct, independently resumable
+   problem outside the current affected radius, invoke `$issue-writer`, add a useful linked TODO at
+   the local seam when appropriate, and return to the active failure.
 
-2. **Trace the bad state to its origin.** This is where the value is, and it's the easiest
-   step to flail in. Follow **`references/discovery.md`** for the concrete how: grep
-   orientations, scoping, and the navigation from failing line → upstream source of the bad
-   state. For framework-specific mechanics (where bad state hides in Django / Next.js /
-   Laravel), load the matching file under `references/playbooks/` *only when the stack
-   applies* — don't pull all of them into context.
+## Investigation control
 
-3. **Name the root cause.** Explain why the observed state reaches the failing line, tied to
-   concrete code references and the runtime/framework behavior involved. Name the incorrect
-   assumption in the code, not just the symptom.
+Do not impose a fixed file-count stop on a cross-layer failure. Instead use evidence checkpoints:
 
-4. **Propose or apply the minimal fix.** Use a focused diff at the best boundary for
-   the bad state. Avoid broad catch-all `try/except` unless the actual fix *is* translating a
-   known boundary error into a domain outcome. Name the focused test or check that would prove
-   the fix. Before applying an approved diff, re-read every target file and ensure the proposed
-   context is still current; if it changed, stop and re-evaluate rather than applying a stale
-   patch. Run stateful verification only when the user's request or a later approval covers it.
+- begin narrow at the failing frame and widen by concrete data/control edges;
+- after roughly three widening rounds or 10–15 substantive file reads, summarize the current causal
+  chain and identify what next observation can falsify it;
+- continue autonomously when that observation is repository-local and likely decisive;
+- ask only when the remaining evidence requires unavailable input, shared/external mutation, or an
+  operator decision;
+- stop searching once one root cause explains the complete observed path and the focused probe can
+  distinguish the proposed fix from alternatives.
 
-## Investigation budget
+Do not patch an unproven cause merely to see whether the error disappears. A disappearing symptom can
+still be suppression, state leakage, or an incomplete fix.
 
-A repo-aware agent can read half the project chasing one error. Cap it:
+## Handoff
 
-- **One failure at a time.** Diagnose the error in the traceback first; note unrelated
-  failures, don't chase them.
-- **Bounded search.** At most ~3 rounds of widening search and ~10–15 file reads before you
-  must either (a) have the root cause traced end-to-end, or (b) **stop, state the current best
-  hypothesis and exactly what's missing, and ask.** Surfacing a narrowed hypothesis early
-  beats silently reading the whole repo.
-- **Stop when proven.** Once the bad state traces from origin → failing line with concrete
-  references, you're done investigating. More reading past that is budget waste, not rigor.
+For a fix, respond compactly with:
 
-## Report format
+- root cause and violated assumption;
+- semantic fix and why that boundary is correct;
+- decisive failing-before/passing-after evidence;
+- any material quality/completeness caveat or linked deferred Issue.
 
-Write the final report in the user's language:
-
-- **Root Cause:** why it crashed, technically — the mechanism, not the message.
-- **Diagnosis:** the incorrect assumption in the code.
-- **Proposed Patch:** minimal diff or code block, plus why it fixes the root cause.
-- **Verification:** read-only evidence gathered, and the focused test/check that would confirm
-  the fix (described, not run).
-- **Next step:** whether the requested fix was applied, approval is needed, or a separately
-  requested `issue-writer` / `adr-writer` follow-up is appropriate.
-
-When the investigation hit the budget without a proven root cause (case (b) above), don't dress
-the skeleton up as a solved case. **Root Cause** becomes the narrowed hypothesis plus the exact
-evidence still missing — phrased as a hypothesis, not a verdict. **Proposed Patch** is omitted: a
-patch against an unproven cause is a guess, and there's nothing proven to fix yet. **Next step**
-recommends tracking the unresolved diagnosis with `issue-writer` when useful; do not create the
-issue unless the user asked to track it. A surfaced gap beats a fabricated cause.
-
-## Design notes
-
-- **Read-only-first, intent-aware apply:** the skill's value is the diagnosis. An explicit fix
-  request carries the proven minimal patch through to apply; diagnosis-only requests stop at
-  the report, and unexpectedly broad fixes get a separate gate.
-- **`references/discovery.md` carries the "how"** so the SKILL.md body stays short. The
-  navigation problem (failing line → source of bad state) is the same shape across stacks; the
-  stack playbooks only add framework-specific hiding spots, loaded on demand (progressive
-  disclosure) so a Python bug never drags the Laravel playbook into context.
-- **Composition is declared, not implied:** a confirmed diagnosis is an input to `issue-writer`
-  (log the bug) or `adr-writer` (the root cause was an architectural decision). The skill ends
-  by routing, matching the rest of the ecosystem rather than terminating in a report.
+For diagnosis-only, omit implementation claims and state the next falsifying observation when the
+cause remains uncertain. Do not force a five-section template when two precise paragraphs suffice.

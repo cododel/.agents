@@ -1,97 +1,75 @@
-# Delete review gate
+# Recovery-aware delete control
 
-Deletion is irreversible. The gate is mandatory, non-skippable, and runs for **every**
-`delete` candidate — regardless of how categorical the operator's phrasing sounded.
+A delete candidate must pass both a **value check** and a **recovery check**. Local deletion is not
+inherently irreversible: an exact tracked file whose current contents are clean and committed can be
+reviewed and restored. Untracked, modified, ambiguous, or historical-decision content is different and
+requires an operator checkpoint.
 
-Phrases that do **not** waive the gate: "they're definitely stale", "just clean it up",
-"delete everything old", "do not ask", "trust me", "точно мусор".
+## 1. Evidence gate
 
-The cost of one approval round-trip is trivial. The cost of losing a unique evidence
-file is much higher.
+Run `pre-delete-method.md` first. A candidate is not deletable when it has:
 
-## Pre-gate: pre-delete-checker must run first
+- load-bearing incoming references;
+- unique rationale, evidence, commands, repros, or current normative behavior;
+- uncertain lifecycle/status;
+- a better `repair`, `close`, `stale`, `merge`, `supersede`, or `promote-to-adr` action.
 
-For every `delete` candidate from classification, spawn the `pre-delete-checker`
-subagent (one invocation per candidate, in parallel if multiple). It returns a
-safety report — see `references/pre-delete-method.md` for the JSON contract.
+Downgrade it and route the value. Do not use deletion to resolve uncertainty.
 
-If the checker finds:
+## 2. Recovery classification
 
-- **Incoming references** → downgrade verdict to `repair` (or `merge` if the
-  references are content overlap) and explain in the gate row.
-- **Unique content** → downgrade to `repair` with a note about where the content
-  should be moved (runbook, troubleshooting doc, ADR via `adr-writer:from-issue`)
-  before the file is deleted. There is no `archive` fallback.
-- **A safer alternative fits** → switch the verdict to that alternative.
+Immediately before apply, prove each remaining candidate is a regular non-symlink file inside the
+confirmed scope and record a content fingerprint.
 
-Only candidates that pass the checker enter the gate as `delete`. Everything else is
-shown with its downgraded verdict and reason.
+Classify **recoverable** only when all are true:
 
-## Gate format
+1. Git tracks the exact path;
+2. working-tree and index contents for that path are unchanged from a committed revision;
+3. the committed blob containing the current contents is reachable in the repository;
+4. no concurrent drift occurred since pre-check;
+5. the requested cleanup/apply intent covers this scope.
 
-```markdown
-## Delete Review Gate
+Classify **gated** when any are true:
 
-Proposed deletes require your explicit approval. I will only delete files you approve
-by exact path.
+- untracked, staged, modified, ignored-only, or not proven committed;
+- symlink, path escape, type change, or scope ambiguity;
+- recovery depends on an unverified backup rather than current Git evidence;
+- the candidate is an ADR or other intentional immutable history;
+- the operator requested audit/review but not mutation.
 
-| Path | Type | Status | Summary | Rationale | FP risk | Safer alt |
-|------|------|--------|---------|-----------|---------|-----------|
-| `docs/issues/[CLOSED]-2024-03-01-foo.md` | issue | closed | One-sentence content summary. | Why no durable value remains. | Low / Medium / High + reason. | repair / merge / supersede / promote-to-adr |
+A `blocked` evidence verdict never becomes deletable through the recovery check.
 
-Pre-delete checks summary:
-  - Checked references: <N> files scanned, <M> hits — see per-candidate notes above
-  - Checked unique content: <N> candidates → unique=<K>, redundant=<N-K>
-  - Downgraded by checker (not in delete table): <list with new verdicts>
+## 3. Authorization behavior
 
-Approval format (reply with one or more):
-  - `approve delete: <path>, <path>`
-  - `keep: <path>`
-  - `repair: <path>`
-  - `supersede: <path>`
-  - `promote-to-adr: <path>`
-  - `cancel`
+- In **audit mode**, delete nothing.
+- In **apply mode**, exact recoverable candidates may be deleted without a second round-trip.
+- For gated candidates, show only the affected exact paths, fingerprint/recovery state, reason for the
+  gate, and safer alternative. Require an exact-path choice such as:
+
+```text
+approve unrecoverable delete: <path>
+keep: <path>
+repair: <path>
+cancel
 ```
 
-The table must include for **each candidate**:
+A phrase such as `approve all` is valid only when it clearly refers to the already rendered gated
+list and no candidate changed afterward. It never authorizes paths that were not shown.
 
-- One-sentence factual content summary (not "this issue is about X" — say what's in it)
-- Concrete deletion rationale (not "stale" — *why* stale, *what* makes it valueless)
-- Which pre-delete checks were run and what they found
-- False-positive risk: Low / Medium / High **with the reason**
-- A safer non-delete alternative — there's almost always one
+## 4. Apply checkpoint
 
-## Approval matching rules
+For every authorized path:
 
-- Match by **exact path**, not by glob, slug, or substring.
-- "Approve all" / "delete everything in the list" is **not** valid approval — require
-  per-path approval. A bulk reply forces the operator to actually look at the list;
-  the friction is the safety feature.
-- If the operator approves a path that wasn't in the table, refuse and ask them to
-  re-state. Don't infer.
-- Partial approval is fine: delete only the approved paths, leave the rest with their
-  current verdict (visible in the next report).
+1. re-resolve canonical path and require a regular non-symlink file inside scope;
+2. re-read and recompute fingerprint;
+3. repeat the decisive reference and Git-state checks;
+4. abort only that path on drift;
+5. remove the exact file and update an unambiguous index/link owner in the same change.
 
-## Apply phase
-
-After approval, for each approved path:
-
-1. **Re-read the file immediately before deletion.** Repo state may have changed
-   between gate and apply (someone else committed updates). If the body now
-   contradicts the rationale, abort that path and surface in the report.
-2. **Re-check references with one more grep.** Same reason — defense in depth.
-3. Delete the file.
-4. If the candidate was linked from a sibling index (`README.md`), update the index
-   in the same change.
+Staging/committing follows checkout authority. Never use a broad glob or recursive directory delete.
 
 ## ADR special case
 
-ADRs almost never delete. Defaults:
-
-- `supersede` over `delete` for any ADR with content. There is no `archive` fallback
-  — superseded ADRs stay in place with a header note.
-- Delete an ADR only when it's empty, generated noise, or the operator **explicitly
-  chooses delete over the safer alternatives** in the gate response.
-- For superseded ADRs, the action is `add header "Superseded by: <newer-adr>" and
-  keep the file` — not move, not delete. Superseded ADRs are still load-bearing
-  history.
+Prefer `supersede` or `deprecate` over deletion. Even when Git-recoverable, deleting meaningful ADR
+history requires explicit exact-path operator intent because the semantic loss is the action, not only
+the filesystem recovery risk. Empty/generated duplicates may be proposed, never inferred.

@@ -1,139 +1,98 @@
 ---
 name: docs-cleanup
-description: "Audit and classify existing repository docs—issues, ADRs, decisions, temporary feature briefs, incidents, and runbooks—for broad cleanup. Use for stale/duplicate docs, explicit milestone or release documentation cleanup, `почисти доки`, `docs are a mess`, or read-only questions such as `which issues can we close`. Diagnose by default. Do not use for ADR-only audits (`adr-auditor`) or creating/updating/closing issue records (`issue-writer`)."
+description: "Audit and optionally apply broad cleanup across repository Issues, ADRs, briefs, incidents, and runbooks. Use for stale/duplicate docs or milestone cleanup; read-only unless the operator clearly requests cleanup/apply. Not for ADR-only audits or ordinary Issue authoring."
 ---
 
 # Docs Cleanup
 
-## Purpose
+Classify repository documentation by long-term value, preserve unique knowledge in one canonical
+owner, and remove proven noise without treating every local file deletion as irreversible.
 
-Classify documentation files (issues, ADRs, decision records, temporary feature briefs,
-incident notes) by
-long-term value, propose safe cleanup actions, and protect against false-positive
-deletion. Deletion is destructive and irreversible — it always passes through an
-explicit operator review gate.
+## Modes and authority
 
-This skill is the **orchestrator** for the audit. The actual reading of file bodies
-happens in subagents to keep the orchestrator's context light: it works with a small
-JSON table of verdicts rather than the contents of 20-40 files.
+- **Audit** is the default: classify, run safety checks, and recommend exact actions without mutation.
+- **Apply** requires clear operator intent such as `clean up`, `apply the cleanup`, or `delete the
+  proven stale docs`. That request authorizes exact local reversible repairs and deletion of candidates
+  that pass the evidence and recovery gates below.
+- A separate checkpoint remains required for untracked/modified/unrecoverable content, ambiguous
+  scope/value, ADR-history deletion, broad globs/directories, or any remote/shared side effect.
+
+Never infer apply intent from a request to inspect, review, audit, or report.
 
 ## Workflow
 
-The full path: **discovery → enumerate → classify → gate (delete subset only) →
-apply → report**.
+### 1. Discover scope
 
-### Step 1 — Discover the documentation set
+Read `../_shared/repository-discovery.md`. Resolve the exact docs root(s), local conventions, and Git
+checkout. Ask only when several plausible project/module scopes remain; do not sweep an entire
+monorepo by default.
 
-Read `../_shared/repository-discovery.md` to locate the relevant docs directories
-(`docs/issues/`, `docs/adr/`, monorepo equivalents, plus less-common locations like
-`notes/`, `decisions/`, `runbooks/`). Confirm scope with the user when ambiguous —
-auditing all of a monorepo's docs without checking is the most common way to waste a
-session.
+### 2. Enumerate candidates
 
-### Step 2 — Enumerate candidates
+List Markdown documentation under the confirmed scope, excluding established archives, generated
+output, dependencies, and unrelated trees. Record exact regular-file paths; do not follow symlinks or
+construct delete globs.
 
-List every `.md` file under the confirmed scope, excluding `archive/` subdirectories
-(those have already been processed). This is just a `find` — no body reading yet.
+### 3. Classify value
 
-### Step 3 — Classify
+Read `references/value-criteria.md`.
 
-The classification is the expensive step (every file body must be read). Two paths:
+- Up to 10 candidates: classify inline.
+- More than 10: delegate coherent read-only batches using `references/classifier-method.md`, then
+  integrate compact JSON verdicts in the primary context.
 
-- **≤ 10 candidates** → classify inline. Read each file, apply
-  `references/value-criteria.md`, produce the verdict table.
-- **> 10 candidates** → launch generic read-only subagents using
-  `references/classifier-method.md`. Each subagent reads its method, criteria, and file bodies
-  in its own context and returns compact JSON. The orchestrator never reads the bodies — it
-  works only with the tables. See "Subagent contracts" below.
+Valid outcomes include `keep`, `repair`, `close`, `stale`, `merge`, `supersede`,
+`promote-to-adr`, `delete`, and `ambiguous`. Classification is not deletion authority.
 
-### Step 4 — Compose with sibling skills
+### 4. Route durable value
 
-Before presenting the gate, scan the verdict table for items that belong in a
-sibling skill's flow:
+Before removal, route unique value through `../_shared/durable-documentation.md`:
 
-- `promote-to-adr` verdicts → recommend `adr-writer:from-issue` (which has the
-  promote workflow with merge support; it also deletes the source issues after the
-  ADR is saved, with explicit operator confirmation).
-- Closed issues with no ADR-worthy content (verdict `delete` on `[CLOSED]` files
-  in `docs/issues/`) → recommend `issue-writer:close` (which has the proper sweep
-  workflow with mismatch detection and a mandatory pre-extraction check that catches
-  any leftover documentation value).
-- `close` verdicts (open or implementing issues that are actually fixed in the codebase) →
-  after the operator renames them to `[CLOSED]` and updates the body, the next
-  `issue-writer:close` sweep handles them.
-- `stale` verdicts (open issues whose premises no longer match current evidence, but whose
-  completion is unverified) → recommend updating `Last reviewed` and adding an evidence-based
-  `Stale note`; keep `Status: Open`.
-- Completed temporary feature briefs with durable behavior → keep the `repair` verdict, route that
-  value to the existing living contract through `$contract-writer`, then use the normal delete
-  gate. If the contract is `missing`, request separate operator approval before creating a file.
-  Do not promote feature description to ADR without an independently significant architectural
-  decision with alternatives and rationale.
+- significant operator decision history → `$adr-writer` / `from-issue`;
+- stable current boundary behavior → `$contract-writer`;
+- completed repository Issue → `$issue-writer` close workflow;
+- repeatable operations/debugging knowledge → the relevant runbook/reference;
+- active temporary brief → keep until its task/handoff value ends.
 
-Don't invoke these directly — surface as text recommendations in the report so the
-user picks the order of operations.
+Recommend sibling workflows rather than silently turning a broad cleanup audit into several unrelated
+mutating procedures.
 
-### Step 5 — Delete review gate
+### 5. Pre-delete checks and recoverability
 
-For every `delete` verdict, launch a generic read-only subagent using
-`references/pre-delete-method.md` on each candidate. It verifies:
+For every `delete` candidate, run the read-only method in `references/pre-delete-method.md` (parallel
+when useful). Downgrade candidates with incoming references, unique content, uncertain status, or a
+safer semantic action.
 
-- No incoming references from other docs, code comments, indexes
-- Content is not unique (rationale, evidence, commands, logs not preserved elsewhere)
-- A safer alternative (`repair` / `close` / `stale` / `merge` / `supersede` /
-  `promote-to-adr`) doesn't fit better
+Then apply `references/delete-gate.md` to classify each surviving candidate:
 
-Only after pre-checks come back does the orchestrator present the gate per
-`references/delete-gate.md`. **Wait for explicit approval** before any deletion.
+- **recoverable** — exact regular file inside scope, tracked by Git, current contents unmodified and
+  committed, no unresolved references/value;
+- **gated** — untracked, staged/modified, symlink/path ambiguity, absent proven recovery, or deletion of
+  ADR history;
+- **blocked** — failed evidence/value checks.
 
-### Step 6 — Apply approved actions
+### 6. Apply or report
 
-Per `references/delete-gate.md` rules: only delete explicitly approved paths, never
-globs or directories. For non-delete actions (repair, close, stale note, supersede,
-merge headers),
-apply them only with explicit operator instruction; the orchestrator's job by default
-is to *recommend*, not to mutate.
+In audit mode, report only. In apply mode:
 
-### Step 7 — Report
+- apply unambiguous non-delete repairs requested by the operator;
+- delete recoverable candidates by exact path without a second ceremonial approval;
+- present a compact exact-path decision gate only for `gated` candidates;
+- re-resolve path, type, contents, references, Git state, and fingerprint immediately before mutation;
+- update an unambiguous index in the same change; otherwise report it.
 
-Use the formats in `references/output-formats.md`. Always include counts by label,
-hand-off recommendations to sibling skills, and any items skipped (with reason).
+Never delete via glob/directory, reinterpret a bulk phrase as approval for an unseen set, or claim Git
+recovery for content not proved committed.
 
-## Subagent contracts
+### 7. Handoff
 
-Resolve absolute paths from the loaded skill directory and pass them to generic exploration or
-read-only subagents. For classification, pass `references/classifier-method.md`,
-`references/value-criteria.md`, candidate paths, repo root, and compact scope context. For a
-delete check, pass `references/pre-delete-method.md`, one candidate path, repo root, and scope
-context. Instruct subagents to read the method files themselves and return JSON only; do not
-inline methods or document bodies into the orchestrator prompt. Use platform-level read-only
-permissions when available. No registered agent name or vendor model alias is required.
+Use `references/output-formats.md`. Report counts, actions actually applied, blocked/gated items,
+durable-value routing, and any scope/evidence that could not be checked. Do not dump document bodies or
+subagent transcripts.
 
-### When to spawn
+## Subagent contract
 
-| Subagent             | When                                                            |
-|----------------------|-----------------------------------------------------------------|
-| Classifier method  | More than 10 candidates after enumeration.                       |
-| Pre-delete method | Always, for every `delete` candidate, before the gate.           |
-
-For audits with ≤ 10 candidates, classify inline — the subagent overhead doesn't
-pay off. The pre-delete method still runs (per-candidate, in parallel if multiple),
-because the gate's safety guarantee depends on it.
-
-## Design notes
-
-- Repository discovery and durable-value routing are shared across this coordinated skill set;
-  classification and deletion gates remain local.
-- Generic method-based subagents keep file bodies out of the orchestrator context and work
-  across clients without registered Claude agents or model aliases.
-- Boundary between this skill and its siblings is **textual recommendations**, not
-  direct invocation. `docs-cleanup` writes "these 6 fit `issue-writer:close`",
-  the user runs that next. Avoids tight coupling and lets the user reorder.
-- Boundary with `adr-auditor`: that skill goes *deeper* on ADR semantics (drift
-  against code, immutability violations, coverage gaps); this one goes *wider*
-  across issues, runbooks, and notes with shallower per-type checks. When the user
-  asks for the ADR corpus specifically, hand off to `adr-auditor`; ADRs swept up
-  here get only the shallow value-classification, not the semantic audit.
-- Delete gate is non-skippable, even when the user's request sounds categorical
-  ("just clean it up", "they're definitely stale"). The cost of one round-trip is
-  trivial compared to losing a unique evidence file by accident.
+For large classification, pass `references/classifier-method.md`, `references/value-criteria.md`,
+repo root, scope context, and coherent candidate batches. For delete safety, pass
+`references/pre-delete-method.md`, one candidate, repo root, and scope context. Subagents are read-only
+and return JSON; the primary agent owns classification, recoverability, and mutation.

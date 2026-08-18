@@ -1,6 +1,6 @@
 ---
 name: graphify
-description: "Build or query a persistent knowledge graph of a code/docs corpus to trace architecture, dependencies, file relationships, and concepts. Use for `graph/map/trace this codebase`, `покажи связи`, or exploration of an existing `graphify-out/`. Do not trigger for ordinary code edits, reviews, or isolated file questions."
+description: "Build a code/docs graph on explicit request, or auto-query an existing `graphify-out/graph.json` for cross-module tracing and review. Verify decisive edges in source; do not rebuild for ordinary local work."
 ---
 
 # /graphify

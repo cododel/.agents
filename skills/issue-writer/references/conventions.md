@@ -17,7 +17,7 @@ the documented rules match actual practice.
 
 In create mode, an explicit request for a repository-local Issue authorizes creating
 `docs/issues/`, or `<scope>/docs/issues/` when one module is proven to own the deferral. Install
-`assets/issues-readme.md` as its `README.md` and use `assets/deferred-template.md` for the first
+`../assets/issues-readme.md` as its `README.md` and use `../assets/deferred-template.md` for the first
 Issue. Ask instead when the repository boundary or module scope is ambiguous or local instructions
 declare a different tracker/location. In close mode, report that there is no confirmed root and
 stop; never bootstrap an empty directory for a sweep.

@@ -1,68 +1,45 @@
-# [DEFERRED] Short question, feature, or follow-up
+# {Short technical-debt or deferred-work title}
 
 **Date:** YYYY-MM-DD
 **Last reviewed:** YYYY-MM-DD
 **Priority:** {Critical|High|Medium|Low}
 **Severity:** {Critical|High|Medium|Low}
 **Status:** Open
-<!-- Add `**Stale note:** <evidence>` only after a review finds stale premises while completion remains unverified. -->
 **Scope affected:** `{scope-or-service}`
-**Files:** `path/to/file.ext` or `TODO: no proven file scope yet`
-**Discovered via:** {Design discussion | Implementation follow-up | Code review | User request | …}
+**Probes:** `{stable path, symbol, command, event, or error signature}`
+**Discovered via:** {Implementation | Debugging | Review | Operator deferral | …}
 
----
+## Problem And Impact
 
-## Deferred Item
+{Concrete observed problem and why losing or ignoring it matters.}
 
-{State exactly what question, feature, or follow-up was deferred and what outcome was being
-considered.}
+## Evidence
 
----
+- {Verified observation and source pointer}
 
-## Context Snapshot
+## Root Cause / Current Hypothesis
 
-{Preserve the established facts, constraints, decisions, rejected options, attempted work, and
-relevant artifacts that the next reader needs. Separate facts from assumptions. Do not require
-the operator to reconstruct this context from chat history.}
-
----
+{Proven root cause, or explicitly labeled hypothesis plus the next falsifying observation.}
 
 ## Why Deferred
 
-{Record why work stops now and the constraint, tradeoff, dependency, or competing priority that
-led to the decision. Use `TODO:` when the reason was not established.}
+{Why fixing now is outside the active affected radius or would materially widen risk/conflicts, or
+the operator's explicit deferral reason.}
 
----
+## Recommended Direction
 
-## Resume Conditions
+{Evidence-backed direction. Keep unresolved product/architecture decisions explicit.}
 
-Reconsider this issue when:
+## Resume Conditions And First Actions
 
-- [ ] {Concrete prerequisite, event, evidence, date, available capacity, or decision change}
-- [ ] {Additional trigger, if any}
-
----
-
-## Open Questions
-
-- {Unresolved question, or `None currently known`}
-
----
-
-## Next Steps When Resumed
-
-1. {First concrete action}
-2. {Second concrete action}
-
----
+1. {Concrete trigger or prerequisite for resuming}
+2. {First investigation/implementation action}
 
 ## Completion Criteria
 
-- [ ] {Observable acceptance criterion}
+- [ ] {Observable behavior or debt-removal outcome}
 - [ ] {Required verification}
-
----
 
 ## Related
 
-- {Link to a related issue, ADR, discussion, PR, or artifact}
+- {Linked TODO location, contract, ADR, Issue, commit, or `None`}

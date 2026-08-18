@@ -1,18 +1,26 @@
-# {Area} contract
+# {Area} Contract
 
-**Scope:** {Current product surface, interface, or architecture boundary}
-**Decision provenance:** {Related ADR links, or omit when none exist}
+**Scope:** {stable product, module, service, or interface boundary}
+**Decision provenance:** {ADR links, or `None recorded`}
 
-## Purpose
+## Responsibilities
 
-{What current behavior or boundary this document normatively owns.}
+- The boundary **must** {owned behavior}.
+- The boundary **must not** {explicit exclusion or responsibility owned elsewhere}.
 
-## {Stable surface or boundary}
+## Behavioral Invariants
 
-- {Present-tense, testable rule the implementation must satisfy.}
-- {Failure, unavailable, security, or compatibility behavior when material.}
+- When {condition}, {observable required behavior}.
+- {Ordering, idempotency, compatibility, permission, or lifecycle invariant when material.}
 
-## Acceptance and verification
+## Failure And Unavailable Behavior
 
-- {Observable acceptance check.}
-- {Focused automated or operator verification.}
+- {Required failure, retry, fallback, cleanup, or unavailable behavior.}
+
+## Acceptance And Enforcement
+
+- {Observable check, focused test/probe, executable schema/type, or monitoring anchor.}
+
+## Related Boundaries
+
+- {Link to another canonical contract or executable interface; do not copy its rules.}

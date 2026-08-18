@@ -1,0 +1,6 @@
+interface:
+  display_name: "Find Docs"
+  short_description: "Retrieves exact-version primary documentation"
+  default_prompt: "Use $find-docs to verify the current exact-version API before implementation."
+policy:
+  allow_implicit_invocation: true

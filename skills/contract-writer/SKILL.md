@@ -1,58 +1,84 @@
 ---
 name: contract-writer
-description: "Inspect, classify, create, or update living project contracts for current product, UI, API, domain, persistence, security, and architecture behavior. Use for `write/update the contract`, `опиши/обнови контракт`, contract-impact checks, or work that must synchronize established behavioral or architectural contracts. Do not use for implementation-compliance or rollout-readiness reviews (`contract-auditor`), decision history (`adr-writer`), temporary feature agreements (`feature-brief`), plans, or broad cleanup (`docs-cleanup`)."
+description: "Create or update lightweight living contracts for non-obvious stable behavior and ownership boundaries. Auto-use when implementation changes an owner or exposes material drift risk; ask only when the contract would choose unresolved semantics."
 ---
 
 # Contract Writer
 
-## Purpose
+Maintain the smallest normative documentation layer that protects stable behavior and ownership seams
+which code and tests cannot communicate reliably on their own.
 
-Maintain the normative current-state documentation that implementations must satisfy. Keep decision
-history in ADRs and temporary scope agreements in briefs.
+A living contract answers **what this boundary guarantees and owns now**. It is not a full project
+specification, implementation plan, test plan, or architecture history.
 
-Route requests to review whether implementation satisfies existing contracts, including final or
-production-readiness reviews, to `$contract-auditor`. This skill owns the documents, not the
-read-only compliance verdict.
+## When a contract has value
+
+Create or update a contract when at least one applies:
+
+- a stable external/internal boundary has non-obvious responsibilities or exclusions;
+- behavior spans modules/services/events and is easy to break without semantic context;
+- tests can validate examples but cannot express ownership, forbidden responsibility, ordering, or
+  compatibility intent adequately;
+- implementation work exposes existing behavior with a credible risk of future drift/regression;
+- an established project contract already owns the changed behavior.
+
+Do not create one for obvious local implementation, every feature, or behavior already owned clearly
+by another canonical artifact. Retroactive documentation is valid when current behavior is proven and
+its semantic maintenance value exceeds the extra document cost.
 
 ## Modes
 
-| Intent | Mode | Mutation |
+| Intent/state | Mode | Authority |
 |:--|:--|:--|
-| Locate the governing contract and language | discovery | Read-only |
-| Classify a proposed change against that owner | impact assessment | Read-only |
-| Change an established contract with approved behavior work | update | Covered by that work |
-| Create a missing durable contract | create | Requires explicit operator approval for scope and path |
+| Locate the current normative owner | discovery | read-only |
+| Classify proposed/implemented behavior | impact | read-only |
+| Align an established owner with explicit behavior | update | local reversible work |
+| Establish a missing owner for already-explicit stable behavior | create | local reversible work |
+| Contract would decide unclear behavior/scope/ownership | decision gate | stop for operator |
 
-Read `references/contract-spec.md` before classifying or writing. Read
-`references/workflow.md` for discovery, language, path, linking, and verification steps. Use
-`assets/contract-template.md` only when no stronger local format exists.
+Read `references/contract-spec.md` before classifying or writing and
+`references/workflow.md` for discovery, path, language, linking, and verification. Use the fallback
+template only when no stronger local convention exists.
 
-## Grounding
+## Classification
 
-1. Resolve the repository boundary and read applicable instructions and documentation indexes.
-2. Use `../_shared/repository-discovery.md` to prove contract scope; a familiar filename is not
-   proof.
-3. Inspect current code, tests, schemas, and relevant ADRs as evidence, but do not promote them to a
-   living contract unless the project explicitly assigns that role.
-4. Classify impact as `unchanged`, `extend`, `conflict`, or `missing`.
+Classify relevant stable behavior as:
 
-Project-local conventions override every fallback in this skill. Preserve one normative owner per
-rule and use links instead of copying requirements across contracts, indexes, ADRs, or runbooks.
+- `unchanged` — the current owner already permits and explains it;
+- `extend` — an established owner needs a normative addition/narrowing;
+- `conflict` — requested behavior contradicts an established owner and requires an operator decision;
+- `missing` — durable behavior needs an owner and none exists.
 
-## Authority gates
+`missing` is not an automatic approval gate. Create the contract when behavior and ownership are
+unambiguous from operator decisions plus implementation evidence. Ask only when writing the document
+would select among materially different semantics, boundaries, languages, or canonical homes.
 
-- Update an established contract when an explicitly requested behavior or interface change extends
-  it.
-- Stop on `conflict` for an operator decision.
-- On `missing`, propose the contract scope and exact path, then wait for explicit approval before
-  creating it. An implementation request alone does not open this gate.
-- Never create translations or update translated siblings unless the applicable project
-  `AGENTS.md` explicitly requires multilingual documentation.
-- Never rewrite an Accepted ADR body. Relationship backfills and status changes follow the ADR
-  workflow; changed decisions require a successor ADR.
+## Grounding and anti-drift
 
-## Report
+1. Resolve repository/documentation scope through `../_shared/repository-discovery.md`.
+2. Read the complete relevant contracts and representative local examples.
+3. Inspect current code, tests, schemas, event flows, and relevant ADRs as evidence.
+4. Separate normative behavior from implementation details and historical rationale.
+5. Keep each rule in one canonical owner and link from tests, ADRs, indexes, and related contracts.
 
-State the proven contract owner and language, impact classification, files created or updated,
-verification performed, and any open operator gate. Do not claim that an ADR or regression test is
-itself the missing living contract.
+Executable schemas/types/tests may own one bounded interface only when the project explicitly declares
+that role. They do not silently own adjacent product or architecture semantics.
+
+## Decision boundary
+
+Proceed autonomously when the contract merely records already-established behavior. Stop when it would:
+
+- choose which module/service owns a responsibility;
+- introduce a new invariant or compatibility promise;
+- resolve contradictory code/docs/operator statements;
+- select between co-equal documentation locations or languages;
+- convert a temporary implementation detail into a stable public commitment.
+
+An ADR remains operator-decision history. Never manufacture alternatives/rationale or rewrite an
+Accepted ADR body.
+
+## Handoff
+
+Report the impact classification, semantic contract change, evidence used, verification, and any true
+operator fork. Do not repeat the whole contract or present contract creation as proof that the
+implementation is correct.

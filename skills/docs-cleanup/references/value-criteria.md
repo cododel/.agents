@@ -60,8 +60,9 @@ A document is `repair` (not `delete`) when:
 - Project guardrails (the local README's "respect these rules" list) are violated by
   the recommended fix or are absent from the rationale
 - A completed temporary feature brief contains durable behavior not yet captured in a living
-  contract; route it through `$contract-writer` before proposing deletion. A missing contract
-  file still requires separate operator approval.
+  contract; route it through `$contract-writer` before proposing deletion. A missing contract may be
+  created when current semantics and ownership are already explicit; otherwise preserve the brief and
+  surface the material contract decision.
 
 ## Close and stale signals (issues only)
 
@@ -104,14 +105,15 @@ and whose unique knowledge (if any) is non-decision documentation is handled lik
 
 - If it establishes durable product, UI, API, domain, persistence, security, or current
   architecture behavior: mark `repair` with a note to update the existing living contract via
-  `$contract-writer` before close. If none exists, report `missing` and request separate approval.
+  `$contract-writer` before close. If none exists, `$contract-writer` may establish it when current
+  semantics, language, scope, and ownership are already explicit; otherwise report the material fork.
 - If it contains unique repros, commands, or procedures worth keeping: mark `repair`
   with a note to move that content into the appropriate home (runbook, troubleshooting
   doc, inline code comment) before close. The classifier's `recommended_alt` field
   carries the suggested target.
 - If it contains nothing beyond what the fix commit already records: mark `delete`.
   The operator will run `issue-writer:close`, which re-checks for extractable value
-  in its own gate before any `rm`.
+  before any `rm`, with an operator gate only for unrecoverable/ambiguous paths.
 
 There is no `archive` verdict. Closed issues either get their value extracted into
 a real doc home or they get deleted — they don't accumulate in an archive subdirectory.
@@ -129,9 +131,9 @@ choice and rationale, such as:
 - Rationale for keeping a legacy approach
 - "By design" decision
 
-For these, **surface the `adr-writer:from-issue` flow** rather than doing the
-promote inline. That flow has the proper merge support and deletes the source issue
-after the ADR is saved (with explicit operator confirmation).
+For these, **surface the `adr-writer:from-issue` flow** rather than promoting inline. It verifies
+operator-decision evidence, groups only one coherent decision, writes provenance/backlinks, and keeps
+source cleanup as a separate recovery-aware action under explicit cleanup intent.
 
 ## Delete signals
 
@@ -140,7 +142,7 @@ A document is `delete` only when **all** of these are true:
 - The pre-delete-checker subagent confirmed no incoming references
 - Content is not unique (rationale, evidence, commands not preserved elsewhere)
 - No `repair` / `close` / `stale` / `merge` / `supersede` / `promote-to-adr` is a better fit
-- Operator approves explicitly via the gate
+- Apply intent covers the scope and the recovery-aware delete control authorizes the exact path
 
 For `[CLOSED]` issue files specifically, prefer routing through `issue-writer:close`
 rather than deleting via this skill's gate — `close` runs a second-pass pre-extraction
@@ -164,7 +166,7 @@ candidates but usually deserve `repair`, `merge`, or `promote-to-adr`:
   with a note to move the content into a runbook or troubleshooting doc first.
 - A temporary feature brief whose implementation is complete. Extract durable current-state value
   into the living contract through `$contract-writer`; extract rationale into an ADR only when it
-  independently passes the significance gate; then use the normal deletion gate.
+  independently passes the significance gate; then use the normal recovery-aware delete control.
 
 ## Boundary cases the classifier surfaces
 

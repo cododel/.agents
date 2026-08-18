@@ -1,45 +1,64 @@
 # Briefing workflow
 
-Use this mode to elicit operator intent, not to draft a document.
+Use this workflow inside native plan mode when available. Its purpose is to improve the task contract,
+not to produce a long questionnaire or implementation choreography.
 
-## 1. Ground the discussion
+## 1. Build a decision map
 
-Inspect the actual feature surface and relevant project contracts. Build a private inventory of:
+From repository evidence and the operator's existing statements, privately classify:
 
-- observed current behavior and constraints;
-- the operator's already-stated goals and preferences;
-- material unknowns that cannot be answered from the repository;
-- plausible choices whose differences affect scope, behavior, risk, or acceptance.
+- **established facts** — current code/runtime/documented behavior;
+- **operator decisions** — product or architecture choices already made;
+- **objective choices** — implementation details the agent can resolve from evidence;
+- **material forks** — plausible alternatives that change behavior, stable boundaries, risk, cost,
+  migration, or acceptance;
+- **assumptions** — falsifiable interpretations that remain after research.
 
-Do not ask the operator to repeat facts already present in the conversation or project.
+Use current official documentation or a focused read-only probe before turning a discoverable fact
+into a question. Preserve the operator's motivation; it is the reference point for later tradeoffs.
 
-## 2. Interview the operator
+## 2. Ask by consequence, not by template
 
-Ask a small coherent batch of high-impact questions at a time. Prefer structured choices when
-the alternatives are real and mutually exclusive; use a direct question when the answer must be
-free-form. Explain a recommended default without treating it as chosen.
+Ask one coherent batch of the highest-impact unresolved forks. Usually 2–5 questions is enough for a
+round. For each question:
 
-After each answer:
+- explain the consequence of the alternatives in one compact sentence;
+- offer a recommended default only when evidence supports it;
+- use mutually exclusive options when they are real choices;
+- allow free-form input when the operator's intent cannot be reduced safely;
+- do not ask about internal naming, file layout, or implementation mechanics unless they encode a
+  stable boundary or operator preference.
 
-1. update the distinction between fact, decision, assumption, and open question;
-2. inspect more repository evidence when the answer exposes a discoverable unknown;
-3. ask the next question only when its answer can still change the feature contract.
+After an answer, update the decision map and inspect new repository evidence before asking the next
+round. Do not ask everything foreseeable up front. A newly surfaced invariant may justify a later
+question during implementation; ordinary local choices do not.
 
-Do not ask implementation-detail questions that can safely remain for planning.
+## 3. Challenge incompleteness selectively
 
-## 3. Close the briefing
+Before closing, test the target contract against likely omissions:
 
-Stop when the goal, audience, primary scenarios, scope, non-goals, constraints, contract impact,
-and acceptance boundary are clear enough to review as one coherent agreement.
+- unhappy and unavailable paths;
+- data lifecycle and compatibility;
+- permissions/security boundaries;
+- event ordering, retries, idempotency, and ownership where relevant;
+- operator-visible controls and observability;
+- explicit non-goals and acceptable shortcuts.
 
-Summarize:
+Raise only omissions that are material for this feature. Do not expand a normal feature into a generic
+enterprise checklist.
 
-- established facts;
-- operator decisions;
-- explicit assumptions;
-- remaining open questions, or `None`;
-- contract impact classification.
+## 4. Close into an actionable contract
 
-If the request included creating a brief, continue with `references/brief.md`. Otherwise stop
-without creating or modifying files. If planning or implementation was also explicitly requested,
-continue to that work from the chat summary; do not insert a brief-file prerequisite.
+Stop when the following are clear enough that remaining choices are reversible implementation details:
+
+- motivation and intended outcome;
+- primary scenarios and failure behavior;
+- included scope and non-goals;
+- confirmed invariants/decisions;
+- affected stable contracts or known contract gaps;
+- observable acceptance boundary;
+- remaining material questions, if any.
+
+Update the native plan and active task journal. Create a brief file only when requested or justified by
+cross-session/subagent review. If implementation was requested, proceed after the harness's normal plan
+approval; do not insert another approval layer.

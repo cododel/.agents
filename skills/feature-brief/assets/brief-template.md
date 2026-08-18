@@ -2,20 +2,16 @@
 
 **Status:** Draft
 **Date:** YYYY-MM-DD
-**Scope:** {product area or component}
+**Scope:** {product area or stable boundary}
 
-## Problem
+## Motivation And Intended Outcome
 
-{What observable problem or opportunity motivates the feature.}
+{Why this work matters and what observable target state should exist.}
 
-## Intended Outcome
+## Scenarios And Behavior
 
-{What should become possible or measurably better for the intended audience.}
-
-## User Scenarios
-
-1. {Primary scenario}
-2. {Additional scenario, when established}
+1. {Primary scenario and expected result}
+2. {Material failure/unavailable scenario, when relevant}
 
 ## Scope
 
@@ -23,35 +19,30 @@
 
 ## Non-goals
 
-- {Explicitly excluded behavior}
+- {Explicit exclusion}
 
 ## Established Facts
 
-- {Repository-observed or otherwise verified fact with a useful source pointer}
+- {Verified fact with a stable source pointer}
 
-## Agreed Decisions
+## Operator Decisions And Invariants
 
-- {Decision explicitly confirmed by the operator}
+- {Confirmed decision or boundary that implementation must preserve}
 
-## Assumptions
+## Material Assumptions
 
 - {Falsifiable assumption, or `None`}
 
-## Open Questions
-
-- {Material unresolved question, or `None`}
-
-## Constraints
-
-- {Current technical, product, security, compatibility, or delivery constraint}
-
 ## Contract Impact
 
-**Classification:** {unchanged | extend | conflict | missing}
-
-- {Existing contract and required effect, or why none is affected}
+- **Classification:** {unchanged | extend | conflict | missing}
+- {Affected stable owner and expected effect, when known}
 
 ## Acceptance Criteria
 
-- [ ] {Observable, testable outcome}
-- [ ] {Required verification}
+- [ ] {Observable required outcome}
+- [ ] {Material verification requirement}
+
+## Open Material Questions
+
+- {Question that can still change behavior/architecture/acceptance, or `None`}

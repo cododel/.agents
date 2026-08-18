@@ -1,4 +1,6 @@
 interface:
   display_name: "Troubleshooter"
-  short_description: "Diagnoses runtime failures to their root cause"
-  default_prompt: "Use $troubleshooter to diagnose this failure before changing code."
+  short_description: "Diagnoses and fixes concrete runtime failures"
+  default_prompt: "Use $troubleshooter to prove the root cause, fix it when requested, and verify the failure path."
+policy:
+  allow_implicit_invocation: true

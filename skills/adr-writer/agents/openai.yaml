@@ -1,4 +1,6 @@
 interface:
   display_name: "ADR Writer"
-  short_description: "Creates evidence-based architecture decision records"
-  default_prompt: "Use $adr-writer to capture this architectural decision."
+  short_description: "Records significant operator-made decisions"
+  default_prompt: "Use $adr-writer to capture this operator-made decision and its real alternatives."
+policy:
+  allow_implicit_invocation: true

@@ -1,78 +1,120 @@
 ---
 name: feature-closeout
-description: "Close an implemented feature change-set across code, tests, living contracts, migrations, mutable Issues, ADR provenance, runbooks, and production-readiness evidence. Use explicitly as `$feature-closeout --quick`, `--full`, or `--release` after feature implementation or before release. Do not use for whole-repository debt cleanup, feature discovery, or repeated audit-fix loops."
+description: "Review a completed feature against original motivation, behavior, affected radius, and evidence. Auto-use for large or high-autonomy handoff; explicit `quick`, `full`, and `release` modes are supported. May repair confirmed in-scope gaps; not a small-task ceremony or repository-wide cleanup."
 ---
 
 # Feature Closeout
 
-Bring the current implemented feature and its affected radius to one bounded terminal state. Read
-`references/mode-contracts.md` completely for every invocation.
+Catch the kind of incomplete, locally correct, or structurally weak implementation that can survive a
+normal coding pass. Closeout judges the feature on **correctness, quality, and completeness** against
+the original task contract, not against the implementing agent's latest summary.
 
-## Usage
+Read `references/mode-contracts.md` completely for every invocation.
 
-```text
-$feature-closeout --quick [--base <ref>] [--scope <path>...] [--commit]
+## When to run
 
-$feature-closeout --full [--base <ref>] [--scope <path>...] [--commit]
+Run automatically before handoff when one or more materially applies:
 
-$feature-closeout --release [--base <ref>] [--scope <path>...] \
-  [--evidence <path>...] [--commit]
+- the operator delegated a large feature with substantial implementation freedom;
+- the diff crosses modules, layers, persistence, events, permissions, or stable interfaces;
+- the task survived compaction, several sessions, or multiple subagents;
+- acceptance depends on more than one local test or happy path;
+- the operator explicitly requests closeout, final review, QA, or release preparation.
 
-$feature-closeout --help
-```
+Do not run for an atomic edit whose behavior and verification are already obvious. A normal task may
+still use the compact completion review in global instructions without invoking this Skill.
 
-Treat this as bash-like prompt grammar, not a shell command. Parse arguments before inspecting or
-mutating the project.
+## Modes
 
-- Require exactly one of `--quick`, `--full`, or `--release`.
-- Print this Usage block verbatim and stop for `--help`, no mode, multiple modes, an unknown flag,
-  a missing value, or `--evidence` outside `--release`.
-- Accept repeatable `--scope` and `--evidence` values.
-- Do not invent `--repo`, manifest, state-file, or model arguments.
+- **`quick`** — compact self-review and focused evidence for a bounded change. No independent fan-out
+  by default. May repair clear in-scope defects once.
+- **`full`** — default for large or high-autonomy implementation. Freeze the task contract, trace the
+  affected radius, run independent review/verification vectors, repair confirmed in-scope findings,
+  and recheck only affected vectors through a bounded convergence cycle.
+- **`release`** — explicit only. Run `full`, then add the project's integration/release checks,
+  compatibility/rollback/operations evidence, and one final read-only review of the frozen result.
+  Never deploy or mutate remote/shared state.
 
-## Resolve the target
+Natural language is sufficient; exact CLI-like flags are optional. If no mode is named, infer
+`quick` for a bounded task and `full` for a large/high-autonomy task. Never infer `release`.
+Optional user constraints such as base, scope, or evidence narrow discovery but do not permit ignoring
+demonstrated consumers.
 
-1. Resolve the current repository root, exact worktree, branch, HEAD, status, applicable
-   instructions, and documentation index from the active workspace.
-2. Resolve the primary base from repository policy; use `--base` only as an explicit override.
-3. Inventory committed changes since merge-base, staged changes, unstaged changes, and relevant
-   untracked files. Include only affected call sites, configuration, persistence, interfaces, and
-   durable ownership seams.
-4. Treat `--scope` as a narrowing constraint, never permission to ignore an affected dependency.
-5. Stop with `BLOCKED` when the repository, base, feature change-set, or ownership is ambiguous.
+## Authority
 
-This skill closes one feature change-set. Do not turn it into general historical debt cleanup. Hand
-off independent findings outside the affected radius without fixing them.
+An implementation request plus closeout authorizes local reversible fixes inside the original task
+and its demonstrated affected radius. It does not authorize:
 
-## Select the mode
+- a new product or architecture decision;
+- unrelated repository cleanup;
+- push, merge, deploy, or persistent/shared database mutation;
+- rewriting operator-owned changes;
+- creating an ADR for a choice the operator did not make.
 
-- `--quick`: run one shallow, low-risk cleanup pass suitable for a fast model. Do not run
-  `$contract-auditor` or claim production readiness.
-- `--full`: run a thorough implementation closeout suitable for a strong model. Do not run
-  `$contract-auditor` or claim production readiness.
-- `--release`: complete the full closeout and rollout preparation, then freeze the final fingerprint
-  and run `$contract-auditor` exactly once as the terminal read-only step.
+Update or create a living contract without another gate only when the normative behavior is already
+explicit and contract ownership is unambiguous. Stop when documenting it would decide unresolved
+semantics. Route independent debt to `$issue-writer` instead of expanding the closeout.
 
-Modes are independent invocations. `--full` includes the useful `--quick` coverage, and `--release`
-includes `--full`; no earlier mode is required and no mode invokes another automatically.
+## Freeze the review target
 
-## Authority and stop gates
+Before evaluating:
 
-- Treat the selected mode as authority to make only the bounded project changes that mode permits.
-- Treat `--commit` as explicit commit authority where repository rules require it. Without it,
-  follow the applicable checkout and worktree policy; never infer push, merge, deploy, or database
-  authority.
-- Stop for a contract conflict, missing contract that needs creation approval, significant new ADR
-  decision, destructive action, target drift, independent blocker, or unavailable required evidence.
-- Once the terminal audit in `--release` begins, make no further project mutation. A `NOT READY` or
-  `UNVERIFIED` verdict ends the invocation; never fix the finding or rerun the audit automatically.
+1. resolve repository/worktree, branch, HEAD, status, base, and the exact change inventory;
+2. reconstruct the original motivation, target behavior, acceptance, operator decisions, non-goals,
+   and material assumptions from the current conversation, native plan, brief, and `$task-journal`;
+3. snapshot that task contract separately from the implementing agent's claims;
+4. identify applicable living contracts and affected consumers;
+5. record a source fingerprint so later fixes and rechecks cannot be confused with the first review.
 
-## Report
+If the original task contract cannot be reconstructed reliably, stop only for the missing material
+operator decision. Do not replace it with what the code happens to implement.
 
-Return the selected mode, resolved target and base, source and final fingerprints, changes made,
-verification commands and exact results, contract impact, Issue/ADR dispositions, independent
-hand-offs, commit status, and one terminal status:
+## Review model
 
-- `CLEANED | BLOCKED` for `--quick`;
-- `PREPARED | BLOCKED` for `--full`;
-- `READY | NOT READY | UNVERIFIED` for `--release`.
+Evaluate three independent dimensions:
+
+- **Correctness:** does observed behavior satisfy the frozen task contract?
+- **Quality:** is the implementation safe, typed, maintainable, idiomatic, and free of unjustified
+  shortcuts or vulnerabilities?
+- **Completeness:** are affected consumers, failure paths, cleanup, data/migration behavior,
+  contracts, and acceptance evidence covered proportionally?
+
+Use source, tests, focused runtime probes, current docs, and repository history as evidence. A passing
+suite does not settle quality or completeness. A clean diff does not prove target behavior.
+
+## Independent review and repair
+
+In `full` and `release`, use independent read-only subagents when they can inspect distinct vectors
+without inheriting the builder's conclusions. Typical vectors are:
+
+- requirement and invariant coverage;
+- affected-radius/data-flow and cross-module integration;
+- failure paths, security, concurrency, resource lifecycle, and migration compatibility;
+- implementation quality, type safety, and regression risk;
+- focused QA and test-evidence adequacy.
+
+Choose only relevant vectors; do not launch a generic checklist swarm. The primary agent deduplicates
+findings, confirms them against the frozen target, and repairs confirmed in-scope defects. After a
+repair, re-run the focused checks and only the review vectors invalidated by that repair. Stop after at
+most two repair/recheck rounds; remaining blockers become an explicit handoff, not an unbounded
+audit-fix loop.
+
+Independent semantic review should use a model capable of the task's reasoning depth. Cheaper models
+are appropriate for deterministic scans and test execution, not as the sole judge of cross-module
+requirements, architecture, or security unless local evals prove them reliable.
+
+## Completion
+
+A successful closeout requires evidence for all material acceptance criteria and no confirmed
+in-scope blocker on correctness, quality, or completeness. Update the active task journal before
+handoff.
+
+Return a concise semantic report:
+
+- mode and terminal status;
+- achieved behavior relative to the original motivation;
+- non-obvious implementation choices and why they serve that motivation;
+- decisive verification/review evidence;
+- remaining material risks, assumptions, or deferred Issues.
+
+Do not dump a file list, full review transcript, or routine command log.

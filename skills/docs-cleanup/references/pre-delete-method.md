@@ -114,8 +114,8 @@ Field rules:
   - `safe_to_delete`: no incoming references AND content is not unique AND no safer
     alternative fits.
   - `downgrade`: anything else.
-- `downgrade_to` — required when `verdict == downgrade`. One of: `repair`, `merge`,
-  `supersede`, `promote-to-adr`. **Cannot be `delete`** — that's what the candidate
+- `downgrade_to` — required when `verdict == downgrade`. One of: `repair`, `close`, `stale`,
+  `merge`, `supersede`, `promote-to-adr`. **Cannot be `delete`** — that's what the candidate
   already was. There is no `archive` option.
 - `has_incoming_references` — boolean.
 - `reference_examples` — up to 5 examples (file, line, snippet) when references
@@ -139,8 +139,8 @@ Use this as the spine; the detailed checks above feed it:
 | no         | yes            | —               | `downgrade` → repair (with `recommended_alt` naming the doc to move the content into — runbook, troubleshooting, ADR via `adr-writer:from-issue`) |
 | no         | no             | yes             | `downgrade` → the alt that fits |
 
-When in doubt, **lean toward downgrade**. The cost of an unnecessary `repair` is
-zero; the cost of an unsafe `delete` is permanent loss.
+When in doubt, **lean toward downgrade**. An unnecessary repair has maintenance cost, but
+an unsafe delete can cause unrecoverable knowledge loss; uncertainty is not a delete signal.
 
 ## Constraints
 

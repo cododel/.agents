@@ -16,9 +16,10 @@ instead of rewriting the old rationale.
 ## Required Content
 
 An ADR captures one significant decision, its context, considered alternatives, concrete
-rejection reasons, the chosen outcome, consequences, mitigations, and invariants. A description
-of implementation without a consequential choice is not an ADR. Missing rationale is an explicit
-`TODO:`, never an invented best-practice explanation.
+rejection reasons, the chosen outcome, consequences, and material assumptions/invariants. A
+description of implementation without a consequential operator choice is not an ADR. An Accepted
+record must contain its load-bearing rationale; missing history is a candidate for operator input,
+never invented best-practice prose.
 
 ## Placement
 

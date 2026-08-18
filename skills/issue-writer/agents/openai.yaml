@@ -1,4 +1,6 @@
 interface:
   display_name: "Issue Writer"
-  short_description: "Tracks deferred work and safely sweeps closed issues"
-  default_prompt: "Use $issue-writer to defer independently resumable work or sweep closed issues."
+  short_description: "Captures evidence-backed deferred technical debt"
+  default_prompt: "Use $issue-writer to preserve this independent technical-debt item and link a useful TODO."
+policy:
+  allow_implicit_invocation: true

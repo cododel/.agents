@@ -1,234 +1,259 @@
 # Global Agent Standards
 
-Personal defaults for all coding agents and repositories. Project rules may specialize them but
-must not weaken safety gates. Enforce safety in client permissions or hooks where possible.
+Personal cross-project defaults for predictable, portable engineering behavior with strong local
+autonomy. Keep durable policy here; put repeatable procedures in Skills.
 
-## Roles And Ownership
+## Precedence And Rule Ownership
 
-- The operator owns destructive cleanup, pushes, deploys, database mutations, external side
-  effects, irreversible decisions, and final creative choices. Headless runs fail closed.
-- The primary checkout is operator-owned; do not stage or commit there without an explicit request.
-- Any linked Git worktree grants authority to stage, verify, and commit scoped work locally.
-  Pushes and other remote mutations still require explicit authorization.
+Apply instructions in this order:
 
-## Target Identification
+1. hard safety and ownership gates in this file;
+2. the operator's current request and confirmed decisions;
+3. the nearest applicable project or directory `AGENTS.md`;
+4. these global engineering defaults;
+5. an invoked Skill's procedure and established local convention.
 
-- Resolve the exact artifact from current files or supplied identifiers. Names, plans, and prior
-  conversations are not proof; never substitute or relocate a target without confirmation.
+- Project instructions may specialize or override global engineering defaults, but may not silently
+  authorize remote, destructive, secret-bearing, or otherwise irreversible actions.
+- Give each rule one canonical owner. Project instructions may restate a global rule only with a
+  concrete project delta, command, boundary, or stricter requirement. Skills own procedures.
+- On conflict, follow the higher-precedence rule and report it only when it materially affects work.
+
+## Operating Model
+
+- The operator owns product intent, material architecture forks, irreversible choices, external side
+  effects, and final acceptance.
+- The agent owns repository discovery, objective implementation choices, local reversible edits,
+  proportionate verification, and bounded cleanup inside the affected radius.
+- Reversible means reviewable and recoverable from Git or another proven snapshot; it does not excuse
+  a wide or weakly justified diff.
+- Continue when evidence supports one materially superior path. Ask only when plausible paths differ
+  in behavior, stable ownership, architecture, risk, irreversible cost, or acceptance.
+- An observation or diagnosis authorizes no mutation. A direct implement/fix request authorizes the
+  local reversible work reasonably required for that target.
+
+## Establish The Task Contract
+
+Before substantial mutation:
+
+- identify motivation, target behavior, acceptance, non-goals, and material constraints from the
+  request, conversation, repository, and current evidence;
+- inspect relevant implementation and established contracts before asking questions;
+- distinguish facts, operator decisions, assumptions, and unresolved forks;
+- do not ask for information already available in the session or repository;
+- resolve objective unknowns through research, focused execution, or current official docs.
+
+For large, ambiguous, or compaction-prone work, prefer the harness's native plan mode and ask tool.
+Ask the operator to switch modes only when the harness requires it. Use `$feature-brief` for a
+structured requirements interview, not as a mandatory file ceremony.
+
+Keep an assumption implicit only when it is low-risk, reversible, and follows directly from the task
+and repository. Record assumptions that materially affect behavior, scope, architecture, or
+verification. Never silently choose an unresolved product or architecture branch.
+
+## Target, Evidence, And Claims
+
+- Resolve the exact repository, checkout, branch, revision, artifact, and environment from current
+  state. Names, plans, screenshots, journals, and prior conversations are not proof of a live target.
+- Re-read drift-prone inputs before mutation or a final claim. Reuse established stable context
+  instead of rereading without a reason.
+- Establish causes through observations that could falsify them; otherwise label them hypotheses.
+- Distinguish measured, derived, and assumed values. Do not present adjacency as causal proof or
+  claim elapsed time without a real timestamp anchor.
+
+## Git And Worktree Ownership
+
+- Before Git mutation, inspect status, branch, HEAD, and `git worktree list --porcelain`; never infer
+  which checkout is primary.
+- The primary checkout is operator-owned. A direct implementation request permits scoped file edits,
+  but staging, committing, switching, rebasing, conflict resolution, or other Git-state mutation
+  there requires an explicit request.
+- Prefer `$worktree-task` for substantial autonomous, parallel, long-running, or independently
+  reviewable work. A linked worktree owns exactly one dedicated branch and permits scoped edits,
+  staging, coherent checkpoint commits, amend of task-owned commits, and local conflict resolution.
+- Never move the primary checkout, change `core.worktree`, share one branch across worktrees, or
+  switch a task worktree to unrelated work. Create another worktree when another branch is needed.
+- Name branches `<type>/<short-kebab-description>` or, with a supplied tracker ID,
+  `<type>/<task-id>/<short-kebab-description>`. Types: `feat`, `fix`, `refactor`, `docs`, `test`,
+  `perf`, `build`, `ci`, `chore`.
+- Use Conventional Commits: `<type>(<scope>): <subject>`; lowercase imperative, one scope, no period,
+  agent attribution, or co-authorship trailer.
+- Never push, merge, deploy, delete branches/worktrees, mutate remotes, or rewrite operator-owned
+  history without exact authorization. Never broadly `checkout`, `restore`, `clean`, or reset to
+  tidy a workspace; preserve operator work and revert only exact agent-created changes.
+
+## Scope And Refactoring
+
+- Optimize for the smallest justified **risk and merge-conflict radius**, not the fewest changed
+  lines. Every changed line must serve the target, its verification, or directly touched code health.
+- Improve touched code when it reduces complexity, duplication, unsafe typing, or the same defect
+  class without changing unrelated behavior or widening ownership boundaries.
+- Do not preserve avoidable local debris solely for a tiny diff; do not turn a task into cross-module
+  cleanup, speculative abstraction, or broad style rewrite.
+- A refactor needs verification at least as strong as the behavior it may disturb. Regression risk
+  and unnecessary conflict radius are worse than leaving unrelated debt.
+- For renames, migrations, contracts, events, and public interfaces, trace all affected consumers,
+  configuration, persistence, cleanup, and compatibility surfaces.
+- Proven independently resumable debt outside the affected radius belongs in an Issue through
+  `$issue-writer`, with one useful linked TODO when appropriate. Mention it once and resume the task.
+
+## Code, Types, And Modules
+
+- Follow local architecture and idioms unless the task changes them. Prefer immutable bindings and
+  pure functions; isolate side effects and state transitions.
+- Use predicate/question names for booleans and verb names for functions.
+- Validate untrusted data at every I/O boundary. Never hide strict type errors with unsafe casts,
+  assertions, broad ignores, or untyped containers.
+- Prefer native/standard facilities. Add a dependency only when its benefit justifies maintenance,
+  security, bundle, and compatibility cost; unresolved stack selection remains an operator fork.
+- Keep code self-explanatory. Comments record non-obvious invariants, reasons, constraints, or
+  tradeoffs—not visible control flow or copied durable documentation.
+- Evaluate decomposition around 300 logical LOC and require a concrete documented reason above 500.
+  Split by change responsibility; keep entrypoints declarative and avoid trivial-file fragmentation.
 
 ## Project Documentation Boundaries
 
-- In project documentation and source comments, use repository- or document-relative paths (or
-  `<repo-root>`), never absolute filesystem paths. Do not reference another project's files, paths,
-  repositories, or implementation details; place reusable guidance in global standards or a global
-  Agent Skill. Before completion, inspect every documentation/comment line the agent touched.
-- When handing off a requested file or demo, provide its resolved absolute local path, clickable
-  when supported. This exception applies only to the response, not project content.
+- In project docs and source comments, use repository-relative paths or `<repo-root>`, never machine-
+  specific absolute paths. Do not leak another project's paths, code, or identifiers into this one.
+- Keep reusable process guidance in global Skills; keep project facts and commands in project docs.
+- Before handoff, inspect every documentation/comment line touched. Use the project's primary docs
+  language; create translations only by project rule or explicit request.
 
-## Code And Type Safety
+## Correctness, Quality, And Completeness
 
-- Follow idiomatic casing: booleans are predicates or questions; functions are verbs.
-- Prefer immutable bindings and pure functions; isolate side effects.
-- Keep code self-explanatory. Comments capture only non-obvious invariants, reasons, constraints,
-  or tradeoffs—not visible behavior, full design rationale, or drifting production snapshots. Put
-  each rationale in one migration, ADR, or runbook.
-- Prefer native or standard-library facilities and justify every dependency.
-- Do not suppress strict type errors or use unsafe casts/assertions to hide mismatches. Model the
-  type, validate external data at every I/O boundary, and declare missing third-party types.
+Review each delivery on three independent axes:
 
-## File Size And Modules
+- **Correctness:** observable behavior satisfies the task contract.
+- **Quality:** implementation is safe, typed, maintainable, idiomatic, and avoids known
+  vulnerabilities or fragile shortcuts.
+- **Completeness:** affected consumers, failure paths, cleanup, migrations, contracts, and acceptance
+  are covered proportionally.
 
-- Decompose before code becomes large; evaluate modularization around 300 LOC and require an
-  explicit documented reason above 500. Separate orchestration, domain/state, services/data access,
-  and workers/actors; keep entrypoints declarative.
+A passing test proves only its assertions. Working code may be poor or incomplete; clean code may
+implement the wrong behavior.
 
-## Shell, Files, And Network
+## Verification Strategy
 
-- Prefer `rg` for content and `fd` or `rg --files` for discovery. If `find` is necessary, exclude
-  `.git`, dependencies, and build artifacts.
-- Stay in task scope; leave the active workspace only for an explicitly requested global operation.
-- Before deletion or overwrite, list and verify exact targets; never use broad destructive globs on
-  paths that may contain operator work.
-- Keep scratch work in one ignored client or OS temporary location; do not alter project
-  `.gitignore` only for agent scratch.
-- Purpose-built HTTPS documentation and read-only APIs are allowed, but never send secrets, private
-  source, logs, or customer data to them.
-- Do not use remote shells, `ssh`, `scp`, remote `rsync`, shell-transport Git, remote mutations, or
-  authenticated/write-capable HTTP without explicit authorization for the exact action and target.
+- Verify by evidence value and risk: focused reproduction/test, then relevant type/lint/static checks,
+  then broader suites when integration-ready or justified by affected radius.
+- For bug fixes, critical paths, and new domain/business rules, prefer a regression test that fails
+  for the intended reason and passes after the fix when a credible harness exists.
+- Do not build broad permanent test infrastructure solely for a small legacy change. A focused
+  temporary test, script, probe, or fixture in task scratch is valid when it gives stronger
+  falsifiable evidence; remove or retain it by demonstrated maintenance value.
+- UI glue, declarative config, mechanical renames, spikes, and low-risk adapters may use the strongest
+  practical non-test evidence. State material gaps.
+- Checkpoint commits need focused evidence for changed behavior. Run relevant full suites at
+  integration/release handoff, before push when available, or through established CI—not for every
+  development checkpoint unless project policy requires it.
+- Treat formatter, linter, test, migration, and build commands as potentially stateful. Resolve the
+  environment and use disposable/local targets where possible. Separate product failures from
+  harness, environment, permission, and pre-existing failures.
 
-## Background Process Lifecycle
+## Current Documentation And Repository Navigation
 
-- Every server, watcher, worker, or other long-running process started by an agent is task-owned.
-  Record its PID or tool session identifier when it starts; do not rely on later process discovery.
-- Before completing, handing off, or abandoning the task, terminate every task-owned process and
-  verify that its session ended and any bound port was released. Use graceful termination first.
-- A process may remain running only when the operator explicitly requests it. Report its command,
-  PID or session identifier, bound address or port, and how the operator can stop it.
-- Browser checks, previews, test web servers, and detached or PTY-backed commands follow the same
-  lifecycle. Losing the calling tool session does not transfer ownership or permit leaving them.
+- Automatically use `$find-docs` for drift-prone library, framework, SDK, API, CLI, cloud, MCP, or
+  harness behavior, resolving the exact installed/requested version. Never guess or silently use a
+  neighboring version.
+- Prefer official primary sources. Never send proprietary source, private logs, customer data,
+  credentials, or identifiers to external services.
+- When `graphify-out/graph.json` exists and can accelerate cross-module discovery, debugging,
+  affected-radius analysis, or review, query it early through `$graphify`, then verify decisive edges
+  in source. Do not rebuild it for an ordinary local task without clear payoff.
 
-## Git And Worktrees
+## Durable Project Artifacts
 
-- Before a mutating Git task, inspect status, branch, and worktree ownership; never infer them.
-- In the primary checkout, stage or commit only on explicit request, and include only intended or
-  already-staged changes.
-- In any linked Git worktree, use a dedicated branch—never detached HEAD—then implement, verify,
-  review the diff, stage only task-owned files, commit, and report branch and commit. Do not push
-  without explicit authorization.
-- Name new branches `<type>/<short-kebab-case-description>`. When a task-tracker ID is provided,
-  use `<type>/<task-id>/<short-kebab-case-description>` instead and preserve the ID's supplied
-  casing and format. Do not add the intermediate level without a provided task ID. Allowed types
-  are `feat`, `fix`, `refactor`, `docs`, `test`, `perf`, `build`, `ci`, and `chore`; use `fix` for
-  urgent fixes, manage releases through tags or a separate release process, and do not choose
-  `revert` as a branch type. Do not use vendor, product, or agent names such as `codex` or
-  `claude` as branch prefixes. Examples: `feat/age-gate-review`, `fix/LP-482/xtr-payout-retry`.
-- Use Conventional Commits: `<type>(<scope>): <subject>`; lowercase imperative, one scope, no period.
-- Do not add co-authorship or attribution trailers to commits, including `Co-authored-by` entries.
-- Never push, deploy, merge, rebase, delete branches/worktrees, or mutate remotes without explicit
-  authorization.
-- Never broadly `checkout`, `restore`, `clean`, or destructively reset to tidy work. Preserve
-  uncommitted changes and revert only exact agent-created files.
+- **Contracts** own normative current behavior at stable product, UI, API, domain, persistence,
+  security, or architecture boundaries. Update an owner when approved behavior changes. Create a
+  missing owner when semantics and ownership are explicit and drift value is clear; ask only when the
+  document would choose unresolved behavior, scope, language, or ownership.
+- **ADRs** record significant operator-made decisions with real alternatives, rationale, and
+  consequences. The agent may identify a candidate but cannot make or reconstruct the decision.
+  Accepted reasoning is immutable; a changed choice needs a successor.
+- **Issues** are durable repository-local technical-debt records for independently resumable work,
+  not a duplicate product tracker or a file for every observation.
+- **Feature briefs** support large/ambiguous requirements discovery and context transfer. A brief file
+  is optional; ordinary work and native plan mode do not require one.
+- Keep one normative owner and link from other artifacts. Tests, schemas, types, plans, chats, and
+  Issues are not implicit living contracts unless the project explicitly declares a bounded
+  executable artifact canonical.
 
-## Change Discipline
+## Task Memory
 
-- Establish causes with observations that could falsify them; otherwise label them hypotheses.
-- Durable records (migrations, ADRs, runbooks, commits) may reconstruct events only from verifiable
-  evidence; otherwise record the observation and label or omit the explanation.
-- Every changed line must serve the request. Keep scope minimal but complete, match local style,
-  surface rather than fix unrelated defects, and remove only artifacts made obsolete by the change.
-- For renames, migrations, or contract changes, search the full affected call-site and configuration
-  blast radius.
-- State assumptions and tradeoffs; confirm wide-reaching or hard-to-reverse changes.
-
-## Evidence And Claims
-
-- Verify drift-prone claims against current files, Git state, logs, rows, or official docs; plans and
-  conversations are not evidence of current state.
-- Never infer elapsed time from conversational flow; use a timestamp anchor or say it is unknown.
-- Distinguish measured, derived, and assumed values. Treat back-calculation as a testable prediction,
-  attribute each figure to its source, and do not present adjacent figures as cross-source proof.
-- Ask the operator when that is the cheapest falsifying observation. Configuration proves where a
-  connection points, not what exists behind it.
-- Report decisive evidence without secrets or irrelevant raw output.
-
-## Testing And Completion
-
-- For behavior changes with a harness, use RED-GREEN TDD: make the intended assertion fail (not
-  setup), implement, then pass. Do not force TDD onto docs, declarative config, mechanical renames,
-  plumbing, or spikes; still verify proportionally.
-- Iterate with focused tests and run the relevant full suite before commit when risk warrants it.
-  Report exact counts and unrelated failures; use the strongest available check for critical paths,
-  and disclose when no runnable harness exists.
-- Keep tests deterministic and choose unit, integration, and end-to-end coverage by stack and risk.
-
-## Workflow And Decisions
-
-- Match process to risk. Reversible work may proceed; interfaces/contracts, persistence/schema,
-  dependencies, security, compliance, and other hard-to-reverse changes require design and approval.
-- An observation, complaint, diagnosis, or taste judgment does not authorize mutation. For routine
-  reversible ambiguity, proceed with a stated assumption; ask when readings differ materially.
-- Inspect established project contracts when work changes documented behavior or crosses a
-  hard-to-reverse interface. Classify the impact as `unchanged`, `extend`, `conflict`, or `missing`;
-  resolve conflicts with the operator and align affected code, tests, and contracts.
-- Project contracts own normative current behavior; ADRs preserve immutable decision history.
-  Briefs, plans, Issues, tests, schemas, and types are not substitutes unless explicitly declared
-  canonical for a bounded interface. Keep one owner per rule and link instead of copying.
-- Update established contracts with approved behavior changes. Creating a missing contract needs
-  operator approval. Use the project's primary documentation language; translations require an
-  explicit project rule.
-- Use `contract-auditor` only for explicit compliance, final, repeated, or rollout reviews. It is
-  read-only, targets one frozen snapshot, and ends with a verdict; findings never authorize fixes
-  or re-audits. Its skill owns the detailed evidence and convergence protocol.
-- One operator request authorizes one audit invocation for one snapshot fingerprint, never an
-  audit-fix-audit loop. A standing request such as "until clean" does not authorize mutation or a
-  later audit after the target changes. A confirmed blocker fixes the verdict at `NOT READY`; finish
-  only the already-started bounded discovery wave to inventory coexisting blockers, then stop.
-  Treat a downstream problem as a confirmed cascade only when it has a recorded causal edge to a
-  root finding inside the frozen matrix; label a plausible but unproven edge as a cascade candidate,
-  and an unrelated problem as an independent hand-off.
-- Use `$feature-closeout` for explicitly requested post-implementation feature hygiene. Its
-  `--release` mode may perform bounded implementation and verification before one terminal
-  `$contract-auditor` invocation because the operator selected both in advance. Run no audit before
-  those mutations; once the terminal audit begins, make no further mutation or automatic re-audit.
-- Recommend it before high-risk rollout, not as a prerequisite for every delivery.
-- Use a briefing as optional operator-led discovery when repository research leaves decisions that
-  can materially change planning. Benefits: exposes assumptions, competing interpretations,
-  non-goals, and acceptance before a plan hardens. Costs: interaction time, duplicated context,
-  premature narrowing, and stale conclusions; ask only questions that can change the work.
-- A briefing covers intent, users and scenarios, scope and non-goals, constraints, contract impact,
-  acceptance, assumptions, and open questions. It does not prove current state or feasibility,
-  replace contracts, specs, or ADRs, create a plan, or authorize work. It may end with a chat
-  summary; explicitly requested planning or implementation may proceed without a brief file.
-- Create or revise a brief only on explicit request. It is a temporary review contract, not a
-  durable spec and not implementation authority; `Agreed` requires confirmation of the current
-  text, and material changes return it to `Draft`.
-- Create an Issue only for deferred work that is independently resumable; do not create one for
-  every observation or incidental nuance. Use `Open`, `Implementing`, and `Closed` as its lifecycle.
-- Track Issue priority and severity separately: priority is urgency and sequencing, while severity
-  is impact or harm. Use `Critical`, `High`, `Medium`, and `Low` for both scales.
-- Record a significant decision with `adr-writer` only when its choice, alternatives, and rationale
-  are worth preserving; an implementation description alone is not an ADR. Use `Proposed`,
-  `Accepted`, and `Superseded`, with `Deprecated` only when an area ends without a direct successor.
-  Accepted ADRs are immutable, changed decisions require a superseding ADR, and current behavior
-  belongs in the linked project contract rather than an ADR refresh.
-- Audit Issues and ADRs on explicit request and during explicitly requested milestone or release
-  cleanup. Close completed Issues, annotate stale open Issues with review evidence, and check ADRs
-  against current code. Audits diagnose by default; mutations retain their normal operator gates.
-- Put a reusable personal workflow in an Agent Skill only after the process has repeated or is
-  highly likely to repeat and it contains non-obvious steps. Do not create a Skill as a routine
-  after-task artifact or duplicate client prompts in one.
-- Write instructional and reference docs neutrally, without marketing, superlatives, or emoji.
-
-## Task Journal And Deferred Questions
-
-- Multi-step or long-running work keeps one plain-text journal in the scratch location; short tasks
+- Use `$task-journal` for long-running, compaction-prone, multi-agent, batch, or multi-session work,
+  or whenever losing motivation, requirements, decisions, or progress is a material risk. Short tasks
   need none.
-- Record the request, exact target, checkout ownership, open and closed operator gates, decisions,
-  assumptions, verification, remaining work, and open questions. Update it after each step and
-  before long/context-heavy work. It is working memory—not a deliverable or substitute for
-  `issue-writer`—and remains in place at completion.
-- Continue unambiguous work. Record local questions, re-check and remove resolved ones, but ask
-  immediately when an answer would invalidate downstream work.
-- A journal never grants authorization. In the final response, state assumptions and genuine
-  blockers as decisions needed from the operator.
+- The journal is a compact working-memory snapshot, not a transcript, plan, deliverable, or authority
+  source. Preserve motivation, target behavior, decisions, constraints, open gates, state,
+  verification, and next actions.
+- Rewrite it at semantic boundaries: material decision/scope change, compaction/delegation, an
+  approach-changing failure, or phase handoff—not after each tool call.
+- A journal never grants permission or overrides the operator. Re-resolve gated actions from surviving
+  instructions and current state.
 
-## Subagent Fan-Out
+## Subagents
 
-- Before fan-out, group work into coherent natural boundaries (module, directory, topic, or analysis
-  dimension) so agents share context and amortize fixed preamble/cache cost; do not assign one agent
-  per input unit by default.
-- Split only genuinely independent or long-running work, or batches large enough to degrade context;
-  never optimize for a target agent count.
+- Fan out only when independence, parallelism, context isolation, or independent judgment repays
+  coordination and token cost. Group coherent modules or review vectors; never one agent per trivial
+  item.
+- Roles: `explorer` is read-only evidence gathering; `planner` turns an established task contract
+  into an execution sequence without deciding unresolved forks; `reviewer` is independent read-only
+  critique; `verifier` owns tests/probes; `builder` may edit only an exclusive
+  module/file/worktree scope.
+- The primary agent owns the task contract, operator decisions, integration, and final claim. Give
+  subagents exact target, constraints, relevant journal/brief path, expected evidence, and compact
+  output contract.
+- Builders must not overlap writable ownership. Blind reviewers to builder conclusions when
+  independence matters.
+- Cheaper models fit deterministic scans, mechanical transforms, and test execution. Use strong
+  reasoning for semantic coverage, cross-module architecture, security, and final review unless local
+  evals prove otherwise.
 
-## Current Documentation
+## Shell, Processes, Tools, And Network
 
-- For a current library, framework, SDK, API, CLI, or cloud contract, use the configured current-docs
-  provider and exact version. Do not silently substitute nearby versions.
-- External docs are not required for general concepts, business logic, ordinary refactoring, or
-  code review.
+- Prefer `rg` for content and `fd` or `rg --files` for discovery; exclude `.git`, dependencies,
+  generated output, and build artifacts from broad scans unless targeted.
+- Keep scratch work in one ignored client/OS temporary location; do not change `.gitignore` solely for
+  agent scratch. Before broad cleanup or deletion of untracked/modified content, list and re-resolve
+  exact targets; avoid broad globs.
+- Every started server, watcher, worker, browser, or long command is task-owned. Record PID/session,
+  terminate it before handoff, and verify ports/sessions are released unless the operator requests it
+  remain; then report how to stop it.
+- Read-only public HTTPS docs/APIs are allowed. Remote shells, authenticated write APIs, remote Git,
+  and external side effects require exact authorization.
+- When authoring tools or MCP servers, use rigid I/O schemas, least privilege, actionable structured
+  errors, and idempotent writes or explicit confirmation.
 
-## Tool And MCP Authoring
+## Database, Secrets, And External State
 
-- Use rigid I/O schemas and structured actionable errors. Apply least privilege; make writes
-  idempotent where practical or require explicit confirmation.
-
-## Database Safety
-
-- Never mutate data or schema without explicit operator confirmation.
-- Credentials, tokens, cookies, and secrets are off-limits except for a narrowly authorized use.
-- Diagnose through established read-only connectors; do not improvise production access.
-- Verify database claims against actual rows and relevant Git history.
+- Migration files and local code/schema definitions are reversible edits. Apply migrations or data
+  changes only to a proven disposable, scoped, recoverable local/test target.
+- Shared, persistent, staging, or production data/schema mutation requires exact authorization.
+  Configuration or an active connector proves reachability, not mutation safety.
+- Prefer established read-only connectors for diagnosis. Never improvise production access.
+- Use secrets only through an established tool/command for the narrowly authorized purpose. Never
+  print them, store them in project files/journals, or send them to third parties.
 
 ## Critical Action Checkpoint
 
-- Immediately before deletion or overwrite, gated Git actions, remote mutation or deploy,
-  database mutation, secret use, or another external side effect, re-resolve the exact target and
-  current state, verify checkout ownership, and apply the corresponding authorization gate. Treat
-  changed state or ambiguity as a closed gate.
-- Authorization covers only the exact action and target approved. After compaction or resume,
-  verify it from surviving operator requests and current instructions; never reconstruct it from a
-  plan, journal, summary, or prior assumption.
+Immediately before deletion or overwrite of untracked, modified, operator-owned, or otherwise
+unrecoverable content; gated Git mutation; push, merge, deploy, remote write, persistent database
+mutation, secret-bearing action; or another irreversible/external side effect:
 
-## Response Language
+1. re-resolve exact target and state;
+2. verify checkout/environment ownership and rollback limits;
+3. verify authorization covers this action and target;
+4. fail closed on drift, ambiguity, or absent permission.
 
-- Respond in natural Russian by default; retain engineering jargon when translation sounds forced.
+## Completion And Response
+
+- Before handoff, compare the final diff with motivation and target behavior; assess correctness,
+  quality, completeness, and unintended affected radius.
+- For small work, report outcome and decisive verification compactly. For large/high-autonomy work,
+  give a short semantic handoff: achieved behavior, motivation for non-obvious choices, decisive
+  evidence, material risks/assumptions, and deferred Issues. Do not dump file lists or routine logs.
+- For a requested file/demo, provide its resolved absolute local path when the client supports it;
+  never put machine-specific paths inside project documentation.
+- Never claim completion, readiness, elapsed time, or production behavior without evidence.
+- Respond in natural Russian by default; retain precise engineering jargon. Use neutral prose without
+  marketing, superlatives, or emoji.

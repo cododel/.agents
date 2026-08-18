@@ -1,176 +1,60 @@
 # From-chat workflow
 
-Generate an ADR from the current conversation history. This is the original adr-writer
-flow.
+Create an ADR from a decision established in the current conversation.
 
-By the time you're reading this, you've already loaded shared repository discovery and
-`path-resolution.md` from `SKILL.md`'s shared steps.
+## Step F0 — Verify authority and significance
 
-## Step F0 — Significance check (is this even an ADR?)
+Confirm the operator actually chose (or explicitly wants to record as `Proposed`) a significant path.
+Apply `adr-spec.md` §§2–3. If the chat contains only implementation shape, agent recommendation, or an
+obvious/reversible detail, explain briefly why no ADR is warranted and stop.
 
-Before extracting anything, run the significance check from `references/adr-spec.md` §5
-against the conversation. An ADR is **not** needed when the decision is reversible and
-cheap, has no real alternatives (mandated by the platform), is a local implementation
-detail that crosses no contract boundary, is really an execution plan, is already
-covered by an existing ADR or standard, or is obvious with no consequential fork.
-An implementation summary without a significant choice and alternatives also fails this gate.
+## Step F1 — Extract the decision evidence
 
-Weigh the **counter-signals** too: irreversibility / high cost of error is a scope
-criterion in its own right — a small but one-way-door decision warrants an ADR even
-when the task looks minor. Likewise crossing a contract/interface, DB schema or
-persistence, a new external dependency, security/compliance, or setting a precedent
-others will follow.
+Read the complete relevant conversation and extract without inventing:
 
-If the check says no, **say so and stop** — don't write a file. A fabricated ADR from
-thin context is worse than no ADR. State briefly why it doesn't warrant one (e.g.
-"reversible local detail, no contract crossed — a code comment or issue fits better").
+- the motivating problem and decision forces;
+- every real option actually considered;
+- the concrete reason each option was selected/rejected;
+- the operator's chosen outcome and status;
+- consequences, constraints, assumptions/invariants, and revisit evidence that were discussed;
+- related contracts, Issues, research, and prior ADRs.
 
-## Step F1 — Extract context from chat
+If plausible alternatives existed but were never discussed, ask the operator rather than fabricating
+them. A genuinely mandated single-option choice must name the hard constraint. Split independent forks
+into separate ADRs with `Related` links.
 
-Scan the **entire conversation** (not just recent turns) and extract:
+## Step F2 — Resolve path, status, and depth
 
-- The **core problem or requirement** that triggered the discussion
-- **Every option / alternative** mentioned — including rejected ones, half-considered
-  ones, and passing mentions ("we could also do X" counts)
-- The **exact reasons** each option was rejected — be specific, not generic. If
-  someone said "X won't work because of Y", that exact reasoning belongs in the ADR.
-- The **chosen solution** and its implementation details (architecture, data models,
-  API contracts, config values, sequence of operations)
-- Any **edge cases, caveats, or constraints** raised
-- **Risk profile / environment context** (MVP, Tier-1 Prod, local dev, staging) if
-  mentioned
-- Any **agreed contracts**: data models, APIs, config keys, file paths
+Read the local convention and `../assets/adr-template.md`.
 
-> Do NOT summarize aggressively. Preserve nuance. The whole point of an ADR is to
-> capture *why* a decision was made — generic phrasing ("we considered alternatives and
-> picked X") destroys exactly the value the document is supposed to provide.
-
-If the chat doesn't actually cover the decision in enough depth — e.g. the user is
-asking for an ADR on something that was only mentioned in passing — say so. An ADR
-fabricated from thin context is worse than no ADR.
-
-### Alternatives gate (do not fabricate options)
-
-The rejected alternatives, with honest reasons, are part of the irreducible core
-(`adr-spec.md` §2). But fabricating them is just as damaging as omitting them. After
-extraction, check what the chat actually weighed:
-
-- **Two or more real options discussed** → capture each with its specific rejection
-  reason. Include the **null option** ("do nothing / keep status quo") explicitly unless
-  inaction was genuinely impossible.
-- **Only one option, because the choice was mandated** (platform, upstream dependency,
-  hard constraint) → write it as a **single-option decision** and state the concrete
-  reason no alternative existed. Do NOT invent decorative alternatives to hit a count.
-- **Only one option, but alternatives plausibly exist and just weren't discussed** →
-  this is thin. Don't paper over it: either surface the gap to the user and ask what
-  else was considered, or leave a `TODO:` for the rejected options and flag it. A
-  one-option ADR that hides unexplored alternatives is a shallow decision pretending to
-  be a settled one.
-
-### Granularity gate (one ADR = one decision)
-
-If the chat settled **several distinct forks**, that's several ADRs, not one. Don't
-bundle. Split them into separate ADRs and connect them with `Related:` links in the
-header. Bundled ADRs can't be superseded independently and blur which decision a future
-reader is looking at. The exception: sub-choices that only exist *because* of the main
-decision and have no independent life belong in the one ADR.
-
-## Step F2 — Pick the template variant and depth
-
-The full markdown skeleton lives in `assets/adr-template.md`. Read it now if you
-haven't already.
-
-**Filename variant** — choose based on what discovery surfaced in the local
-`docs/adr/README.md`:
-
-- **Standard variant**: `ADR-YYYYMMDD-<slug>.md`. Use when no local convention is
-  documented or the local convention matches this.
-- **Percent-status variant**: filename uses `[STATUS-PERCENT%]-ADR-...`, header
-  includes an `Implementation:` link, `Refresh YYYY-MM-DD:` notes are common. Use when
-  the local README explicitly calls for it. The `[…%]` prefix tracks *implementation
-  completeness*, separate from the decision `Status:` — a new ADR from chat is typically
-  `Status: Accepted` and `[OPEN-0%]` (decided, not yet built).
-
-When in doubt on the filename, match the most recent 1-2 ADRs in the directory.
-
-**Decision status** — set the header `Status:` field from the lifecycle
-(`Proposed | Accepted | Deprecated | Superseded`, see `adr-template.md`):
-
-- A chat that *settled* the choice → born `Accepted`.
-- A chat that reasoned a fork but left the final call open → `Proposed`.
-- If this decision replaces an earlier ADR, set the earlier one to `Superseded` and wire
-  the bidirectional `Supersedes` / `Superseded by` links in the same change. Never
-  rewrite the old ADR's body — the new ADR carries the new reasoning (`adr-spec.md` §1).
-
-**Depth by Risk Profile** — the profile you extracted in F1 drives *how much* of the
-template to fill, not just a header value (`adr-spec.md` §4):
-
-- **MVP / Local** → core only (Context, Options incl. null, Decision, Invariants,
-  Consequences). Enrichment sections are optional; add one only if the chat actually
-  produced it. Don't pad a reversible local choice.
-- **Tier-1 Prod / Production** → core **plus** the enrichment sections (Decision Drivers,
-  Assumptions, References, Validation, Confidence & Reversibility, Follow-ups). For an
-  irreversible high-cost decision these aren't optional — a missing Validation or
-  Confidence & Reversibility section on a one-way door is a real gap. Where the chat
-  didn't cover one, leave a `TODO:` rather than dropping the section silently.
+- Match established naming and fields when they are coherent.
+- Otherwise use `ADR-YYYYMMDD-<slug>.md` and the compact fallback.
+- A settled operator choice is `Accepted`; an explicitly pending record is `Proposed`.
+- If replacing a recorded decision, create the successor and backfill bidirectional links without
+  rewriting the old body.
+- Add optional depth only when the conversation contains decision-specific value. For high reversal
+  cost, ensure assumptions, consequences, and validation/revisit triggers are explicit.
 
 ## Step F3 — Write the ADR
 
-Fill the chosen template with the extracted context. A few specific guardrails:
+Write one self-sufficient decision record. Preserve the operator's actual nuance but do not paste the
+conversation. The title names the decision, not merely the topic. Alternatives and rejection reasons
+are load-bearing. Consequences include costs, not only benefits.
 
-- **Title**: concise but descriptive. Names the *decision*, not the *area*. Good:
-  "Use Bun as the only package manager in the monorepo." Bad: "Package management".
-- **Options Considered**: every option gets pros, cons, and a specific rejection
-  reason. The reason is the load-bearing part — vague rejection reasons are the most
-  common ADR failure mode.
-- **Decision Outcome**: enough detail to reconstruct and apply the choice without
-  re-running the discussion. Record only the dated decision detail; link the living
-  contract for normative current behavior instead of duplicating it.
-- **Decision Invariants / Constraints**: where the decision depends on a lasting
-  condition, write it explicitly as a checkable decision invariant. It explains when
-  the recorded choice still holds; it does not replace or duplicate a living project
-  contract (`adr-spec.md` §3). If the decision imposes none, write `None` and say why.
-- **Consequences**: list both positive and negative. Mitigations for the negatives,
-  given the risk profile. An all-upside list is a smell — surface the costs.
-- **Project guardrails**: if the local documentation enumerates current invariants,
-  verify compatibility and reference their normative owner. Do not restate them in the ADR.
+Decision invariants state when the historical choice remains valid; they do not replace the current
+living contract.
 
-## Step F3.5 — Check for an existing current contract
+## Step F3.5 — Link the current contract
 
-Use shared repository discovery to inspect the project's contract index, established
-living contracts, and any executable contract explicitly declared canonical by project
-instructions. Do not treat an Accepted ADR, README summary, tests, schema, or types as
-an implicit living behavior contract.
+Discover an existing stable-boundary contract. When it owns behavior shaped by this decision, add
+`Current contract` to the ADR and `Decision provenance` to the contract. Keep normative rules in the
+contract.
 
-When an existing living contract owns the current behavior or architecture affected by
-this decision:
-
-- add `**Current contract:** [<title>](<relative-path>)` to the ADR header;
-- add or extend `**Decision provenance:** [<ADR>](<relative-path>)` in the contract;
-- keep the normative rule in the contract only; do not copy current-state prose into
-  the ADR;
-- for an Accepted ADR, limit the edit to this relationship backfill and do not rewrite
-  Context, Options, Decision, or Consequences.
-
-When no living contract exists, omit the field and report `Contract impact: missing`.
-Do not create a new contract from the ADR workflow, even when ADR creation itself is
-approved. A new contract needs separate operator confirmation and is then handled by
-`$contract-writer`. Temporary feature briefs are never current contracts.
+When no owner exists, apply `$contract-writer`'s value and decision gates. It may create a concise
+contract if behavior/scope are already explicit; otherwise report the material fork. A temporary brief
+is not a current contract.
 
 ## Step F4 — Save and confirm
 
-1. Create the file at the computed path. Create intermediate directories if needed.
-2. Write the full ADR markdown content into the file.
-3. **Do NOT echo the ADR content into the chat.** This is a standing user preference —
-   the file is the artifact.
-4. Respond ONLY with this short confirmation:
-
-```
-✅ ADR успешно сохранен: `[path/to/the/file.md]`
-```
-
-No additional commentary, no summary, no preview. Just the line.
-
-If a follow-up question is unavoidable (e.g. discovery turned up two equally-valid
-target paths and the user needs to pick), surface that *before* writing the file, not
-after.
+Create the proven path/directories, verify links and `git diff --check`, and respond only with a short
+repository-relative path confirmation. Do not echo the ADR body or add a celebratory status message.

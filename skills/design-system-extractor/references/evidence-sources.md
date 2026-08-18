@@ -86,7 +86,7 @@ Code rarely explains itself. Mine these for philosophy, rationale, and naming.
 
 Use this layer only after explicit approval. The bundled helper currently supports Claude Code
 transcripts; other clients need their own adapter. Read only short redacted snippets per
-`references/session-history.md`. A correction can be useful evidence, but confirm it against
+`session-history.md`. A correction can be useful evidence, but confirm it against
 later code/docs because the snippet may describe an abandoned intermediate direction.
 
 ---

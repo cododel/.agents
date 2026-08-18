@@ -1,6 +1,6 @@
 ---
 name: kaneo-task-workflow
-description: "Route and manage project work through the Kaneo MCP task tracker. Use when the user explicitly mentions Kaneo, supplies a Kaneo workspace/project/task reference, or the applicable repository AGENTS.md explicitly declares Kaneo as the task tracker. Resolve tracker scope, read tasks, and create, update, move, comment on, label, or relate tasks. Do not infer Kaneo from generic task/issue wording, Markdown issue files, or the absence of another tracker; honor explicit repository routing and other declared trackers."
+description: "Manage work through Kaneo MCP only when Kaneo is explicitly named or project instructions declare it. Resolve scope before reads or writes; do not infer Kaneo from generic task/Issue wording or mirror Markdown Issues."
 ---
 
 # Kaneo Task Workflow

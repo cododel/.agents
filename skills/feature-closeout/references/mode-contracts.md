@@ -1,88 +1,107 @@
 # Feature closeout mode contracts
 
-## Common closeout sequence
+## Common sequence
 
-1. Resolve and fingerprint the source target before mutation.
-2. Discover applicable living contracts, linked mutable Issues, relevant ADR provenance, migration
-   surfaces, tests, runbooks, and repository verification commands.
-3. Classify contract impact as `unchanged`, `extend`, `conflict`, or `missing` before changing a
-   durable interface or behavior.
-4. Keep every change inside the feature change-set and its demonstrated affected radius.
-5. Revalidate drift-prone evidence immediately before using it. Preserve operator-owned changes and
-   separate product failures from harness, environment, permission, and configuration failures.
-6. Use the relevant specialized skill when its trigger applies. In particular, use `$tests` for
-   test changes, `$migrations` for Alembic work, `$contract-writer` for approved contract updates,
-   `$issue-writer` for specific mutable Issue records, and the ADR skills only within their authority
-   gates.
-7. Inspect every documentation or source-comment line changed by the closeout. Never rewrite an
-   Accepted ADR body or treat a plan, Issue, test, schema, or type as an implicit living contract.
-8. Run proportionate focused checks first and the relevant full suite before terminal success.
+1. Freeze the original task contract and source fingerprint before reviewing the implementation.
+2. Discover the exact diff plus demonstrated affected consumers, configuration, persistence, events,
+   interfaces, contracts, and operator controls.
+3. Build a compact acceptance matrix: requirement/invariant → implementation evidence → verification
+   evidence → status.
+4. Evaluate correctness, quality, and completeness independently.
+5. Distinguish confirmed in-scope defects, material unknowns, environment failures, pre-existing
+   failures, and independent debt.
+6. Repair only confirmed defects authorized by the original implementation scope. Route independent
+   debt through `$issue-writer` with a useful TODO link when appropriate.
+7. Re-run only checks and review vectors invalidated by fixes; cap remediation at two rounds.
+8. Review the final diff against task motivation and update `$task-journal` before handoff.
+
+Do not require a permanent test, contract, Issue, ADR, or runbook unless that artifact has independent
+maintenance value. Use `$find-docs` for current APIs and query an existing Graphify graph when it can
+accelerate affected-radius discovery; verify conclusions in source.
 
 ## Quick mode
 
-Perform one shallow pass. Prefer deterministic and mechanical work:
+Use for a bounded, well-understood feature or fix.
 
-- formatting, lint, type, import, generated-file, and documentation checks already owned by the
-  repository;
-- focused tests already implied by the changed surfaces;
-- obvious missing test registration, stale links, and mutable status/anchor drift when current
-  evidence makes the correction unambiguous;
-- compact inspection of contract impact and release-sensitive gaps.
+- Reconstruct the target behavior and inspect the changed radius.
+- Run focused reproduction/tests plus relevant type/lint/static checks.
+- Inspect obvious failure paths, unsafe typing, stale comments/docs, and scope drift.
+- Repair one clear in-scope defect pass, then rerun focused checks.
+- Do not fan out by default, run a repository-wide audit, force a full suite, or claim release
+  readiness.
 
-Do not make semantic contract changes, create or supersede ADRs, design migrations, broaden test
-architecture, or decide ambiguous Issue closure. Report those as strong-model hand-offs. Run no
-contract audit and provide no readiness verdict.
+Terminal status:
 
-Make at most one bounded discovery/fix pass. Verification may repair the implementation once when a
-test directly falsifies the intended change; do not turn newly discovered independent defects into a
-recursive cleanup.
+- `CLOSED` — target behavior and proportional verification are supported;
+- `BLOCKED` — a material decision/evidence gap or confirmed defect remains.
 
 ## Full mode
 
-Perform a thorough implementation closeout:
+Use for a large, cross-layer, compaction-prone, multi-agent, or high-autonomy feature.
 
-- trace the complete affected call-site, configuration, persistence, interface, and ownership radius;
-- align established living contracts when the approved behavior is an `extend`; stop on `conflict`
-  or unapproved `missing` ownership;
-- add or repair behavior tests with RED-GREEN evidence;
-- verify migrations, compatibility, failure paths, retries, cancellation, concurrency, and resource
-  cleanup in proportion to risk;
-- update specific mutable Issues from current evidence, close completed records, and keep priority,
-  severity, status, and filenames consistent;
-- inspect relevant ADRs for provenance and code drift, but never rewrite Accepted bodies; create or
-  supersede an ADR only through its significance and authority gates;
-- align affected runbooks and operator controls without claiming unobserved production behavior;
-- run focused checks, the relevant full suite, formatting/linting, documentation checks, migration
-  head checks, and diff hygiene as applicable.
+### Required review vectors
 
-Do not invoke `$contract-auditor`. Finish after implementation verification with `PREPARED` or
-`BLOCKED`.
+Select at least two genuinely independent vectors, usually including:
+
+1. **Task-contract coverage** — compare the frozen motivation, scenarios, decisions, invariants,
+   non-goals, and acceptance to the implementation without relying on the builder summary.
+2. **Affected-radius integration** — trace callers/consumers, state/data/event flow, configuration,
+   persistence, cleanup, and compatibility.
+
+Add quality/security/failure-path/QA vectors when relevant. Give reviewers read-only targets and
+structured evidence outputs. Blind them to prior conclusions when independence matters.
+
+### Verification
+
+- Prefer focused regression/behavior tests and runtime probes for the changed surfaces.
+- Add or improve permanent tests for critical behavior, bug regressions, and domain/business rules
+  when the harness value justifies maintenance cost.
+- Temporary tests/probes are acceptable for legacy or difficult seams when they provide stronger
+  falsifiable evidence.
+- Run broader suites only when affected radius or project policy warrants them; full-suite success is
+  not a substitute for semantic review.
+- Inspect correctness, implementation quality/security/type safety, and completeness separately.
+
+### Repair convergence
+
+The primary agent confirms and deduplicates findings. It may repair in-scope findings, update
+unambiguous contracts, and create/update technical-debt Issues. Re-review only invalidated vectors.
+After two repair rounds, stop with remaining blockers and evidence rather than consuming context in an
+open-ended search for perfection.
+
+Terminal status:
+
+- `PREPARED` — no confirmed in-scope blocker remains and material acceptance has evidence;
+- `BLOCKED` — unresolved operator fork, missing decisive evidence, or confirmed defect remains.
 
 ## Release mode
 
-First perform Full mode. Then complete production preparation appropriate to the feature risk:
+`release` is explicit and never inferred. First satisfy `full`, then add the project's actual
+integration/release handoff:
 
-- upgrade and compatibility path, feature/action gates, mixed-version behavior, and rollback;
-- observability, alerts, cleanup ownership, failure isolation, and operator controls;
-- required production-shaped or runtime evidence supplied through repeatable `--evidence` paths;
-- clean task-owned background processes and verify their termination;
-- repository-required commit or explicit dirty snapshot fingerprinting.
+- relevant full suites, builds, migration checks, and generated-artifact checks;
+- upgrade/downgrade or mixed-version behavior where applicable;
+- rollback/recovery and feature/action gates;
+- observability, operator controls, cleanup ownership, and failure isolation;
+- production-shaped evidence supplied locally or through already authorized read-only tools;
+- termination of task-owned processes and a final exact fingerprint.
 
-Resolve all implementation work before the final audit. Then:
+Then run one final independent read-only review on that fingerprint. Use `$contract-auditor` only when
+living contracts materially govern the feature or the operator explicitly requests contract/rollout
+compliance; otherwise use a bounded release reviewer. The terminal reviewer does not fix findings.
+Any resulting fix requires leaving the frozen review, producing a new fingerprint, and an explicit new
+release review invocation.
 
-1. Freeze and record the exact final fingerprint.
-2. Invoke `$contract-auditor` once in `rollout-readiness` mode on that frozen target.
-3. Pass the feature scope, contracts, named risks, executed checks, runtime evidence, and exclusions;
-   do not pass an expected verdict.
-4. Accept the auditor's terminal verdict. Do not mutate, implement findings, add evidence-producing
-   code, broaden scope, or invoke another audit afterward.
+No deploy, push, merge, remote mutation, or shared/persistent database action is implied.
 
-The single terminal audit is explicitly authorized by `--release`; audit findings never authorize a
-fix. Missing material runtime evidence produces `UNVERIFIED`, not a speculative `READY`.
+Terminal status:
+
+- `READY` — required local/review evidence supports the handoff;
+- `NOT READY` — a confirmed blocker exists;
+- `UNVERIFIED` — required evidence is unavailable or cannot be trusted.
 
 ## Output discipline
 
-Lead with the terminal status. Distinguish measured, executed, derived, and unavailable evidence.
-For changed artifacts, provide a compact mapping from closeout concern to change and verification.
-List unrelated observations once under independent hand-offs; do not create Issues for them unless
-the operator separately authorizes deferral.
+Lead with terminal status and achieved behavior. Include only decisive evidence and non-obvious
+motivation. List independent debt by Issue link. Do not repeat routine file paths, every command, or
+reviewer transcripts.

@@ -1,213 +1,102 @@
 # Close workflow
 
-Sweep closed issues by extracting any documentation value first, then deleting the
-source files. The open list stays focused; no `archive/` subdirectory is used.
+Sweep completed repository Issues after extracting durable value. Closed Issues are not a second
+archive: keep active debt in the Issues root and move enduring knowledge to its canonical owner.
 
-By the time you're reading this, you've loaded shared repository discovery and `conventions.md` from
-`SKILL.md`'s shared steps.
+## Authority
 
-## Why delete after extraction (not archive)
+A clear request to close/sweep/apply completed Issues authorizes exact local reversible lifecycle
+edits and deletion of **tracked, clean, committed** source files that pass this workflow. A request to
+audit/review only is read-only.
 
-The old model moved closed issues into `archive/`. In practice the archive directory
-is write-only: rarely read, adds noise to repo-wide greps, and duplicates what git
-history already keeps. The current model is simpler:
+Require an exact operator checkpoint for untracked, staged/modified, symlinked, path-ambiguous, or
+otherwise unrecoverable sources. Never infer remote tracker writes, commits in the primary checkout,
+or broad directory deletion.
 
-- **If a closed issue has documentation value**, route it through
-  `../_shared/durable-documentation.md`.
-- **Once the value is extracted (or there was none), delete the file.**
+## 1. Resolve one Issues scope
 
-The ADR header's `Source issue:` field preserves provenance. Git history holds the body
-if anyone ever needs to recover it. The issues directory only contains work
-that are still open.
+Use shared discovery and `conventions.md`. If several project/module Issue roots are plausible, ask
+which scope is intended; never sweep all roots by default.
 
-If the user wants to delete docs that are not closed issues, that's the `docs-cleanup`
-skill's job (with its own safety gate).
+## 2. Enumerate completed candidates
 
-## Step C1 — Confirm the directory to sweep
-
-Shared discovery should have produced a single confirmed issues directory. If it
-returned multiple hits (monorepo with several `docs/issues/` directories), **ask which
-one** to sweep. Do not sweep all by default — the user almost always means one specific
-scope.
-
-## Step C2 — Enumerate closed candidates
-
-A file is a candidate for closing if **either**:
-
-1. Its filename starts with `[CLOSED]`, OR
-2. Its body header contains `**Status:** Closed` (case-insensitive)
-
-For compatibility with an established local convention, also recognize legacy `[RESOLVED]`
-or `[RESOLVED-100%]` filenames and `Status: Resolved`. Never rename or reinterpret a legacy
-candidate silently; use its proven local convention in the mismatch check.
-
-Run two separate scans to catch both — they're not equivalent in real repos, where
-filename and body sometimes drift apart.
+Use the proven local lifecycle convention. Under the fallback, take the union of:
 
 ```bash
-# By filename
 find <issues-dir> -maxdepth 1 -type f \( -name '[[]CLOSED]*.md' -o -name '[[]RESOLVED*' \)
-
-# By body status (case-insensitive, anchored to a status line)
 grep -lEi '^\*\*Status:\*\*[[:space:]]+(Closed|Resolved)' <issues-dir>/*.md
 ```
 
-Take the union of both lists.
+Compare filename and body status. Mismatches are `ambiguous`: keep them and report the exact conflict.
+Do not silently decide whether work is complete.
 
-## Step C3 — Detect filename / body mismatches
+## 3. Extract-value gate
 
-For each candidate, compare:
+Read every non-ambiguous candidate in full and route unique value through
+`../../_shared/durable-documentation.md`.
 
-- Filename status tag (`[CLOSED]`, `[OPEN]`, `[IMPLEMENTING]`, or a proven legacy tag)
-- Body status field (`**Status:** Closed | Open | Implementing`, or its proven legacy value)
+Block source deletion when it contains value not yet owned elsewhere, including:
 
-If they disagree, classify the file as **ambiguous** — do not include it in the delete
-plan. Surface ambiguous files in the report so the user can fix them manually before
-re-running the sweep.
+- significant operator decision with real alternatives/rationale → `$adr-writer:from-issue`;
+- non-obvious stable product/UI/API/domain/persistence/security/module behavior → existing or justified
+  missing living contract through `$contract-writer`;
+- repeatable operation, recovery, incident, or diagnostic technique → runbook/reference/test/comment;
+- unresolved work, risk, or completion criterion → reopen/repair rather than close.
 
-The reason to be strict here: a mismatch usually means someone forgot to update one of
-the two. Auto-resolving in either direction risks deleting a file that's actually still
-open.
+Current implementation shape alone is not ADR evidence. A contract may be created autonomously only
+when current semantics, scope, language, and ownership are already explicit; otherwise report its
+material decision gate.
 
-## Step C4 — Pre-extraction check (mandatory, per candidate)
+A candidate is `safe-to-delete` only when no unique long-term value or unresolved work remains beyond
+canonical docs, implementation, and committed history.
 
-For each non-ambiguous candidate, read the body in full and scan for **extractable
-documentation value**. Mark the candidate as `blocked` if any of these signals appear:
+## 4. Prove recovery
 
-| Signal in body                                                                  | Suggested extraction target                         |
-|---------------------------------------------------------------------------------|-----------------------------------------------------|
-| Durable product, UI, API, domain, persistence, security, or current architecture | Existing living contract via `$contract-writer`     |
-| Rejected options spelled out (2+ approaches compared, one chosen with rationale) | ADR via `adr-writer:from-issue`                     |
-| Current architectural boundary or invariant ("X always goes through Y")          | Existing living contract via `$contract-writer`     |
-| Significant framework / library / language / data-model choice with rationale   | ADR via `adr-writer:from-issue`                     |
-| Current cross-cutting policy (auth, errors, logging, deploy, security)           | Existing living contract via `$contract-writer`     |
-| "By design" choice with alternatives and concrete rationale                     | ADR via `adr-writer:from-issue`                     |
-| Unique repro steps, SQL, or commands not preserved elsewhere                    | Troubleshooting doc / runbook / inline comment      |
-| Operational procedure (deploy steps, rotation playbook, incident response)      | Runbook / `DEVELOPMENT.md` / `OPERATIONS.md`        |
-| Useful diagnostic technique that took time to develop                           | Troubleshooting doc / commit message in fix         |
+For each `safe-to-delete` candidate, resolve canonical path, require a regular non-symlink file inside
+the confirmed Issue root, and record a fingerprint.
 
-Current behavior or architecture alone is not an ADR signal. Route it to the existing living
-contract through `$contract-writer`; if no owner exists, mark `missing` and request separate
-approval before creating one. Use ADR only when the body also records a significant choice, real
-alternatives, and rationale.
+- **Recoverable:** Git tracks the exact path; working tree and index are clean for it; current contents
+  are present in a reachable commit.
+- **Gated:** untracked, staged/modified, ignored-only, symlink/type/path ambiguity, or recovery is not
+  proven.
 
-For each `blocked` candidate, record:
+In an explicit close/apply workflow, recoverable candidates need no second ceremonial approval.
+Render a compact exact-path gate only for gated candidates:
 
-- `path`
-- `signal` — which row from the table matched, with a one-sentence quote from the body
-- `suggested_target` — concrete extraction destination
+```text
+Unrecoverable/ambiguous Issue deletion:
+- <path> — <state, fingerprint, why recovery is not proven>
 
-Candidates with **no matching signal** are `safe-to-delete`. The body contained the
-resolution but no durable documentation value beyond what the fix commit already
-records.
-
-The bias here is conservative: when uncertain whether a signal is "extractable enough",
-treat the file as `blocked`. The operator can override in the gate. Silent deletion of
-content the user later wishes they'd kept is the failure mode to avoid.
-
-## Step C5 — Confirmation gate
-
-Before deleting any file, present a plan and **wait for explicit per-decision
-approval**. The gate has no silent default: approval must identify each exact path; broad phrases
-such as "approve all" do not authorize deletion. Even if the user's request sounded categorical,
-this gate stays.
-
-Before rendering the gate, preflight each proposed deletion: resolve the canonical path,
-require a regular non-symlink file inside the confirmed issues directory, record a content
-fingerprint, and report whether Git tracks the current contents. Untracked or locally modified
-files are `hold` by default and require an explicit exact-path override that acknowledges the
-unrecoverable state.
-
-Render the gate as plain markdown to the user (not wrapped in a code block — the
-template below is for *your* reference, not for the literal output shape).
-
-```
-Close plan for <issues-dir>:
-
-Decisions required from you:
-  1. Approve the delete list (or hold specific items).
-  2. For each `blocked` item: extract the value first (recommended), or `override` to
-     force-delete (extraction explicitly waived).
-  3. Ambiguous items are left in place — fix the status mismatch before next sweep.
-
---- Plan ---
-
-=== To delete (N) — no extractable documentation value ===
-
-  [CLOSED]-2026-04-12-readme-typo.md
-    one-liner: README typo fix; no rationale to preserve.
-    recovery: tracked and committed
-    fingerprint: <hash>
-
-  [CLOSED]-2026-03-08-restart-after-deploy.md
-    one-liner: one-off service restart; ops note already mirrored in runbook.
-
-=== Blocked — extract first (M) ===
-
-  [CLOSED]-2026-02-15-bun-package-manager.md
-    one-liner: choice of Bun over npm/pnpm/yarn with explicit rejections.
-    signal: rejected options (npm/pnpm/yarn) + package-manager invariant.
-    suggested: `adr-writer:from-issue` → then re-run close.
-
-  [CLOSED]-2026-01-22-mysql-deadlock-repro.md
-    one-liner: unique SQL repro for deadlock under concurrent writes.
-    signal: unique repro + observed timing pattern.
-    suggested: move into a troubleshooting doc → then re-run close.
-
-=== Ambiguous — status mismatch, NOT in plan (K) ===
-
-  [CLOSED]-2026-05-01-flaky-test.md
-    reason: filename [CLOSED] but body says Status: Open.
-
-Counts: delete=N, blocked=M, ambiguous=K
-
-Reply with one or more:
-  - `apply`                            — delete all in the `To delete` list
-  - `apply except <paths>`             — delete the list except the named paths
-  - `hold: <path>, <path>`             — keep these specific items in place
-  - `override: <path>`                 — force-delete a `blocked` item (extraction waived)
-  - `cancel`                           — abort
+Reply with:
+- approve unrecoverable delete: <path>[, <path>]
+- keep: <path>[, <path>]
+- cancel
 ```
 
-Accept `apply` / `proceed` / `go` / `да` as approval for the full `To delete` list.
-Anything else means stop and clarify. Overrides must be explicit per path — no
-`override all`.
+A bulk approval applies only to the already rendered exact list and only while fingerprints/state stay
+unchanged. It never authorizes unseen paths. Blocked value candidates cannot be overridden through
+this recovery gate; extract/resolve their value first.
 
-## Step C6 — Apply the deletes
+## 5. Apply
 
-For each approved path (`To delete` minus `hold` plus any explicit `override`):
+Immediately before each authorized deletion:
 
-```bash
-rm -- "$path"
-```
+1. re-resolve path/type/scope and re-read the file;
+2. recompute fingerprint and Git state;
+3. repeat the decisive status/value/reference check;
+4. skip that path on drift;
+5. remove the exact file and its unambiguous index entry.
 
-- Immediately before deletion, re-resolve the path, re-read it, and recompute the fingerprint.
-  If path type, location, or contents differ from the gated state, skip it and report the change.
-- Do not `git rm` unless the operator asked for a commit in the same operation. The
-  default is plain `rm`; the user stages it themselves.
-- If a file disappeared between gate and apply (someone else committed a delete already),
-  surface in the report and continue with the rest.
+Staging/committing follows checkout authority. Never use a broad glob or recursive delete.
 
-## Step C7 — Update indexes if present
+## 6. Report
 
-If the issues directory has an unambiguous index (`README.md` with an "Open issues"
-table, or an `index.md`), remove the deleted entries in the same change.
+Return a compact semantic result:
 
-If the index format is **unclear** (free-form prose, mixed sections, no obvious table),
-**don't edit it** — note in the report that the index may need manual updates. The cost
-of mangling someone's hand-curated README is higher than the cost of asking.
+- deleted recoverable paths/count;
+- gated or drift-skipped paths and exact reason;
+- ambiguous status records;
+- blocked durable-value records grouped by contract/ADR/runbook/reopen route;
+- index updates.
 
-## Step C8 — Report back
-
-Final report includes:
-
-- counts: deleted, blocked (per-extraction-target breakdown), ambiguous
-- the full list of deleted paths
-- per-blocked item: path, signal, suggested extraction target — so the user can decide
-  the order in which to handle them
-- ambiguous files with reason (filename/body disagreement)
-- whether indexes were updated, and which
-- next-step suggestions, e.g.:
-  - "3 ambiguous files — fix the body status and re-run close"
-  - "Blocked: 4 issues look ADR-worthy — run `adr-writer:from-issue` to promote them
-    (it deletes the sources itself), or extract manually and re-run close"
+Do not paste Issue bodies or classify every retained open Issue.

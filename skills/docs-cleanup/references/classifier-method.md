@@ -102,8 +102,8 @@ primary verdict.
 
 ## Constraints
 
-- **Read-only.** No file writes, edits, deletes, or moves. The orchestrator handles
-  all mutations after operator approval.
+- **Read-only.** No file writes, edits, deletes, or moves. The orchestrator handles mutation only in
+  an explicit apply workflow and under its recovery/decision gates.
 - **One verdict per file.** If the file is genuinely between two labels, return
   `ambiguous` with both candidates named in `evidence`, not split rows.
 - **Don't summarize file bodies in the JSON.** The `evidence` field is one sentence,
@@ -115,7 +115,7 @@ primary verdict.
 
 - You are not the pre-delete checker. Your `delete` verdicts are *proposals*; the
   orchestrator runs a separate safety check before any deletion.
-- You are not the operator gate. Your output is the input to the gate, not the gate
-  itself.
+- You do not determine recoverability or mutation authority. Your output feeds the orchestrator's
+  evidence and recovery checks.
 - If the scope brief excludes a candidate, return an object for that path with
   `"verdict": "skipped"` and a one-sentence reason. Never emit an invalid empty array element.

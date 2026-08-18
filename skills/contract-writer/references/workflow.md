@@ -1,75 +1,72 @@
 # Contract workflow
 
-## 1. Discover the owner
+## 1. Discover the normative owner
 
-Read repository instructions and documentation indexes, then use the shared discovery reference.
-Confirm a contract through explicit project declarations, a local contract/spec convention, or a
-representative living current-state document. Read the complete relevant contract before deciding
-impact.
+Read repository instructions and documentation indexes, use shared discovery, and inspect relevant
+current-state documents completely. Prove ownership through explicit project declarations,
+established contract conventions, or repeated normative use—not filename similarity alone.
 
-Treat current architecture documentation as a contract when the project declares it a maintainer
-boundary or its content normatively owns current process, service, persistence, or extension
-boundaries. Never classify an ADR as the current contract merely because it contains invariants.
+Inspect code, tests, schemas, event flows, and ADRs to establish current behavior. They are evidence,
+not automatic replacement owners.
 
-## 2. Resolve language
+## 2. Resolve language and path
 
-Use this precedence:
+Use, in order:
 
-1. applicable project `AGENTS.md`;
-2. explicit documentation index or local convention;
-3. dominant adjacent maintainer documentation;
-4. ask when several languages remain co-equal.
+1. project/directory `AGENTS.md`;
+2. explicit docs index/template/convention;
+3. dominant adjacent maintainer docs;
+4. a compact area-based fallback under the proven docs root;
+5. operator decision only when several durable choices remain co-equal.
 
-Write only the primary language. Multilingual output requires an explicit project `AGENTS.md`
-instruction; translated siblings or a language switcher alone do not authorize it.
+Fallbacks when no stronger convention exists:
 
-## 3. Classify impact
+- UI boundary: `docs/UI_CONTRACT.md`;
+- architecture/module boundaries: `docs/ARCHITECTURE.md`;
+- another stable area: `docs/<AREA>_CONTRACT.md`.
 
-- `unchanged`: the established contract already permits the work; do not edit it.
-- `extend`: current behavior gains or narrows a normative rule; update the established owner in
-  place as part of approved behavior work.
-- `conflict`: the requested behavior contradicts the owner; stop for an operator decision.
-- `missing`: durable current behavior needs an owner and none exists; propose scope and path, then
-  wait for explicit creation approval.
+Do not invent a parallel hierarchy or multilingual family without evidence.
 
-Do not call an ADR-only description `unchanged`. Do not create a contract for incidental details
-whose maintenance value is unclear.
+## 3. Classify impact and authority
 
-## 4. Resolve a create path
+- `unchanged`: do not edit.
+- `extend`: update the established owner as part of requested behavior work.
+- `conflict`: stop for an operator decision; do not silently make code match either side.
+- `missing`: apply the value test. Create an owner autonomously when behavior, scope, language, and
+  path are unambiguous. Ask only when the document itself would decide one of those.
 
-Follow the proven local convention first. Without one, use an area-based file under the existing
-documentation root:
+A missing contract discovered during a feature does not require documenting the whole surrounding
+legacy area. Capture only the stable boundary and proven rules needed to prevent the identified drift.
 
-- UI behavior: `docs/UI_CONTRACT.md`;
-- current architecture boundaries: `docs/ARCHITECTURE.md`;
-- another stable area: `docs/<AREA>_CONTRACT.md`, with an English ASCII area token.
+## 4. Write or update
 
-Do not invent a parallel contracts directory or multilingual filename. If the documentation root
-or area is ambiguous, include the candidates in the approval request and stop.
+Match local format; otherwise use `../assets/contract-template.md`. Remove unused optional sections.
+Use present-tense normative bullets and concise acceptance anchors.
 
-## 5. Write or update
+For updates:
 
-Match a proven local format. Otherwise copy `assets/contract-template.md`, remove unused optional
-fields, and organize normative bullets by stable surface. Use present tense and testable wording.
-Keep implementation paths only when they define a public boundary or durable ownership seam.
+- inspect the full affected rule/consumer radius;
+- remove or replace superseded current-state text in the same edit;
+- do not preserve historical rationale in the body;
+- keep one owner and replace copied normative text elsewhere with links when touched.
 
-For updates, inspect the full affected contract blast radius. Remove superseded current-state rules
-in the same edit; living contracts do not preserve history in their body. Preserve rationale in an
-existing/new ADR only when the decision independently passes the ADR significance gate.
+For retroactive creation, distinguish proven behavior from desired behavior. Do not make an accidental
+implementation quirk normative merely because it exists; the value must come from operator intent,
+established consumers, compatibility, or a clear ownership invariant.
 
-## 6. Link provenance
+## 5. Link provenance
 
-If a related ADR exists, add `Decision provenance` to the contract and `Current contract` to the
-ADR. Backfill only the ADR relationship field; do not rewrite an Accepted ADR body. If adding the
-link would conflict with a local ADR convention, follow that convention and report the unresolved
-one-way link.
+Backfill `Decision provenance` / `Current contract` when a related ADR exists and local convention
+permits it. Relationship fields may be appended to an Accepted ADR; its decision body remains
+immutable. Do not create an ADR solely to make the contract look complete.
 
-## 7. Verify
+## 6. Verify
 
-- Compare every changed contract rule with current implementation and focused tests.
-- Confirm acceptance checks are observable and do not invent unimplemented behavior.
-- Search touched docs for duplicated normative text; leave one owner and links elsewhere.
-- Confirm no decision-history sections or unrequested translations were added.
-- Run the repository's documentation checks and `git diff --check` when available.
+- compare every changed normative rule with current implementation and operator decisions;
+- identify focused tests/probes or executable contracts that enforce each material rule;
+- ensure ownership/exclusions are not contradicted by other touched documentation;
+- check links, language, and absence of copied decision history;
+- run project docs checks and `git diff --check` when available.
 
-Report exact paths, language evidence, impact, provenance links, and any missing verification.
+Report gaps where behavior is intended but not yet enforced; a written contract does not make the code
+compliant.

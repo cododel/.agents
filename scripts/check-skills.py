@@ -55,14 +55,31 @@ def scenario_names(path: Path) -> tuple[list[str], list[str]]:
     return names, errors
 
 
+def behavior_scenarios(path: Path) -> tuple[int, list[str]]:
+    errors: list[str] = []
+    required = {"id", "context", "required_behavior", "forbidden_behavior"}
+    with path.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle, delimiter="\t"))
+    if not rows or set(rows[0]) != required:
+        return 0, [f"{path}: expected TSV columns {sorted(required)}"]
+    seen: set[str] = set()
+    for number, row in enumerate(rows, 2):
+        if any(not row[field].strip() for field in required):
+            errors.append(f"{path}:{number}: empty behavior field")
+        scenario_id = row["id"].strip()
+        if scenario_id in seen:
+            errors.append(f"{path}:{number}: duplicate behavior id {scenario_id!r}")
+        seen.add(scenario_id)
+    return len(rows), errors
+
+
 def local_targets(path: Path) -> set[str]:
     text = path.read_text(encoding="utf-8")
     targets = set(LINK_RE.findall(text))
-    if path.name == "SKILL.md":
-        targets.update(
-            target for target in CODE_PATH_RE.findall(text)
-            if target.startswith(("references/", "assets/", "../", "./"))
-        )
+    targets.update(
+        target for target in CODE_PATH_RE.findall(text)
+        if target.startswith(("references/", "assets/", "../", "./"))
+    )
     return targets
 
 
@@ -101,6 +118,8 @@ def main() -> int:
 
     matrix_names, matrix_errors = scenario_names(root / "evals/skill-scenarios.tsv")
     errors.extend(matrix_errors)
+    behavior_count, behavior_errors = behavior_scenarios(root / "evals/agent-behavior.tsv")
+    errors.extend(behavior_errors)
     skill_files = sorted((root / "skills").glob("*/SKILL.md"))
     actual_names = [path.parent.name for path in skill_files]
     matrix_skill_names = sorted(set(matrix_names))
@@ -142,8 +161,15 @@ def main() -> int:
             errors.append(f"{path.relative_to(root)}: unsupported {client} keys {sorted(unexpected)}")
 
     markdown = [
-        path for path in (root / "skills").rglob("*.md")
-        if ".git" not in path.parts and "assets" not in path.parts
+        path
+        for base in (root / "skills", root / "clients")
+        for path in base.rglob("*.md")
+        if ".git" not in path.parts
+        and "evals" not in path.parts
+        and not (
+            path.is_relative_to(root / "skills/graphify")
+            and path.name != "SKILL.md"
+        )
     ]
     errors.extend(validate_links(root, markdown))
 
@@ -182,6 +208,8 @@ def main() -> int:
     print(f"maintenance_corpus files={len(corpus_paths)} lines={corpus[0]} words={corpus[1]} bytes={corpus[2]}")
     print(f"runtime_agents lines={agents[0]} words={agents[1]} bytes={agents[2]}")
     print(f"runtime_skill_metadata words={len(metadata_blob.split())} bytes={len(metadata_blob.encode())}")
+    print(f"trigger_scenarios={len(matrix_names)}")
+    print(f"behavior_scenarios={behavior_count}")
     if errors:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)

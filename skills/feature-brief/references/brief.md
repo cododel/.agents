@@ -1,65 +1,57 @@
-# Brief workflow
+# Brief file workflow
 
-Use this mode to create or revise the temporary feature contract.
+Create a brief only when its stable review value exceeds the duplication cost: explicit operator
+request, long multi-session work, several subagents, a large acceptance surface, or a need to review
+the target contract independently from the implementation plan.
 
-## 1. Establish sufficient context
+## 1. Resolve content and path
 
-Read the complete relevant conversation, repository evidence, current living project contracts, and an
-existing brief when updating one. If a missing answer would materially change the feature, conduct
-the briefing workflow first. Keep unresolved non-blocking questions explicit rather than inventing
-answers.
+Read the full relevant conversation, repository evidence, existing contracts, active task journal, and
+native plan. Reuse established facts; do not fork them into competing versions.
 
-## 2. Resolve the path
-
-Prefer a proven repository convention specifically for temporary briefs or draft feature
-contracts. Otherwise use:
+Prefer a proven project convention. Otherwise use:
 
 ```text
 <repo-root>/.agents/briefs/YYYY-MM-DD-english-kebab-slug.md
 ```
 
-Keep the original date and path when revising a brief. Never add the fallback directory to an
-index or `.gitignore`, and never stage or commit the brief without an explicit request.
+Keep the original path and date when revising. Do not add an index or `.gitignore` entry merely for the
+fallback. Keep one active brief per feature.
 
-## 3. Draft the contract
+## 2. Write the target contract
 
-Copy `assets/brief-template.md` and preserve the operator's language. Write testable behavior,
-not implementation choreography. Separate:
+Use `../assets/brief-template.md`, preserve the operator's language, and keep it concise. Include only:
 
-- repository-observed facts;
-- decisions explicitly made by the operator;
-- assumptions that remain falsifiable;
-- open questions that prevent or constrain agreement.
+- motivation and intended outcome;
+- observable scenarios/behavior;
+- scope and non-goals;
+- facts, confirmed decisions, and material assumptions;
+- stable invariants/contract impact;
+- acceptance criteria and unresolved material questions.
 
-Classify `Contract Impact` as exactly one or more of:
+Do not include file-by-file implementation steps, estimates, generic risks, or boilerplate sections
+with no task-specific value. Link to the native plan or task journal only when a stable local pointer
+exists; do not copy their content.
 
-- `unchanged` — existing durable contracts already allow the feature;
-- `extend` — identified contracts need additions;
-- `conflict` — the proposal contradicts an existing contract and needs an operator decision;
-- `missing` — durable behavior may need a new contract, subject to the anti-bureaucratic value test.
+## 3. Agreement and change control
 
-Name proven contract paths for `extend` or `conflict`. Do not fabricate a target for `missing`.
+Write new or materially revised content as `Draft`. Mark `Agreed` only after the operator confirms the
+current material content. Typographical and evidence-pointer fixes do not revoke agreement; a change
+to behavior, scope, invariant, constraint, or acceptance does.
 
-## 4. Review and agreement
+Agreement confirms the feature target, not every implementation detail and not remote/destructive
+authority. When implementation uncovers a new material fork, return only the affected section to
+operator review rather than restarting the entire briefing.
 
-Create or update the document as `Draft` and hand back its resolved path. Incorporate operator
-comments as another revision. Change status to `Agreed` only after the operator explicitly confirms
-the current document.
+## 4. Handoff
 
-Do not mark a brief `Agreed` while a `conflict` or another implementation-invalidating question
-remains. If an agreed brief changes materially, set it back to `Draft` before editing the affected
-scope, behavior, constraint, or acceptance criterion.
+At implementation completion, compare observable behavior to acceptance and route durable value:
 
-Brief creation and agreement do not themselves authorize implementation. Follow the operator's
-separate implementation request and normal mutation gates.
+- stable current behavior to an existing/new living contract when justified;
+- significant operator decisions to an ADR when requested/worth preserving;
+- independently resumable follow-up debt to an Issue;
+- execution state only to the task journal or native plan.
 
-## 5. Completion handoff
-
-When implementation finishes:
-
-1. verify observable behavior against `Acceptance Criteria`;
-2. synchronize `extend` changes with the existing living contract via `$contract-writer`;
-3. stop and resolve `conflict`; for `missing`, request separate operator confirmation before
-   `$contract-writer` creates a new file;
-4. use an ADR only for a significant architectural choice with real alternatives and rationale;
-5. offer the exact temporary brief path for operator-approved deletion after extraction.
+Do not delete, archive, or promote the brief merely because implementation ended. It may remain as
+working context until operator acceptance; an explicit cleanup may remove an exact tracked, clean,
+committed brief after durable-value review, while untracked/modified content remains gated.
