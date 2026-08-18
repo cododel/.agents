@@ -67,6 +67,10 @@ secrets, credentials, private customer data, or large generated output.
 ## Update protocol
 
 Rewrite the journal compactly at semantic boundaries instead of appending a chronological diary.
+Keep `Mission And Motivation` stable across phase changes unless the operator explicitly changes the
+task goal. Record phase-specific objectives, newly discovered risks, audit findings, and corrective
+work in `Current State`, while replacing superseded status, phase, HEAD, verification state, and next
+actions.
 Update it:
 
 1. after a material operator decision, correction, or scope change;
