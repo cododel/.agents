@@ -177,6 +177,10 @@ implement the wrong behavior.
 
 ## Current Documentation And Repository Navigation
 
+- Route code evidence by meaning: use available LSP tooling for symbol identity, definitions,
+  references, diagnostics, call hierarchy, and rename previews; AST tooling for syntax-shaped search
+  or rewrites; and `rg` for literals, paths, configuration, and documentation. Verify decisive
+  results and edits in source with repository-native checks.
 - Automatically use `$find-docs` for drift-prone library, framework, SDK, API, CLI, cloud, MCP, or
   harness behavior, resolving the exact installed/requested version. Never guess or silently use a
   neighboring version.

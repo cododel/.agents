@@ -1,0 +1,178 @@
+{
+  "schema_version": 2,
+  "id": "code-intelligence",
+  "platforms": ["darwin"],
+  "components": {
+    "mcpls": {
+      "binary": "mcpls",
+      "version": {"policy": "exact", "value": "0.3.9"},
+      "install": {
+        "manager": "cargo",
+        "argv": ["cargo", "install", "mcpls", "--version", "0.3.9", "--locked"]
+      }
+    },
+    "ast-grep": {
+      "binary": "ast-grep",
+      "version": {"policy": "minimum", "value": "0.45.0"},
+      "install": {
+        "manager": "brew",
+        "argv": ["brew", "install", "ast-grep"],
+        "upgrade_argv": ["brew", "upgrade", "ast-grep"]
+      }
+    }
+  },
+  "language_servers": [
+    {
+      "id": "python",
+      "command": "basedpyright-langserver",
+      "probe_argv": ["basedpyright", "--version"],
+      "repair_argv": [],
+      "semantic_smoke": true
+    },
+    {
+      "id": "typescript",
+      "command": "typescript-language-server",
+      "probe_argv": ["typescript-language-server", "--version"],
+      "repair_argv": [],
+      "semantic_smoke": false
+    },
+    {
+      "id": "php",
+      "command": "intelephense",
+      "probe_argv": ["npm", "list", "--global", "--depth=0", "intelephense@1.18.5"],
+      "repair_argv": ["npm", "install", "--global", "intelephense@1.18.5"],
+      "semantic_smoke": false
+    },
+    {
+      "id": "rust",
+      "command": "rust-analyzer",
+      "probe_argv": ["rust-analyzer", "--version"],
+      "repair_argv": ["rustup", "component", "add", "rust-analyzer"],
+      "semantic_smoke": false
+    },
+    {
+      "id": "cpp",
+      "command": "clangd",
+      "probe_argv": ["clangd", "--version"],
+      "repair_argv": [],
+      "semantic_smoke": false
+    },
+    {
+      "id": "swift",
+      "command": "sourcekit-lsp",
+      "probe_argv": ["sourcekit-lsp", "--help"],
+      "repair_argv": [],
+      "semantic_smoke": false
+    }
+  ],
+  "client_deltas": {
+    "codex": {
+      "type": "mcp_stdio",
+      "adapter": "codex_cli",
+      "detection": {"kind": "binary", "value": "codex"},
+      "required_components": ["mcpls", "ast-grep"],
+      "scope": "user",
+      "server_name": "mcpls",
+      "command_component": "mcpls",
+      "args": ["--config", "{repo_root}/capabilities/code-intelligence/mcpls.toml"]
+    },
+    "antigravity": {
+      "type": "mcp_stdio",
+      "adapter": "json_file",
+      "detection": {
+        "kind": "darwin_bundle",
+        "bundle_id": "com.google.antigravity",
+        "paths": ["/Applications/Antigravity.app", "{home}/Applications/Antigravity.app"]
+      },
+      "required_components": ["mcpls", "ast-grep"],
+      "scope": "user",
+      "server_name": "mcpls",
+      "command_component": "mcpls",
+      "args": ["--config", "{repo_root}/capabilities/code-intelligence/mcpls.toml"],
+      "config": {
+        "format": "json",
+        "path": "{home}/.gemini/config/mcp_config.json",
+        "entry_path": ["mcpServers", "mcpls"],
+        "entry_shape": "command_args"
+      }
+    },
+    "grok": {
+      "type": "mcp_stdio",
+      "adapter": "grok_cli",
+      "detection": {"kind": "binary", "value": "grok"},
+      "required_components": ["mcpls", "ast-grep"],
+      "scope": "user",
+      "server_name": "mcpls",
+      "command_component": "mcpls",
+      "args": ["--config", "{repo_root}/capabilities/code-intelligence/mcpls.toml"]
+    },
+    "claude-code": {
+      "type": "mcp_stdio",
+      "adapter": "claude_cli",
+      "detection": {"kind": "binary", "value": "claude"},
+      "required_components": ["mcpls", "ast-grep"],
+      "scope": "user",
+      "server_name": "mcpls",
+      "command_component": "mcpls",
+      "args": ["--config", "{repo_root}/capabilities/code-intelligence/mcpls.toml"],
+      "inspect_path": "{home}/.claude.json"
+    },
+    "kimi-code": {
+      "type": "mcp_stdio",
+      "adapter": "json_file",
+      "detection": {"kind": "binary", "value": "kimi"},
+      "required_components": ["mcpls", "ast-grep"],
+      "scope": "user",
+      "server_name": "mcpls",
+      "command_component": "mcpls",
+      "args": ["--config", "{repo_root}/capabilities/code-intelligence/mcpls.toml"],
+      "config": {
+        "format": "json",
+        "path": "{kimi_code_home}/mcp.json",
+        "entry_path": ["mcpServers", "mcpls"],
+        "entry_shape": "command_args"
+      }
+    },
+    "opencode": {
+      "type": "mcp_stdio",
+      "adapter": "opencode_jsonc",
+      "detection": {"kind": "binary", "value": "opencode"},
+      "required_components": ["mcpls", "ast-grep"],
+      "scope": "user",
+      "server_name": "mcpls",
+      "command_component": "mcpls",
+      "args": ["--config", "{repo_root}/capabilities/code-intelligence/mcpls.toml"],
+      "config": {
+        "format": "jsonc",
+        "directory": "{xdg_config_home}/opencode",
+        "candidates": ["opencode.jsonc", "opencode.json", "config.json"],
+        "entry_paths": {
+          "1": ["mcp", "mcpls"],
+          "2": ["mcp", "servers", "mcpls"]
+        },
+        "entry_shape": "opencode"
+      }
+    },
+    "pi": {
+      "type": "rules_ast_only",
+      "adapter": "none",
+      "detection": {"kind": "binary", "value": "pi"},
+      "required_components": ["ast-grep"],
+      "lsp": "unsupported",
+      "reason": "Pi has no native MCP client; no third-party extension is installed by this capability."
+    }
+  },
+  "expected_mcp_tools": [
+    "get_hover",
+    "get_definition",
+    "get_references",
+    "get_diagnostics",
+    "get_code_actions",
+    "get_document_symbols",
+    "workspace_symbol_search",
+    "rename_symbol",
+    "prepare_call_hierarchy",
+    "get_incoming_calls",
+    "get_outgoing_calls"
+  ]
+}
