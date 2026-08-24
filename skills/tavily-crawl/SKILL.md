@@ -1,7 +1,6 @@
 ---
 name: tavily-crawl
 description: "Crawl and extract many pages from one site with Tavily. Use for `crawl`, `скачай документацию`, entire docs sections, bulk page extraction, or saving a site as local Markdown. Do not use for one/few known URLs (`tavily-extract`) or URL-only discovery (`tavily-map`)."
-allowed-tools: Bash(tvly *)
 ---
 
 # Tavily Crawl

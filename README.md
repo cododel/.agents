@@ -142,9 +142,9 @@ as a command hint in both human and JSON plan output. For PHP the pinned repair 
 
 - `find-skills` is externally managed by `.skill-lock.json`. Update it through the owning installer;
   do not hand-edit it.
-- `graphify` is a vendor snapshot from the installed `graphifyy` package. The pinned version lives in
-  `skills/graphify/.graphify_version`; its body and references mirror that version. The local
-  frontmatter `description` is the only intentional trigger override.
+- `graphify` is derived from the installed `graphifyy` package. The pinned version lives in
+  `skills/graphify/.graphify_version`; local portability overlays keep its trigger and worker/tool
+  instructions client-neutral without changing graph semantics.
 - Tavily Skills are locally maintained routing/production wrappers. Resolve CLI flags from current
   `tvly <command> --help` and SDK contracts from current official documentation.
 
@@ -152,20 +152,18 @@ To review a Graphify update:
 
 1. install the intended `graphifyy` version in an isolated tool environment and record
    `graphify --version` in `skills/graphify/.graphify_version`;
-2. diff its `skill-agents.md` against `skills/graphify/SKILL.md`, allowing only the documented
-   description override, and recursively diff vendor references;
-3. copy reviewed changes as one versioned snapshot, reapply only the trigger override, then run the
-   validator and client discovery smoke tests.
+2. diff its `skill-agents.md` and references against the local snapshot, separating upstream graph
+   semantics from client-specific worker/tool wording;
+3. copy reviewed semantic changes, reapply the documented client-neutral portability overlays, then
+   run the validator and client discovery smoke tests.
 
 ## Validation
 
 Run:
 
 ```bash
-python3 scripts/check-skills.py --skip-claude
+python3 scripts/check-skills.py
 python3 scripts/scaffold-code-intelligence.py validate
 python3 -m unittest discover -s tests -p 'test_*.py'
 git diff --check
 ```
-
-Run without `--skip-claude` on the installed canonical tree to verify Claude Skill symlinks as well.

@@ -64,15 +64,15 @@ boundary, and avoid pretending a partial scan was complete. Then:
    It emits candidate colors, variables, fonts, radii, and dimensions from web and common
    native text formats. Treat this as an inventory aid, not proof of semantic roles. For an
    unsupported stack, inspect its theme/resource system directly instead of forcing CSS terms.
-3. **Optionally mine session history.** Ask first. If approved, run the currently available
-   Claude Code adapter:
+3. **Optionally mine session history.** Ask first. If approved and the user or current environment
+   provides a bounded transcript directory, run:
 
    ```bash
-   python <absolute-skill-dir>/scripts/scan_sessions.py <project_root>
+   python <absolute-skill-dir>/scripts/scan_sessions.py <project_root> --transcript-dir <directory>
    ```
 
-   It returns short, redacted, design-relevant snippets. Other clients may require another
-   adapter. If history is unavailable or declined, proceed without treating that as a gap.
+   It returns short, redacted, design-relevant snippets from compatible JSONL transcripts. If
+   history is unavailable, incompatible, or declined, proceed without treating that as a gap.
 4. **Read intent docs (Layer 2).** Existing design docs, `docs/decisions/`, `AGENTS.md`,
    README; run `git log` filtered for design/ui/style/theme commits. Details in
    `references/evidence-sources.md`.
@@ -133,7 +133,7 @@ APIs, Android/Compose, Flutter, and desktop UI frameworks.
 
 - `references/evidence-sources.md` — exhaustive where-to-look and how-to-mine for all three
   layers, plus the conflict-handling rule. Read this at the start of Phase 1.
-- `references/session-history.md` — optional Claude Code history adapter and privacy rules.
+- `references/session-history.md` — optional client-neutral session-history adapter and privacy rules.
   Read only after the user approves session-history mining.
 - `references/output-template.md` — the `DESIGN.md` section skeleton to fill, with
   per-section guidance. Read at Phase 4.
@@ -142,5 +142,5 @@ APIs, Android/Compose, Flutter, and desktop UI frameworks.
 
 - `scripts/collect_tokens.py` — deterministic candidate harvest from common web/native text
   formats. Stdlib only; supplement it with stack-native resource inspection.
-- `scripts/scan_sessions.py` — optional, redacted Claude Code session-history adapter. Stdlib
+- `scripts/scan_sessions.py` — optional, redacted JSONL session-history adapter. Stdlib
   only; it is not required for extraction.

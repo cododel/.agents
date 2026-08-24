@@ -1,7 +1,6 @@
 ---
 name: tavily-search
 description: "Run a quick Tavily web search returning ranked results, snippets, and metadata. Use for current facts, articles, sources, or `найди/поищи/look up` requests that need no deep synthesis. Do not use for known URLs, site-wide extraction, or detailed research reports."
-allowed-tools: Bash(tvly *)
 ---
 
 # Tavily Search

@@ -1,6 +1,6 @@
 ---
 name: feature-brief
-description: "Run a repository-grounded requirements briefing for a large or materially ambiguous feature, preferably in native plan mode; optionally create a temporary brief. Auto-use only for unresolved product, invariant, or architecture forks, not ordinary plans or small tasks."
+description: "Run a repository-grounded requirements briefing for a large or materially ambiguous feature, using a structured planning surface when available; optionally create a temporary brief. Auto-use only for unresolved product, invariant, or architecture forks, not ordinary plans or small tasks."
 ---
 
 # Feature Brief
@@ -17,17 +17,18 @@ permanent specification layer onto the repository.
    document.
 
 An implementation plan is not a feature brief. A brief describes the target and decision boundary;
-the native plan describes execution. An Issue stores deferred work; a contract owns stable current
+the active plan describes execution. An Issue stores deferred work; a contract owns stable current
 behavior; an ADR records a significant operator decision.
 
-## Native plan-mode integration
+## Structured planning integration
 
-For a large or ambiguous feature, prefer the harness's native plan mode and native question/ask tool.
-If entering plan mode requires operator action, request that switch before presenting a long plain-chat
-questionnaire. Inside plan mode:
+For a large or ambiguous feature, use a structured planning and question interface already exposed by
+the current execution environment when available. Do not start or require another application solely
+to obtain that interface. When it is unavailable, maintain a compact plan in the conversation or task
+journal and ask the same focused questions directly. In either case:
 
 - inspect the repository and current docs before asking;
-- let the harness keep the implementation plan in its native plan surface;
+- keep the implementation plan in the environment's active planning surface when one exists;
 - use this skill only to shape the requirements interview and task contract;
 - use `$task-journal` when the session is compaction-prone or multi-agent.
 
@@ -75,7 +76,7 @@ The file is a temporary task contract, not implementation authority or normative
 specification. `Agreed` means the operator confirmed its current material content. Material changes
 return it to `Draft` until confirmed.
 
-Do not create a brief file when the native plan and task journal already preserve all required state
+Do not create a brief file when the active plan and task journal already preserve all required state
 and no independent review artifact is needed. Do not commit or index a fallback brief unless the
 operator or project convention requires it.
 

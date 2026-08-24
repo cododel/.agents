@@ -43,9 +43,10 @@ Before substantial mutation:
 - do not ask for information already available in the session or repository;
 - resolve objective unknowns through research, focused execution, or current official docs.
 
-For large, ambiguous, or compaction-prone work, prefer the harness's native plan mode and ask tool.
-Ask the operator to switch modes only when the harness requires it. Use `$feature-brief` for a
-structured requirements interview, not as a mandatory file ceremony.
+For large, ambiguous, or compaction-prone work, prefer a structured planning and question interface
+already exposed by the current execution environment. If none is available, keep a compact plan in
+the conversation or task journal instead of requiring another application or runtime. Use
+`$feature-brief` for a structured requirements interview, not as a mandatory file ceremony.
 
 Keep an assumption implicit only when it is low-risk, reversible, and follows directly from the task
 and repository. Record assumptions that materially affect behavior, scope, architecture, or
@@ -202,7 +203,7 @@ implement the wrong behavior.
 - **Issues** are durable repository-local technical-debt records for independently resumable work,
   not a duplicate product tracker or a file for every observation.
 - **Feature briefs** support large/ambiguous requirements discovery and context transfer. A brief file
-  is optional; ordinary work and native plan mode do not require one.
+  is optional; ordinary work and an active structured plan do not require one.
 - Keep one normative owner and link from other artifacts. Tests, schemas, types, plans, chats, and
   Issues are not implicit living contracts unless the project explicitly declares a bounded
   executable artifact canonical.

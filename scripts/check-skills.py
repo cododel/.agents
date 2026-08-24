@@ -11,9 +11,29 @@ import sys
 from pathlib import Path
 
 
-PORTABLE_KEYS = {"name", "description", "allowed-tools", "metadata"}
-CLIENT_KEYS = {"claude": {"name", "description", "allowed-tools", "disable-model-invocation"}}
+PORTABLE_KEYS = {"name", "description", "metadata"}
 VENDOR_LARGE_SKILLS = {"graphify"}
+CLIENT_LOCK_MARKERS = {
+    "allowed-tools:",
+    "agent tool",
+    "claude code",
+    "claude desktop",
+    "codex app",
+    "codex cli",
+    "claude_config_dir",
+    "explore type",
+    "general-purpose agent",
+    "native plan mode",
+    "native plan surface",
+    "native question/ask",
+    "orca",
+    "subagent_type",
+    "task tool",
+    "task(description=",
+    "using the write tool",
+    "~/.claude",
+    "~/.codex",
+}
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
 CODE_PATH_RE = re.compile(r"`([^`\n]+\.md(?:#[^`\n]+)?)`")
 
@@ -98,6 +118,19 @@ def validate_links(root: Path, markdown: list[Path]) -> list[str]:
     return errors
 
 
+def validate_client_neutrality(root: Path, paths: list[Path]) -> list[str]:
+    errors: list[str] = []
+    for path in paths:
+        for number, line in enumerate(path.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+            lowered = line.casefold()
+            for marker in CLIENT_LOCK_MARKERS:
+                if marker in lowered:
+                    errors.append(
+                        f"{path.relative_to(root)}:{number}: client-specific marker {marker!r}"
+                    )
+    return errors
+
+
 def count_text(paths: list[Path]) -> tuple[int, int, int]:
     lines = words = size = 0
     for path in paths:
@@ -111,7 +144,6 @@ def count_text(paths: list[Path]) -> tuple[int, int, int]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
-    parser.add_argument("--skip-claude", action="store_true")
     args = parser.parse_args()
     root = args.root.resolve()
     errors: list[str] = []
@@ -156,7 +188,7 @@ def main() -> int:
             continue
         if values.get("name") != path.parent.name:
             errors.append(f"{path.relative_to(root)}: client skill name does not match directory")
-        unexpected = keys - CLIENT_KEYS.get(client, PORTABLE_KEYS)
+        unexpected = keys - PORTABLE_KEYS
         if unexpected:
             errors.append(f"{path.relative_to(root)}: unsupported {client} keys {sorted(unexpected)}")
 
@@ -172,6 +204,13 @@ def main() -> int:
         )
     ]
     errors.extend(validate_links(root, markdown))
+    portable_runtime_paths = [root / "AGENTS.md", *sorted((root / "evals").glob("*.tsv"))]
+    portable_runtime_paths.extend(
+        path
+        for path in sorted((root / "skills").rglob("*"))
+        if path.is_file() and path.suffix in {".md", ".py"}
+    )
+    errors.extend(validate_client_neutrality(root, portable_runtime_paths))
 
     legacy = (root / "skills/graphify/.graphify_version")
     if not legacy.is_file() or not legacy.read_text().strip():
@@ -179,23 +218,6 @@ def main() -> int:
     lock = json.loads((root / ".skill-lock.json").read_text(encoding="utf-8"))
     if "find-skills" not in lock.get("skills", {}):
         errors.append(".skill-lock.json: find-skills is not externally managed")
-
-    claude_root = Path.home() / ".claude/skills"
-    if not args.skip_claude and claude_root.is_dir():
-        for name in matrix_names:
-            link = claude_root / name
-            expected = (root / "skills" / name).resolve()
-            if not link.exists() or link.resolve() != expected:
-                errors.append(f"Claude discovery: {name!r} does not resolve to {expected}")
-                continue
-            for raw in local_targets(expected / "SKILL.md"):
-                target = raw.split("#", 1)[0].strip()
-                if not target or target.startswith(("http://", "https://", "mailto:", "#")):
-                    continue
-                if any(marker in target for marker in ("<", ">", "{", "}", "*", "|")):
-                    continue
-                if not (link / target).resolve().exists():
-                    errors.append(f"Claude link {name!r}: broken local reference {raw!r}")
 
     corpus_paths = [
         path for path in root.rglob("*")

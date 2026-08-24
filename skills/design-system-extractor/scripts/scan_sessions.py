@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Optionally mine design-relevant discussion from Claude Code session transcripts.
+"""Optionally mine design-relevant discussion from compatible session transcripts.
 
 Discovers transcripts robustly (glob + match by cwd; sanitized-dir fallback), parses
 JSONL defensively, and returns ONLY short, design-relevant, human-readable snippets.
@@ -9,7 +9,7 @@ non-design chatter, and likely secret-bearing lines, and truncates every snippet
 Stdlib only.
 
 Usage:
-    python scan_sessions.py [PROJECT_ROOT] [--config-dir DIR] [--max-snippets N] [--json OUT.json]
+    python scan_sessions.py [PROJECT_ROOT] --transcript-dir DIR [--max-snippets N] [--json OUT.json]
 
 If nothing is found, exits 0 with an explanatory note so the caller can proceed with
 Layers 1-2.
@@ -70,13 +70,8 @@ def project_root(arg: str) -> Path:
     return p
 
 
-def config_root(arg: str | None) -> Path:
-    if arg:
-        return Path(arg).expanduser().resolve()
-    env = os.environ.get("CLAUDE_CONFIG_DIR")
-    if env:
-        return Path(env).expanduser().resolve()
-    return (Path.home() / ".claude").resolve()
+def transcript_root(arg: str) -> Path:
+    return Path(arg).expanduser().resolve()
 
 
 def sanitized(path: Path) -> str:
@@ -230,7 +225,7 @@ def scan(root: Path, cfg: Path, max_snippets: int):
     note = None
     if not files:
         note = (
-            f"No Claude Code transcripts found under {cfg}. "
+            f"No compatible session transcripts found under {cfg}. "
             "Proceed with Layers 1-2 (code + docs) and note history was unavailable."
         )
     elif not matched:
@@ -257,13 +252,19 @@ def scan(root: Path, cfg: Path, max_snippets: int):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Mine design-relevant snippets from past sessions.")
     ap.add_argument("root", nargs="?", default=".", help="Project root (default: cwd)")
-    ap.add_argument("--config-dir", default=None, help="Override Claude config dir")
+    ap.add_argument(
+        "--transcript-dir",
+        "--config-dir",
+        dest="transcript_dir",
+        required=True,
+        help="Bounded directory containing compatible JSONL session transcripts",
+    )
     ap.add_argument("--max-snippets", type=int, default=80, help="Cap on snippets returned")
     ap.add_argument("--json", dest="out", default=None, help="Also write JSON to this path")
     args = ap.parse_args(argv)
 
     root = project_root(args.root)
-    cfg = config_root(args.config_dir)
+    cfg = transcript_root(args.transcript_dir)
     result = scan(root, cfg, args.max_snippets)
     out_text = json.dumps(result, indent=2, ensure_ascii=False)
     try:

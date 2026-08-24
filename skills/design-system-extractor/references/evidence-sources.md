@@ -62,8 +62,8 @@ Code rarely explains itself. Mine these for philosophy, rationale, and naming.
   base to preserve.
 - **Decision records:** `docs/decisions/`, `docs/adr/`, `**/adr/*.md`, `openspec/` — proposals
   and design.md files often state *why* a visual choice was made.
-- **Agent/project docs:** `AGENTS.md`, `CLAUDE.md`, `ROADMAP.md`, `README*`, `CONTRIBUTING*`.
-  These frequently encode design constraints and the project's "voice".
+- **Agent/project docs:** repository instruction files, `ROADMAP.md`, `README*`, and
+  `CONTRIBUTING*`. These frequently encode design constraints and the project's "voice".
 - **Storybook / component docs:** `*.stories.{ts,tsx,js,jsx,mdx}`, `*.mdx` — usage intent,
   variants, do/don't notes.
 - **Code comments:** grep for design rationale near theme/token definitions
@@ -84,9 +84,9 @@ Code rarely explains itself. Mine these for philosophy, rationale, and naming.
 
 ## Layer 3 — Optional agent-session history (the evolution)
 
-Use this layer only after explicit approval. The bundled helper currently supports Claude Code
-transcripts; other clients need their own adapter. Read only short redacted snippets per
-`session-history.md`. A correction can be useful evidence, but confirm it against
+Use this layer only after explicit approval and only when a bounded compatible transcript directory
+is already available. Read only short redacted snippets per `session-history.md`. A correction can
+be useful evidence, but confirm it against
 later code/docs because the snippet may describe an abandoned intermediate direction.
 
 ---

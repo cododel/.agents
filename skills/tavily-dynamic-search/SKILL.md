@@ -1,7 +1,6 @@
 ---
 name: tavily-dynamic-search
 description: "Run a programmatic Tavily search→filter→extract workflow with results isolated from the main context. Use for curated key details without raw-HTML noise (`найди и отфильтруй`). Do not use for plain result lists (`tavily-search`), known URLs, site crawling, or full research reports (`tavily-research`)."
-allowed-tools: Bash(tvly *), Bash(python3 *), Bash(uv run *), Bash(jq *)
 ---
 
 # Tavily Dynamic Search

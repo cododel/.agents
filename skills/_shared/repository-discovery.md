@@ -6,7 +6,7 @@ locate repository-local records. The goal is a proven scope, not a conventional-
 ## 1. Establish the repository boundary
 
 Resolve the repository root and read applicable instruction and documentation indexes first,
-including `AGENTS.md`, `CLAUDE.md`, `README.md`, and `docs/README.md` when present. Explicit local
+including repository instruction files, `README.md`, and `docs/README.md` when present. Explicit local
 conventions override fallback names and layouts.
 
 ## 2. Discover candidate roots once

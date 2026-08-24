@@ -1,7 +1,6 @@
 ---
 name: tavily-map
 description: "List URLs and site structure with Tavily without extracting page content. Use to find a page on a known domain, enumerate pages, or `построй карту сайта`. Do not use when page content is needed (`tavily-extract` or `tavily-crawl`)."
-allowed-tools: Bash(tvly *)
 ---
 
 # Tavily Map

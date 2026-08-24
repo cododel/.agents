@@ -1,31 +1,26 @@
 # Session History (Layer 3)
 
-Optional adapter for locating and mining past Claude Code session transcripts. Run it only
-after explicit user approval. `scripts/scan_sessions.py`
-implements all of this; read this file to understand it and to debug if a project's layout
-differs. The guiding principle: **discover, don't hardcode** — the on-disk layout and JSONL
-schema can change between Claude Code versions, so match on stable signals (`cwd` + readable
-text), not on a fixed path.
+Optional client-neutral adapter for locating and mining past agent-session transcripts. Run it only
+after explicit user approval and only against a bounded transcript directory supplied by the user or
+already exposed by the current execution environment. `scripts/scan_sessions.py` implements all of
+this; read this file to understand it and to debug compatible layouts. The guiding principle is
+**discover, don't hardcode**: transcript layouts and JSONL schemas drift, so match on stable signals
+(`cwd` plus readable message text), not a client-specific path.
 
 ---
 
-## Where transcripts live
+## Transcript input
 
-- **Config root:** `${CLAUDE_CONFIG_DIR:-$HOME/.claude}`. Claude Code stores its data here, and
-  conversation transcripts are covered by its `cleanupPeriodDays` retention sweep — i.e. they
-  are real files on disk under this root. (Confirmed via current Claude Code docs.)
-- **Observed layout:** transcripts have historically lived under
-  `<config_root>/projects/<sanitized-cwd>/<session-id>.jsonl`, where `<sanitized-cwd>` is the
-  project's absolute path with `/` and `.` replaced by `-`. Treat this as a *discovery hint*,
-  not a guarantee.
-- **Hook signal:** Claude Code hooks receive `transcript_path`, `session_id`, and `cwd`. If you
-  are ever running inside a hook context, `transcript_path` points straight at the current
-  transcript — no discovery needed.
+- Require `--transcript-dir <directory>`; never guess a client configuration root.
+- The directory may contain JSONL files directly or below a `projects/` subtree. Treat that subtree
+  as a discovery hint, not a required layout.
+- If the environment exposes an exact current transcript path, pass its bounded parent directory
+  rather than scanning a broader user-data root.
 
 ## Discovery strategy (in order)
 
-1. Glob `<config_root>/projects/**/*.jsonl`. If empty, fall back to a bounded
-   `<config_root>/**/*.jsonl`.
+1. Glob `<transcript_root>/projects/**/*.jsonl`. If empty, fall back to a bounded
+   `<transcript_root>/**/*.jsonl`.
 2. For each candidate, determine its `cwd` by scanning the first lines for a `cwd` field.
    Keep it only if `cwd` equals the target root or is a descendant of it. Never include a broad
    ancestor session merely because the target project sits below its cwd.

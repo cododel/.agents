@@ -7,7 +7,7 @@ the target contract independently from the implementation plan.
 ## 1. Resolve content and path
 
 Read the full relevant conversation, repository evidence, existing contracts, active task journal, and
-native plan. Reuse established facts; do not fork them into competing versions.
+active implementation plan. Reuse established facts; do not fork them into competing versions.
 
 Prefer a proven project convention. Otherwise use:
 
@@ -30,7 +30,7 @@ Use `../assets/brief-template.md`, preserve the operator's language, and keep it
 - acceptance criteria and unresolved material questions.
 
 Do not include file-by-file implementation steps, estimates, generic risks, or boilerplate sections
-with no task-specific value. Link to the native plan or task journal only when a stable local pointer
+with no task-specific value. Link to the active plan or task journal only when a stable local pointer
 exists; do not copy their content.
 
 ## 3. Agreement and change control
@@ -50,7 +50,7 @@ At implementation completion, compare observable behavior to acceptance and rout
 - stable current behavior to an existing/new living contract when justified;
 - significant operator decisions to an ADR when requested/worth preserving;
 - independently resumable follow-up debt to an Issue;
-- execution state only to the task journal or native plan.
+- execution state only to the task journal or active plan.
 
 Do not delete, archive, or promote the brief merely because implementation ended. It may remain as
 working context until operator acceptance; an explicit cleanup may remove an exact tracked, clean,

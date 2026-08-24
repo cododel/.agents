@@ -61,7 +61,7 @@ Before evaluating:
 
 1. resolve repository/worktree, branch, HEAD, status, base, and the exact change inventory;
 2. reconstruct the original motivation, target behavior, acceptance, operator decisions, non-goals,
-   and material assumptions from the current conversation, native plan, brief, and `$task-journal`;
+   and material assumptions from the current conversation, active plan, brief, and `$task-journal`;
 3. snapshot that task contract separately from the implementing agent's claims;
 4. identify applicable living contracts and affected consumers;
 5. record a source fingerprint so later fixes and rechecks cannot be confused with the first review.
@@ -92,6 +92,11 @@ without inheriting the builder's conclusions. Typical vectors are:
 - failure paths, security, concurrency, resource lifecycle, and migration compatibility;
 - implementation quality, type safety, and regression risk;
 - focused QA and test-evidence adequacy.
+
+Use isolated reviewer contexts already exposed by the current execution environment. Do not start,
+install, or require an external orchestration runtime solely to satisfy review independence. If the
+required independent contexts are unavailable, continue the useful inline review but apply the
+selected mode's evidence limit honestly.
 
 Choose only relevant vectors; do not launch a generic checklist swarm. The primary agent deduplicates
 findings, confirms them against the frozen target, and repairs confirmed in-scope defects. After a

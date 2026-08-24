@@ -1,7 +1,6 @@
 ---
 name: tavily-cli
 description: "Route Tavily CLI tasks that explicitly request multi-operation orchestration across search, extract, map, crawl, and research. Use only when the user names `tavily-cli` or combines operations; use the specialized Tavily skill for a single operation. Never use for local files, Git, deployments, or code editing."
-allowed-tools: Bash(tvly *)
 ---
 
 # Tavily CLI

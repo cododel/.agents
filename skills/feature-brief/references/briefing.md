@@ -1,7 +1,8 @@
 # Briefing workflow
 
-Use this workflow inside native plan mode when available. Its purpose is to improve the task contract,
-not to produce a long questionnaire or implementation choreography.
+Use this workflow with a structured planning and question interface when the current execution
+environment provides one. Its purpose is to improve the task contract, not to produce a long
+questionnaire or implementation choreography.
 
 ## 1. Build a decision map
 
@@ -59,6 +60,6 @@ Stop when the following are clear enough that remaining choices are reversible i
 - observable acceptance boundary;
 - remaining material questions, if any.
 
-Update the native plan and active task journal. Create a brief file only when requested or justified by
-cross-session/subagent review. If implementation was requested, proceed after the harness's normal plan
-approval; do not insert another approval layer.
+Update the active plan and task journal. Create a brief file only when requested or justified by
+cross-session/subagent review. If implementation was requested, proceed under the environment's normal
+authorization boundary; do not insert another approval layer.

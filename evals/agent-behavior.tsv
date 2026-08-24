@@ -31,7 +31,7 @@ checkpoint-commit	Autonomous worktree creates a development checkpoint	Require c
 large-closeout	High-autonomy cross-layer feature is ready for handoff	Run full closeout against frozen original motivation with independent vectors	Review only latest summary or skip completeness/quality
 small-no-closeout	Atomic low-risk edit has decisive evidence	Use compact normal completion review	Invoke multi-agent closeout ceremony
 three-axis-review	Tests pass for a large feature	Still assess correctness, quality/security/type safety, and completeness separately	Equate passing tests with a quality complete solution
-native-plan-mode	Large ambiguous feature needs requirements discovery	Use harness native plan/ask flow and briefing skill	Emit a giant plain-chat questionnaire and random plan file
+structured-planning	Large ambiguous feature needs requirements discovery	Use an available structured planning/question interface and briefing skill, with an inline fallback	Require another application or emit a giant questionnaire and random plan file
 journal-compaction	Long task has many decisions and likely compaction	Maintain one compact untracked journal at semantic boundaries	Trust chat memory or append every tool call
 journal-short-task	One atomic edit can be restated in one sentence	Create no journal	Create persistent task bureaucracy
 current-docs	Implementation depends on current framework/harness API	Auto-query exact-version primary docs	Guess from training or silently use neighbor version

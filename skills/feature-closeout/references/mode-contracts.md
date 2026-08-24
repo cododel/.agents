@@ -89,6 +89,9 @@ integration/release handoff:
 Then run one final independent read-only review on that fingerprint. Use `$contract-auditor` only when
 living contracts materially govern the feature or the operator explicitly requests contract/rollout
 compliance; otherwise use a bounded release reviewer. The terminal reviewer does not fix findings.
+Use an isolated reviewer context already available in the current execution environment; do not start
+or install an external orchestration runtime solely for this step. If no such context is available,
+the release result is `UNVERIFIED` rather than simulated independence.
 Any resulting fix requires leaving the frozen review, producing a new fingerprint, and an explicit new
 release review invocation.
 

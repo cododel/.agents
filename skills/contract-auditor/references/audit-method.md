@@ -72,8 +72,10 @@ Add vectors only when the target warrants them:
 - `named-risk:<id>` — independent closure proof for each operator-named material risk.
 
 Ordinary audits run one bounded parallel wave and no automatic full repeat. Strict review always
-uses at least two independent subagents, even for a small diff. If the platform cannot provide that
-independence, continue the useful inline review but the overall verdict cannot exceed `UNVERIFIED`.
+uses at least two independent subagents, even for a small diff. Use isolated reviewer contexts already
+exposed by the current execution environment; do not start, install, or require an external
+orchestration runtime solely for the audit. If the environment cannot provide that independence,
+continue the useful inline review but the overall verdict cannot exceed `UNVERIFIED`.
 
 Before launching, record a finite audit budget in the matrix: `max_vectors`, `max_agents`,
 `max_discovery_passes=1`, `max_confirmation_passes=1`, and whether one conflict-resolution pass is

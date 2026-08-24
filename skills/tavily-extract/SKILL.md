@@ -1,7 +1,6 @@
 ---
 name: tavily-extract
 description: "Extract clean text or Markdown from up to 20 known URLs with Tavily, including JavaScript-rendered pages and query-focused chunks. Use when the user supplies URLs or asks `прочитай/вытащи текст по ссылке`. Do not use to discover URLs or crawl a site."
-allowed-tools: Bash(tvly *)
 ---
 
 # Tavily Extract

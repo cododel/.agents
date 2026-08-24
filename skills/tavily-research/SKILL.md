@@ -1,7 +1,6 @@
 ---
 name: tavily-research
 description: "Produce a comprehensive multi-source Tavily research report with citations. Use for in-depth investigation, comparisons, market analysis, literature reviews, `исследуй`, or `сравни`. Do not use for quick source discovery (`tavily-search`) or search/filter/extract workflows (`tavily-dynamic-search`)."
-allowed-tools: Bash(tvly *)
 ---
 
 # Tavily Research
