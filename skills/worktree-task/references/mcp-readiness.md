@@ -17,7 +17,7 @@ code. Resolve them before replacing the tool or accessing its backing system ano
 ## Resolve the current environment
 
 Do not transpose one execution environment's config shape onto another. When the repository provides
-a capability scaffold, use its read-only plan/verify path to discover the current adapter. Otherwise
+a capability scaffold, use its read-only inspect/verify path to discover the current adapter. Otherwise
 use `$find-docs` to establish:
 
 1. project versus user/local configuration locations;

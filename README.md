@@ -10,9 +10,9 @@ only their own architecture, commands, conventions, and project-scoped workflows
   standards, verification, durable-artifact semantics, and concise handoff behavior.
 - `skills/<name>/` owns repeatable **procedures**. Detailed workflows do not belong in the global
   kernel merely because they are important.
-- `capabilities/<name>/manifest.json` owns declarative, client-neutral tool requirements and the
-  smallest client deltas needed to expose them; tracked configuration beside it remains the runtime
-  source for that capability.
+- `capabilities/<name>/manifest.json` owns declarative, client-neutral tool requirements, project
+  harness rules, probes, and repair commands. Runtime configuration generated from it belongs to the
+  exact project checkout.
 - Project `AGENTS.md` files may specialize global engineering defaults and define project facts. They
   should link to global policy instead of copying it, except when a concrete project delta must be
   explicit.
@@ -47,11 +47,11 @@ repository documentation layer. Preserve the operator-selected workspace by defa
 `$worktree-task` only when isolation is needed, such as a protected primary checkout or parallel
 writable ownership.
 
-Project-scoped non-secret MCP configuration is preferred for project-specific servers so linked
-worktrees inherit it. Project-agnostic host capabilities such as `mcpls` may instead be registered
-user-scoped when every client invocation points to tracked configuration in this canonical
-`~/.agents` tree. The worktree workflow still verifies harness trust, path-scoped local registration,
-ignored setup files, and a narrow MCP smoke call before MCP-dependent work begins.
+Project-scoped non-secret MCP configuration is preferred for project-specific servers. `mcpls` is
+always project-scoped because its workspace root and enabled language servers belong to one exact
+checkout; it must never be registered globally. Each linked worktree is configured independently.
+The worktree workflow verifies harness trust, path-scoped registration, generated setup files, and a
+narrow MCP smoke call before MCP-dependent work begins.
 
 ## Canonical Sources
 
@@ -59,16 +59,15 @@ ignored setup files, and a narrow MCP smoke call before MCP-dependent work begin
 - `skills/<name>/SKILL.md` — portable trigger and workflow entrypoint.
 - `skills/<name>/references/` — on-demand detailed procedure.
 - `skills/<name>/assets/` — fallback templates/resources.
-- `capabilities/<name>/manifest.json` — declarative requirements and client deltas.
-- `capabilities/<name>/mcpls.toml` — tracked, explicitly selected runtime configuration.
+- `capabilities/<name>/manifest.json` — supported stacks, probes, repair commands, and harness policy.
 - `clients/<client>/skills/` — client-only Skill sources when required.
 - `evals/skill-scenarios.tsv` — portable Skill trigger contracts.
 - `evals/agent-behavior.tsv` — policy-level behavior contracts.
 - `scripts/check-skills.py` — structural/link/eval validator.
-- `scripts/scaffold-code-intelligence.py` — portable entrypoint for capability validation and
-  client-delta scaffolding.
-- `scripts/code_intelligence_scaffold/` — strict contract, client adapters, JSONC patching, and MCP
-  verification internals.
+- `scripts/scaffold-code-intelligence.py` — portable entrypoint for project inspection, setup,
+  verification, and legacy global removal.
+- `scripts/code_intelligence_scaffold/` — strict manifest, project adapters, source-preserving
+  patching, and MCP verification internals.
 
 ## Client Adapters
 
@@ -94,10 +93,11 @@ client state into this tree.
 
 ## Code Intelligence Capability
 
-`code-intelligence` keeps portable LSP/AST policy and configuration in `~/.agents`. Its manifest
-describes only missing host tools and client deltas; it does not replace native Skill discovery or
-existing client imports and links. Every MCP adapter registers the absolute `mcpls` binary with the
-absolute tracked `mcpls.toml` path.
+`code-intelligence` keeps portable LSP/AST policy in `~/.agents`. Its manifest describes supported
+stacks, exact detection evidence, host probes and repair commands. The explicit-only
+`$setup-project-mcpls` Skill generates a checkout-owned `.agents/mcpls.toml` and updates only existing
+supported project harnesses. See [the project configuration contract](docs/MCPLS_PROJECT_CONFIGURATION.md)
+and [the accepted decision](docs/adr/ADR-20260828-scope-mcpls-to-projects.md).
 
 The tracked LSP set covers Python (`basedpyright`), TypeScript and JavaScript
 (`typescript-language-server`), PHP (`intelephense` 1.18.5), Rust (`rust-analyzer`), C/C++
@@ -107,36 +107,27 @@ and its free tier does not expose every semantic operation; premium-only operati
 reported as MCP transport failures. The shared `ast-grep` component also parses PHP for structural
 search and bounded rewrites.
 
-The supported client deltas are:
+The supported project harnesses are:
 
-| Client | User-scoped adapter |
+| Harness | Project-scoped adapter |
 | --- | --- |
-| Codex | Native `codex mcp get/add/remove` registry shared by CLI, desktop, and IDE |
-| Antigravity | Current `~/.gemini/config/mcp_config.json`; legacy paths remain untouched |
-| Grok Build | Native `grok mcp list/add/remove/doctor`, independent of Claude imports |
-| Claude Code | Native `claude mcp add/remove --scope user`, inspected through `~/.claude.json` |
-| Kimi Code | `$KIMI_CODE_HOME/mcp.json`, defaulting to `~/.kimi-code/mcp.json` |
-| OpenCode | Highest-priority global JSON/JSONC config; both v1 and v2 MCP shapes |
-| Pi | Shared rules plus `ast-grep` and `rg`; LSP is unsupported without a third-party extension |
+| Root MCP config | Existing `mcp.json`; source-preserving `mcpServers.mcpls` update |
+| Codex | Existing `.codex/config.toml`; `cwd = ".."` targets the checkout root |
 
 Inspect and configure it explicitly:
 
 ```bash
 python3 scripts/scaffold-code-intelligence.py validate
-python3 scripts/scaffold-code-intelligence.py plan --client all
-python3 scripts/scaffold-code-intelligence.py apply --client all --install
-python3 scripts/scaffold-code-intelligence.py verify --client all
-python3 scripts/scaffold-code-intelligence.py unconfigure --client all
+python3 scripts/scaffold-code-intelligence.py inspect-project --root <git-root>
+python3 scripts/scaffold-code-intelligence.py setup-project --root <git-root>
+python3 scripts/scaffold-code-intelligence.py verify-project --root <git-root>
+python3 scripts/scaffold-code-intelligence.py unconfigure-global --client all
 ```
 
-`plan` is read-only. `apply` does not install anything without `--install`, never installs language
-servers, and changes only the selected clients' `mcpls` entries. With `--client all`, absent clients
-are skipped and every detected client is preflighted before any registry change. Replacing a
-conflicting entry requires `--replace`; removing one with unexpected parameters requires `--force`.
-OpenCode JSONC edits preserve unrelated source text, comments, and trailing commas. Pi never gains an
-MCP extension through this scaffold. A known language-server repair remains explicit and is emitted
-as a command hint in both human and JSON plan output. For PHP the pinned repair command is
-`npm install --global intelephense@1.18.5`.
+`inspect-project` is read-only. `setup-project` never installs binaries or creates missing harness
+files. It preserves unrelated entries, environment values, comments, and rejects foreign collisions.
+Detected stacks remain configured when their LSP is missing, with the exact repair command reported.
+`unconfigure-global` exists only to remove legacy user-scoped entries; no command can add one.
 
 ## External Skill Provenance
 

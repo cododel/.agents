@@ -7,7 +7,7 @@ description: Route code discovery through LSP, AST, or literal search according 
 
 Choose the narrowest available tool that preserves the meaning of the question:
 
-- Use `mcpls` exposed by the active client's MCP registry for definitions, references, symbol
+- Use `mcpls` exposed by the active project's MCP registry for definitions, references, symbol
   identity, diagnostics, call hierarchy, and rename previews.
 - Use `ast-grep` for syntax-shaped search and bounded structural transformations.
 - Use `rg` for literals, paths, configuration, generated text, and documentation.
@@ -22,7 +22,8 @@ rules, `ast-grep`, and `rg` without an MCP extension, so do not claim LSP eviden
 Intelephense may withhold operations such as rename or code actions without a licence; distinguish
 that capability limitation from an unavailable PHP server or broken MCP transport.
 
-Never install tooling or mutate a client registry implicitly. Run
-`scripts/scaffold-code-intelligence.py apply --client <client|all> --install` only on an explicit
-setup request. Always use the tracked `mcpls.toml` through `--config`; do not enable project-config
-trust globally. Start a new client session after changing a registry that is loaded only at startup.
+Never install tooling or mutate an MCP registry implicitly. Global `mcpls` registration is forbidden
+because its working directory and language scope are not project-safe. On an explicit setup request,
+invoke `$setup-project-mcpls`; it generates a checkout-owned `.agents/mcpls.toml` and updates only
+already-existing supported project harness files. Always pass that file through `--config`, never
+enable project-config trust globally, and start a new session after changing startup-loaded config.

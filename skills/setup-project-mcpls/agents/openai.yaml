@@ -1,0 +1,6 @@
+interface:
+  display_name: "Set Up Project mcpls"
+  short_description: "Configures project-scoped mcpls safely"
+  default_prompt: "Use $setup-project-mcpls to inspect this Git checkout and configure mcpls for its existing supported harnesses."
+policy:
+  allow_implicit_invocation: false

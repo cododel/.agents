@@ -6,10 +6,9 @@ from pathlib import Path
 import select
 import signal
 import subprocess
-import tempfile
 import time
 
-from .common import MCPLS_CONFIG_PATH, fail
+from .common import fail
 
 
 def send_message(process, payload):
@@ -81,78 +80,90 @@ def signal_process(process, process_signal):
 
 
 def stop_process_group(process):
+    process_group = process.pid
     signal_process(process, signal.SIGTERM)
     try:
         process.wait(timeout=5)
-        return
     except subprocess.TimeoutExpired:
-        pass
-    signal_process(process, signal.SIGKILL)
-    try:
-        process.wait(timeout=5)
-    except subprocess.TimeoutExpired:
-        fail("mcpls verification process group did not terminate")
+        signal_process(process, signal.SIGKILL)
+        try:
+            process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            fail("mcpls verification process group did not terminate")
+    deadline = time.monotonic() + 2
+    while time.monotonic() < deadline:
+        try:
+            os.killpg(process_group, 0)
+        except ProcessLookupError:
+            return
+        except PermissionError:
+            fail("cannot confirm mcpls verification process-group cleanup")
+        time.sleep(0.05)
+    fail("mcpls child process survived verification cleanup")
 
 
-def mcp_probe(manifest, mcpls_path):
-    with tempfile.TemporaryDirectory(prefix="agents-mcpls-") as temp_dir:
-        project = Path(temp_dir)
-        (project / "pyproject.toml").write_text(
-            "[project]\nname = \"mcpls-smoke\"\nversion = \"0.0.0\"\n", encoding="utf-8"
-        )
-        source = project / "sample.py"
-        source.write_text("def answer() -> int:\n    return 42\n", encoding="utf-8")
-        with tempfile.TemporaryFile(mode="w+t", encoding="utf-8") as stderr_file:
-            try:
-                process = subprocess.Popen(
-                    [mcpls_path, "--config", str(MCPLS_CONFIG_PATH.resolve())],
-                    cwd=str(project),
-                    stdin=subprocess.PIPE,
-                    stdout=subprocess.PIPE,
-                    stderr=stderr_file,
-                    text=True,
-                    bufsize=1,
-                    start_new_session=True,
-                )
-            except OSError as exc:
-                fail("cannot start mcpls verification probe: {}".format(exc))
-            try:
-                send_message(process, {
-                    "jsonrpc": "2.0",
-                    "id": 1,
-                    "method": "initialize",
-                    "params": {
-                        "protocolVersion": "2025-06-18",
-                        "capabilities": {},
-                        "clientInfo": {"name": "agents-code-intelligence-verify", "version": "2"},
-                    },
-                })
-                receive_response(process, 1)
-                send_message(process, {
-                    "jsonrpc": "2.0", "method": "notifications/initialized", "params": {},
-                })
-                send_message(process, {
-                    "jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {},
-                })
-                tools_result = receive_response(process, 2)
-                if not isinstance(tools_result, dict):
-                    fail("MCP tools/list returned a non-object result")
-                tools = {
-                    tool.get("name")
-                    for tool in tools_result.get("tools", [])
-                    if isinstance(tool, dict)
-                }
-                missing = sorted(set(manifest["expected_mcp_tools"]) - tools)
-                if missing:
-                    fail("MCP tools/list is missing expected tools: {}".format(", ".join(missing)))
+def _python_source(project):
+    ignored = {".git", ".venv", "venv", "node_modules", "target", "dist", "build"}
+    for path in sorted(project.rglob("*.py")):
+        if not any(part in ignored for part in path.relative_to(project).parts):
+            return path
+    fail("Python semantic smoke requested but no Python source exists")
+
+
+def mcp_probe(manifest, mcpls_path, project, config_path, semantic_python=False):
+    source = _python_source(project) if semantic_python else None
+    with open(os.devnull, "w", encoding="utf-8") as stderr_file:
+        try:
+            process = subprocess.Popen(
+                [mcpls_path, "--config", str(config_path.resolve())],
+                cwd=str(project),
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=stderr_file,
+                text=True,
+                bufsize=1,
+                start_new_session=True,
+            )
+        except OSError as exc:
+            fail("cannot start mcpls verification probe: {}".format(exc))
+        try:
+            send_message(process, {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "method": "initialize",
+                "params": {
+                    "protocolVersion": "2025-06-18",
+                    "capabilities": {},
+                    "clientInfo": {"name": "agents-code-intelligence-verify", "version": "3"},
+                },
+            })
+            receive_response(process, 1)
+            send_message(process, {
+                "jsonrpc": "2.0", "method": "notifications/initialized", "params": {},
+            })
+            send_message(process, {
+                "jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {},
+            })
+            tools_result = receive_response(process, 2)
+            if not isinstance(tools_result, dict):
+                fail("MCP tools/list returned a non-object result")
+            tools = {
+                tool.get("name")
+                for tool in tools_result.get("tools", [])
+                if isinstance(tool, dict)
+            }
+            missing = sorted(set(manifest["expected_mcp_tools"]) - tools)
+            if missing:
+                fail("MCP tools/list is missing expected tools: {}".format(", ".join(missing)))
+            if source is not None:
                 smoke = call_tool_when_ready(
                     process, "get_document_symbols", {"file_path": str(source.resolve())}
                 )
                 if not isinstance(smoke, dict) or smoke.get("isError") is True:
                     fail("Python get_document_symbols semantic smoke failed")
-            finally:
-                try:
-                    process.stdin.close()
-                except (BrokenPipeError, OSError):
-                    pass
-                stop_process_group(process)
+        finally:
+            try:
+                process.stdin.close()
+            except (BrokenPipeError, OSError):
+                pass
+            stop_process_group(process)
