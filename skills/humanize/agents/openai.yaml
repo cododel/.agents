@@ -1,0 +1,6 @@
+interface:
+  display_name: "Humanize"
+  short_description: "Rewrites prose without synthetic AI patterns"
+  default_prompt: "Use $humanize to rewrite this text in a natural voice while preserving its facts, intent, and evidence."
+policy:
+  allow_implicit_invocation: true
