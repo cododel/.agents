@@ -1,0 +1,6 @@
+interface:
+  display_name: "Merge Branches"
+  short_description: "Safely merges branches without losing behavior"
+  default_prompt: "Use $merge-branches to merge the specified source branch into the destination, resolve mechanical conflicts, and stop on product forks."
+policy:
+  allow_implicit_invocation: true
