@@ -91,12 +91,21 @@ verification. Never silently choose an unresolved product or architecture branch
 - The primary checkout is operator-owned. A direct implementation request permits scoped file edits,
   including an explicit request to work in the current workspace, but staging, committing, switching,
   rebasing, conflict resolution, or other Git-state mutation there requires an explicit request.
+- In any linked worktree, before task mutation, verify through Git metadata that the checkout is a
+  linked worktree and that `HEAD` is attached to the dedicated branch for this task. If that branch
+  does not exist, create and attach a correctly named task branch before editing. If the worktree is
+  attached to another task's branch or already contains unrelated work, do not repurpose it; use or
+  create the correct worktree instead.
 - Use `$worktree-task` only when isolation has a concrete benefit: the operator requests it; another
   base or branch is required; a parallel writable builder needs exclusive ownership; overlapping
   operator changes make safe separation impossible; the task is unrelated to the current branch; or
   a protected primary/default checkout cannot accept implementation without permission. A linked
   worktree owns exactly one dedicated branch and permits scoped edits, staging, coherent checkpoint
   commits, amend of task-owned commits, and local conflict resolution.
+- For implementation work in a linked worktree, autonomously stage and commit only task-owned changes.
+  Finish the task with all completed task-owned work recorded in one or more coherent local commits
+  and no task-owned changes left staged or unstaged. Read-only tasks, work blocked before a completed
+  deliverable, and an explicit operator request not to commit are exceptions.
 - Never move the primary checkout, change `core.worktree`, share one branch across worktrees, or
   switch a task worktree to unrelated work. Create another worktree when another branch is needed.
 - Name branches `<type>/<short-kebab-description>` or, with a supplied tracker ID,
