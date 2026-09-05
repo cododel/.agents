@@ -1,12 +1,14 @@
 ---
 name: tavily-dynamic-search
-description: "Run a programmatic Tavily search→filter→extract workflow with results isolated from the main context. Use for curated key details without raw-HTML noise (`найди и отфильтруй`). Do not use for plain result lists (`tavily-search`), known URLs, site crawling, or full research reports (`tavily-research`)."
+description: "Isolate raw retrieval output in an agent-controlled search, triage, and selective extraction pipeline when Tavily is explicitly requested or selected for a concrete capability or evidence gap. Generic curated-search wording alone does not select Tavily."
 ---
 
 # Tavily Dynamic Search
 
-Use a programmatic search → triage → selective extraction workflow so raw result bodies remain in
-a scratch data file or subprocess and only curated evidence enters the main context.
+Apply the provider-neutral retrieval procedure in `../../AGENTS.md`. This skill supplies the
+Tavily-specific execution pattern only after Tavily passes the selection gate in
+`../tavily-cli/references/common.md`. Search and extraction may use different suitable providers;
+do not switch an already suitable discovery tool merely to run this pipeline.
 
 ## Contract
 
@@ -18,5 +20,5 @@ a scratch data file or subprocess and only curated evidence enters the main cont
 5. Preserve source URLs and disclose failed or skipped sources. Remove scratch data only when it is
    agent-created and no longer needed; never place scratch code in the repository.
 
-Use `tavily-search` when its compact result list is sufficient and `tavily-research` when Tavily
-should perform the synthesis.
+Use `tavily-search` when its compact result list is sufficient. Use `tavily-research` only when
+the user explicitly delegates synthesis to Tavily.

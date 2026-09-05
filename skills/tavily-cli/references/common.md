@@ -2,6 +2,19 @@
 
 Apply this contract from every Tavily CLI skill.
 
+## Selection
+
+Tavily supplies web evidence; the agent owns source selection and final conclusions. Follow the
+global web-tool policy in `../../../AGENTS.md`. Select Search for an explicit request, unavailable
+suitable native search, a specific evidence gap, additional source discovery, or needed Tavily
+filters. Prefer suitable native reading for an ordinary known page; choose Extract directly for
+batch Markdown/text or difficult extraction, Map for site URL discovery, and Crawl for a bounded
+site corpus. Do not require a failed native call when the task already establishes the need.
+
+Research requires an explicit user request to delegate synthesis to Tavily. Generic research,
+comparison, a missing native tool, or a request merely to search through Tavily is insufficient.
+Search failure never authorizes escalation to Research.
+
 ## Readiness
 
 1. Run `command -v tvly` and `tvly --status`.

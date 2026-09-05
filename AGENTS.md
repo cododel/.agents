@@ -194,6 +194,13 @@ implement the wrong behavior.
 - Automatically use `$find-docs` for drift-prone library, framework, SDK, API, CLI, cloud, MCP, or
   harness behavior, resolving the exact installed/requested version. Never guess or silently use a
   neighboring version.
+- Select web tools by required capability and available evidence. Prefer suitable native search or
+  reading when comparably capable; use another provider directly when batch extraction, site mapping,
+  bounded crawling, or a concrete evidence gap justifies it. No fixed provider ladder is required.
+- For multi-step web retrieval, discover candidates, triage sources, selectively extract evidence,
+  then reason. Keep raw corpora outside the main context; retain source URLs, relevant passages, and
+  failure/coverage gaps. Different providers may return the same underlying source and do not by
+  themselves provide independent corroboration.
 - Prefer official primary sources. Never send proprietary source, private logs, customer data,
   credentials, or identifiers to external services.
 - When `graphify-out/graph.json` exists and can accelerate cross-module discovery, debugging,

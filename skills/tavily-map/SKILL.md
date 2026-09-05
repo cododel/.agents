@@ -7,7 +7,8 @@ description: "List URLs and site structure with Tavily without extracting page c
 
 Use `tvly map` to discover URLs on a known site without loading page content.
 
-1. Read `../tavily-cli/references/common.md` and run `tvly map --help`.
+1. Apply the selection gate and runtime contract in `../tavily-cli/references/common.md`, then
+   run `tvly map --help`.
 2. Confirm authentication, the root URL, and whether external domains belong in scope.
 3. Start with shallow, bounded discovery. Narrow by instructions or path/domain patterns before
    increasing depth or limit.

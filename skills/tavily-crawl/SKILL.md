@@ -7,7 +7,8 @@ description: "Crawl and extract many pages from one site with Tavily. Use for `c
 
 Use `tvly crawl` for bounded multi-page extraction from one site.
 
-1. Read `../tavily-cli/references/common.md` and run `tvly crawl --help`.
+1. Apply the selection gate and runtime contract in `../tavily-cli/references/common.md`, then
+   run `tvly crawl --help`.
 2. Confirm authentication, root URL, path/domain scope, and whether output is context for reasoning
    or a requested local corpus.
 3. Start shallow with a small page limit. Use instructions and per-source chunks for agent context;

@@ -1,11 +1,12 @@
 ---
 name: tavily-cli
-description: "Route Tavily CLI tasks that explicitly request multi-operation orchestration across search, extract, map, crawl, and research. Use only when the user names `tavily-cli` or combines operations; use the specialized Tavily skill for a single operation. Never use for local files, Git, deployments, or code editing."
+description: "Coordinate multiple Tavily CLI operations when explicitly requested or selected for concrete retrieval needs. Combining generic search and reading does not select Tavily. Use specialized skills for single operations; Research requires explicit delegation."
 ---
 
 # Tavily CLI
 
-Coordinate two or more Tavily operations while preserving each specialized command's boundary.
+Coordinate two or more Tavily operations after the selection gate in `references/common.md`.
+Combining search and reading is not by itself a reason to choose Tavily.
 
 ## Route
 
@@ -15,7 +16,7 @@ Coordinate two or more Tavily operations while preserving each specialized comma
 | Extract one or more known URLs | `tvly extract` | `tavily-extract` |
 | Discover site URLs without content | `tvly map` | `tavily-map` |
 | Extract many pages from one site | `tvly crawl` | `tavily-crawl` |
-| Produce a cited multi-source synthesis | `tvly research` | `tavily-research` |
+| Explicitly delegate synthesis to Tavily | `tvly research` | `tavily-research` |
 | Search, filter, and extract with raw data isolated | search + extract | `tavily-dynamic-search` |
 
 Use the smallest sufficient sequence. Map before crawl when site scope is unknown; extract selected

@@ -1,11 +1,13 @@
 ---
 name: tavily-search
-description: "Run a quick Tavily web search returning ranked results, snippets, and metadata. Use for current facts, articles, sources, or `найди/поищи/look up` requests that need no deep synthesis. Do not use for known URLs, site-wide extraction, or detailed research reports."
+description: "Search with Tavily when explicitly requested, suitable native search is unavailable, evidence is insufficient, or an additional retrieval backend or Tavily-specific filter is needed. Ordinary find/look-up wording alone does not select Tavily."
 ---
 
 # Tavily Search
 
-Use `tvly search` for source discovery or a bounded factual lookup when no URL is known.
+Use `tvly search` for source discovery after the selection gate in
+`../tavily-cli/references/common.md`. Identify the concrete retrieval need; ordinary search wording
+alone is insufficient. No provider is a mandatory first choice for semantic discovery.
 
 1. Read `../tavily-cli/references/common.md` and run `tvly search --help`.
 2. Turn the request into a concise search query; split materially different questions instead of
@@ -20,4 +22,5 @@ tvly search "query" --max-results 5 --json
 ```
 
 Use `tavily-extract` for selected full pages, `tavily-dynamic-search` when filtering must isolate
-raw results, and `tavily-research` for a comprehensive synthesis.
+raw results. The agent performs synthesis; use `tavily-research` only for explicit user delegation
+of synthesis to Tavily. Deduplicate underlying sources when combining providers.
