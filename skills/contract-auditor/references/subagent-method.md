@@ -68,7 +68,6 @@ Return one JSON object only:
       "class": "verification-gap",
       "severity": "high",
       "readiness_effect": "risk",
-      "confidence": 0.72,
       "proof_kind": "observed|executed|derived|none",
       "cascade": {
         "classification": "root|confirmed-consequence|cascade-candidate|independent",

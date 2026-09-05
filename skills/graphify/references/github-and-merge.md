@@ -27,20 +27,13 @@ Graphify clones into `~/.graphify/repos/<owner>/<repo>` and reuses existing clon
 
 **Multiple local subfolders (monorepo or multi-service layout):**
 
-The skill pipeline writes all intermediate and final outputs to `graphify-out/` in the current working directory. Running the skill on each subfolder separately will clobber the same output dir. Instead, use the CLI directly for each subfolder — it places `graphify-out/` *inside* the scanned path:
+Run the staged build protocol separately for each original subfolder, choosing a distinct published
+output directory for each. Preserve each original scan root; never run direct CLI extraction that
+may select a synthesis backend or overwrite shared output.
 
-```bash
-graphify extract ./core/     # → ./core/graphify-out/graph.json
-graphify extract ./service/  # → ./service/graphify-out/graph.json
-graphify extract ./platform/ # → ./platform/graphify-out/graph.json
-# Add --backend <supported-backend> when using an explicitly configured provider backend
-
-# Then merge at the project root:
-graphify merge-graphs \
-  ./core/graphify-out/graph.json \
-  ./service/graphify-out/graph.json \
-  ./platform/graphify-out/graph.json \
-  --out graphify-out/graph.json
-```
-
-Once `graphify-out/graph.json` exists, the fast path above takes over: any codebase question runs `graphify query` directly on the merged graph — no re-extraction, no size gate.
+For an explicitly requested cross-graph merge, prepare a new staged run with the constituent graph
+files as sources and an empty semantic chunk list. Run helper merge, then use the installed
+`merge-graphs` command with its output explicitly inside the new staging directory. Reconstruct the
+extraction from that graph's nodes/links/hyperedges, generate its report using the local output
+pipeline, and publish through [run-protocol.md](run-protocol.md). Do not write a merged graph directly
+over published output. Verify relevant CLI flags against the installed version before execution.

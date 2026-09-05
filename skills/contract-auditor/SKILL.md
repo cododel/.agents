@@ -57,7 +57,9 @@ repeat/re-review request to `repeat-review` over the requested base mode.
   operator explicitly selected preparation plus final audit before any mutation. Require a newly
   frozen target, remain read-only, and return the terminal verdict to the orchestrator. Never return
   authority to fix a finding or repeat the audit.
-- Route `missing-contract` to `$contract-writer`; it may create an owner only when current semantics and ownership are explicit, otherwise it stops for an operator decision.
+- Report `missing-contract` with a recommendation for `$contract-writer`; this read-only audit
+  does not invoke a writer with mutation authority. Creation requires a separately authorized scope.
+- Zero findings is a valid outcome. Do not invent defects to fill a report or meet a finding count.
 - Stop on a contract conflict for an operator decision. Hand off confirmed defects separately.
 
 ## Trigger boundary

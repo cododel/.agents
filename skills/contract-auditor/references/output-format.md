@@ -10,7 +10,7 @@ Write in the user's or project's working language. Keep identifiers and verdict 
 1. [blocker] <short title>
    - class: `contract-violation`
    - rule/risk: `<id>` — `<contract path>`
-   - confidence/proof: `<0.00-1.00>` / `<executed or two-vector deterministic confirmation>`
+   - proof: `<executed or two-vector deterministic confirmation>`
    - cascade: `<root | confirmed consequence through exact edge | candidate plus missing proof | independent>`
    - blocker gate: `<six explicit true/false checks>`
    - reachability: `<production entry to harmful result>`

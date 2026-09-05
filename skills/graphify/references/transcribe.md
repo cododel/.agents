@@ -29,24 +29,30 @@ export GRAPHIFY_WHISPER_PROMPT="<the one-sentence domain hint you composed in St
 $(cat graphify-out/.graphify_python) -c "
 import json, os, sys
 from pathlib import Path
-from graphify.transcribe import transcribe_all
+from graphify.transcribe import transcribe
+import hashlib
 
 detect = json.loads(Path('graphify-out/.graphify_detect.json').read_text(encoding=\"utf-8\"))
 video_files = detect.get('files', {}).get('video', [])
 prompt = os.environ.get('GRAPHIFY_WHISPER_PROMPT', 'Use proper punctuation and paragraph breaks.')
+reads = detect.setdefault('read_paths', {})
+for original in video_files:
+    # A distinct directory avoids collisions between equally named media in different folders.
+    token = hashlib.sha256(original.encode()).hexdigest()[:16]
+    target = Path('graphify-out/transcripts') / token
+    transcript = transcribe(original, output_dir=target, initial_prompt=prompt)
+    reads[original] = str(Path(transcript).resolve())
+detect['files'].setdefault('document', []).extend(video_files)
+detect['files']['video'] = []
+Path('graphify-out/.graphify_detect.json').write_text(json.dumps(detect, ensure_ascii=False), encoding=\"utf-8\")
+print(f'Transcribed {len(video_files)} files; retained original source identities')
 
-transcript_paths = transcribe_all(video_files, initial_prompt=prompt)
-# Write the JSON from Python (NOT a shell '>' redirect): transcribe_all/Whisper
-# print progress to stdout, which would otherwise corrupt the JSON file (#1392).
-Path('graphify-out/.graphify_transcripts.json').write_text(json.dumps(transcript_paths, ensure_ascii=False), encoding=\"utf-8\")
-print(f'Transcribed {len(transcript_paths)} file(s)', file=sys.stderr)
 "
 ```
 
-After transcription:
-- Read the transcript paths from `graphify-out/.graphify_transcripts.json`
-- Add them to the docs list before dispatching semantic subagents in Step 3B
-- Print how many transcripts were created: `Transcribed N video file(s) -> treating as docs`
-- If transcription fails for a file, print a warning and continue with the rest
+After transcription, cache lookup and chunk FILE_LIST use original paths. Supply read_paths to the
+agent for reading material, and fingerprint both original and derived bytes. Use the original path
+for IDs and source_file; source_location refers to the original when meaningful, otherwise null.
+If a transcription fails, retry that file once; remaining failures stop the build as incomplete.
 
 **Whisper model:** Default is `base`. If the user passed `--whisper-model <name>`, `export GRAPHIFY_WHISPER_MODEL=<name>` (it must be exported, not just assigned) before running the command above.

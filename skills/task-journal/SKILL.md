@@ -79,6 +79,10 @@ Update it:
 4. when an assumption becomes evidence or is invalidated;
 5. before a major implementation-to-review or review-to-handoff transition.
 
+When requirements, code, or material environment change, mark dependent handoffs and verification
+results stale and revise affected assignments. Preserve still-applicable evidence; a journal update
+alone does not refresh a test result.
+
 Do not update after every command, file read, or routine edit. Remove resolved questions and obsolete
 next steps. Keep rejected paths only when they prevent repeating a costly mistake or encode an
 operator decision.

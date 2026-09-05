@@ -6,7 +6,7 @@ Load this when the user passed one of the export flags (`--wiki`, `--neo4j`, `--
 
 **Only run this step if `--wiki` was explicitly given in the original command.**
 
-Run this before Step 9 (cleanup) so `.graphify_labels.json` is still available.
+Run this only in the authorized export scope after core publication; the published labels are retained.
 
 ```bash
 graphify export wiki

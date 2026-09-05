@@ -21,11 +21,8 @@ production state. A previous report is a hypothesis until refreshed against the 
 
 ## Blocker confirmation gate
 
-Confidence is the reviewer's bounded certainty that the claimed defect exists on the frozen target,
-separately from impact. It is not an evidence percentage or a measure of checklist completeness.
 A finding can block rollout only when all of these are true:
 
-- confidence is at least `0.80`;
 - an exact normative rule or named material risk is identified;
 - a reachable production scenario and complete code/configuration trace are shown;
 - existing guards and mitigations on that path were checked and found insufficient;
@@ -38,7 +35,7 @@ A finding can block rollout only when all of these are true:
 cannot produce a release blocker. Record it as `verification-gap`, `risk`, or `unverified`. Such a
 finding remains visible but does not stop or extend the bounded audit.
 
-For every blocking candidate, record each gate item as an explicit boolean alongside confidence.
+For every blocking candidate, record each gate item as an explicit boolean.
 No aggregate score substitutes for a missing rule, reachability trace, mitigation check, impact, or
 proof requirement.
 
@@ -55,7 +52,7 @@ proof requirement.
   authority or an explicitly authoritative project record. Never infer acceptance from silence.
 
 Use `blocker | high | medium | low` severity and separately record readiness effect as
-`blocker | risk | none`. Record confidence from `0.00` to `1.00` and the proof kind. Exclude
+`blocker | risk | none`. Record the proof kind and missing evidence, if any. Exclude
 maintainability-only findings with no contract or rollout effect.
 
 ## Traceability requirements

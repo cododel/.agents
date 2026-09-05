@@ -12,7 +12,8 @@
    failures, and independent debt.
 6. Repair only confirmed defects authorized by the original implementation scope. Route independent
    debt through `$issue-writer` with a useful TODO link when appropriate.
-7. Re-run only checks and review vectors invalidated by fixes; cap remediation at two rounds.
+7. Re-run only checks and review vectors invalidated by fixes, requirement changes, or material
+   environment changes; revise affected assignments and cap remediation at two rounds.
 8. Review the final diff against task motivation and update `$task-journal` before handoff.
 
 Do not require a permanent test, contract, Issue, ADR, or runbook unless that artifact has independent
@@ -104,6 +105,10 @@ Terminal status:
 - `UNVERIFIED` — required evidence is unavailable or cannot be trusted.
 
 ## Output discipline
+
+Zero findings is valid. Checks must follow requirements, not be weakened merely to make the
+implementation pass. Record the requirement change or demonstrated test defect when expectations
+need correction.
 
 Lead with terminal status and achieved behavior. Include only decisive evidence and non-obvious
 motivation. List independent debt by Issue link. Do not repeat routine file paths, every command, or

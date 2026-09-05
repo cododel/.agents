@@ -1,18 +1,23 @@
 # graphify reference: incremental update and cluster-only
 
-Load this only when the user passed `--update` or `--cluster-only`. A first-time full build never reads this file.
+Load this only when the user passed `--update` or `--cluster-only`. A first-time full build never reads this file. First begin a run using [run-protocol.md](run-protocol.md); every relative path and command here runs in RUN_DIR/work against staged copies. Step numbers refer to [build.md](build.md) and [build-outputs.md](build-outputs.md).
 
 ## For --update (incremental re-extraction)
 
-Use when you've added or modified files since the last run. Only re-extracts changed files - saves tokens and time.
+Use when you've added or modified files since the last run. Only re-extracts changed files.
+Before an incremental merge, inspect existing source_file values. If a legacy graph attributes
+content to converted/transcript sidecars or old run directories, report the provenance migration
+and use an explicitly requested full rebuild instead of mixing old and original-based identities.
+Do not silently prune or reinterpret legacy nodes.
 
 ```bash
 $(cat graphify-out/.graphify_python) -c "
 import sys, json
-from graphify.detect import detect_incremental, save_manifest
+sys.path.insert(0, 'SCRIPTS_PATH')
+from run_sources import detect_sources
 from pathlib import Path
 
-result = detect_incremental(Path('INPUT_PATH'))
+result = detect_sources(Path('INPUT_PATH'), published_output=Path('PUBLISHED_OUTPUT'), incremental=True)
 new_total = result.get('new_total', 0)
 print(json.dumps(result, indent=2, ensure_ascii=False))
 Path('graphify-out/.graphify_incremental.json').write_text(json.dumps(result, ensure_ascii=False), encoding=\"utf-8\")
@@ -41,6 +46,7 @@ Path('graphify-out/.graphify_detect.json').write_text(json.dumps({
     'total_words': r.get('total_words', 0),
     'skipped_sensitive': r.get('skipped_sensitive', []),
     'needs_graph': True,
+    'read_paths': r.get('read_paths', {}),
 }, ensure_ascii=False), encoding=\"utf-8\")
 "
 ```
@@ -61,12 +67,12 @@ print('code_only:', code_only)
 "
 ```
 
-If `code_only` is True: print `[graphify update] Code-only changes detected - skipping semantic extraction (no LLM needed)`, run only Step 3A (AST) on the changed files, skip Step 3B entirely (no subagents), then go straight to merge and Steps 4–8.
+If `code_only` is True: print `[graphify update] Code-only changes detected - skipping semantic extraction (no LLM needed)`, prepare an empty chunk plan, run helper merge, run Step 3A (AST), write the empty semantic extraction from the build fast path, then run Part C and the incremental merge below before output generation.
 
-If `code_only` is False (any changed file is a doc/paper/image/video): **first, if any changed file is in `new_files['video']`, run `references/transcribe.md` (Step 2.5) on those files, then rewrite `.graphify_detect.json` to move the resulting transcript paths into `files['document']` and drop `files['video']`** — otherwise raw `.mp4/.mp3` paths are fed to semantic subagents as unreadable media (#1392). Then run the full Steps 3A–3C pipeline as normal.
+If `code_only` is False (any changed file is a doc/paper/image/video): **first, if any changed file is in `new_files['video']`, run [transcribe.md](transcribe.md) (Step 2.5) on those files, then rewrite `.graphify_detect.json` to move original media paths into `files['document']` and record original-to-transcript read_paths and drop `files['video']`** — otherwise raw `.mp4/.mp3` paths are fed to semantic subagents as unreadable media (#1392). Then run the full Steps 3A–3C pipeline as normal.
 
 
-If no new files exist (only deletions), create an empty extraction so the merge step can prune:
+If no new files exist (only deletions), prepare an empty chunk plan and run helper merge, then create an empty extraction so the graph merge can prune:
 
 ```bash
 if [ ! -f graphify-out/.graphify_extract.json ]; then
@@ -137,31 +143,8 @@ merged_out = {
 Path('graphify-out/.graphify_extract.json').write_text(json.dumps(merged_out, ensure_ascii=False), encoding=\"utf-8\")
 print(f'[graphify update] Merged extraction written ({len(merged_out[\"nodes\"])} nodes, {len(merged_out[\"edges\"])} edges)')
 
-# Save manifest so next --update diffs against today's state, not the
-# prior run's baseline (prevents ghost-node reports on subsequent updates).
-# root= matches the build_merge call above so the manifest keys stay relative to
-# the scan root — portable across clones/machines, so --update keeps matching
-# cached files instead of missing every one after a move (#1417).
-#
-# Only stamp semantic files (docs/papers/images) that ACTUALLY produced output
-# THIS run (new_extraction is this run's fresh extraction, read above before the
-# merge overwrote the file): a changed doc whose chunk failed must stay unstamped
-# so the next --update re-queues it, otherwise it is marked done and its content
-# is lost forever (#2015). Mirrors the library extract path
-# (cli._stamped_manifest_files + clear_semantic + scan_corpus).
-from graphify.cli import _stamped_manifest_files
-_manifest_files = _stamped_manifest_files(incremental['files'], new_extraction, Path('INPUT_PATH'))
-# Changed semantic files dispatched this run but NOT stamped had their chunk fail
-# or be omitted; clear any stale semantic_hash so they are re-queued (#1948).
-_sem_types = ('document', 'paper', 'image')
-_dispatched = {f for t, fl in incremental.get('new_files', {}).items() if t in _sem_types for f in fl}
-_stamped = {f for fl in _manifest_files.values() for f in fl}
-_cleared = _dispatched - _stamped
-# scan_corpus = the RAW full corpus so in-root files newly excluded since last run
-# are dropped rather than masquerading as deletions; untouched rows preserved (#1908).
-_scan = {f for fl in incremental['files'].values() for f in fl}
-save_manifest(_manifest_files, root='INPUT_PATH', scan_corpus=_scan, clear_semantic=_cleared or None)
-print('[graphify update] Manifest saved.')
+# Stage the manifest only in Step 9 after output generation succeeds.
+
 "
 ```
 
@@ -201,10 +184,14 @@ Clean up after: `rm -f graphify-out/.graphify_old.json`
 
 ## For --cluster-only
 
-Skip Steps 1–3. Re-run clustering on the existing graph:
+Prepare a run with the existing graph included in sources, parameters.operation = "cluster-only",
+and no semantic chunks. Run helper merge. Use the installed package only after verifying that the
+cluster-only command can complete with current local capabilities; do not let it choose an external
+synthesis backend. If that cannot be established, reconstruct extraction from staged graph nodes,
+links and hyperedges, then use Steps 4–6 of [build-outputs.md](build-outputs.md), with the current
+agent naming communities. Preserve the graph's directed flag.
 
-```bash
-graphify cluster-only .
-```
-
-`graphify cluster-only .` is **self-contained**: it re-clusters, names communities, and regenerates `GRAPH_REPORT.md`, `graph.json`, and `graph.html` from the existing graph. **Do not re-run Steps 5–9** — they read intermediate files (`.graphify_extract.json`, `.graphify_detect.json`, `.graphify_analysis.json`) that a prior build's cleanup (Step 9) already deleted, so they raise `FileNotFoundError` (#1392). When it finishes, present the refreshed `GRAPH_REPORT.md` summary as usual.
+For the local pipeline, write `.graphify_extract.json` from the staged graph (nodes, links renamed to
+edges, hyperedges) and detection metadata with the original corpus root. Stage the existing manifest
+unchanged because no sources were re-extracted. Publish through the helper; do not run the normal
+Step 9 manifest stamping against an empty detection. Never run cluster-only on published output.

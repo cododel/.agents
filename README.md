@@ -97,11 +97,14 @@ active client already exposes it, but this repository does not install or regist
 
 ## External Skill Provenance
 
-- `find-skills` is externally managed by `.skill-lock.json`. Update it through the owning installer;
-  do not hand-edit it.
+- `find-skills` is locally maintained, derived from `vercel-labs/skills`,
+  `skills/find-skills/SKILL.md` (former installer folder hash
+  `76a98a285cb0434f3d39e1a873823556330e398b`). It is no longer installer-managed;
+  review upstream changes manually while retaining the local capability-gap trigger.
 - `graphify` is derived from the installed `graphifyy` package. The pinned version lives in
   `skills/graphify/.graphify_version`; local portability overlays keep its trigger and worker/tool
-  instructions client-neutral without changing graph semantics.
+  instructions client-neutral without changing graph semantics. The local run protocol stages
+  outputs and validates chunk provenance before publication; preserve it during upstream updates.
 - Tavily Skills are locally maintained routing/production wrappers. Resolve CLI flags from current
   `tvly <command> --help` and SDK contracts from current official documentation.
 

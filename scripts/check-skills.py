@@ -216,8 +216,8 @@ def main() -> int:
     if not legacy.is_file() or not legacy.read_text().strip():
         errors.append("skills/graphify/.graphify_version: missing vendor version")
     lock = json.loads((root / ".skill-lock.json").read_text(encoding="utf-8"))
-    if "find-skills" not in lock.get("skills", {}):
-        errors.append(".skill-lock.json: find-skills is not externally managed")
+    if "find-skills" in lock.get("skills", {}):
+        errors.append(".skill-lock.json: locally maintained find-skills must not be installer-managed")
 
     corpus_paths = [
         path for path in root.rglob("*")

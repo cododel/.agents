@@ -1,6 +1,6 @@
 # graphify reference: extraction subagent prompt
 
-Load this in Step 3 Part B when the corpus has at least one doc, paper, or image chunk. A pure-code corpus skips Part B and never reads this file. Each semantic subagent receives the prompt below verbatim (substitute FILE_LIST, CHUNK_NUM, TOTAL_CHUNKS, DEEP_MODE, and CHUNK_PATH).
+Load this in Step 3 Part B when the corpus has at least one doc, paper, or image chunk. A pure-code corpus skips Part B and never reads this file. Each inline pass or delegated worker uses this extraction prompt (substitute FILE_LIST, CHUNK_NUM, TOTAL_CHUNKS, DEEP_MODE, and CHUNK_PATH). When READ_PATHS maps a FILE_LIST original to a derived file, read that derived content but retain the original FILE_LIST identity for node IDs and source_file. Wrap the extraction in the run envelope from [build.md](build.md), using the assigned run ID and fingerprint.
 
 ```
 You are a graphify extraction subagent. Read the files listed and extract a knowledge graph fragment.
@@ -65,7 +65,7 @@ Generate the extraction JSON matching this schema exactly:
 
 source_file RULE (every node, edge, and hyperedge): set source_file to the path of the originating file EXACTLY as it appears in FILE_LIST — verbatim and absolute. Do NOT shorten to a basename, do NOT re-relativize, do NOT strip any directory prefix, and do NOT change separators (the engine canonicalizes separators and relativizes against the build root downstream). Copy the FILE_LIST entry character-for-character. This keeps the full build and incremental --update on the same base, so build_merge's replace-on-re-extract matches the existing node instead of accumulating a duplicate.
 
-Then write the JSON to disk using an available file-writing mechanism at this exact absolute path.
+Then wrap this extraction JSON in the assigned run envelope and write it to this exact absolute path.
 Do not use a relative path because worker working directories are not guaranteed:
 CHUNK_PATH
 ```

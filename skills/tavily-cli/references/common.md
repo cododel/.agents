@@ -41,8 +41,13 @@ a copied option table. Quote queries and URLs.
 
 ## Errors
 
-Treat a non-zero exit as a failed operation. Report the command category and actionable error
-without secrets. Do not silently switch tools after auth, rate-limit, invalid-input, timeout, or
-API failures. For rate limits, honor server/CLI retry guidance; for auth, ask the operator to log in
-or provide the key through the established environment; for partial extract/crawl failures, retain
-successful URLs and list failed URLs separately.
+Classify a non-zero exit using the global tool-failure policy. Correct invalid input against the
+installed schema; bound retries for transient reads and honor rate-limit guidance. Retain successful
+URLs on partial failures and report the missing coverage. After an uncertain write, reconcile its
+state or use documented idempotency before repeating it.
+
+When Tavily was optional, an unavailable CLI, authentication prerequisite, or service failure may
+justify an already authorized retrieval alternative; do not require a new key solely to continue.
+Disclose material coverage differences. An explicit Tavily request remains a provider constraint:
+report the limitation rather than silently switching. Never bypass access restrictions, and never
+escalate to Research without its explicit delegation gate.
