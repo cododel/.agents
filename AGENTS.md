@@ -51,8 +51,12 @@ the conversation or task journal instead of requiring another application or run
 `$feature-brief` for a structured requirements interview, not as a mandatory file ceremony.
 
 Keep an assumption implicit only when it is low-risk, reversible, and follows directly from the task
-and repository. Record assumptions that materially affect behavior, scope, architecture, or
-verification. Never silently choose an unresolved product or architecture branch.
+and repository. Record material technical assumptions and verification limits. Recording or disclosing
+an assumption is not operator agreement: when plausible alternatives still differ materially in
+product behavior, scope, stable ownership, or architecture, obtain the operator's decision before
+dependent implementation or normative documentation. A proposed default, README entry, or unanswered
+question does not resolve that fork. Reuse decisions already established in the session or repository;
+resolve objective implementation details autonomously and continue independent work while waiting.
 
 ## Target, Evidence, And Claims
 
@@ -152,6 +156,10 @@ verification. Never silently choose an unresolved product or architecture branch
   tradeoffs—not visible control flow or copied durable documentation.
 - Evaluate decomposition around 300 logical LOC and require a concrete documented reason above 500.
   Split by change responsibility; keep entrypoints declarative and avoid trivial-file fragmentation.
+- Regardless of file size, review multiple owners of mutable state, hidden side effects, and complex
+  cancellation or shutdown. Make resource ownership, state transitions, and cleanup paths explicit;
+  split only where a responsibility boundary reduces that complexity. A short file is not evidence
+  of simplicity, and moving code into more files does not establish clear ownership.
 
 ## Project Documentation Boundaries
 

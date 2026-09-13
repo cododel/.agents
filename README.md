@@ -64,6 +64,7 @@ not shared-agent configuration.
 - `clients/<client>/skills/` — client-only Skill sources when required.
 - `evals/skill-scenarios.tsv` — portable Skill trigger contracts.
 - `evals/agent-behavior.tsv` — policy-level behavior contracts.
+- [Behavior probes](evals/behavior-probes.md) — concrete prompts and grading criteria for model runs.
 - `scripts/check-skills.py` — structural/link/eval validator.
 
 ## Client Adapters
