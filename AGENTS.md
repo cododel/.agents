@@ -222,9 +222,6 @@ implement the wrong behavior.
   themselves provide independent corroboration.
 - Prefer official primary sources. Never send proprietary source, private logs, customer data,
   credentials, or identifiers to external services.
-- When `graphify-out/graph.json` exists and can accelerate cross-module discovery, debugging,
-  affected-radius analysis, or review, query it early through `$graphify`, then verify decisive edges
-  in source. Do not rebuild it for an ordinary local task without clear payoff.
 
 ## Durable Project Artifacts
 

@@ -32,8 +32,8 @@ shared/persistent database mutation.
    isolates the failure. For a legacy seam, a temporary test or script in task scratch is acceptable.
    Prove the probe fails for the intended reason, not setup noise.
 3. **Trace origin to failure.** Follow `references/discovery.md`; load only the applicable stack
-   playbook. Use an existing Graphify graph for cross-module/event-flow navigation when useful, then
-   verify decisive edges in source. Use `$find-docs` for drift-prone framework/library semantics.
+   playbook. Verify decisive cross-module/event-flow edges in source. Use `$find-docs` for drift-prone
+   framework/library semantics.
 4. **Name the root cause.** State the violated assumption and the concrete state/data/control path
    from origin to failure. Distinguish proven cause from remaining hypotheses.
 5. **Fix the best boundary.** Correct the origin or ownership boundary rather than adding a broad

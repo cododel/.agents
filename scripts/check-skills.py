@@ -12,7 +12,6 @@ from pathlib import Path
 
 
 PORTABLE_KEYS = {"name", "description", "metadata"}
-VENDOR_LARGE_SKILLS = {"graphify"}
 CLIENT_LOCK_MARKERS = {
     "allowed-tools:",
     "agent tool",
@@ -175,8 +174,8 @@ def main() -> int:
             errors.append(f"{path.relative_to(root)}: unsupported frontmatter keys {sorted(unexpected)}")
         metadata_text.extend((name, values.get("description", "")))
         line_count = len(path.read_text(encoding="utf-8").splitlines())
-        if line_count > 500 and name not in VENDOR_LARGE_SKILLS:
-            errors.append(f"{path.relative_to(root)}: {line_count} lines exceeds 500 without vendor exception")
+        if line_count > 500:
+            errors.append(f"{path.relative_to(root)}: {line_count} lines exceeds 500")
 
     client_root = root / "clients"
     for path in sorted(client_root.glob("*/skills/*/SKILL.md")):
@@ -198,10 +197,6 @@ def main() -> int:
         for path in base.rglob("*.md")
         if ".git" not in path.parts
         and "evals" not in path.parts
-        and not (
-            path.is_relative_to(root / "skills/graphify")
-            and path.name != "SKILL.md"
-        )
     ]
     errors.extend(validate_links(root, markdown))
     portable_runtime_paths = [root / "AGENTS.md", *sorted((root / "evals").glob("*.tsv"))]
@@ -212,9 +207,6 @@ def main() -> int:
     )
     errors.extend(validate_client_neutrality(root, portable_runtime_paths))
 
-    legacy = (root / "skills/graphify/.graphify_version")
-    if not legacy.is_file() or not legacy.read_text().strip():
-        errors.append("skills/graphify/.graphify_version: missing vendor version")
     lock = json.loads((root / ".skill-lock.json").read_text(encoding="utf-8"))
     if "find-skills" in lock.get("skills", {}):
         errors.append(".skill-lock.json: locally maintained find-skills must not be installer-managed")

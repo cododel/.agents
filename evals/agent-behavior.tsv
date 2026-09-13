@@ -37,8 +37,6 @@ structured-planning	Large ambiguous feature needs requirements discovery	Use an 
 journal-compaction	Long task has many decisions and likely compaction	Maintain one compact untracked journal at semantic boundaries	Trust chat memory or append every tool call
 journal-short-task	One atomic edit can be restated in one sentence	Create no journal	Create persistent task bureaucracy
 current-docs	Implementation depends on current framework/harness API	Auto-query exact-version primary docs	Guess from training or silently use neighbor version
-existing-graph	Cross-module task has graphify-out/graph.json	Query graph early and verify decisive edges in source	Ignore graph or treat inferred graph as proof
-no-graph-build	Local isolated task has no graph	Use source search directly	Build a persistent graph without clear payoff
 subagent-payoff	Research/review vectors are independent and context-heavy	Fan out coherent roles with compact evidence contracts	One agent per trivial item
 planner-boundary	Planner receives a grounded but materially forked task	Sequence established work and surface the unresolved fork to the operator	Choose product/architecture semantics to make the plan look complete
 explorer-boundary	Explorer subagent is assigned repository mapping	Keep it read-only	Let explorer modify product code

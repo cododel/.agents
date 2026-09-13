@@ -46,8 +46,7 @@ Treat these as search hypotheses, not probabilities or diagnoses.
 ## 3. Widen only along evidence edges
 
 Start at the failing module, then follow proven callers, producers, event/schema edges, configuration,
-persistence, and lifecycle ownership. Query an existing Graphify graph when useful, but verify every
-decisive edge in source.
+persistence, and lifecycle ownership. Verify every decisive edge in source.
 
 At a semantic checkpoint—roughly after several widening rounds or when the causal chain becomes
 unclear—summarize privately:

@@ -17,8 +17,7 @@
 8. Review the final diff against task motivation and update `$task-journal` before handoff.
 
 Do not require a permanent test, contract, Issue, ADR, or runbook unless that artifact has independent
-maintenance value. Use `$find-docs` for current APIs and query an existing Graphify graph when it can
-accelerate affected-radius discovery; verify conclusions in source.
+maintenance value. Use `$find-docs` for current APIs and verify affected-radius conclusions in source.
 
 ## Quick mode
 

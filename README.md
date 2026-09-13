@@ -29,7 +29,7 @@ convention.
 Skills use a hybrid trigger model:
 
 - **automatic context/enforcement helpers:** `find-docs`, `troubleshooter`, `issue-writer` under its
-  strict debt gate, `task-journal`, existing-graph queries through `graphify`, `worktree-task` when
+  strict debt gate, `task-journal`, `worktree-task` when
   a concrete isolation need exists, and `feature-closeout` for large/high-autonomy handoff;
 - **situational workflows:** `feature-brief`, `contract-writer`, design/docs/Tavily workflows;
 - **operator-intent workflows:** ADR creation/audit, contract audit, broad documentation cleanup,
@@ -102,21 +102,8 @@ active client already exposes it, but this repository does not install or regist
   `skills/find-skills/SKILL.md` (former installer folder hash
   `76a98a285cb0434f3d39e1a873823556330e398b`). It is no longer installer-managed;
   review upstream changes manually while retaining the local capability-gap trigger.
-- `graphify` is derived from the installed `graphifyy` package. The pinned version lives in
-  `skills/graphify/.graphify_version`; local portability overlays keep its trigger and worker/tool
-  instructions client-neutral without changing graph semantics. The local run protocol stages
-  outputs and validates chunk provenance before publication; preserve it during upstream updates.
 - Tavily Skills are locally maintained routing/production wrappers. Resolve CLI flags from current
   `tvly <command> --help` and SDK contracts from current official documentation.
-
-To review a Graphify update:
-
-1. install the intended `graphifyy` version in an isolated tool environment and record
-   `graphify --version` in `skills/graphify/.graphify_version`;
-2. diff its `skill-agents.md` and references against the local snapshot, separating upstream graph
-   semantics from client-specific worker/tool wording;
-3. copy reviewed semantic changes, reapply the documented client-neutral portability overlays, then
-   run the validator and client discovery smoke tests.
 
 ## Validation
 

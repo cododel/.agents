@@ -41,8 +41,7 @@ Before asking the operator:
 1. resolve the exact repository, affected surface, instructions, and existing documentation;
 2. inspect current behavior, nearby conventions, types/schemas/tests, and established living
    contracts;
-3. use `$find-docs` for drift-prone library/framework questions and query an existing Graphify graph
-   when it can cheaply expose cross-module relationships;
+3. use `$find-docs` for drift-prone library/framework questions;
 4. classify each unresolved item as repository-discoverable, objective implementation choice, or
    material operator fork.
 
