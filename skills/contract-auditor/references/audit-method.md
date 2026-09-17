@@ -38,13 +38,14 @@ Read applicable project instructions and documentation indexes, then use
 `../../_shared/repository-discovery.md` from the sibling skill corpus.
 
 - Fully read every living contract whose scope intersects the target or blast radius.
-- Include OpenAPI, schema, or type surfaces only when project instructions or documentation
-  explicitly declare them canonical, and only for their declared interface.
-- Treat README/index text as routing, not an implicit normative owner.
+- Include established normative API/schema/docs for their bounded guarantees. Prove ownership
+  through project declarations or established normative use, not merely a filename or example test.
+- A README may contain established normative rules; a routing-only index is not itself their owner.
 - Treat Accepted ADRs as provenance, not current contracts.
 - Treat tests as verification, not ownership, unless the project explicitly declares otherwise.
 - Reverse-check every changed durable behavior or architecture boundary for one normative owner.
-  No owner is `missing-contract`, never implicit compliance.
+  Check all four contract-writer value conditions before reporting `missing-contract`. An existing
+  normative API/schema/document may suffice; absence of a separate Markdown file is not a finding.
 
 Build a compact inventory with `contract_path`, `scope`, and stable per-run rule IDs. When the
 contract has no native IDs, use `<relative-path>#<section-slug>:<ordinal>`. Give every subagent the

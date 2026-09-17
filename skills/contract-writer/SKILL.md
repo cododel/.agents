@@ -1,6 +1,6 @@
 ---
 name: contract-writer
-description: "Create or update lightweight living contracts for non-obvious stable behavior and ownership boundaries. Auto-use when implementation changes an owner or exposes material drift risk; ask only when the contract would choose unresolved semantics."
+description: "Create or update lightweight living contracts for non-obvious stable behavior and ownership boundaries. Use when agreed guarantees change or a lasting obligation lacks a suitable owner; ask only when the contract would choose unresolved semantics."
 ---
 
 # Contract Writer
@@ -13,18 +13,11 @@ specification, implementation plan, test plan, or architecture history.
 
 ## When a contract has value
 
-Create or update a contract when at least one applies:
-
-- a stable external/internal boundary has non-obvious responsibilities or exclusions;
-- behavior spans modules/services/events and is easy to break without semantic context;
-- tests can validate examples but cannot express ownership, forbidden responsibility, ordering, or
-  compatibility intent adequately;
-- implementation work exposes existing behavior with a credible risk of future drift/regression;
-- an established project contract already owns the changed behavior.
-
-Do not create one for obvious local implementation, every feature, or behavior already owned clearly
-by another canonical artifact. Retroactive documentation is valid when current behavior is proven and
-its semantic maintenance value exceeds the extra document cost.
+Update an established normative owner when agreed guarantees change. Create a new owner only when
+all four conditions in `references/contract-spec.md` hold: established lasting obligation, material
+consequence, insufficient expression in existing code/docs, and no suitable owner to update.
+A feature, local change, or completed task does not by itself justify a new contract.
+Existing normative API/schema/docs may suffice; do not duplicate them in a separate Markdown file.
 
 ## Modes
 
@@ -47,10 +40,11 @@ Classify relevant stable behavior as:
 - `unchanged` — the current owner already permits and explains it;
 - `extend` — an established owner needs a normative addition/narrowing;
 - `conflict` — requested behavior contradicts an established owner and requires an operator decision;
-- `missing` — durable behavior needs an owner and none exists.
+- `missing` — all four value conditions hold and no suitable owner exists.
 
-`missing` is not an automatic approval gate. Create the contract when behavior and ownership are
-unambiguous from operator decisions plus implementation evidence. Ask only when writing the document
+`missing` is not an automatic approval gate. Create the contract only after the value test passes
+and behavior and ownership are unambiguous from established obligations plus implementation evidence.
+Ask only when writing the document
 would select among materially different semantics, boundaries, languages, or canonical homes.
 
 ## Grounding and anti-drift
@@ -61,8 +55,8 @@ would select among materially different semantics, boundaries, languages, or can
 4. Separate normative behavior from implementation details and historical rationale.
 5. Keep each rule in one canonical owner and link from tests, ADRs, indexes, and related contracts.
 
-Executable schemas/types/tests may own one bounded interface only when the project explicitly declares
-that role. They do not silently own adjacent product or architecture semantics.
+Verify the normative role of existing API/schema/docs from project declarations or established use.
+Tests and incidental types alone do not establish adjacent product or architecture obligations.
 
 ## Decision boundary
 

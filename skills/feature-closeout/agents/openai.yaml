@@ -1,6 +1,6 @@
 interface:
   display_name: "Feature Closeout"
   short_description: "Checks correctness, quality, and completeness before handoff"
-  default_prompt: "Use $feature-closeout full to review the current large feature against its original task contract."
+  default_prompt: "Use $feature-closeout full to review the current large feature against its current agreed task."
 policy:
   allow_implicit_invocation: true

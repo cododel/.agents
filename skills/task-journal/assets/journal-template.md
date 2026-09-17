@@ -1,48 +1,26 @@
-# Task Journal: {short task name}
+# Working State: {short task name}
 
-**Status:** Active
-**Updated:** YYYY-MM-DDTHH:MM:SSZ
-**Repository / worktree:** {exact resolved target}
-**Branch / HEAD:** {branch and revision, when applicable}
-
-## Mission And Motivation
-
-{What outcome the operator wants and why it matters.}
-
-## Target Behavior / Acceptance
-
-- {Observable required outcome}
-
-## Constraints And Non-goals
-
-- {Constraint or explicit exclusion}
-
-## Operator Decisions
-
-- {Confirmed decision, or `None yet`}
-
-## Assumptions
-
-- {Material falsifiable assumption, or `None`}
+**Agreed task:** `task.md` in this directory
+**Updated:** {timestamp}
+**Target:** {actual repository/checkout, branch/revision when applicable}
+**Phase:** {current phase}
 
 ## Current State
 
-- **Phase:** {research | implementation | verification | review | handoff}
-- **Established evidence:** {compact source pointers and conclusions}
-- **Implemented state:** {semantic summary, not file list}
-
-## Open Gates / Questions
-
-- {Only questions whose answer can materially change downstream work, or `None`}
-
-## Subagent Handoffs
-
-- {role, scope, status, decisive evidence, or `None`}
+{Implemented or established state, without duplicating requirements.}
 
 ## Verification
 
-- {check and exact result, or planned check}
+- {Acceptance reference → evidence, result, target/version, and material limits}
+
+## Assumptions And Open Questions
+
+- {Only material unresolved items; omit if none}
+
+## Active Assignments
+
+- {Scope, owner, evidence expected; omit if none}
 
 ## Next Actions
 
-1. {next concrete action}
+- {Next concrete action, or completion state and remaining gaps}

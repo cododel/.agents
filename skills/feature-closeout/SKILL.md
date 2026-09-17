@@ -1,48 +1,46 @@
 ---
 name: feature-closeout
-description: "Review a completed feature against original motivation, behavior, affected radius, and evidence. Auto-use for large or high-autonomy handoff; explicit `quick`, `full`, and `release` modes are supported. May repair confirmed in-scope gaps; not a small-task ceremony or repository-wide cleanup."
+description: "Review a completed feature against current agreed motivation, behavior, affected radius, and evidence. Use for material acceptance/integration uncertainty or an explicit request; explicit `quick`, `full`, and `release` modes are supported. May repair confirmed in-scope gaps; not a small-task ceremony or repository-wide cleanup."
 ---
 
 # Feature Closeout
 
 Catch the kind of incomplete, locally correct, or structurally weak implementation that can survive a
 normal coding pass. Closeout judges the feature on **correctness, quality, and completeness** against
-the original task contract, not against the implementing agent's latest summary.
+the current agreed task, not against the implementing agent's latest summary.
 
 Read `references/mode-contracts.md` completely for every invocation.
 
 ## When to run
 
-Run automatically before handoff when one or more materially applies:
+Use closeout when material acceptance or integration uncertainty warrants a structured review, or
+when explicitly requested. Choose checks for concrete risks such as cross-layer behavior, lifecycle,
+compatibility, or incomplete acceptance evidence. Task length, diff size, compaction, and the presence
+of task records alone do not require this skill or independent reviewers.
 
-- the operator delegated a large feature with substantial implementation freedom;
-- the diff crosses modules, layers, persistence, events, permissions, or stable interfaces;
-- the task survived compaction, several sessions, or multiple subagents;
-- acceptance depends on more than one local test or happy path;
-- the operator explicitly requests closeout, final review, QA, or release preparation.
-
-Do not run for an atomic edit whose behavior and verification are already obvious. A normal task may
-still use the compact completion review in global instructions without invoking this Skill.
+An atomic change with decisive evidence needs only normal completion review. Do not create records
+or fan out merely to complete a template.
 
 ## Modes
 
 - **`quick`** — compact self-review and focused evidence for a bounded change. No independent fan-out
   by default. May repair clear in-scope defects once.
-- **`full`** — default for large or high-autonomy implementation. Freeze the task contract, trace the
-  affected radius, run independent review/verification vectors, repair confirmed in-scope findings,
+- **`full`** — for substantive acceptance/integration review. Freeze the task contract, trace the
+  affected radius, select useful review/verification vectors, independently where warranted,
+  repair confirmed in-scope findings,
   and recheck only affected vectors through a bounded convergence cycle.
 - **`release`** — explicit only. Run `full`, then add the project's integration/release checks,
   compatibility/rollback/operations evidence, and one final read-only review of the frozen result.
   Never deploy or mutate remote/shared state.
 
-Natural language is sufficient; exact CLI-like flags are optional. If no mode is named, infer
-`quick` for a bounded task and `full` for a large/high-autonomy task. Never infer `release`.
+Natural language is sufficient; exact CLI-like flags are optional. If no mode is named, choose
+`quick` or `full` according to the material acceptance/integration risks. Never infer `release`.
 Optional user constraints such as base, scope, or evidence narrow discovery but do not permit ignoring
 demonstrated consumers.
 
 ## Authority
 
-An implementation request plus closeout authorizes local reversible fixes inside the original task
+An implementation request plus closeout authorizes local reversible fixes inside the current agreed task
 and its demonstrated affected radius. It does not authorize:
 
 - a new product or architecture decision;
@@ -51,22 +49,23 @@ and its demonstrated affected radius. It does not authorize:
 - rewriting operator-owned changes;
 - creating an ADR for a choice the operator did not make.
 
-Update or create a living contract without another gate only when the normative behavior is already
-explicit and contract ownership is unambiguous. Stop when documenting it would decide unresolved
-semantics. Route independent debt to `$issue-writer` instead of expanding the closeout.
+Update existing guarantees when agreed behavior changes. Create a new owner only when all
+contract-writer value conditions hold. Stop only when documenting it would choose unresolved semantics.
+Report independent debt; invoke `$issue-writer` only on a request to record/defer it.
 
 ## Freeze the review target
 
 Before evaluating:
 
 1. resolve repository/worktree, branch, HEAD, status, base, and the exact change inventory;
-2. reconstruct the original motivation, target behavior, acceptance, operator decisions, non-goals,
-   and material assumptions from the current conversation, active plan, brief, and `$task-journal`;
+2. reconstruct the current agreed motivation, target behavior, acceptance, operator decisions, non-goals,
+   and material assumptions from confirmed discussion and `task.md` when present; use `state.md`
+   for progress, not as a replacement requirements source;
 3. snapshot that task contract separately from the implementing agent's claims;
 4. identify applicable living contracts and affected consumers;
 5. record a source fingerprint so later fixes and rechecks cannot be confused with the first review.
 
-If the original task contract cannot be reconstructed reliably, stop only for the missing material
+If the current agreed task cannot be reconstructed reliably, stop only for the missing material
 operator decision. Do not replace it with what the code happens to implement.
 
 ## Review model
@@ -104,20 +103,16 @@ repair, re-run the focused checks and only the review vectors invalidated by tha
 most two repair/recheck rounds; remaining blockers become an explicit handoff, not an unbounded
 audit-fix loop.
 
-Independent semantic review should use a model capable of the task's reasoning depth. Cheaper models
-are appropriate for deterministic scans and test execution, not as the sole judge of cross-module
-requirements, architecture, or security unless local evals prove them reliable.
-
 ## Completion
 
 A successful closeout requires evidence for all material acceptance criteria and no confirmed
-in-scope blocker on correctness, quality, or completeness. Update the active task journal before
-handoff.
+in-scope blocker on correctness, quality, or completeness. Record criterion-level outcomes and
+evidence gaps in `state.md` when task memory is active.
 
 Return a concise semantic report:
 
 - mode and terminal status;
-- achieved behavior relative to the original motivation;
+- achieved behavior relative to the current agreed motivation;
 - non-obvious implementation choices and why they serve that motivation;
 - decisive verification/review evidence;
 - remaining material risks, assumptions, or deferred Issues.

@@ -1,24 +1,19 @@
 ---
 name: feature-brief
-description: "Run a repository-grounded requirements briefing for a large or materially ambiguous feature, using a structured planning surface when available; optionally create a temporary brief. Auto-use only for unresolved product, invariant, or architecture forks, not ordinary plans or small tasks."
+description: "Run a repository-grounded requirements briefing for a large or materially ambiguous feature, using a structured planning surface when available; optionally record the agreed task. Auto-use only for unresolved product, invariant, or architecture forks, not ordinary plans or small tasks."
 ---
 
 # Feature Brief
 
-Turn an underspecified large feature into an operator-confirmed task contract without forcing a
+Turn an underspecified feature into a current agreed task without forcing a
 permanent specification layer onto the repository.
 
-## Modes
+## Adaptive use
 
-1. **Briefing** — research first, then use a small sequence of high-value operator questions to
-   resolve material behavior, invariant, scope, and architecture forks. No brief file by default.
-2. **Brief file** — on explicit request, or when a stable review/handoff artifact is clearly needed
-   across compaction, sessions, or subagents, materialize the agreed task contract in one temporary
-   document.
-
-An implementation plan is not a feature brief. A brief describes the target and decision boundary;
-the active plan describes execution. An Issue stores deferred work; a contract owns stable current
-behavior; an ADR records a significant operator decision.
+Resolve material product or architecture ambiguity through repository-grounded discussion. A clear
+request needs no interview. Record the task when decisions or handoffs are hard to retain, including
+medium tasks; use `$task-journal` and its shared `task.md`, not a separate default brief.
+An implementation plan describes execution; the task record preserves the agreed result.
 
 ## Structured planning integration
 
@@ -30,7 +25,7 @@ journal and ask the same focused questions directly. In either case:
 - inspect the repository and current docs before asking;
 - keep the implementation plan in the environment's active planning surface when one exists;
 - use this skill only to shape the requirements interview and task contract;
-- use `$task-journal` when the session is compaction-prone or multi-agent.
+- use `$task-journal` when requirements, decisions, or handoffs become hard to retain reliably.
 
 Do not create a second natural-language plan file merely because the skill is active.
 
@@ -62,22 +57,12 @@ Read `references/briefing.md`. Ask coherent batches small enough to answer preci
 Recommend a default when evidence supports one, but do not treat it as selected. Stop interviewing
 when remaining unknowns are reversible implementation details.
 
-## Optional brief file
+## Optional written task
 
-Read `references/brief.md` only when a file is requested or clearly justified for stable handoff. Use
-`assets/brief-template.md` and an established project location; otherwise:
-
-```text
-<repo-root>/.agents/briefs/YYYY-MM-DD-english-kebab-slug.md
-```
-
-The file is a temporary task contract, not implementation authority or normative project
-specification. `Agreed` means the operator confirmed its current material content. Material changes
-return it to `Draft` until confirmed.
-
-Do not create a brief file when the active plan and task journal already preserve all required state
-and no independent review artifact is needed. Do not commit or index a fallback brief unless the
-operator or project convention requires it.
+Read `references/brief.md` when a record is useful or requested. Storage and maintenance belong to
+`$task-journal`; use `assets/brief-template.md` as a content guide. Confirmed discussion establishes
+agreement without a separate approval of the file. Keep unresolved proposals distinct and revise
+only affected criteria when a change is confirmed.
 
 ## Completion and routing
 
@@ -86,9 +71,9 @@ Once the target contract is sufficiently clear:
 - continue to explicitly requested planning or implementation without another ceremony;
 - update `$task-journal` with the confirmed motivation, acceptance, decisions, and open gates when
   active;
-- route established stable-boundary changes to `$contract-writer` during implementation;
+- update existing normative owners; use `$contract-writer` for a new owner only under its value test;
 - stop for a true contract conflict or new material architecture decision;
 - create an ADR only after the operator has actually made a significant decision worth preserving.
 
-Report only the confirmed target, remaining material questions, and whether a brief file was created.
+Report only the confirmed target, remaining material questions, and whether the shared task record was created.
 Do not echo the full document or repeat the entire interview.

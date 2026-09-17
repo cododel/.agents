@@ -56,7 +56,9 @@ available.
 
 ## Failure contract
 
-- If exact-version docs are unavailable, disclose the nearest source/version before using it.
+- If exact-version docs are unavailable, identify the nearest source/version, verify applicability
+  against the installed API/source or a focused probe, and disclose material uncertainty. A version
+  mismatch alone is not a blocker; do not claim compatibility that remains unverified.
 - If library identity is genuinely ambiguous and choosing one changes the answer, ask.
 - If the provider is unavailable/quota-limited, fall back to official docs rather than repeating the
   same query through several wrappers.

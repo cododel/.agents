@@ -1,6 +1,6 @@
 interface:
   display_name: "Task Journal"
   short_description: "Preserves task state across compaction and handoffs"
-  default_prompt: "Use $task-journal to preserve the current long-running task contract and state."
+  default_prompt: "Use $task-journal to preserve the current agreed task separately from working state."
 policy:
   allow_implicit_invocation: true

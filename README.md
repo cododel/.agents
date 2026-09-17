@@ -28,12 +28,12 @@ convention.
 
 Skills use a hybrid trigger model:
 
-- **automatic context/enforcement helpers:** `find-docs`, `troubleshooter`, `issue-writer` under its
-  strict debt gate, `task-journal`, `worktree-task` when
-  a concrete isolation need exists, and `feature-closeout` for large/high-autonomy handoff;
+- **automatic context/enforcement helpers:** `find-docs`, `troubleshooter`, `task-journal` when
+  written memory helps, `worktree-task` when concrete isolation is needed, and `feature-closeout`
+  when material acceptance/integration uncertainty warrants it;
 - **situational workflows:** `feature-brief`, `contract-writer`, design/docs/Tavily workflows;
 - **operator-intent workflows:** ADR creation/audit, contract audit, broad documentation cleanup,
-  tracker writes, and release-mode closeout. They may route from an unambiguous natural-language
+  requested Issue/TODO recording, tracker writes, and release-mode closeout. They may route from an unambiguous natural-language
   request; they do not run merely because related code or documents exist.
 
 Automatic does not mean unconditional. Each Skill's description and internal gate defines when its
@@ -41,8 +41,12 @@ coordination cost is justified.
 
 ## Task State And Worktrees
 
-Long-running task memory is untracked and worktree-specific through `$task-journal`; it is not a new
-repository documentation layer. Preserve the operator-selected workspace by default; use
+Task memory is adaptive: atomic changes need no files; accumulated requirements or decisions can
+justify records even for medium tasks. `$task-journal` owns `.tmp/tasks/<task-id>/task.md` (current
+agreed intent) and `state.md` (progress/evidence) in the current checkout. Briefing and closeout reuse
+them. The agent maintains the records, keeps proposals separate, and does not require a second
+approval for transcribing confirmed discussion. `/.tmp/` is ignored; records persist across sessions
+and are not product contracts. Preserve the operator-selected workspace by default; use
 `$worktree-task` only when isolation is needed, such as a protected primary checkout or parallel
 writable ownership.
 
@@ -91,10 +95,9 @@ client state into this tree.
 
 ## Code Intelligence Capability
 
-`code-intelligence` routes syntax-shaped discovery and bounded structural rewrites through
-`ast-grep`, while literal, path, configuration, and documentation searches use `rg`. Its manifest
-records the shared `ast-grep` requirement and repair command. LSP tooling may still be used when the
-active client already exposes it, but this repository does not install or register an LSP bridge.
+The capability manifest records the shared `ast-grep` requirement and repair command.
+Code navigation guidance lives in `AGENTS.md`; there is no separate routing Skill.
+This repository does not install or register an LSP bridge.
 
 ## External Skill Provenance
 

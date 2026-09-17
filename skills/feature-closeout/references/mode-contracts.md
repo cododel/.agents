@@ -2,7 +2,8 @@
 
 ## Common sequence
 
-1. Freeze the original task contract and source fingerprint before reviewing the implementation.
+1. Freeze the current agreed task from confirmed discussion or `task.md`, and the source fingerprint.
+   Use `state.md` for evidence/progress, never to redefine acceptance. No records are required for atomic work.
 2. Discover the exact diff plus demonstrated affected consumers, configuration, persistence, events,
    interfaces, contracts, and operator controls.
 3. Build a compact acceptance matrix: requirement/invariant → implementation evidence → verification
@@ -10,11 +11,11 @@
 4. Evaluate correctness, quality, and completeness independently.
 5. Distinguish confirmed in-scope defects, material unknowns, environment failures, pre-existing
    failures, and independent debt.
-6. Repair only confirmed defects authorized by the original implementation scope. Route independent
-   debt through `$issue-writer` with a useful TODO link when appropriate.
+6. Repair only confirmed defects authorized by the current agreed implementation scope. Report independent
+   debt; create an Issue or TODO only on an operator request to record it.
 7. Re-run only checks and review vectors invalidated by fixes, requirement changes, or material
    environment changes; revise affected assignments and cap remediation at two rounds.
-8. Review the final diff against task motivation and update `$task-journal` before handoff.
+8. Review the final diff against agreed motivation and record criterion outcomes in `state.md` when active.
 
 Do not require a permanent test, contract, Issue, ADR, or runbook unless that artifact has independent
 maintenance value. Use `$find-docs` for current APIs and verify affected-radius conclusions in source.
@@ -37,11 +38,13 @@ Terminal status:
 
 ## Full mode
 
-Use for a large, cross-layer, compaction-prone, multi-agent, or high-autonomy feature.
+Use when material acceptance/integration uncertainty warrants a substantive review, or when explicitly
+requested. Size or compaction alone does not require independent fan-out.
 
-### Required review vectors
+### Risk-selected review vectors
 
-Select at least two genuinely independent vectors, usually including:
+Select vectors for actual acceptance and integration risks; use independent contexts when they add
+meaningful evidence or independence is explicitly requested. Useful vectors include:
 
 1. **Task-contract coverage** — compare the frozen motivation, scenarios, decisions, invariants,
    non-goals, and acceptance to the implementation without relying on the builder summary.
@@ -65,7 +68,8 @@ structured evidence outputs. Blind them to prior conclusions when independence m
 ### Repair convergence
 
 The primary agent confirms and deduplicates findings. It may repair in-scope findings, update
-unambiguous contracts, and create/update technical-debt Issues. Re-review only invalidated vectors.
+existing contracts or justified new owners. Record debt only when requested. Re-review only
+invalidated vectors.
 After two repair rounds, stop with remaining blockers and evidence rather than consuming context in an
 open-ended search for perfection.
 
@@ -110,5 +114,5 @@ implementation pass. Record the requirement change or demonstrated test defect w
 need correction.
 
 Lead with terminal status and achieved behavior. Include only decisive evidence and non-obvious
-motivation. List independent debt by Issue link. Do not repeat routine file paths, every command, or
-reviewer transcripts.
+motivation. Briefly report independent debt, linking an Issue only if one already exists. Do not
+repeat routine file paths, every command, or reviewer transcripts.

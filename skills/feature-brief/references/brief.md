@@ -1,57 +1,31 @@
-# Brief file workflow
+# Recording the agreed task
 
-Create a brief only when its stable review value exceeds the duplication cost: explicit operator
-request, long multi-session work, several subagents, a large acceptance surface, or a need to review
-the target contract independently from the implementation plan.
+Use a written record when requirements, decisions, or handoffs are hard to retain, including medium
+work, or when the operator requests one. Briefing itself does not require a file.
 
-## 1. Resolve content and path
+## Reuse task memory
 
-Read the full relevant conversation, repository evidence, existing contracts, active task journal, and
-active implementation plan. Reuse established facts; do not fork them into competing versions.
+Use `$task-journal` for storage and lifecycle: the current checkout's
+`.tmp/tasks/<task-id>/task.md` is the same task record used by implementation and closeout.
+Do not create a separate default brief or duplicate the target in the working-state file.
+Read `../assets/brief-template.md` for the content boundary and use the task-journal template.
+An explicitly requested export is a deliverable, not a second independently maintained task owner.
 
-Prefer a proven project convention. Otherwise use:
+## Record agreement accurately
 
-```text
-<repo-root>/.agents/briefs/YYYY-MM-DD-english-kebab-slug.md
-```
+Capture the current agreed motivation, observable behavior, constraints, non-goals, and acceptance.
+Separate unresolved proposals from confirmed content. Agreement may already exist in the request or
+conversation; recording it needs no additional approval ceremony.
 
-Keep the original path and date when revising. Do not add an index or `.gitignore` entry merely for the
-fallback. Keep one active brief per feature.
+When a material requirement changes, retain unchanged agreement, record the confirmed replacement and
+its decision source, and invalidate affected evidence/assignments in state. Do not reset the whole
+task to Draft or preserve a superseded first request as the acceptance target. A proposed default or
+implementation choice does not establish agreement.
 
-## 2. Write the target contract
+## Handoff
 
-Use `../assets/brief-template.md`, preserve the operator's language, and keep it concise. Include only:
-
-- motivation and intended outcome;
-- observable scenarios/behavior;
-- scope and non-goals;
-- facts, confirmed decisions, and material assumptions;
-- stable invariants/contract impact;
-- acceptance criteria and unresolved material questions.
-
-Do not include file-by-file implementation steps, estimates, generic risks, or boilerplate sections
-with no task-specific value. Link to the active plan or task journal only when a stable local pointer
-exists; do not copy their content.
-
-## 3. Agreement and change control
-
-Write new or materially revised content as `Draft`. Mark `Agreed` only after the operator confirms the
-current material content. Typographical and evidence-pointer fixes do not revoke agreement; a change
-to behavior, scope, invariant, constraint, or acceptance does.
-
-Agreement confirms the feature target, not every implementation detail and not remote/destructive
-authority. When implementation uncovers a new material fork, return only the affected section to
-operator review rather than restarting the entire briefing.
-
-## 4. Handoff
-
-At implementation completion, compare observable behavior to acceptance and route durable value:
-
-- stable current behavior to an existing/new living contract when justified;
-- significant operator decisions to an ADR when requested/worth preserving;
-- independently resumable follow-up debt to an Issue;
-- execution state only to the task journal or active plan.
-
-Do not delete, archive, or promote the brief merely because implementation ended. It may remain as
-working context until operator acceptance; an explicit cleanup may remove an exact tracked, clean,
-committed brief after durable-value review, while untracked/modified content remains gated.
+Continue authorized implementation once material questions are resolved. Keep execution details and
+verification in state, referring to task criteria rather than copying them. At completion compare the
+result to the current agreed task. Update existing durable owners when their guarantees change;
+create a new contract only under the contract-writer value test. Report unrelated debt; record an
+Issue/TODO only on request. Do not automatically delete or promote the working records.

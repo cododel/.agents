@@ -18,26 +18,28 @@ A contract is not:
 
 ## Value test
 
-A contract earns its maintenance cost when the rule is stable and at least one is true:
+Update an existing normative owner when agreed guarantees change. Create a new contract only when
+all four conditions hold:
 
-- responsibility or exclusion is non-obvious from local code;
-- behavior spans several components, event hops, or lifecycle phases;
-- future edits can pass local tests while violating the semantic intent;
-- compatibility, ordering, idempotency, failure, security, or ownership semantics matter;
-- the project already treats the surface as a documented contract.
+1. a lasting behavior or responsibility is established by agreed intent or an established obligation;
+2. violating it has concrete, material consequences for consumers, compatibility, or correctness;
+3. the rule is insufficiently expressed by local code and existing documentation;
+4. no suitable normative owner already exists that can be updated.
 
-Do not retroactively specify an entire legacy project. Document touched or discovered behavior when
-its drift risk is concrete. A concise contract for one stable boundary is preferable to a feature-by-
-feature documentation layer.
+A contract protects an obligation future implementations must preserve. It is not a task-memory
+artifact or a record of every feature. Boundaries such as cache invalidation ownership, delivery
+semantics, authorization, and compatibility can justify one; a local helper or completed task alone
+cannot. Do not turn accidental behavior into a guarantee or document an entire legacy project.
 
 ## Ownership and overlap
 
 Keep one normative owner per rule. Split by stable responsibility, not by every feature or file. When
 a rule touches several surfaces, choose the primary owner and link from the others.
 
-Project instructions may declare an executable schema/API/type/test canonical for a bounded
-interface. That declaration does not make it the owner of adjacent business, UI, or architecture
-semantics.
+An established normative API, schema, or document may already own the bounded guarantee; a separate
+Markdown contract is unnecessary. Prove its normative role from project declarations or established
+use, not from mere existence. Example tests and incidental types do not automatically own adjacent
+product or architecture semantics.
 
 ## Required content
 

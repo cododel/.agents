@@ -12,8 +12,8 @@ Establish:
 - the first next step and observable completion/verification boundary;
 - whether an operator decision is still required.
 
-For an explicit deferral, preserve the operator's stated reason and resume conditions. For automatic
-technical-debt capture, derive the deferral reason from scope/risk evidence, not from guessed priority.
+Proceed only on a request to record/defer this work. Preserve the operator's stated reason and resume
+conditions; discovering debt alone permits a concise report, not an Issue or TODO.
 If the root cause is not proven, label it as a hypothesis and record the next falsifying probe; do not
 write a confident diagnosis.
 
@@ -29,7 +29,7 @@ creating a file.
 - Ask only when the records are plausibly competing owners and the choice would change historical or
   operator intent.
 
-When no Issues root exists, an explicit deferral or a passed automatic-creation gate authorizes
+When no Issues root exists, an explicit recording/deferral request authorizes
 bootstrapping `docs/issues/` or a proven module-local equivalent with the fallback README/template.
 Stop if repository or module scope is ambiguous.
 
@@ -53,9 +53,10 @@ and source pointers.
 For an update, add current evidence and `Last reviewed`; revise stale claims rather than appending an
 unbounded diary. Change status/filename only when evidence supports the lifecycle transition.
 
-## 4. Add one useful TODO
+## 4. Optional useful TODO
 
-When a stable code seam directly exposes the deferred risk, add one concise comment, for example:
+Within the recording request, when a stable code seam directly exposes the deferred risk, optionally
+add one concise comment, for example:
 
 ```text
 TODO(issue): <why this remains unsafe/incomplete>; see docs/issues/<issue-file>.md

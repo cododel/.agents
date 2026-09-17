@@ -60,6 +60,7 @@ Stop when the following are clear enough that remaining choices are reversible i
 - observable acceptance boundary;
 - remaining material questions, if any.
 
-Update the active plan and task journal. Create a brief file only when requested or justified by
-cross-session/subagent review. If implementation was requested, proceed under the environment's normal
-authorization boundary; do not insert another approval layer.
+Update the active plan and shared task record when present. Use `$task-journal` when requirements
+or decisions become hard to retain, including medium tasks; do not create a separate default brief.
+If implementation was requested, proceed under the normal authorization boundary without another
+approval layer.

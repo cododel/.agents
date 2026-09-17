@@ -42,9 +42,9 @@ shared/persistent database mutation.
 6. **Verify correctness and quality.** Make the focused repro/test pass, run relevant type/lint/static
    checks, inspect failure/unavailable paths, and check that the patch did not hide the symptom,
    weaken validation, introduce unsafe typing, or create a security/resource leak.
-7. **Capture independent debt.** If the investigation proves a distinct, independently resumable
-   problem outside the current affected radius, invoke `$issue-writer`, add a useful linked TODO at
-   the local seam when appropriate, and return to the active failure.
+7. **Report independent debt.** Briefly report a proven material problem outside the affected radius
+   and return to the active failure. Use `$issue-writer` and a useful TODO only when the operator
+   requests recording/deferment.
 
 ## Investigation control
 

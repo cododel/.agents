@@ -45,7 +45,8 @@ proof requirement.
 - `verification-gap`: implementation may comply, but material proof is incomplete.
 - `contract-drift`: credible current-state evidence and the living contract diverge; the auditor
   does not decide which should change.
-- `missing-contract`: changed durable behavior or architecture has no declared normative owner.
+- `missing-contract`: an established consequential lasting obligation is insufficiently expressed
+  in local code/docs and has no suitable normative owner; all contract-writer value conditions apply.
 - `rollout-blocker`: a correctness, security, compatibility, operability, or lifecycle defect can
   make rollout unsafe even when it is not direct contract prose.
 - `accepted-risk`: a non-contract rollout risk explicitly accepted by the operator in current
@@ -66,9 +67,10 @@ Every material rule row contains:
 - rule verdict and evidence level;
 - any gap or conflict.
 
-An executable contract is evidence and ownership only for the interface explicitly assigned by
-project instructions. An Accepted ADR plus tests with no living owner produces `missing-contract`,
-not `compliant`.
+An established normative API/schema/document can own its bounded guarantee without a separate
+Markdown contract. Prove the role through project declarations or established normative use.
+An ADR or passing tests alone neither proves compliance nor automatically implies `missing-contract`;
+identify the concrete ownership gap and apply all four value conditions before reporting it.
 
 ## Named-risk closure
 

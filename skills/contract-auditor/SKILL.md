@@ -35,7 +35,8 @@ repeat/re-review request to `repeat-review` over the requested base mode.
 
 1. Resolve the exact target, base, worktree, and change-set without mutating them.
 2. Discover and fully read the relevant living and explicitly declared executable contracts.
-3. Assign stable per-run rule IDs and reverse-check changed durable behavior for a missing owner.
+3. Assign stable per-run rule IDs and reverse-check consequential lasting obligations for a concrete
+   ownership gap.
 4. Freeze one audit matrix, causal frontier, and explicit audit budget, then run one bounded
    discovery fan-out. Strict review requires at least two independent vectors.
 5. Apply the confirmation gate to every blocking candidate, then deduplicate.
@@ -57,8 +58,9 @@ repeat/re-review request to `repeat-review` over the requested base mode.
   operator explicitly selected preparation plus final audit before any mutation. Require a newly
   frozen target, remain read-only, and return the terminal verdict to the orchestrator. Never return
   authority to fix a finding or repeat the audit.
-- Report `missing-contract` with a recommendation for `$contract-writer`; this read-only audit
-  does not invoke a writer with mutation authority. Creation requires a separately authorized scope.
+- Apply all four contract-writer value conditions before reporting `missing-contract`; do not infer
+  a gap from absence of a separate Markdown file. Recommend `$contract-writer` for a justified gap;
+  this read-only audit does not invoke a writer. Creation requires separately authorized scope.
 - Zero findings is a valid outcome. Do not invent defects to fill a report or meet a finding count.
 - Stop on a contract conflict for an operator decision. Hand off confirmed defects separately.
 
