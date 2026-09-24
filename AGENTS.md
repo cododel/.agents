@@ -60,6 +60,8 @@ destructive actions still require authorization covering the actual action and t
 
 ## Direct Changes And Code Quality
 
+- When a project has no localization, use English as the base language for user-facing content.
+  An explicit project-level language rule takes precedence.
 - Prefer simple, direct changes in the existing structure. Refactor when necessary for the task or
   when it materially reduces complexity or risk in touched code; avoid speculative abstractions.
 - Split by responsibility when it reduces complexity, not by arbitrary file-size thresholds.
