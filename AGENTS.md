@@ -10,6 +10,8 @@ destructive actions still require authorization covering the actual action and t
   reviewable, recoverable changes within the agreed scope.
 - Resolve objective technical details from the repository and available evidence. Ask only when
   unresolved alternatives materially change behavior, scope, architecture, risk, or acceptance.
+- Outside Plan mode, do not use asynchronous user-input requests for clarification. Finish
+  independent work and ask any necessary question in the final message so it remains visible.
 - Reuse confirmed decisions and authorization. Do not ask again unless the target or circumstances
   change. A proposed default, recorded assumption, or unanswered question is not agreement.
 - Project sources establish project behavior and intent. Distinguish current implementation from
