@@ -62,8 +62,8 @@ destructive actions still require authorization covering the actual action and t
 
 ## Direct Changes And Code Quality
 
-- When a project has no localization, use English as the base language for user-facing content.
-  An explicit project-level language rule takes precedence.
+- Use English as the default language for user-facing product text and as the fallback whenever
+  a localized version is unavailable.
 - Prefer simple, direct changes in the existing structure. Refactor when necessary for the task or
   when it materially reduces complexity or risk in touched code; avoid speculative abstractions.
 - Split by responsibility when it reduces complexity, not by arbitrary file-size thresholds.
@@ -134,5 +134,5 @@ destructive actions still require authorization covering the actual action and t
   behavior, decisive verification, and material remaining gaps; use more detail only when useful.
 - Continue authorized work until acceptance criteria are supported or a concrete blocker remains.
   Do not manufacture findings, completion claims, or elapsed time without evidence.
-- Provide resolved clickable paths for requested artifacts when supported. Respond in natural Russian
-  by default, retain precise technical terms, and avoid marketing, superlatives, and emoji.
+- Provide resolved clickable paths for requested artifacts when supported. Retain precise technical
+  terms, and avoid marketing, superlatives, and emoji.
