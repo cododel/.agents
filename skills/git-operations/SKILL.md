@@ -1,6 +1,6 @@
 ---
 name: git-operations
-description: Guide Git staging, commits, branch synchronization, pushes, remote verification, and transport failure recovery. Use for a requested Git operation or Git state diagnosis; route worktree, merge, and PR maintenance to their specialized skills.
+description: Guide Git operations and diagnosis, including commit composition, sizing, grouping, messages, staging, synchronization, push, and transport recovery. Use for a requested Git operation or state diagnosis, requests to split changes into commits or draft/review commit messages, and authorized workflows reaching a commit checkpoint. Ordinary code editing alone does not trigger this skill. Route worktree and merge operations to their specialized skills.
 ---
 
 # Git operations
@@ -16,7 +16,7 @@ directly before acting on it; leave other case files unloaded.
 
 | Signal in the task or checkout | Route |
 | --- | --- |
-| Stage or commit local work | Use the common procedure below and applicable `AGENTS.md`. |
+| Plan, stage, create, or review commits; choose their size, grouping, or messages | Read [Commit composition](references/commit-composition.md), then use the common procedure below for authorized mutations. |
 | Push, create a remote branch, or rewrite a remote ref | [Remote publication](references/remote-publication.md) |
 | Sandbox/DNS, network, SSH agent, or HTTPS access failure; proposed transport/account change | [Transport failures](references/transport-failures.md) |
 | Fetch, pull, divergence, or a stale upstream marker such as `[⇡]` | [Synchronization and tracking](references/sync-and-tracking.md) |
