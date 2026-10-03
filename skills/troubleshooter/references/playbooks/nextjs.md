@@ -44,8 +44,9 @@ the component code doesn't show. Use with `discovery.md`.
 - `useEffect` running only on the client, papering over an SSR `undefined` so the bug only
   shows on first paint or in production SSR.
 
-## A read-only repro is still a mutation
+## Local development reproduction
 
-`next build`, `next dev`, and running the test suite spin up servers, hit APIs, and write the
-`.next/` cache. Per the gate, propose the command for the user to run — don't start a server to
-"just reproduce".
+Run `next build`, focused tests, or `next dev` in a verified local development copy under the
+[common authority rules](../../SKILL.md#intent-and-authority). Writing `.next/` is an ordinary local
+side effect; resolve server-side API targets before reproduction and stop task-owned development
+servers before handoff.

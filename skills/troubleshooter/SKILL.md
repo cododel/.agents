@@ -23,6 +23,14 @@ reproduction, patching, and proportionate verification without an extra approval
 A fix request does not authorize unrelated cleanup, push/deploy, destructive operations, or
 shared/persistent database mutation.
 
+Builds, focused tests, and development servers are allowed within a diagnosis/fix request in a
+verified local development copy without extra approval. Resolve the actual database, cache, queue,
+and API targets first; a local checkout alone does not prove that its services are local. Task-local
+generated files and caches are ordinary local side effects. Run data-changing checks on isolated
+disposable test targets, retain the shared/production authorization gate, and stop task-owned
+processes before handoff. If a service target is unresolved, defer only the dependent command and
+continue independent investigation.
+
 ## Workflow
 
 1. **Parse the failure artifact.** Extract error type/message, execution command/environment, and the

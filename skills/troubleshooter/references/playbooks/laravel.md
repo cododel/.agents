@@ -44,8 +44,9 @@ controller/model code doesn't show. Use with `discovery.md`.
   the real exception. `rg -n 'catch\s*\(.*\)\s*\{'`
 - `@` error suppression on a call (`@$arr['key']`) hiding the warning that explains the null.
 
-## A read-only repro is still a mutation
+## Local development reproduction
 
-`php artisan` commands, `migrate`, `tinker`, queue workers, and the test suite hit the
-database, cache, and queue. Per the gate, write the exact command for the user to run — don't
-execute `artisan` to "just check".
+Run relevant `php artisan` checks and focused tests in a verified local development copy under the
+[common authority rules](../../SKILL.md#intent-and-authority). Resolve database, cache, queue, and
+external-delivery targets before migration, `tinker`, or worker probes; use disposable test data for
+data-changing checks.

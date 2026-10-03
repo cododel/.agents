@@ -10,19 +10,20 @@ only their own architecture, commands, conventions, and project-scoped workflows
   standards, verification, durable-artifact semantics, and concise handoff behavior.
 - `skills/<name>/` owns repeatable **procedures**. Detailed workflows do not belong in the global
   kernel merely because they are important.
-- `capabilities/<name>/manifest.json` owns declarative, client-neutral tool requirements, probes, and
-  repair commands.
+- `capabilities/<name>/manifest.json` owns declarative, client-neutral tool requirements and repair
+  commands.
 - Project `AGENTS.md` files may specialize global engineering defaults and define project facts. They
   should link to global policy instead of copying it, except when a concrete project delta must be
   explicit.
 - Project Skills own stack- or repository-specific execution procedures such as test matrices,
   migrations, release commands, or domain workflows. They do not live in this global archive.
-- `evals/` defines trigger and behavior contracts. A rule change should add or update an eval rather
-  than rely only on prose review.
+- `evals/` records expected Skill routing and agent behavior. Relevant scenarios help detect
+  regressions when instructions change; structural validation does not execute model trials.
 
-Use one canonical owner per rule. The intended precedence is hard global safety → current operator
-request/decisions → nearest project instructions → global engineering defaults → invoked Skill/local
-convention.
+Use one canonical owner per rule. Client/system requirements remain authoritative. Explicit operator
+instructions and applicable project rules refine global defaults; invoked Skills provide procedures
+within that scope. External and destructive actions require authorization covering the actual action
+and target, as specified in `AGENTS.md`.
 
 ## Skill Routing Model
 
@@ -64,7 +65,7 @@ not shared-agent configuration.
 - `skills/<name>/SKILL.md` — portable trigger and workflow entrypoint.
 - `skills/<name>/references/` — on-demand detailed procedure.
 - `skills/<name>/assets/` — fallback templates/resources.
-- `capabilities/<name>/manifest.json` — tool requirements, probes, and repair commands.
+- `capabilities/<name>/manifest.json` — tool requirements and repair commands.
 - `clients/<client>/skills/` — client-only Skill sources when required.
 - `evals/skill-scenarios.tsv` — portable Skill trigger contracts.
 - `evals/agent-behavior.tsv` — policy-level behavior contracts.
@@ -73,30 +74,26 @@ not shared-agent configuration.
 
 ## Client Adapters
 
-The current installation uses one physical source with harness-specific adapters or symlinks:
+Client adapters should load the canonical instructions and expose portable Skills through the
+client's supported discovery mechanism. Keep client-only sources under `clients/<client>/` and
+verify loading with the installed client before describing an adapter as active.
 
-- Claude Code: `~/.claude/CLAUDE.md` imports the canonical instructions; Skills are linked under
-  `~/.claude/skills/`.
-- OpenCode: `~/.config/opencode/opencode.json` loads the canonical instructions; Skills are
-  discovered from this directory.
-- Codex: `~/.codex/AGENTS.md` links to the canonical instructions; Skills are discovered natively.
-- Gemini CLI: `~/.gemini/GEMINI.md` links to the canonical instructions; Skills are discovered from
-  this directory.
-- Antigravity: Skills are discovered from this directory; global instructions arrive through the
-  Gemini adapter.
-- Grok: `~/.grok/AGENTS.md` links to the canonical instructions; Skills are discovered natively.
-- Cursor: Skills are discovered natively; User Rules are synchronized through Cursor configuration
-  where no file adapter is available.
-- Kimi: Skills are discovered from this directory; local configuration prevents duplicate fallback
-  discovery from other brand roots.
+Local filesystem snapshot, checked on 2026-10-03:
+
+- `~/.codex/AGENTS.md` is a symlink resolving to this directory's `AGENTS.md`.
+- Previously documented adapter files `~/.claude/CLAUDE.md`, `~/.gemini/GEMINI.md`,
+  `~/.grok/AGENTS.md`, and `~/.config/opencode/opencode.json` are absent.
+- Native Skill discovery and other client settings were not verified. An absent adapter file does
+  not establish whether a client loads this directory through another mechanism.
 
 Do not copy app-managed plugins, bundled Skills, credentials, caches, histories, runtime databases, or
 client state into this tree.
 
 ## Code Intelligence Capability
 
-The capability manifest records the shared `ast-grep` requirement and repair command.
-Code navigation guidance lives in `AGENTS.md`; there is no separate routing Skill.
+The capability manifest records the shared `ast-grep` requirement, minimum version, and repair
+command. It is declarative; the repository validator does not probe the installed tools or consume
+this manifest. Code navigation guidance lives in `AGENTS.md`; there is no separate routing Skill.
 This repository does not install or register an LSP bridge.
 
 ## External Skill Provenance
@@ -117,3 +114,8 @@ python3 scripts/check-skills.py
 python3 -m unittest discover -s tests -p 'test_*.py'
 git diff --check
 ```
+
+These checks validate repository structure, Skill entrypoint/scenario consistency, validator code,
+and patch whitespace. They do not establish that a model follows the instructions. Behavioral runs
+use the prompts and grading criteria in [Behavior probes](evals/behavior-probes.md), with disposable
+workspaces and recorded model/tool traces. This repository currently has no automated model-runner.

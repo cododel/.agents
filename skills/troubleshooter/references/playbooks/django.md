@@ -46,8 +46,9 @@ bad state that obvious project code never shows. Use it with `discovery.md`, not
   three frames later.
 - Mutable default arguments (`def f(x=[])`) carrying state between calls.
 
-## A read-only repro is still a mutation
+## Local development reproduction
 
-Running `pytest`, `manage.py shell`, `manage.py migrate`, or any management command can touch
-the database, fixtures, or migration state. Per the gate, write the exact command and ask the
-user to run it — don't execute it to "just check".
+Run `pytest` and relevant `manage.py` checks in a verified local development copy under the
+[common authority rules](../../SKILL.md#intent-and-authority). Resolve the configured database and
+signal-driven external effects before shell or migration probes; use disposable test data for
+data-changing checks.
