@@ -48,7 +48,7 @@ uses `discovery.md` without this playbook.
 ## Local development reproduction
 
 Run relevant `php artisan` checks and focused tests in a verified local development copy under the
-[common authority rules](../../SKILL.md#intent-and-authority). Resolve database, cache, queue, and
+[common authority rules](../../SKILL.md#authority-and-local-reproduction). Resolve database, cache, queue, and
 external-delivery targets before migration, `tinker`, or worker probes; use disposable test data for
 data-changing checks.
 

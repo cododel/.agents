@@ -31,7 +31,7 @@ and filtering; read this file to understand it and to debug compatible layouts. 
 
 ## Parsing (defensive)
 
-- JSONL: one JSON object per line. Wrap every `json.loads` in try/except and skip bad lines —
+- JSONL: one JSON object per line. Wrap every `json.loads` in try/except and skip malformed lines and decoded non-objects —
   partial/streamed transcripts and version differences are normal.
 - A message entry typically has a `type` (`"user"` / `"assistant"`) or `role`, and a `message`
   object whose `content` is either a string or a list of blocks. For block lists, take blocks

@@ -15,10 +15,9 @@ support.
 
 ## Trigger and mode
 
-Use this skill when the operator explicitly asks to humanize, de-AI, de-slop, remove LLM tells,
-match a supplied voice, or review prose for synthetic phrasing. Do not invoke it merely because a
-task produces user-facing text. Ordinary proofreading, translation, summarization, and fresh copy
-creation remain separate tasks unless the request also includes this intent.
+Apply only when the request includes humanization, matching a supplied voice, or reviewing synthetic
+phrasing. Producing user-facing text, proofreading, translation, summarization, or fresh copy alone
+does not activate this skill.
 
 Choose the mode from the request:
 
@@ -48,73 +47,31 @@ style. Changing meaning requires an explicit semantic-edit request; humanization
 authority. If a natural rewrite requires information the source does not contain, preserve the
 uncertainty or ask one narrow question.
 
-Human writing is not defined by slang, messiness, contractions, short sentences, or arbitrary
-punctuation preferences. Use those only when they fit the established voice and context. Technical,
-legal, academic, and operational prose may appropriately remain structured and restrained.
+Use the source's or supplied sample's voice. Do not manufacture a persona through slang,
+messiness, or punctuation; structured and restrained prose may fit the genre.
 
 ## Workflow
 
-### 1. Freeze the semantic invariant
+Identify the claims, evidence, confidence, requested action, and fixed wording before rewriting.
+For a file, inspect nearby prose and project language. Calibrate recurring vocabulary, rhythm,
+punctuation, directness, and humor from any supplied voice sample without copying distinctive
+phrases or exaggerating quirks; a sample does not authorize impersonation or invented experience.
 
-Identify what must remain true after the rewrite: the claim, evidence, confidence, requested action,
-and any fixed wording or formatting. For a file, inspect nearby prose and project language before
-editing so the section remains locally consistent.
+Diagnose phrasing in context rather than banning words. These are editorial heuristics, not proof
+of AI authorship: describe the wording and its effect, without inferring who or what wrote it.
+Read only the relevant sections of [references/patterns.md](references/patterns.md) for a broad audit,
+a stubborn passage, or an explanation of specific patterns. Ordinary rewrites need no catalog.
 
-### 2. Calibrate voice when evidence exists
+Rewrite at the smallest useful radius, preserving navigation, genre conventions, and connected
+titles or captions outside the authorized scope. Use existing specifics only when meaning and scope
+survive. If specifics are missing, retain the assertion and attribution; flag an evidence gap
+separately when useful. For ungrounded verdicts, the reference's
+[material-grounding test](references/patterns.md#material-grounding-test) helps recover source-backed
+actions and observations without filling gaps.
 
-From a supplied sample, observe sentence rhythm, vocabulary, paragraph openings, punctuation,
-directness, humor, use of first person, and transition style. Match recurring tendencies without
-copying distinctive phrases or exaggerating quirks. Treat the sample as evidence, not permission to
-impersonate a different author or fabricate their experiences.
-
-### 3. Diagnose before rewriting
-
-Look for clusters rather than banning individual words. Common signals include inflated significance,
-promotional adjectives, vague attribution, empty conclusions, repetitive rhetorical symmetry,
-formulaic transitions, excessive sectioning, and chatbot correspondence accidentally left in the
-text.
-
-These are editorial heuristics, not proof of AI authorship. In an audit, describe the phrasing and
-its effect; do not infer who or what wrote the passage from those signals.
-
-Read [references/patterns.md](references/patterns.md) for a broad audit, a stubborn passage, or an
-explanation of which patterns changed. Ordinary rewrites do not need the full catalog.
-
-### 4. Restore material grounding
-
-When a sentence is a polished verdict without an inspectable situation, recover only the
-source-backed chain:
-
-```text
-actor -> action -> object or material -> result -> discrepancy -> evidence
-```
-
-Lead with the action, observation, or concrete state when that makes the claim easier to verify.
-Do not fabricate missing fields. A short hook or title may remain compressed, but it should compress
-an understood fact rather than replace it with a slogan.
-
-### 5. Rewrite at the right radius
-
-- Remove padding and chatbot artifacts before changing vocabulary.
-- Replace vague phrasing with existing specifics only when the claim's meaning and scope survive.
-  If the source lacks specifics, preserve the assertion and attribution and flag the evidence gap
-  separately when useful; do not silently narrow or remove either.
-- Prefer direct subjects and verbs when they make ownership clearer.
-- Vary rhythm naturally, but do not force sentence-length randomness.
-- Collapse repetitive headings, lists, or parallel clauses only when they add no navigation value.
-- Retain useful repetition, domain terms, formatting, and genre conventions.
-- Apply the same voice to connected titles, captions, calls to action, and conclusions only when they
-  are in scope.
-
-Do not perform a synonym sweep. A rare word, em dash, bold label, passive construction, or group of
-three is evidence only in context; it is not automatically an AI tell.
-
-### 6. Run a final evidence and voice pass
-
-Compare the rewrite with the source. Check that every factual detail and qualification survived, no
-new claim appeared, and the result reads naturally aloud for its audience. Remove remaining canned
-transitions or suspiciously polished verdicts. Do not expose private chain-of-thought or manufacture
-an internal critique transcript.
+Compare the revision with the source: every factual detail and qualification must survive, no new
+claim may appear, and the voice must fit its audience. Read it aloud when useful. Do not expose
+private chain-of-thought or manufacture an internal critique transcript.
 
 ## Output
 

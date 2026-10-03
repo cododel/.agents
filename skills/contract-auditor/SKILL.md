@@ -12,12 +12,15 @@ that traceability with failure-path and rollout evidence without turning the aud
 style review or silently changing the system.
 
 Read `../contract-writer/references/contract-spec.md` as the definition of a living contract. Never
-copy or reinterpret that specification here. Read all four local references before reporting:
+copy or reinterpret that specification here. Read these three local references for every audit:
 
 - `references/audit-method.md` — mode, target, discovery, fan-out, and confirmation workflow;
-- `references/subagent-method.md` — shared read-only task and JSON result contract;
 - `references/evidence-and-verdicts.md` — rule, finding, named-risk, and overall verdict semantics;
 - `references/output-format.md` — findings-first report shape.
+
+Load `references/subagent-method.md` only when delegating a review vector; pass it to every delegated
+reviewer as the required read-only method and JSON result contract. This loading condition does not
+relax strict independence, snapshot fingerprints, audit caps, evidence gates, or verdict precedence.
 
 ## Modes
 

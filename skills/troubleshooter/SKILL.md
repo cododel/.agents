@@ -5,85 +5,54 @@ description: "Auto-diagnose concrete tracebacks, crashes, logs, failing commands
 
 # Troubleshooter
 
-Find the incorrect assumption that produces the observed failure, not merely the line that throws.
-Diagnosis precedes the final fix, but an explicit fix request authorizes local reversible investigation,
-reproduction, patching, and proportionate verification without an extra approval ceremony.
+Prove the violated assumption and its path to the observed failure. The throwing application frame
+anchors a symptom; it does not establish which producer or ownership boundary caused it.
 
-## Intent and authority
+## Authority and local reproduction
 
-- **Explain/diagnose/debug:** remain read-only with respect to tracked product code unless the
-  operator also requests a fix. Debugging by itself authorizes investigation, not implementation.
-  Focused local probes or existing tests are allowed when they are proven disposable and do not touch shared/persistent
-  state; otherwise show the exact risky command and stop at that gate.
-- **Explicit fix request:** investigate, reproduce when useful, apply the evidence-backed fix, improve
-  directly touched code when it reduces defect risk, and verify it. Do not ask for permission for
-  ordinary local reversible edits.
-- **Material fork:** stop when plausible fixes encode different product behavior, stable contracts,
-  architecture, migration semantics, or irreversible cost.
+Explain/diagnose/debug requests permit investigation, not tracked product edits. An explicit fix
+request permits evidence-backed local repairs and proportionate verification. Stop for a material
+product, architecture, contract, migration, or irreversible-cost fork. Unrelated cleanup,
+push/deploy, destructive actions, and shared/persistent mutations remain gated.
 
-A fix request does not authorize unrelated cleanup, push/deploy, destructive operations, or
-shared/persistent database mutation.
+Builds, focused tests, and development servers are permitted in a verified local development copy.
+First resolve actual database, cache, queue, API, and delivery targets; a local path proves no service
+is local. Data-changing checks require isolated disposable targets. Task-local generated files and
+caches are ordinary side effects; stop task-owned processes before handoff. An unresolved service
+blocks only its dependent command, while independent investigation continues.
 
-Builds, focused tests, and development servers are allowed within a diagnosis/fix request in a
-verified local development copy without extra approval. Resolve the actual database, cache, queue,
-API, and delivery targets first; a local checkout alone does not prove that its services are local. Task-local
-generated files and caches are ordinary local side effects. Run data-changing checks on isolated
-disposable test targets, retain the shared/production authorization gate, and stop task-owned
-processes before handoff. If a service target is unresolved, defer only the dependent command and
-continue independent investigation.
+## Focused workflow
 
-## Workflow
+1. Extract error/message, command/environment, relevant application frame, and the unexpected state.
+   Resolve missing evidence from supplied artifacts, source, logs, or safe probes before asking.
+2. Establish the smallest falsifiable test/probe. For fixes, prefer a useful regression at the
+   behavior boundary and run it before patching; confirm the failure is the bug rather than setup
+   noise. Reuse an existing failure. Diagnosis-only, brittle, or disproportionate seams may use
+   disposable scratch probes with their limits stated.
+3. Trace concrete producer, transformation, boundary, consumer, and lifecycle edges in source.
+   Connect origin → control/data path → violated assumption → distinguishing probe. Label uncertain
+   links as hypotheses; do not patch a guess merely to make the symptom disappear.
+4. When authorized, fix the origin or ownership boundary. Improve directly touched code only when
+   it reduces the same failure risk without widening scope. Make the focused probe pass and inspect
+   relevant static/type checks, failure paths, validation, typing, security, and resource cleanup.
+   Retain a useful regression, or explain why a durable test was unsuitable.
 
-1. **Parse the failure artifact.** Extract error type/message, execution command/environment, and the
-   first relevant application frame. Separate the symptom frame from the upstream source of invalid
-   state. If the artifact or target is genuinely insufficient, ask only for the exact missing input.
-2. **Reproduce or establish a falsifiable probe.** Prefer the smallest existing test/command that
-   isolates the failure. For a fix, add a minimal regression test at the affected behavior boundary
-   when it can reliably exercise the real failure and remain useful in the suite. Run it before the
-   patch and confirm its failure expresses the bug, not setup noise. Reuse an existing failing test
-   rather than duplicating it. For diagnosis-only or a seam where a durable test would be brittle or
-   disproportionate, use a disposable probe or temporary test in task scratch and state the limit.
-3. **Trace origin to failure.** Follow `references/discovery.md`; load only framework playbooks proved
-   along the causal path. Verify decisive cross-module/event-flow edges in source. Use `$find-docs`
-   for drift-prone framework/library semantics.
-4. **Name the root cause.** State the violated assumption and the concrete state/data/control path
-   from origin to failure. Distinguish proven cause from remaining hypotheses.
-5. **Fix the best boundary when authorized.** Correct the origin or ownership boundary rather than
-   adding a broad catch/suppression at the crash site. Local touched-area refactoring is allowed when it reduces the
-   same failure class without widening merge-conflict or regression radius.
-6. **Verify correctness and quality.** Make the same focused repro/test pass after the patch and keep
-   a useful regression test in the suite. Run relevant type/lint/static checks, inspect
-   failure/unavailable paths, and check that the patch did not hide the symptom, weaken validation,
-   introduce unsafe typing, or create a security/resource leak.
-7. **Report independent debt.** Briefly report a proven material problem outside the affected radius
-   and return to the active failure. Use `$issue-writer` and a useful TODO only when the operator
-   requests recording/deferment.
+## Load only relevant detail
 
-## Investigation control
+Read [references/discovery.md](references/discovery.md) when the origin is unclear or upstream,
+cross-module, event, or lifecycle tracing needs more guidance. Load framework playbooks only when
+repository dependencies and runtime/project structure prove that framework on the causal path:
 
-Do not impose a fixed file-count stop on a cross-layer failure. Instead use evidence checkpoints:
+- Django/DRF: [references/playbooks/django.md](references/playbooks/django.md).
+- Next.js: [references/playbooks/nextjs.md](references/playbooks/nextjs.md).
+- Laravel: [references/playbooks/laravel.md](references/playbooks/laravel.md).
 
-- begin narrow at the failing frame and widen by concrete data/control edges;
-- when hypotheses diverge or the causal chain becomes unclear, summarize the established observations
-  and identify the next observation that can falsify or separate them;
-- continue autonomously when that observation is repository-local and likely decisive;
-- ask only when the remaining evidence requires unavailable input, shared/external mutation, or an
-  operator decision;
-- stop searching once one root cause explains the complete observed path and the focused probe can
-  distinguish the proposed fix from alternatives.
-
-Do not patch an unproven cause merely to see whether the error disappears. A disappearing symptom can
-still be suppression, state leakage, or an incomplete fix.
+Generic language projects use discovery without a framework playbook. A proven cross-stack path may
+need several; use `$find-docs` only for unverified version-sensitive external semantics.
 
 ## Handoff
 
-For a fix, respond compactly with:
-
-- root cause and violated assumption;
-- semantic fix and why that boundary is correct;
-- decisive failing-before/passing-after evidence and the retained regression test, or why a durable
-  test was unsuitable;
-- any material quality/completeness caveat or linked deferred Issue.
-
-For diagnosis-only, omit implementation claims and state the next falsifying observation when the
-cause remains uncertain. Do not force a five-section template when two precise paragraphs suffice.
+Report cause versus hypotheses, the semantic fix when authorized, decisive before/after evidence,
+and material gaps. Diagnosis-only reports must omit implementation claims and identify the next
+falsifying observation when uncertain. Briefly report independent debt; record it through
+`$issue-writer` only on a request to record/defer it.

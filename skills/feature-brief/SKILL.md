@@ -5,79 +5,36 @@ description: "Resolve material feature requirements or architecture forks throug
 
 # Feature Brief
 
-Turn an underspecified feature into a current agreed task without forcing a
-permanent specification layer onto the repository.
+Resolve material product or architecture ambiguity into an actionable agreed task. A clear request,
+regardless of size, needs no interview. An implementation plan describes execution; the agreed task
+preserves the intended result.
 
-## Adaptive use
+## Ground the forks
 
-Resolve material product or architecture ambiguity through repository-grounded discussion. A clear
-request needs no interview. Record the task when decisions or handoffs are hard to retain, including
-medium tasks; use `$task-journal` and its shared `task.md`, not a separate default brief.
-An implementation plan describes execution; the task record preserves the agreed result.
+Before asking, resolve the repository, affected surface, instructions, current behavior, nearby
+schemas/tests, and established contracts. Research repository-discoverable facts and objective
+implementation choices; use `$find-docs` for unverified external semantics. Ask only about alternatives
+that materially change behavior, stable boundaries, scope, risk, migration, or acceptance.
 
-## Structured planning integration
+For an interview, read [references/briefing.md](references/briefing.md). Use an exposed planning/question
+surface within its actual limits and current collaboration mode. If unavailable or disallowed, use
+focused plain-chat questions where applicable instructions permit them. Do not start another app or
+create a second plan file solely for this skill.
 
-For unresolved material requirements or architecture forks, use a structured planning and question
-interface already exposed by the current execution environment when available. Do not start or require another application solely
-to obtain that interface. When it is unavailable, maintain a compact plan in the conversation or task
-journal and ask the same focused questions directly. In either case:
+A recommended default, recorded assumption, or unanswered question is not agreement. Planning or
+briefing intent authorizes investigation and the requested plan; product implementation and external
+writes require their own authorization.
 
-- inspect the repository and current docs before asking;
-- keep the implementation plan in the environment's active planning surface when one exists;
-- use this skill only to shape the requirements interview and task contract;
-- use `$task-journal` when requirements, decisions, or handoffs become hard to retain reliably.
+## Record and continue
 
-Do not create a second natural-language plan file merely because the skill is active.
-Respect the actual interface's question limits and current collaboration mode. Planning or briefing
-intent authorizes investigation and the requested plan; it does not authorize product implementation
-or external writes. Continue to implementation only when the operator has requested it.
+When requirements, decisions, or handoffs become hard to retain, or a record is requested, use
+[$task-journal](../task-journal/SKILL.md) directly. It owns the shared `task.md`, templates, storage,
+confirmed changes, and separate execution state. No separate default brief is needed; a requested
+export is a deliverable rather than another maintained task owner.
 
-## Grounding gate
+Once material forks are resolved, continue the explicitly requested planning or implementation.
+Update existing normative owners when agreed guarantees change; use `$contract-writer` for a new
+owner only under its value test. Use `$adr-writer` only on a request to record a significant decision
+the operator actually made. Stop the affected work for an unresolved contract or architecture fork.
 
-Before asking the operator:
-
-1. resolve the exact repository, affected surface, instructions, and existing documentation;
-2. inspect current behavior, nearby conventions, types/schemas/tests, and established living
-   contracts;
-3. use `$find-docs` for drift-prone library/framework questions;
-4. classify each unresolved item as repository-discoverable, objective implementation choice, or
-   material operator fork.
-
-Research the first two classes. Ask only the third. Do not ask the operator to design internal details
-that the agent can determine objectively.
-
-## Briefing workflow
-
-Read `references/briefing.md`. Ask coherent batches small enough to answer precisely. Prioritize:
-
-- motivation and observable target state;
-- users/scenarios and failure behavior;
-- stable invariants and boundary ownership;
-- scope and non-goals;
-- material alternatives and their consequences;
-- acceptance and verification expectations.
-
-Recommend a default when evidence supports one, but do not treat it as selected. A proposed default,
-recorded assumption, or unanswered question is not agreement. Stop interviewing when remaining
-unknowns are reversible implementation details.
-
-## Optional written task
-
-Read `references/brief.md` when a record is useful or requested. Storage and maintenance belong to
-`$task-journal`; use `assets/brief-template.md` as a content guide. Confirmed discussion establishes
-agreement without a separate approval of the file. Keep unresolved proposals distinct and revise
-only affected criteria when a change is confirmed.
-
-## Completion and routing
-
-Once the target contract is sufficiently clear:
-
-- continue to explicitly requested planning or implementation without another ceremony;
-- update `$task-journal` with the confirmed motivation, acceptance, decisions, and open gates when
-  active;
-- update existing normative owners; use `$contract-writer` for a new owner only under its value test;
-- stop for a true contract conflict or new material architecture decision;
-- use `$adr-writer` only when the operator requests recording a significant decision they actually made.
-
-Report only the confirmed target, remaining material questions, and whether the shared task record was created.
-Do not echo the full document or repeat the entire interview.
+Report the confirmed target, remaining material questions, and whether task memory was created.

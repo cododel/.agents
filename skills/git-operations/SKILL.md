@@ -22,7 +22,7 @@ directly before acting on it; leave other case files unloaded.
 | Fetch, pull, divergence, or a stale upstream marker such as `[⇡]` | [Synchronization and tracking](references/sync-and-tracking.md) |
 | Create or change a worktree | `$worktree-task` |
 | Merge branches | `$merge-branches` |
-| Maintain an open PR through comments, conflicts, or CI | Use an available authorized PR workflow such as `$autopilot`, when installed, or existing tools. Its absence does not authorize installing it or stop work that current tools can perform. |
+| Maintain an open PR through comments, conflicts, or CI | Use existing authorized PR tools or an available PR workflow; do not install missing tools merely to follow this route. |
 
 ## Start
 

@@ -8,8 +8,9 @@ only their own architecture, commands, conventions, and project-scoped workflows
 
 - `AGENTS.md` is the always-on **policy kernel**: autonomy boundaries, safety/ownership, engineering
   standards, verification, durable-artifact semantics, and concise handoff behavior.
-- `skills/<name>/` owns repeatable **procedures**. Detailed workflows do not belong in the global
-  kernel merely because they are important.
+- `skills/<name>/` owns scoped **guidance and operation contracts**: triggers, decision boundaries,
+  required evidence and a definition of done. Keep procedures where order protects correctness;
+  load command catalogs, mode details and optional methods only when the task needs them.
 - `capabilities/<name>/manifest.json` owns declarative, client-neutral tool requirements and repair
   commands.
 - Project `AGENTS.md` files may specialize global engineering defaults and define project facts. They
@@ -21,7 +22,7 @@ only their own architecture, commands, conventions, and project-scoped workflows
   regressions when instructions change; structural validation does not execute model trials.
 
 Use one canonical owner per rule. Client/system requirements remain authoritative. Explicit operator
-instructions and applicable project rules refine global defaults; invoked Skills provide procedures
+instructions and applicable project rules refine global defaults; invoked Skills provide guidance
 within that scope. External and destructive actions require authorization covering the actual action
 and target, as specified in `AGENTS.md`.
 
@@ -39,6 +40,20 @@ Skills use a hybrid trigger model:
 
 Automatic does not mean unconditional. Each Skill's description and internal gate defines when its
 coordination cost is justified.
+
+There are **22 active portable Skills**. The routing matrix covers exactly their entrypoints:
+
+- Documentation and design: `adr-auditor`, `adr-writer`, `contract-auditor`, `contract-writer`,
+  `design-system-extractor`, `docs-cleanup`, `humanize`, `issue-writer`.
+- Engineering and verification: `chrome-devtools-cli`, `feature-brief`, `feature-closeout`,
+  `figma-css-cleanup`, `git-operations`, `localization`, `merge-branches`, `troubleshooter`,
+  `worktree-task`.
+- Context and coordination: `find-docs`, `find-skills`, `kaneo-task-workflow`, `task-journal`,
+  `yougile-workflow`.
+
+Inactive historical Wiki sources are not active entrypoints. `task-journal` is unchanged by the
+contextual-Skills update. Source files, installed plugins and actual client discovery are separate
+inventories; the count above does not prove runtime loading by every client.
 
 ## Task State And Worktrees
 
@@ -62,8 +77,8 @@ not shared-agent configuration.
 ## Canonical Sources
 
 - `AGENTS.md` — client-neutral global policy.
-- `skills/<name>/SKILL.md` — portable trigger and workflow entrypoint.
-- `skills/<name>/references/` — on-demand detailed procedure.
+- `skills/<name>/SKILL.md` — portable trigger, boundaries and expected outcome.
+- `skills/<name>/references/` — task-selected details, catalogs and necessary procedures.
 - `skills/<name>/assets/` — fallback templates/resources.
 - `capabilities/<name>/manifest.json` — tool requirements and repair commands.
 - `clients/<client>/skills/` — client-only Skill sources when required.
@@ -121,7 +136,13 @@ python3 -m unittest discover -s tests -p 'test_*.py'
 git diff --check
 ```
 
-These checks validate repository structure, Skill entrypoint/scenario consistency, validator code,
-and patch whitespace. They do not establish that a model follows the instructions. Behavioral runs
+These checks validate repository structure, links, Skill entrypoint/scenario consistency and patch
+whitespace. Stdlib tests also verify validator portability and three scanner regressions: non-object
+JSON, an explicit subdirectory boundary and suspicious token assignments. They do not establish
+that a model follows the instructions. Behavioral runs
 use the prompts and grading criteria in [Behavior probes](evals/behavior-probes.md), with disposable
 workspaces and recorded model/tool traces. This repository currently has no automated model-runner.
+New contextual-Skill probes require two baseline and two candidate trials with identical settings in
+fresh isolated sessions. Their current status is **UNTESTED**: isolation startup failed before a model
+response, and automatic approval review rejected the network retry because specific authorization
+for private instruction/path egress was missing. Static checks and source review are separate evidence.

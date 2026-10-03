@@ -50,7 +50,7 @@ causal path. Generic Python uses `discovery.md` without this playbook.
 ## Local development reproduction
 
 Run `pytest` and relevant `manage.py` checks in a verified local development copy under the
-[common authority rules](../../SKILL.md#intent-and-authority). Resolve the configured database and
+[common authority rules](../../SKILL.md#authority-and-local-reproduction). Resolve the configured database and
 signal-driven external effects before shell or migration probes; use disposable test data for
 data-changing checks.
 

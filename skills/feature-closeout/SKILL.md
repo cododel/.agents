@@ -5,116 +5,65 @@ description: "Review a completed feature against current agreed motivation, beha
 
 # Feature Closeout
 
-Catch the kind of incomplete, locally correct, or structurally weak implementation that can survive a
-normal coding pass. Closeout judges the feature on **correctness, quality, and completeness** against
-the current agreed task, not against the implementing agent's latest summary.
+Judge correctness, quality, and completeness against the current agreed task. Use this skill for
+material acceptance/integration uncertainty or an explicit request. Task length, diff size,
+compaction, and task records alone do not require closeout or independent reviewers.
 
-Read `references/mode-contracts.md` completely for every invocation.
+## Select the mode
 
-## When to run
+- **`quick`**: bounded self-review with proportional evidence; load [references/quick.md](references/quick.md).
+- **`full`**: substantive acceptance/integration review; load [references/full.md](references/full.md).
+- **`release`**: explicit only; satisfy Full, then load [references/release.md](references/release.md)
+  for the frozen release review. Load both Full and Release procedures.
 
-Use closeout when material acceptance or integration uncertainty warrants a structured review, or
-when explicitly requested. Choose checks for concrete risks such as cross-layer behavior, lifecycle,
-compatibility, or incomplete acceptance evidence. Task length, diff size, compaction, and the presence
-of task records alone do not require this skill or independent reviewers.
-
-An atomic change with decisive evidence needs only normal completion review. Do not create records
-or fan out merely to complete a template.
-
-## Modes
-
-- **`quick`** — compact self-review and focused evidence for a bounded change. No independent fan-out
-  by default. May repair clear in-scope defects once.
-- **`full`** — for substantive acceptance/integration review. Freeze the task contract, trace the
-  affected radius, select useful review/verification vectors, independently where warranted,
-  repair confirmed in-scope findings,
-  and recheck only affected vectors through a bounded convergence cycle.
-- **`release`** — explicit only. Run `full`, then add the project's integration/release checks,
-  compatibility/rollback/operations evidence, and one final read-only review of the frozen result.
-  Never deploy or mutate remote/shared state.
-
-Natural language is sufficient; exact CLI-like flags are optional. If no mode is named, choose
-`quick` or `full` according to the material acceptance/integration risks. Never infer `release`.
-Optional user constraints such as base, scope, or evidence narrow discovery but do not permit ignoring
-demonstrated consumers.
+Natural language is sufficient. When unnamed, choose Quick or Full by material risk; never infer
+Release. User constraints narrow discovery without excluding demonstrated consumers. An atomic
+change with decisive evidence needs only normal completion review.
 
 ## Authority
 
-An implementation request plus closeout authorizes local reversible fixes inside the current agreed task
-and its demonstrated affected radius. It does not authorize:
+An implementation request plus closeout permits reversible local repairs inside the agreed task and
+its demonstrated affected radius. Review alone does not authorize product changes. New semantics or
+architecture, unrelated cleanup, rewriting operator work, push/merge/deploy, and remote/shared
+persistent mutations remain outside this authority.
 
-- a new product or architecture decision;
-- unrelated repository cleanup;
-- push, merge, deploy, or persistent/shared database mutation;
-- rewriting operator-owned changes;
-- creating an ADR for a choice the operator did not make.
+Update existing guarantees when agreed behavior changes; use `$contract-writer` for a new owner only
+under its value test. Record independent debt through `$issue-writer` only on a request to record or
+defer it. ADR recording requires operator intent and an actual significant operator-made decision.
 
-Update existing guarantees when agreed behavior changes. Create a new owner only when all
-contract-writer value conditions hold. Stop only when documenting it would choose unresolved semantics.
-Report independent debt; invoke `$issue-writer` only on a request to record/defer it.
+## Common review invariants
 
-## Freeze the review target
+These rules own the shared procedure for all modes:
 
-Before evaluating:
+1. Resolve repository/worktree, branch, HEAD, status, base, and exact change inventory. Freeze the
+   current motivation, behavior, acceptance, decisions, non-goals, and material assumptions from
+   confirmed discussion or `task.md`; `state.md` supplies progress/evidence, never acceptance.
+   Identify applicable contracts and record a source fingerprint separately from builder claims.
+   Stop the affected branch for a missing material requirement/decision; never substitute what the
+   implementation happens to do.
+2. Trace demonstrated consumers, interfaces, data/events, configuration, persistence, cleanup, and
+   operator controls. Map each material criterion to implementation evidence, verification, and
+   status without requiring a file for atomic work.
+3. Assess **correctness** against agreed behavior, **quality** of safety/types/maintenance, and
+   **completeness** of consumers/failure paths/lifecycle/compatibility. Source, docs, parser/static
+   checks, tests, and focused probes provide different evidence; a passing suite or clean diff is
+   insufficient by itself. Use `$find-docs` when external semantics remain unverified.
+4. Separate confirmed in-scope defects, unknowns, environment or pre-existing failures, and independent
+   debt. Confirm and deduplicate findings before repairing. Never weaken acceptance/tests to match
+   implementation; expectation changes need an agreed behavior change or a demonstrated check defect.
+5. Repair only authorized confirmed defects within the selected mode's limit. Re-run only checks and
+   vectors invalidated by fixes, requirement changes, or material environment changes. Review the
+   final diff against the frozen motivation and refresh the fingerprint after source changes.
 
-1. resolve repository/worktree, branch, HEAD, status, base, and the exact change inventory;
-2. reconstruct the current agreed motivation, target behavior, acceptance, operator decisions, non-goals,
-   and material assumptions from confirmed discussion and `task.md` when present; use `state.md`
-   for progress, not as a replacement requirements source;
-3. snapshot that task contract separately from the implementing agent's claims;
-4. identify applicable living contracts and affected consumers;
-5. record a source fingerprint so later fixes and rechecks cannot be confused with the first review.
-
-If the current agreed task cannot be reconstructed reliably, stop only for the missing material
-operator decision. Do not replace it with what the code happens to implement.
-
-## Review model
-
-Evaluate three independent dimensions:
-
-- **Correctness:** does observed behavior satisfy the frozen task contract?
-- **Quality:** is the implementation safe, typed, maintainable, idiomatic, and free of unjustified
-  shortcuts or vulnerabilities?
-- **Completeness:** are affected consumers, failure paths, cleanup, data/migration behavior,
-  contracts, and acceptance evidence covered proportionally?
-
-Use source, tests, focused runtime probes, current docs, and repository history as evidence. A passing
-suite does not settle quality or completeness. A clean diff does not prove target behavior.
-
-## Independent review and repair
-
-In `full` and `release`, use independent read-only subagents when they can inspect distinct vectors
-without inheriting the builder's conclusions. Typical vectors are:
-
-- requirement and invariant coverage;
-- affected-radius/data-flow and cross-module integration;
-- failure paths, security, concurrency, resource lifecycle, and migration compatibility;
-- implementation quality, type safety, and regression risk;
-- focused QA and test-evidence adequacy.
-
-Use isolated reviewer contexts already exposed by the current execution environment. Do not start,
-install, or require an external orchestration runtime solely to satisfy review independence. If the
-required independent contexts are unavailable, continue the useful inline review but apply the
-selected mode's evidence limit honestly.
-
-Choose only relevant vectors; do not launch a generic checklist swarm. The primary agent deduplicates
-findings, confirms them against the frozen target, and repairs confirmed in-scope defects. After a
-repair, re-run the focused checks and only the review vectors invalidated by that repair. Stop after at
-most two repair/recheck rounds; remaining blockers become an explicit handoff, not an unbounded
-audit-fix loop.
+For independent review, use isolated read-only contexts already available in the environment and
+withhold builder conclusions when independence matters. Do not install an orchestration runtime to
+simulate this evidence; missing contexts must remain visible under the selected mode's limits.
+Do not require permanent tests, contracts, Issues, ADRs, or runbooks without independent maintenance
+value.
 
 ## Completion
 
-A successful closeout requires evidence for all material acceptance criteria and no confirmed
-in-scope blocker on correctness, quality, or completeness. Record criterion-level outcomes and
-evidence gaps in `state.md` when task memory is active.
-
-Return a concise semantic report:
-
-- mode and terminal status;
-- achieved behavior relative to the current agreed motivation;
-- non-obvious implementation choices and why they serve that motivation;
-- decisive verification/review evidence;
-- remaining material risks, assumptions, or deferred Issues.
-
-Do not dump a file list, full review transcript, or routine command log.
+Success requires evidence for every material acceptance criterion and no confirmed in-scope blocker
+on correctness, quality, or completeness. Record outcomes and gaps in `state.md` when active.
+Return mode/status, achieved behavior, decisive evidence, material gaps, and useful non-obvious
+choices. Zero findings is valid; omit routine logs, file inventories, and reviewer transcripts.

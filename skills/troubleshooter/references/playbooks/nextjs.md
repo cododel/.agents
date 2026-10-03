@@ -6,13 +6,13 @@ JavaScript, TypeScript, or React projects use `discovery.md` without this Next.j
 ## Reading the traceback
 
 - Distinguish **server** from **client**: a stack in the terminal / function logs is SSR or a
-  route handler; a stack in the browser console is client. The same component renders in both —
-  the boundary is where assumptions diverge.
+  route handler; a stack in the browser console is client. Inspect the owning module
+  and rendering boundary before assuming its code runs in both environments.
 - `Hydration failed` / `Text content does not match server-rendered HTML` means the server and
   client rendered different trees — the bad state is a value that differs between the two
   environments (time, random, `window`, locale, `localStorage`), not a crash in one of them.
-- `undefined is not a function` / `Cannot read properties of undefined` is the dominant
-  shape — an optional prop, an unresolved `await`, or a value that only exists on one side.
+- `undefined is not a function` / `Cannot read properties of undefined` may come from an
+  optional prop, an unresolved `await`, or a value that only exists on one side; verify the actual path.
 
 ## Candidate origins to inspect
 
@@ -49,7 +49,7 @@ JavaScript, TypeScript, or React projects use `discovery.md` without this Next.j
 ## Local development reproduction
 
 Run `next build`, focused tests, or `next dev` in a verified local development copy under the
-[common authority rules](../../SKILL.md#intent-and-authority). Writing `.next/` is an ordinary local
+[common authority rules](../../SKILL.md#authority-and-local-reproduction). Writing `.next/` is an ordinary local
 side effect; resolve server-side API targets before reproduction and stop task-owned development
 servers before handoff.
 

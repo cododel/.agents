@@ -7,40 +7,55 @@ description: Work with YouGile only through the connector explicitly selected by
 
 ## Connection and target
 
-Use only the YouGile connector manually specified by the operator for the current request. Do not choose a connector from the available list, a previous session, a repository, or a matching name. If no connector is specified, ask which organization and connection to use before any YouGile operation. Do not use browser UI automation, a direct REST API, CLI, another connector, or other workaround for YouGile reads or writes. If the selected connector cannot perform the operation, report that limit and ask the operator how to proceed.
+Use only the connector explicitly selected by the operator for this request. Do not infer it from
+available tools, repository/name matches, or another session. If absent, ask for the organization
+and connection before any YouGile operation. No browser UI, REST API, CLI, alternate connector, or
+workaround is permitted; report unsupported operations and ask how to proceed.
 
-For work with an existing task or knowledge-base page, require its link from the operator. Resolve that link through the selected connector and verify the returned identity before changing anything. An ID, title, search hit, or remembered technical ID alone is not enough to start work on a specific task; ask for the link. Keep the operator's link in the final report.
+For an existing task or knowledge-base page, require the operator's link, resolve it through the
+selected connector, and verify returned identity before changes. An ID, title, search hit, or
+remembered ID cannot replace that link. Keep the supplied link in the final report.
 
-## Knowledge-base pages
+## Placement and page content
 
-A YouGile knowledge-base page may be backed by a board task with a different interface and no visible chat. A confirmed case showed that the task connector's description update changed the page body. When a page link is supplied, check this route through the selected connector; do not infer from a missing chat or a failed task read that the page is not task-backed. Preserve existing body text unless the operator explicitly requests replacement. If the connector cannot read the current body, do not overwrite unknown content as an append or claim that it was preserved. Ask the operator for the existing text or an explicit replacement decision.
+Before creating an entity, resolve the complete operator-confirmed path: organization, parent
+project, board, column/section where applicable, title, and requested visibility/ownership. Reuse
+choices already confirmed for this task while target/circumstances remain unchanged; refresh the live
+existing path without asking again.
+Defaults, unanswered questions, and inferred placement are not agreement. Verify existing ancestors
+and supported entity type; stop creation when either remains unverified. For unresolved connector
+placement, operator creation in the UI followed by its link is a possible next step.
 
-## Creating entities
+A knowledge-base page may be task-backed without a visible chat; a confirmed case used the task
+connector's description update for its body. Inspect this route through the selected connector
+rather than assuming a missing chat/failed task read proves otherwise. Preserve existing body unless
+replacement was requested. If unreadable, obtain its text or an explicit replacement decision;
+do not overwrite unknown content as an append or claim preservation.
 
-Before creating a project, board, column, task, or knowledge-base page, obtain the complete intended path and all material choices from the operator: organization, parent project, board, column or section where applicable, title, and any requested visibility or ownership. Verify every existing part of the path through the selected connector. Present unresolved alternatives to the operator; do not invent placement, names, permissions, or structure. If the connector cannot verify the full path or the requested entity type, stop before creation. In ambiguous cases, suggest that the operator create the entity in the YouGile interface and send its link; this is usually safer than connector-based creation.
+## Formatting
 
-Reuse placement and other choices already confirmed by the operator for this task. Do not ask again
-when the target and circumstances remain the same; refresh the live existing path instead. A proposed
-default, unanswered question, or inferred placement is not a confirmed choice.
+YouGile can collapse code fences and their line breaks. Use confirmed headings, short paragraphs,
+and one list item per distinct command/value. Do not use fences, indented code, plain-line runs, or
+rely on inline-code styling for separation.
 
-## Formatting descriptions and knowledge-base pages
+Use numbered items for sequences, bullets for alternatives/reference commands, and one executable
+command per item. State its directory in the item or preceding heading; keep comments outside copied
+command text. Use labeled bullets per account/object or visually similar value. Publish specific
+passwords only with authorization for those values and that destination; otherwise point to their
+source. Make URLs clickable where supported.
 
-YouGile may render Markdown fenced code blocks and line breaks inside them as one continuous line. Do not use code fences, indented code, or a run of plain lines for commands, credentials, IDs, or other values that must remain distinct. Do not rely on inline-code styling to make them readable. Use the structures confirmed to survive in the target page: headings, short paragraphs, and one list item per distinct value or action.
+For a substantial write with uncertain rendering, prepare a small representative sample. Inspect
+rendering through the selected connector when available; otherwise mark visual results unverified
+and request confirmation only when material to acceptance.
 
-For a sequence, use a numbered list. Put exactly one executable command in each item and state its working directory in the item or in a heading immediately above the list. For alternatives or reference commands, use bullets instead. Keep comments and explanations outside the command text so a copied command does not include prose. Never join commands merely to imitate a code block.
+## Writes, evidence, and skill changes
 
-For access details and other field/value data, use one bullet per account or object with explicit labels such as `Role:`, `Login:`, and `Password:`. If a value is long or visually similar to another, give it its own bullet. Include passwords only when the operator authorized publishing those specific values to that YouGile destination; otherwise describe where to obtain them. Make URLs clickable when the editor supports links.
+A link/read request does not authorize edits. Apply only requested fields on the verified target;
+verify the response and supported resulting state through the same connector. Reconcile uncertain
+writes before retrying. Report write success separately from failed reads or unavailable visual proof.
+Retain returned IDs and distinguish completed, failed, and unknown steps; no unrequested compensating
+deletion/recreation or whole-workflow success claim from partial results.
 
-Before a substantial write, format a small representative sample if rendering is uncertain. After writing, inspect the rendered page through the selected connector if it exposes that view; otherwise report the visual result as unverified and request operator confirmation only when it is material to acceptance. Adjust the requested page's formatting from observed behavior. Recording a reusable lesson in this skill requires a separate explicit request to edit the skill.
-
-## Writes and verification
-
-A link or read request does not authorize a write. Carry out only the requested field changes on the verified target. After a write, verify the response and, when supported, the resulting state through the same selected connector. After an uncertain result, reconcile before retrying. If a read tool fails while a write reports success, describe those separately and do not claim visual verification.
-
-For multi-step creation or updates, retain each returned identity and report what completed, failed,
-or remains unknown. Do not claim the whole workflow succeeded from a partial response or compensate
-with unrequested deletion/recreation.
-
-## Evolving this skill
-
-After a real use reveals a reusable behavior, compare the connector result with the operator-visible outcome. Operator confirmation establishes evidence for the lesson, not permission to edit this skill. Update it only after an explicit skill-edit request, using the narrowest rule that changes future decisions and recording its scope and evidence. Revisit an existing rule when later confirmed evidence contradicts it. Do not turn one error, guess, or connector-specific behavior into a universal YouGile rule, and do not silently relax the connector, link, path, or authorization gates above.
+Confirmed operator-visible behavior is evidence for a reusable lesson, not permission to edit this
+skill. Skill updates require an explicit edit request, narrow scope, and confirmed evidence. Do not
+universalize a single connector error/guess or relax connector, link, placement, and authority gates.

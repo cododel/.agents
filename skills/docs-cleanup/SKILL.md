@@ -5,99 +5,39 @@ description: "Audit and optionally apply broad cleanup across repository Issues,
 
 # Docs Cleanup
 
-Classify repository documentation by long-term value, preserve unique knowledge in one canonical
-owner, and remove proven noise without treating every local file deletion as irreversible.
+Classify documentation by durable value and preserve it in one canonical owner. Default to read-only
+audit. Clear cleanup/apply intent authorizes only exact local actions within the confirmed scope and
+the evidence/recovery gates; review/report requests do not authorize mutation.
 
-## Modes and authority
+## Load by stage
 
-- **Audit** is the default: classify, run safety checks, and recommend exact actions without mutation.
-- **Apply** requires clear operator intent such as `clean up`, `apply the cleanup`, or `delete the
-  proven stale docs`. That request authorizes exact local reversible repairs and deletion of candidates
-  that pass the evidence and recovery gates below.
-- A separate checkpoint remains required for valid untracked/modified/unrecoverable content or
-  ADR-history deletion. Unresolved scope/value or invalid symlink/path/type targets are blocked;
-  approval does not bypass those checks. Broad globs/directories and remote/shared actions remain
-  outside this exact-file cleanup authority.
+1. Resolve roots/conventions with `../_shared/repository-discovery.md`. Preserve exact requested scope;
+   do not sweep a monorepo by default. Enumerate regular Markdown files, excluding archives,
+   dependencies, generated output, and unrelated trees; do not follow symlinks.
+2. Read `references/value-criteria.md` for classification. `delete` is a value proposal, independent
+   of safety evidence and apply authority. Review inline or delegate coherent read-only batches when
+   complexity/context makes that useful; count alone does not require delegation. Load
+   `references/classifier-method.md` only when delegating classification.
+3. Load `../_shared/durable-documentation.md` when unique value needs routing. Recommend the relevant
+   writer/Issue/runbook workflow within its authority; a cleanup audit does not silently invoke
+   unrelated mutations. Keep active task/handoff material.
+4. For each proposed delete, load `references/pre-delete-method.md` and run its one-candidate read-only
+   checks inline or through a reviewer. Incomplete/unavailable checks are `inconclusive`; untested
+   booleans are `null`. A safe evidence result does not grant authority. Unresolved semantic references
+   and unique value block removal; index-only links require exact same-change repair and recheck.
+5. For delete candidates, load `references/delete-gate.md` to prove recovery, resolve any exact-path
+   checkpoint, and perform final state/reference rechecks. Audit mode reports only. Apply mode may
+   perform covered unambiguous repairs and exact recoverable deletes; never use globs/directories or
+   claim recovery for unproven contents.
+6. Load `references/output-formats.md` for the audit/applied result: scope, counts, actual actions,
+   gated/blocked/drifted paths, routing, and incomplete evidence. Do not dump bodies or transcripts.
 
-Never infer apply intent from a request to inspect, review, audit, or report.
+## Non-bypassable gates
 
-## Workflow
+Valid untracked/modified/unrecoverable content requires a separate recovery checkpoint; meaningful
+ADR-history deletion requires explicit exact-path semantic authority. Unresolved value/scope or
+invalid symlink/path/type targets are blocked, never approval bypasses. Bulk approval covers only an
+already shown unchanged exact list. Remote/shared actions remain outside this local cleanup scope.
 
-### 1. Discover scope
-
-Read `../_shared/repository-discovery.md`. Resolve the exact docs root(s), local conventions, and Git
-checkout. Ask only when several plausible project/module scopes remain; do not sweep an entire
-monorepo by default.
-
-### 2. Enumerate candidates
-
-List Markdown documentation under the confirmed scope, excluding established archives, generated
-output, dependencies, and unrelated trees. Record exact regular-file paths; do not follow symlinks or
-construct delete globs.
-
-### 3. Classify value
-
-Read `references/value-criteria.md`.
-
-Classify inline or delegate coherent read-only batches according to semantic complexity, context
-cost, and available independence; candidate count alone does not force delegation. Delegated work
-uses `references/classifier-method.md`; integrate compact JSON evidence in the primary context.
-
-Valid outcomes include `keep`, `repair`, `close`, `stale`, `merge`, `supersede`,
-`promote-to-adr`, `delete`, and `ambiguous`. Classification is not deletion authority.
-
-### 4. Route durable value
-
-Before removal, route unique value through `../_shared/durable-documentation.md`:
-
-- significant operator decision history → `$adr-writer` / `from-issue`;
-- stable current boundary behavior → `$contract-writer`;
-- completed repository Issue → `$issue-writer` close workflow;
-- repeatable operations/debugging knowledge → the relevant runbook/reference;
-- active temporary brief → keep until its task/handoff value ends.
-
-Recommend sibling workflows rather than silently turning a broad cleanup audit into several unrelated
-mutating procedures.
-
-### 5. Pre-delete checks and recoverability
-
-For every `delete` candidate, run the read-only method in `references/pre-delete-method.md` (parallel
-when useful). Incomplete/unavailable required checks are `inconclusive`; do not treat an untested
-boolean as false. Block candidates with load-bearing references, unique content, uncertain status,
-or a safer semantic action. A proven index-only reference can use an exact same-change repair plus
-reference recheck, as defined by the delete methods.
-
-Then apply `references/delete-gate.md` to classify each surviving candidate:
-
-- **recoverable** — exact regular file inside scope, tracked by Git, current contents unmodified and
-  committed, no unresolved references/value;
-- **gated** — valid exact-file target with untracked/staged/modified or unproven recovery, or deletion
-  of ADR history;
-- **blocked** — failed/incomplete evidence/value checks, unresolved scope, symlink, path escape, or
-  invalid type.
-
-### 6. Apply or report
-
-In audit mode, report only. In apply mode:
-
-- apply unambiguous non-delete repairs requested by the operator;
-- delete recoverable candidates by exact path without a second ceremonial approval;
-- present a compact exact-path decision gate only for `gated` candidates;
-- re-resolve path, type, contents, references, Git state, and fingerprint immediately before mutation;
-- update an unambiguous index in the same change; otherwise report it.
-
-Never delete via glob/directory, reinterpret a bulk phrase as approval for an unseen set, or claim Git
-recovery for content not proved committed.
-
-### 7. Handoff
-
-Use `references/output-formats.md`. Report counts, actions actually applied, blocked/gated items,
-durable-value routing, and any scope/evidence that could not be checked. Do not dump document bodies or
-subagent transcripts.
-
-## Subagent contract
-
-For large classification, pass `references/classifier-method.md`, `references/value-criteria.md`,
-repo root, scope context, and coherent candidate batches. For delete safety, pass
-`references/pre-delete-method.md`, one candidate, repo root, and scope context. Subagents are read-only
-and return JSON; the primary agent owns classification, recoverability, and mutation.
+Delegated methods define their input/JSON contracts. Reviewers stay read-only; the primary agent
+verifies their source evidence and owns classification, recovery, and mutation.

@@ -3,216 +3,57 @@ name: chrome-devtools-cli
 description: Use Chrome DevTools CLI when a browser task needs network, console, CSS, performance, memory, Lighthouse diagnostics, or repeatable terminal-driven automation. For ordinary navigation and visual UI checks, use available Browser Use instead.
 ---
 
-The `chrome-devtools-mcp` CLI lets you inspect and control a browser from the terminal.
+# Chrome DevTools CLI
 
-## Decision Boundary
+Use the CLI when DevTools evidence or repeatable terminal automation materially helps the task.
+For ordinary navigation, local app flows, and visual checks, use available Browser Use. If
+`chrome-devtools` is unavailable, use another capability; a browser task does not authorize installation.
 
-- Use this skill when DevTools evidence or a repeatable CLI workflow materially helps the task.
-- Use available Browser Use for ordinary page navigation, local app flows, and visual checks.
-- If `chrome-devtools` is unavailable, use another available capability; do not install it just because a task mentions a browser.
+## Command selection
 
-## AI Workflow
+Use installed `--help` and command-specific help for supported commands, arguments, and flags.
+Resolve unclear effective defaults through installed implementation or primary version-matched
+documentation. An update notice does not authorize installation or daemon restart.
 
-1. **Resolve the command and session**: Use the installed CLI's `--help` and command-specific help for available commands, arguments, and flags. The examples below are not a version contract. A tool command, including `list_pages`, implicitly starts a daemon when none exists; account for that process and its browser/profile before the first command. Inspect an existing session's ownership only when needed, rather than running `start`/`status`/`stop` before every use.
-2. **Inspect as needed**: If the page ID is unknown, use `list_pages`. Take a current `take_snapshot <pageId>` before a command that consumes an element `<uid>`; use only UIDs from that page's latest snapshot and refresh after navigation or relevant DOM changes. Network, console, and other non-UID diagnostics can run directly with the known page or request ID.
-3. **Act and retain ownership**: Use `click <pageId> <uid>`, `fill <pageId> <uid> <value>`, etc. State persists across commands. Record a daemon started for this task, including an implicit start. Start, restart, reconfigure, or stop only a task-owned daemon; an existing daemon or browser is not task-owned merely because the CLI can reach it.
+Read only the needed sections of [the command reference](references/cli-reference.md):
 
-Snapshot example:
+| Task | Section |
+| --- | --- |
+| Element actions or page navigation | [Input automation](references/cli-reference.md#input-automation), [Navigation](references/cli-reference.md#navigation) |
+| Network requests | [Network](references/cli-reference.md#network) |
+| Console, CSS, scripts, screenshots, or Lighthouse | [Debugging and inspection](references/cli-reference.md#debugging-and-inspection) |
+| Performance traces and insights | [Performance](references/cli-reference.md#performance) |
+| Heap analysis | [Memory](references/cli-reference.md#memory) |
+| Viewport, device, or network emulation | [Emulation](references/cli-reference.md#emulation) |
+| Authorized extension or PWA work | [Extensions](references/cli-reference.md#extensions), [Progressive web apps](references/cli-reference.md#progressive-web-apps) |
+| Experimental tools | [Experimental features](references/cli-reference.md#experimental-features) |
+| Needed daemon inspection or management | [Service management](references/cli-reference.md#service-management) |
 
-```
-uid=1_0 RootWebArea "Example Domain" url="https://example.com/"
-  uid=1_1 heading "Example Domain" level="1"
-```
+If the page ID is unknown, use `list_pages`. Before any command consuming an element UID, take a
+current `take_snapshot <pageId>` and use that page's latest UIDs; refresh after navigation or relevant
+DOM changes. Network, console, and other non-UID diagnostics can run directly with known IDs.
 
-## Permissions & File Access
+## Daemon ownership and cleanup
 
-The CLI can default to unrestricted filesystem access, allowing file-saving parameters
-(`--filePath`, `--outputDirPath`) and `upload_file` to access paths outside the task. Tool access
-does not grant permission to read, write, or upload those files. Confirm the installed version's
-effective filesystem configuration; CLI defaults can differ from the underlying server defaults
-shown in help. When temp-only access is required, configure a task-owned daemon with an explicit OS
-temp root (`--workspace` or the installed equivalent) and `--allowUnrestrictedPaths=false` where
-supported. Do not assume that the false flag alone overrides a CLI default, or restart another
-task's daemon to change its restrictions.
+A tool command, including `list_pages`, implicitly starts a daemon when none exists. Account for its
+process and browser/profile before the first command, and record any task-created daemon, including
+implicit starts. State persists across commands; do not run `start`/`status`/`stop` before every use.
 
-## Command Usage
+Start, restart, reconfigure, or stop only a task-owned daemon. An existing session is not task-owned
+merely because the CLI reaches it. `status` can inspect an existing session when needed; `start`
+restarts a running daemon. Stop task-created daemons at handoff unless asked to keep them running.
 
-```sh
-chrome-devtools <tool> [arguments] [flags]
-```
+Release every loaded heap snapshot with `close_heapsnapshot` after analysis, including both inputs
+of a comparison. Deleting its file does not release the loaded daemon memory.
 
-- Required arguments are passed positionally; optional arguments use flags.
-- Use installed `--help` and command-specific help as the authority for syntax and supported tools;
-  use installed implementation or primary version-matched documentation to resolve a default that
-  help does not establish. An update notice does not authorize installation or daemon restart.
-- Output defaults to plain Markdown-like text; pass `--output-format=json` for JSON.
+## Files and external effects
 
-## Input Automation (<uid> from snapshot)
+The CLI can default to unrestricted filesystem access, including output paths and `upload_file`.
+Tool access does not authorize reading, writing, or uploading those files. Confirm effective
+filesystem settings; CLI defaults can differ from server defaults shown in help. For required
+temp-only access, configure a task-owned daemon with an explicit OS temp root (`--workspace` or
+the installed equivalent) and `--allowUnrestrictedPaths=false` where supported. Do not assume the
+false flag alone establishes that restriction or restart another task's daemon to enforce it.
 
-```bash
-chrome-devtools take_snapshot 1 # Take a text snapshot of the page to get UIDs for elements
-chrome-devtools click 1 "id" # Clicks on the provided element
-chrome-devtools click 1 "id" --dblClick true --includeSnapshot true # Double clicks and returns a snapshot
-chrome-devtools drag 1 "src" "dst" # Drag an element onto another element
-chrome-devtools drag 1 "src" "dst" --includeSnapshot true # Drag an element and return a snapshot
-chrome-devtools fill 1 "id" "text" # Type text into an input, textarea, or select an option
-chrome-devtools fill 1 "id" "text" --includeSnapshot true # Fill an element and return a snapshot
-chrome-devtools handle_dialog 1 accept # Handle a browser dialog (accept/dismiss)
-chrome-devtools handle_dialog 1 dismiss --promptText "hi" # Dismiss a dialog with prompt text
-chrome-devtools hover 1 "id" # Hover over the provided element
-chrome-devtools hover 1 "id" --includeSnapshot true # Hover over an element and return a snapshot
-chrome-devtools press_key 1 "Enter" # Press a key or key combination ("Control+A", "Escape")
-chrome-devtools press_key 1 "Control+A" --includeSnapshot true # Press a key and return a snapshot
-chrome-devtools type_text 1 "hello" # Type text using keyboard into a focused input
-chrome-devtools type_text 1 "hello" --submitKey "Enter" # Type text and press a submit key
-chrome-devtools upload_file 1 "id" "file.txt" # Upload a file through a provided element
-chrome-devtools upload_file 1 "id" "file.txt" --includeSnapshot true # Upload a file and return a snapshot
-```
-
-## Navigation
-
-```bash
-chrome-devtools close_page 1 # Closes the page by its index
-chrome-devtools list_pages # Get a list of pages open in the browser
-chrome-devtools navigate_page 1 --url "https://example.com" # Navigates the currently selected page to a URL
-chrome-devtools navigate_page 1 --type "reload" --ignoreCache true # Reload page ignoring cache
-chrome-devtools navigate_page 1 --url "https://example.com" --timeout 5000 # Navigate with a timeout
-chrome-devtools navigate_page 1 --handleBeforeUnload "accept" # Handle before unload dialog
-chrome-devtools navigate_page 1 --type "back" --initScript "foo()" # Navigate back and run an init script
-chrome-devtools new_page "https://example.com" # Creates a new page
-chrome-devtools new_page "https://example.com" --background true --timeout 5000 # Create new page in background
-chrome-devtools new_page "https://example.com" --isolatedContext "ctx" # Create new page with isolated context
-chrome-devtools select_page 1 # Select a page as a context for future tool calls
-chrome-devtools select_page 1 --bringToFront true # Select a page and bring it to front
-```
-
-## Emulation
-
-```bash
-chrome-devtools emulate 1 --networkConditions "Offline" # Emulate network conditions
-chrome-devtools emulate 1 --cpuThrottlingRate 4 --geolocation "0x0" # Emulate CPU throttling and geolocation
-chrome-devtools emulate 1 --colorScheme "dark" --viewport "1920x1080" # Emulate color scheme and viewport
-chrome-devtools emulate 1 --userAgent "Mozilla/5.0..." # Emulate user agent
-chrome-devtools resize_page 1 1920 1080 # Resizes the selected page's window
-```
-
-## Performance
-
-```bash
-chrome-devtools performance_analyze_insight 1 "1" "LCPBreakdown" # Get more details on a specific Performance Insight (pageId, insightSetId, insightName)
-chrome-devtools performance_start_trace 1 --reload true --autoStop false # Starts a performance trace recording (reload, autoStop)
-chrome-devtools performance_start_trace 1 --reload true --autoStop true --filePath "t.json.gz" # Start trace and save to a file
-chrome-devtools performance_stop_trace 1 # Stops the active performance trace
-chrome-devtools performance_stop_trace 1 --filePath "t.json.gz" # Stop trace and save to a file
-```
-
-## Memory
-
-```bash
-chrome-devtools take_heapsnapshot 1 "./snap.heapsnapshot" # Capture a memory heap snapshot
-```
-
-### Memory Debugging (requires `--memoryDebugging=true`)
-
-```bash
-chrome-devtools get_heapsnapshot_summary "./snap.heapsnapshot" # Get snapshot summary stats
-chrome-devtools compare_heapsnapshots "./base.heapsnapshot" "./target.heapsnapshot" # Compare two snapshots
-chrome-devtools get_heapsnapshot_details "./snap.heapsnapshot" # Get aggregates and class IDs
-chrome-devtools get_heapsnapshot_class_nodes "./snap.heapsnapshot" 123 # Inspect instances using a class ID from details
-chrome-devtools get_heapsnapshot_dominators "./snap.heapsnapshot" 123 # Dominator tree for node
-chrome-devtools get_heapsnapshot_duplicate_strings "./snap.heapsnapshot" # Find duplicated strings
-chrome-devtools get_heapsnapshot_edges "./snap.heapsnapshot" 123 # Node edges/references
-chrome-devtools get_heapsnapshot_object_details "./snap.heapsnapshot" 123 # Object details by node ID
-chrome-devtools get_heapsnapshot_retainers "./snap.heapsnapshot" 123 # Retaining objects
-chrome-devtools get_heapsnapshot_retaining_paths "./snap.heapsnapshot" 123 # Shortest retaining paths
-chrome-devtools close_heapsnapshot "./snap.heapsnapshot" # Free memory from loaded snapshot
-```
-
-Release each loaded heap snapshot with `close_heapsnapshot` when analysis finishes, including both
-inputs of a comparison. Closing a loaded snapshot releases daemon memory; deleting its file does
-not replace this cleanup.
-
-## Network
-
-```bash
-chrome-devtools get_network_request 1 # Get the currently selected network request for page 1
-chrome-devtools get_network_request 1 --reqid 1 --requestFilePath "req.md" # Get request by id and save to file
-chrome-devtools get_network_request 1 --responseFilePath "res.md" # Save response body to file
-chrome-devtools list_network_requests 1 # List all network requests for page 1
-chrome-devtools list_network_requests 1 --pageSize 50 --pageIdx 0 # List network requests with pagination
-chrome-devtools list_network_requests 1 --resourceTypes Fetch # Filter requests by resource type
-chrome-devtools list_network_requests 1 --includePreservedRequests true # Include preserved requests
-```
-
-## Debugging & Inspection
-
-```bash
-chrome-devtools evaluate_script "() => document.title" --pageId 1 # Evaluate a JavaScript function on page 1
-chrome-devtools evaluate_script "(a) => a.innerText" --pageId 1 --args 1_4 # Evaluate JS with UID arguments on page 1
-chrome-devtools get_console_message 1 1 # Gets a console message by its ID
-chrome-devtools lighthouse_audit 1 --mode "navigation" # Run Lighthouse audit for navigation
-chrome-devtools lighthouse_audit 1 --mode "snapshot" --device "mobile" # Run Lighthouse audit for a snapshot on mobile
-chrome-devtools lighthouse_audit 1 --outputDirPath ./out # Run Lighthouse audit and save reports
-chrome-devtools list_console_messages 1 # List all console messages
-chrome-devtools list_console_messages 1 --pageSize 20 --pageIdx 1 # List console messages with pagination
-chrome-devtools list_console_messages 1 --types error --types info # Filter console messages by type
-chrome-devtools list_console_messages 1 --includePreservedMessages true # Include preserved messages
-chrome-devtools take_screenshot 1 # Take a screenshot of the page viewport
-chrome-devtools take_screenshot 1 --fullPage true --format "jpeg" --quality 80 # Take a full page screenshot as JPEG with quality
-chrome-devtools take_screenshot 1 --uid "id" --filePath "s.png" # Take a screenshot of an element
-chrome-devtools take_snapshot 1 # Take a text snapshot of the page from the a11y tree
-chrome-devtools take_snapshot 1 --verbose true --filePath "s.txt" # Take a verbose snapshot and save to file
-```
-
-For CSS inspection, use `get_css_styles` only when the installed help exposes it. Otherwise use
-available DevTools inspection or a read-only `evaluate_script` computed-style query. UID arguments
-still require a current snapshot.
-
-## Extensions
-
-```bash
-chrome-devtools list_extensions # Lists all the Chrome extensions installed in the browser
-chrome-devtools install_extension "/path/to/extension" # Installs a Chrome extension from the given path
-chrome-devtools uninstall_extension "extension_id" # Uninstalls a Chrome extension by its ID
-chrome-devtools reload_extension "extension_id" # Reloads an unpacked Chrome extension by its ID
-chrome-devtools trigger_extension_action "extension_id" # Triggers the default action of an extension by its ID
-```
-
-## Progressive Web Apps (requires `--categoryPwa=true`)
-
-```bash
-chrome-devtools install_pwa "https://example.com/" "https://example.com/" # Install using manifest ID and install URL
-chrome-devtools launch_pwa "https://example.com/" # Launch installed PWA
-chrome-devtools get_os_app_state "https://example.com/" # Get OS app installation state
-chrome-devtools uninstall_pwa "https://example.com/" # Uninstall PWA and close windows
-```
-
-## Experimental Features
-
-Experimental tools are disabled by default. Enable them with the corresponding installed flag
-when starting or reconfiguring a task-owned daemon. Availability does not authorize a tool's
-external effects, extension/PWA installation, or execution of page-provided integrations.
-
-```bash
-chrome-devtools click_at 1 100 200 # Clicks at the provided coordinates on page 1 (requires --experimentalVision=true)
-chrome-devtools screencast_start 1 --filePath "screen.mp4" # Starts a screencast recording on page 1 (requires --experimentalScreencast=true and ffmpeg)
-chrome-devtools screencast_stop 1 # Stops the active screencast on page 1
-chrome-devtools list_webmcp_tools 1 # List all WebMCP tools on page 1 (requires --categoryExperimentalWebmcp=true)
-chrome-devtools execute_webmcp_tool 1 "tool_name" --input '{"arg":"val"}' # Execute a WebMCP tool on page 1 (requires --categoryExperimentalWebmcp=true)
-chrome-devtools list_3p_developer_tools 1 # List third-party developer tools on page 1 (requires --categoryExperimentalThirdParty=true)
-chrome-devtools execute_3p_developer_tool 1 "tool_name" --params '{"arg":"val"}' # Execute third-party developer tool on page 1 (requires --categoryExperimentalThirdParty=true)
-```
-
-## Service Management
-
-Use `start` and `stop` only for a task-owned daemon; `status` can inspect an existing session when
-needed. `start` also restarts a running daemon, so it is not a harmless preparation step. Stop a
-daemon created for this task at handoff unless the operator asked to keep it running; do not stop a
-pre-existing session.
-
-```bash
-chrome-devtools start   # Start or restart chrome-devtools-mcp
-chrome-devtools start --headless=false # Start with visible browser window
-chrome-devtools status  # Checks if chrome-devtools-mcp is running
-chrome-devtools stop    # Stop chrome-devtools-mcp if any
-```
+Command availability does not authorize external effects, extension/PWA installation, or execution
+of page-provided integrations. Enabling optional features follows the same task scope and ownership.

@@ -65,10 +65,14 @@ output, state transition, trace, or source record; it does not need a cinematic 
 ## False positives
 
 - Brevity, abstraction, passive voice, parallelism, and lists can all be appropriate.
+- Slang, messiness, contractions, short sentences, and punctuation preferences are not requirements
+  for human writing. Use them only when the established voice and context support them.
 - Exact quotations, legal language, API names, and established product copy are not style debris.
 - Repetition can improve technical clarity and accessibility.
 - Neutrality is not soulless when the genre requires it.
 - A personal voice must come from the author or supplied sample, never from invented experience.
+- Do not perform a synonym sweep or force sentence-length randomness. A rare word, em dash, bold
+  label, or group of three matters only in context.
 
 This catalog is adapted from `blader/humanizer` and its source taxonomy based on Wikipedia's
 WikiProject AI Cleanup observations. Treat it as an editorial heuristic, not empirical authorship

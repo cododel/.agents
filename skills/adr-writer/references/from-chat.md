@@ -35,7 +35,8 @@ a successor. If source facts conflict, preserve the conflict and ask only for th
 
 ## Step F2 — Resolve path, status, and depth
 
-Read the local convention and `../assets/adr-template.md`.
+Read the local convention. Load `path-resolution.md` for the write path and
+`../assets/adr-template.md` only when using the fallback format.
 
 - Match established naming and fields when they are coherent.
 - Otherwise use `ADR-YYYYMMDD-<slug>.md` and the compact fallback.

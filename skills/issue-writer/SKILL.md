@@ -5,11 +5,11 @@ description: "Record or update repository-local deferred work on an operator req
 
 # Issue Writer
 
-Keep the active task focused without discarding evidence-backed technical debt. Repository Issues are
-a durable engineering backlog with historical context; they do not mirror the product task tracker and
-do not justify branching the current session into unrelated work.
+Preserve evidence-backed independently resumable work without silently expanding the active task.
+Recording/deferral and lifecycle cleanup are separate operator intents; discovering debt alone permits
+a brief report, not an Issue, TODO, or sweep.
 
-## Modes
+## Load the selected mode
 
 | Intent | Mode | Reference |
 |:--|:--|:--|
@@ -18,57 +18,27 @@ do not justify branching the current session into unrelated work.
 | Review lifecycle/completed Issue candidates | review, read-only | `references/close.md` |
 | Explicitly close/sweep completed Issue records after extracting durable value | close/apply | `references/close.md` |
 
-Read `../_shared/repository-discovery.md` and `references/conventions.md` before the selected mode.
-Project-local conventions override fallback paths and templates.
+For an authorized recording or lifecycle request, resolve roots through
+`../_shared/repository-discovery.md`, read `references/conventions.md`, and load only the selected
+mode reference. Local conventions override fallbacks. Load `assets/deferred-template.md` only for
+fallback Issue authoring and `assets/issues-readme.md` only for authorized bootstrap; review/close
+never creates a missing Issues root.
 
-## Recording authority
+## Essential boundaries
 
-Create or update an Issue only when the operator requests recording or deferring that work. Finding
-material debt during implementation or review is not authorization to create a record or TODO.
-Briefly report the evidence and impact, then continue the current task. Do not file speculative,
-cosmetic, or current-scope work merely because a template exists. An explicit operator deferral may
-move work out of the active scope; preserve that decision rather than requiring an agent-invented
-risk justification.
+An explicit operator deferral may remove work from the active scope; preserve the stated reason and
+resume conditions without inventing a technical-risk prerequisite. Reuse an unambiguous existing
+owner; label uncertain causes as hypotheses. A useful code TODO is optional within the recording
+request, explains why the risk remains, and never replaces the Issue's resumption evidence.
 
-Within a recording request, preserve enough evidence, scope, and completion criteria for independent
-resumption. Reuse an unambiguous existing owner and distinguish proven causes from hypotheses.
+Review is read-only. Close/apply needs explicit lifecycle scope and evidence that recorded completion
+criteria are met. Its method owns exact status parsing, unique-value extraction, inbound links,
+clean-source recovery/provenance, and final rechecks. Valid unrecoverable sources need an exact-path
+checkpoint; invalid targets or unresolved value/scope are blocked. Never auto-commit to satisfy
+recovery or infer remote tracker authority.
 
-## TODO linkage
+Load `../_shared/durable-documentation.md` before extracting/removing unique value. Keep decision
+history and current guarantees with their canonical owners under the relevant authoring gates.
 
-Within an operator request to record/defer a code-local problem, optionally add one concise TODO at the most stable relevant
-seam using the repository's comment convention and a relative link or unique slug to the Issue. The
-TODO explains **why the deferred risk exists**, not the full remediation plan. Do not scatter several
-TODOs or add one when no stable code seam exists, comments are prohibited, or the Issue itself is the
-only useful locator.
-
-A TODO never replaces the Issue. The Issue owns evidence, context, recommended direction, resume
-conditions, and verification.
-
-## Mutation and decisions
-
-- Creating/updating an Issue and a linked local TODO are reversible project-local documentation edits
-  covered by an explicit recording/deferral request, not by ordinary implementation alone.
-- Update an unambiguous existing owner rather than creating a duplicate. Ask only when two records may
-  represent different root causes/ownership or when the update would change an operator decision.
-- Do not silently mark work `Closed`; completion requires evidence for its recorded criteria.
-- Closing/sweeping Issues is explicit. `references/close.md` may delete exact tracked, clean,
-  committed sources after value/reference checks; valid unrecoverable sources remain operator-gated.
-  Review alone never closes, renames, or deletes. Invalid targets or unresolved value/scope are blocked.
-
-## Durable-value routing
-
-Before closing/deleting an Issue, route unique value through
-`../_shared/durable-documentation.md`: current stable behavior to a living contract, significant
-operator decisions to an ADR, and repeatable operational/debugging knowledge to the appropriate
-runbook/reference. Do not keep closed Issues as a second documentation archive.
-
-## Report
-
-For create/update, mention only:
-
-- Issue path/link and whether it was created or updated;
-- one-line reason it was deferred instead of fixed now;
-- TODO location when one was useful;
-- unresolved material fact, if any.
-
-For close, report the exact deletion/extraction result defined by `references/close.md`.
+Report the created/updated Issue, deferral reason, optional TODO, and material uncertainty; then resume
+the active task. For review/close, use the selected method's compact retained/deleted/extraction result.

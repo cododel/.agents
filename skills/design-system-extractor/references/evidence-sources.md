@@ -46,7 +46,7 @@ replace stack-native inspection or visual validation.
   `border-radius: 0` supports an observed "Zero Radius" pattern after usage confirms it. A
   non-negotiable principle additionally needs accepted intent evidence.
 - **Capture the system, not the instance.** "Cards use a 1px grey border by default and an
-  accent border on hover, with no background fill" is a system rule. Listing one card's exact
+  accent border on hover, with no background fill" is an observed system pattern. Listing one card's exact
   classes is not.
 - **Light/dark:** if two token sets exist, document both and which is default.
 - Don't assert framework defaults or resource semantics from memory; verify with `find-docs` or
@@ -86,7 +86,7 @@ Code rarely explains itself. Mine these for philosophy, rationale, and naming.
 ## Layer 3 — Optional agent-session history (the evolution)
 
 Use this layer only after explicit approval and only when a bounded compatible transcript directory
-is already available. Read only short redacted snippets per `session-history.md`. A correction can
+is already available. Read only short filtered snippets per `session-history.md`. A correction can
 be useful evidence, but confirm it against
 later code/docs because the snippet may describe an abandoned intermediate direction.
 

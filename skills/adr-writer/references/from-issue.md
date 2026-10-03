@@ -77,7 +77,8 @@ reference. If extraction cannot complete within the authorized scope, retain the
 For each accepted candidate/group:
 
 1. resolve the path through local convention or the fallback;
-2. use the compact ADR template and proportionate depth from `from-chat.md`/`adr-spec.md`;
+2. match the local format; load `../assets/adr-template.md` only for the fallback, using the
+   proportionate depth defined by `adr-spec.md` without loading the separate chat workflow;
 3. preserve only evidenced context, alternatives/constraint, rationale, consequences, invariants, and
    revisit conditions;
 4. add provenance according to the selected disposition. For a retained source:

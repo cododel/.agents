@@ -4,9 +4,6 @@ The failure frame is evidence of where a violated assumption became observable, 
 that this frame owns the defect. Trace the exact data/control path backward until a focused probe can
 distinguish the proposed cause from plausible alternatives.
 
-Framework-specific hiding places live in `playbooks/<stack>.md`; load only playbooks proved by the
-repository/runtime stack along the causal path. A cross-stack failure may need more than one.
-
 ## 1. Anchor the symptom precisely
 
 Extract:
@@ -65,19 +62,7 @@ Do not use a fixed number of widening rounds or file reads as a stop condition.
 `git blame`, `git log -L`, and `git log -S` can explain when an assumption or boundary changed. Use
 history after narrowing a relevant symbol/path; recent adjacency is a lead, not causal proof.
 
-## 5. Load applicable framework playbooks
-
-| Proven repository/runtime evidence | Playbook |
-|---|---|
-| Django dependency plus Django project/runtime structure | `playbooks/django.md` |
-| Next.js dependency plus `next.config.*`, `app/`, or `pages/` | `playbooks/nextjs.md` |
-| Laravel dependency plus `artisan` or Laravel application structure | `playbooks/laravel.md` |
-
-Generic Python, PHP, JavaScript, or TypeScript projects use this guide without a framework playbook.
-Load another proven framework playbook only when the causal path crosses that stack.
-Use `$find-docs` when the causal path depends on version-sensitive framework behavior.
-
-## 6. Confirm the causal claim
+## 5. Confirm the causal claim
 
 Before calling a root cause proven, connect:
 

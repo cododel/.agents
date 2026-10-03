@@ -5,68 +5,28 @@ description: "Audit ADR corpora when the operator asks for decision-quality, dri
 
 # ADR Auditor
 
-Measure existing ADRs against `../adr-writer/references/adr-spec.md` without rewriting history or
-pretending that implementation shape proves a past operator decision.
-
-## Output boundary
-
-The default output is a diagnosis and remediation plan. Mutation requires an explicit operator request
-after the exact actions are shown. Never rewrite the reasoning body of an Accepted ADR or delete ADR
-history as routine cleanup.
+Audit existing decision history within the exact requested paths and dimensions. Default to read-only
+diagnosis; remediation needs explicit authorization covering the shown actions. Never rewrite
+Accepted reasoning or delete ADR history as routine cleanup. Code divergence does not establish a
+changed operator choice.
 
 ## Workflow
 
-1. **Discover scope.** Preserve the exact requested paths, roots, and audit dimensions. Use
-   `../_shared/repository-discovery.md`, local ADR indexes/templates, and the minimum representative
-   records needed to prove conventions. Confirm scope only when several plausible ADR roots remain.
-   A narrow link or immutability audit does not authorize a full corpus/code audit; related records
-   may be read only to resolve the requested check, with coverage stated explicitly.
-2. **Enumerate.** Record the status/date/placement/link fields relevant to the requested checks and
-   any proven local convention needed to interpret them.
-3. **Audit each ADR.** Apply only requested dimensions from the shared spec and
-   `references/audit-criteria.md`: operator-decision
-   evidence, one-decision granularity, real alternatives/rationale, consequences, self-sufficiency,
-   code drift, status truth, immutability, and ADR-as-current-contract leakage.
-4. **Audit the requested corpus dimensions.** Within scope, check supersession chains, live conflicts,
-   placement/naming, density/noise,
-   and known significant operator decisions that were explicitly intended to be preserved.
-5. **Surface candidates, not invented gaps.** When reverse discovery is requested, major unrecorded
-   forks visible in code may be listed as
-   `candidate-needs-operator-history`: ask whether a meaningful operator decision and rationale exist.
-   Do not label absence as a defect merely because the repository uses a DB/framework/auth system.
-6. **Report and gate.** Use `references/output-formats.md`; route actions through
-   `references/remediation.md`.
+1. Resolve scope using `../_shared/repository-discovery.md` and proven local indexes/templates. Read
+   related records only to resolve the requested check; a narrow link/immutability request does not
+   expand into a corpus or code audit.
+2. Use `../adr-writer/references/adr-spec.md` as the quality/lifecycle specification and
+   `references/audit-criteria.md` for the requested checks. Preserve their decision-authority,
+   drift-versus-violation, acceptance-baseline, and immutability coverage rules. Excluded or incomplete
+   checks are reported honestly, never as `clean`.
+3. Review inline or delegate bounded read-only batches when complexity/context makes that useful;
+   count alone does not force delegation. Load `references/adr-classifier.md` only when delegating.
+   Give reviewers the same scope and criteria; integrate source evidence, not conclusions alone.
+4. Check corpus relationships/conflicts/density or reverse candidates only when requested. Code can
+   surface `candidate-needs-operator-history`; it cannot invent missing decisions or rationale.
+5. Load `references/output-formats.md` to report findings, uncertainty, exact coverage, and hand-offs.
+   Load `references/remediation.md` when proposing or applying specific actions. It owns permitted
+   metadata/link/status/placement repairs and writer hand-offs; it never permits routine deletion.
 
-## Scale and subagents
-
-Use inline review or coherent read-only batches according to the requested checks, corpus complexity,
-available independence, and context cost. A record count alone does not force delegation. When
-delegating, use `references/adr-classifier.md` and `references/audit-criteria.md`, preserve the same
-scope, and integrate compact evidence. Use independent semantic judgment for rationale, drift, and
-historical decision evidence; link/status scanning alone does not settle them.
-
-## Drift semantics
-
-- **Decision drift:** evidence establishes that the operator changed the choice. The remedy is a
-  successor ADR based on that real rationale, then `Superseded` links. Different code alone proves
-  implementation divergence; it does not prove the old decision was replaced.
-- **Violated current invariant:** the decision may still hold while code is wrong. Route to
-  implementation/contract review, not an ADR rewrite.
-- **Area removed:** mark `Deprecated` when no direct successor exists.
-- **Unknown history:** report ambiguity. Code can show current state, not why it was chosen.
-
-## Contract relationship
-
-When an ADR is the only place maintainers can find current normative behavior, classify
-`adr-as-current-contract`. `$contract-writer` may establish the missing owner when current semantics
-and ownership are unambiguous; otherwise it stops for the operator fork. Backfill relationship links
-without copying normative prose into the ADR.
-
-## Mutation rules
-
-On explicit remediation request, the auditor may apply metadata/link/status/placement normalization
-that leaves reasoning intact. Successors, split decisions, rationale backfills, and new operator
-choices are handed to `$adr-writer`. Deletion is never part of normal ADR remediation.
-
-Report what could not be checked, especially missing Git history or unavailable implementation
-evidence. A partial audit is not a clean result.
+For `adr-as-current-contract`, recommend `$contract-writer` under its value and authoring gates.
+Diagnosis does not authorize a writer. A partial audit is not a clean corpus result.

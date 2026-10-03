@@ -1,38 +1,19 @@
-# MCP readiness in linked worktrees
+# Missing MCP capability in a worktree
 
-Read this when a required MCP tool is unavailable in the worktree. Inspect the live tool surface first;
-configuration scope and trust are possible causes, not a diagnosis. Resolve the cause before replacing
-the tool or accessing its backing system another way.
+Inspect the live tool surface or native server inventory first. Configuration scope or trust may
+explain a missing tool; neither is a diagnosis by itself. Existing user-scoped capability can satisfy
+the task without adding project configuration. Credentials stay in established storage.
 
-## Common rules
+Use a repository capability scaffold's read-only inspect/verify path when available. Otherwise use
+`$find-docs` for the installed harness version to resolve only the relevant unknowns: config location,
+absolute-path scope, trust/approval, server-list/authentication interface, or setup hooks. Never
+transpose another client's config shape or infer its commands.
 
-- Respect established project- or user-scoped configuration. An already available user-scoped tool can
-  satisfy the task without adding project configuration. Keep credentials in established credential storage.
-- A configuration tied to the primary checkout's absolute path may not load for a sibling worktree.
-- Treat an active server list as evidence of registration, not proof that a specific tool call works.
-  Run one narrow read-only smoke call required by the task.
-- Never copy whole user configuration files between path entries. They may contain tokens, unrelated
-  project history, permissions, and private state.
-- Before changing syntax or scope, invoke `$find-docs` for the currently installed harness version.
+For an authorized path-scoped repair, reuse the same non-secret definition at the exact worktree,
+resolve relative command/working-directory paths there, and enable only required servers. Do not copy
+whole user config files containing tokens, permissions, unrelated history, or private state. Do not
+add a project definition merely to satisfy this skill.
 
-## Resolve the current environment
-
-Do not transpose one execution environment's config shape onto another. When the repository provides
-a capability scaffold, use its read-only inspect/verify path to discover the current adapter. Otherwise
-use `$find-docs` to establish:
-
-1. project versus user/local configuration locations;
-2. whether configuration is keyed by absolute project path;
-3. trust/approval behavior for a new worktree;
-4. the current server-list and authentication commands;
-5. supported setup hooks or ignored-file copy mechanisms.
-
-If an authorized repair requires path-scoped registration, reuse only the same non-secret definition
-for the exact worktree using the environment's current documented interface. Do not add a project
-definition merely to satisfy this skill. Never infer a configuration path or command from another client. Resolve
-relative commands and working directories from the worktree, enable only the servers required by the
-task, and keep authentication in user-scoped credential storage.
-
-If the required server still cannot be activated without a credential or external authorization,
-record the exact missing gate and stop only the MCP-dependent branch of work.
-Continue independent offline work; no MCP readiness check is needed for a task with no MCP dependency.
+After repair, verify the narrow required read-only call. Registration alone proves no tool behavior.
+If credentials or external authorization are still needed, report that exact gate and stop only the
+MCP-dependent branch; independent offline work continues.
