@@ -69,7 +69,12 @@ class SessionScannerTest(unittest.TestCase):
             self.assertEqual(["Selected blue buttons"], [s["text"] for s in result["snippets"]])
 
     def test_sensitive_assignments_are_excluded_but_named_design_tokens_remain(self):
-        for assignment in ('token = "SYNTHETIC_SENTINEL"', '"token": "SYNTHETIC_SENTINEL"'):
+        for assignment in (
+            'token = "SYNTHETIC_SENTINEL"',
+            '"token": "SYNTHETIC_SENTINEL"',
+            '"access_token": "SYNTHETIC_SENTINEL"',
+            "'auth-token' = 'SYNTHETIC_SENTINEL'",
+        ):
             with self.subTest(assignment=assignment):
                 text = assignment + " # theme design\nTheme uses color_token = #ffffff"
                 self.assertEqual(
