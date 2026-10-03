@@ -32,7 +32,7 @@ Skills use a hybrid trigger model:
 - **automatic context/enforcement helpers:** `find-docs`, `troubleshooter`, `task-journal` when
   written memory helps, `worktree-task` when concrete isolation is needed, and `feature-closeout`
   when material acceptance/integration uncertainty warrants it;
-- **situational workflows:** `feature-brief`, `contract-writer`, design/docs/Tavily workflows;
+- **situational workflows:** `feature-brief`, `contract-writer`, and design/docs workflows;
 - **operator-intent workflows:** ADR creation/audit, contract audit, broad documentation cleanup,
   requested Issue/TODO recording, tracker writes, and release-mode closeout. They may route from an unambiguous natural-language
   request; they do not run merely because related code or documents exist.
@@ -102,8 +102,14 @@ This repository does not install or register an LSP bridge.
   `skills/find-skills/SKILL.md` (former installer folder hash
   `76a98a285cb0434f3d39e1a873823556330e398b`). It is no longer installer-managed;
   review upstream changes manually while retaining the local capability-gap trigger.
-- Tavily Skills are locally maintained routing/production wrappers. Resolve CLI flags from current
-  `tvly <command> --help` and SDK contracts from current official documentation.
+
+## Retrieval Capabilities
+
+Use suitable retrieval tools exposed by the selected client. The shared corpus does not supply a
+search-provider integration layer. Resolve extra requirements such as site crawling, bulk exports,
+or SDK integration in the individual harness/project setup; native search alone does not prove those
+capabilities. Primary-source and version guidance belongs to `find-docs`, with authority and evidence
+boundaries in `AGENTS.md`.
 
 ## Validation
 
