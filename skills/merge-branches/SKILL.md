@@ -28,21 +28,25 @@ preflight, resolution, and verification; do not let a failed pair contaminate th
 Before mutation, resolve and record:
 
 - repository root, current worktree, active branch, and all linked worktrees;
-- source and destination ref names and exact commit IDs;
-- merge direction and merge base;
+- requested source and destination ref names and merge direction;
 - staged, unstaged, and untracked state;
 - applicable project instructions, merge strategy, checks, and stable contracts.
+
+If the request requires current remote state, verify the requested remote and fetched ref and
+refresh that ref **before** freezing source/destination commit IDs or computing their merge base.
+A cached remote-tracking name does not prove freshness. Then record the exact source and
+destination SHAs and merge base; use those frozen commits for inspection and execution. A local
+merge does not authorize publication.
 
 Use the destination's existing workspace when its ownership is clear. Do not silently switch an
 operator-owned checkout, create another worktree, or reuse a branch checked out elsewhere. Route to
 `$worktree-task` only when its isolation gate is actually satisfied.
 
-Start the merge only when the destination is clean, or when every pre-existing change is proven
-unrelated, preserved, and distinguishable from the merge. Otherwise stop before mutation. Never
-stash, autostash, reset, clean, discard, or overwrite operator work automatically.
-
-Refresh a remote-tracking ref only when the request requires current remote state. Verify the remote
-and fetched ref explicitly; a local merge never implies permission to publish anything.
+Before an ordinary merge, require the index to equal destination HEAD (`git diff --cached --quiet`)
+and no pre-existing merge or unmerged entries. Unrelated unstaged or untracked changes may remain
+only when proven preserved and distinguishable from the merge; pre-existing staged changes cannot
+be silently included in its commit. Stop before mutation if these conditions cannot be established.
+Never stash, autostash, reset, clean, discard, or overwrite operator work automatically.
 
 ## Understand both sides before resolving
 
@@ -52,8 +56,14 @@ Use merge preview facilities such as `git merge-tree` when available, but treat 
 advisory: it cannot prove semantic compatibility or runtime correctness.
 
 Honor an established project merge strategy. For a non-fast-forward merge, prefer pausing before the
-commit so the combined tree can be inspected and verified. A valid fast-forward may complete without
-a merge commit when project policy allows it.
+commit with `--no-commit` so the combined tree can be inspected and verified. That flag does not
+pause a fast-forward: verify the source tree and affected behavior before advancing the destination.
+Do not force `--no-ff` merely to obtain a pause when a fast-forward is permitted. If the source is
+already contained in the destination, report the no-op without creating a commit.
+
+Immediately before execution, confirm destination HEAD still equals its recorded SHA and merge the
+exact frozen source SHA, rather than a branch name that may have moved. If either intended target
+changes, refresh the affected inspection and checks before proceeding.
 
 ## Classify and resolve conflicts
 
@@ -85,24 +95,32 @@ ownership. This includes competing business rules, API or schema semantics, auth
 data-lifecycle behavior, migration ordering, configuration precedence, and incompatible architectural
 boundaries.
 
-When a material fork remains:
+When a material fork is discovered before mutation, stop without starting the merge. If it is
+discovered after a task-owned non-fast-forward merge has begun:
 
-- resolve and stage every independent mechanical path already proven safe;
-- leave each product-conflicted path unmerged, including a path that also contains resolved
-  mechanical hunks;
-- keep the merge in progress; do not commit and do not abort;
+- resolve and stage independent mechanical paths already proven safe;
+- preserve genuinely unmerged product-conflicted paths, including a path that also contains
+  resolved mechanical hunks;
+- leave the merge uncommitted and do not abort it automatically; a textually clean path may still
+  contain a semantic fork, but do not fabricate conflict markers or index stages for that path;
 - ask one focused question describing the exact path or symbol, each branch's evidenced intent, the
   observable consequence of each option, and a recommended option when evidence supports one;
 - report the exact in-progress state so work can resume after the operator decides.
+
+For a pre-mutation stop, ask the same focused question and report that no merge was started. If a
+fork is found after a fast-forward already completed, report the advanced HEAD and the limitation;
+do not invent an in-progress merge or rewind it without authority.
 
 Do not turn missing repository evidence into a product choice. Research discoverable facts first;
 ask only when the alternatives genuinely require operator intent.
 
 ## Verify the combined result
 
-After all material decisions are resolved:
+Before creating a non-fast-forward merge commit, after all material decisions are resolved:
 
-- prove there are no unmerged paths or genuine conflict markers and run `git diff --check`;
+- prove there are no unmerged index entries (`git ls-files --unmerged`) or genuine conflict
+  markers; inspect `git diff --cached --check` for the candidate index and `git diff --check` for
+  remaining working-tree changes;
 - inspect the combined result relative to both pre-merge tips, including semantic losses that caused
   no textual conflict;
 - verify affected consumers, registrations, configuration, migrations, generated artifacts,
@@ -110,15 +128,21 @@ After all material decisions are resolved:
 - run focused checks covering behavior introduced or changed by both branches, then broader project
   checks when justified by the affected radius;
 - distinguish product failures from missing dependencies, credentials, environment, sandbox, or
-  harness failures;
-- allow hooks to run normally, inspect any hook-produced changes, and rerun invalidated checks;
-- verify the source commit is an ancestor of the result and, for a merge commit, that both parents
-  are the expected commits;
-- verify final status against the recorded pre-existing state.
+  harness failures.
 
 Create the merge commit only after the required checks pass or the operator explicitly accepts the
 exact verification limitation. Use the repository's commit-message convention. Do not bypass
 signing, hooks, or other integrity controls without exact authorization.
+
+Allow hooks to run normally. Inspect hook-produced changes; they invalidate any check whose inputs
+changed. If a hook stops the commit, recheck the candidate index and affected behavior before
+retrying. If a hook changes the committed result, verify that result and disclose any new failure
+instead of claiming the earlier checks cover it.
+
+After the commit or fast-forward, verify the frozen source commit is an ancestor of the result.
+For a merge commit, verify the first parent is the recorded destination SHA and the second is the
+frozen source SHA. Verify final HEAD and status against the recorded pre-existing state. These
+post-mutation checks supplement the candidate verification; they do not replace it.
 
 ## Handoff
 
@@ -126,6 +150,6 @@ On success, report the source and destination commits, whether the result was a 
 commit, the semantic resolutions, decisive verification, preserved pre-existing changes, and that no
 push occurred.
 
-When paused on a material fork, report only the resolved mechanical scope, remaining unmerged paths,
-the decision needed, and the fact that the merge remains open. Never describe an environment-blocked
-or partially verified merge as complete.
+When paused on a material fork, report the resolved mechanical scope, unresolved semantic choices,
+any genuinely unmerged paths, and whether no merge was started or a task-owned merge remains open.
+Never describe an environment-blocked or partially verified merge as complete.

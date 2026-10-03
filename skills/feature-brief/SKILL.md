@@ -1,6 +1,6 @@
 ---
 name: feature-brief
-description: "Run a repository-grounded requirements briefing for a large or materially ambiguous feature, using a structured planning surface when available; optionally record the agreed task. Auto-use only for unresolved product, invariant, or architecture forks, not ordinary plans or small tasks."
+description: "Resolve material feature requirements or architecture forks through repository-grounded discussion, using a structured planning surface when available; optionally record the agreed task. Not for an ordinary implementation plan or a clear request, regardless of size."
 ---
 
 # Feature Brief
@@ -17,8 +17,8 @@ An implementation plan describes execution; the task record preserves the agreed
 
 ## Structured planning integration
 
-For a large or ambiguous feature, use a structured planning and question interface already exposed by
-the current execution environment when available. Do not start or require another application solely
+For unresolved material requirements or architecture forks, use a structured planning and question
+interface already exposed by the current execution environment when available. Do not start or require another application solely
 to obtain that interface. When it is unavailable, maintain a compact plan in the conversation or task
 journal and ask the same focused questions directly. In either case:
 
@@ -28,6 +28,9 @@ journal and ask the same focused questions directly. In either case:
 - use `$task-journal` when requirements, decisions, or handoffs become hard to retain reliably.
 
 Do not create a second natural-language plan file merely because the skill is active.
+Respect the actual interface's question limits and current collaboration mode. Planning or briefing
+intent authorizes investigation and the requested plan; it does not authorize product implementation
+or external writes. Continue to implementation only when the operator has requested it.
 
 ## Grounding gate
 
@@ -54,8 +57,9 @@ Read `references/briefing.md`. Ask coherent batches small enough to answer preci
 - material alternatives and their consequences;
 - acceptance and verification expectations.
 
-Recommend a default when evidence supports one, but do not treat it as selected. Stop interviewing
-when remaining unknowns are reversible implementation details.
+Recommend a default when evidence supports one, but do not treat it as selected. A proposed default,
+recorded assumption, or unanswered question is not agreement. Stop interviewing when remaining
+unknowns are reversible implementation details.
 
 ## Optional written task
 
@@ -73,7 +77,7 @@ Once the target contract is sufficiently clear:
   active;
 - update existing normative owners; use `$contract-writer` for a new owner only under its value test;
 - stop for a true contract conflict or new material architecture decision;
-- create an ADR only after the operator has actually made a significant decision worth preserving.
+- use `$adr-writer` only when the operator requests recording a significant decision they actually made.
 
 Report only the confirmed target, remaining material questions, and whether the shared task record was created.
 Do not echo the full document or repeat the entire interview.

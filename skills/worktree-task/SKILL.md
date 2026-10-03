@@ -6,13 +6,14 @@ description: "Create or prepare one isolated linked worktree and dedicated branc
 # Worktree Task
 
 Create one isolated implementation workspace with one dedicated branch after proving that isolation
-is needed, then prove that its development and MCP environment is usable while leaving the operator's
+is needed, or prepare an existing task-owned worktree, while leaving the operator's
 current workspace intact.
 
 ## Decide whether isolation is needed
 
 Treat the checkout and branch at task start as operator-selected. If they are writable and the task
-belongs to them, work there; an existing linked worktree is already the task workspace. Do not create
+belongs to them, work there. Before editing an existing linked worktree, prove that it belongs to this
+task and is attached to this task's dedicated branch. Do not create
 a sibling worktree merely because the task is a feature, fix, refactor, implementation, autonomous,
 or long-running.
 
@@ -63,36 +64,51 @@ linked worktree starts from a committed revision.
 
 ## 2. Resolve branch, base, and path
 
+- Reuse an existing task-owned worktree with the correct attached branch and base. If it is detached,
+  create and attach the dedicated task branch at its proven HEAD before editing, unless an explicit
+  requested base requires a different state. Do not attach another task's branch or repurpose its worktree.
 - Follow applicable project branch rules, otherwise the global `<type>/<short-kebab-description>`
   convention.
 - Use the operator-supplied base when present. Otherwise use the current task's proven branch/HEAD;
   ask only when choosing among plausible bases changes the deliverable.
-- Prefer an established client/project worktree root. Without one, use a collision-free sibling path
-  such as `../<repo-name>-<short-task-slug>`.
+- Use the operator-supplied exact path when present, including a requested active-session path that
+  must be recreated. Otherwise prefer an established client/project worktree root; without one, use
+  a collision-free sibling path such as `../<repo-name>-<short-task-slug>`.
 - One worktree owns exactly one dedicated branch for its lifetime. If another branch is required,
   create another worktree instead of switching this one.
 
-Create atomically:
+For a new worktree, use an available harness-native facility only if it can preserve the requested
+path, base, and branch ownership. Its default base or managed output path is not permission to change
+those constraints. Otherwise use Git CLI. Create with a new branch atomically:
 
 ```bash
 git worktree add -b <branch> <resolved-path> <base>
 ```
 
-Then verify from inside the new path:
+When the dedicated task branch already exists and is not checked out elsewhere, add the worktree with
+that branch instead of recreating it. Verify its base/history matches the task first. For a task-owned
+detached worktree, attach the new dedicated branch from inside that exact worktree.
+
+After reuse, attachment, or creation, verify from inside the actual path:
 
 ```bash
 git status --short --branch
+git rev-parse --show-toplevel
 git branch --show-current
 git rev-parse HEAD
 git worktree list --porcelain
 ```
 
-If creation partially fails, inspect current worktree/branch state before retrying. Never blindly
+Check the actual path and non-empty attached branch against the requested values before editing.
+If creation fails, times out, or returns an unknown outcome, reconcile the native operation status,
+filesystem, and Git worktree/branch state before retrying. A checkout may exist even when registration
+failed; recover or attach that exact task-owned result rather than creating a duplicate. Never blindly
 remove a path or branch to make the retry pass.
 
 ## 3. Prepare the local environment
 
-Inspect project instructions and setup conventions before installing or copying anything. Prefer, in
+Inspect project instructions and setup conventions before installing or copying anything. Prepare only
+the environment needed by the requested work; read-only or offline edits may need no setup. Prefer, in
 order:
 
 1. a tracked project worktree/setup script;
@@ -105,32 +121,35 @@ inside this worktree. Never copy credentials into tracked files, print secrets, 
 primary checkout. Symlink caches/dependency directories only when the project or harness convention
 says concurrent sharing is safe.
 
-Install dependencies only when absent or stale for the resolved lockfile. Record setup failures as
-environment evidence rather than silently changing package managers or dependency versions.
+Install dependencies only when needed by a task command and absent or stale for the resolved lockfile.
+Record setup failures as environment evidence rather than silently changing package managers or
+dependency versions.
 
 ## 4. Establish MCP readiness
 
-Only after creating the isolated worktree, read `references/mcp-readiness.md`. Determine which MCP
-servers the project/task expects from project instructions, configuration, and the source session.
-Then, inside the worktree:
+Read `references/mcp-readiness.md` when the task needs MCP capability in the prepared worktree.
+Determine which servers/tools the project/task requires from applicable instructions and available
+capabilities. Existing user-scoped or project-scoped tools can satisfy the task; a project config file
+is not itself required. Then, from this worktree's session:
 
-1. prove project-scoped MCP configuration is present;
-2. verify the worktree is trusted where the harness gates project configuration;
-3. list active servers with the harness's native inspection command/tool;
-4. compare expected versus active server names and test only the minimal read-only operation needed;
-5. repair path-scoped configuration using current official harness documentation through
-   `$find-docs`, without copying tokens or inventing server definitions.
+1. inspect the live available tools or server inventory through the environment's native capability;
+2. test only the minimal read-only operation needed for the task;
+3. if a required tool is unavailable, resolve configuration scope and trust only where relevant;
+4. use current official harness documentation through `$find-docs` before any authorized path-scoped
+   configuration repair, without copying tokens or inventing server definitions.
 
 Do not begin an MCP-dependent implementation until the required server is visible and its narrow
 read-only smoke check succeeds. If credentials need operator interaction, stop at that exact gate;
-do not replace the MCP with improvised production access.
+do not replace the MCP with improvised production access. Defer only dependent work and continue
+independent offline investigation or edits. A declaration or registration is not proof of a working call.
 
 ## 5. Hand off the workspace
 
 For a builder session or subagent, provide:
 
 - exact worktree path, branch, base, and current HEAD;
-- task contract or `$task-journal` path;
+- confirmed task scope and acceptance; include a requirements or `$task-journal` file only when one
+  exists or is requested;
 - writable ownership scope and forbidden overlaps;
 - setup/verification commands already proven;
 - expected MCP servers and readiness result;

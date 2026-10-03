@@ -19,6 +19,10 @@ A YouGile knowledge-base page may be backed by a board task with a different int
 
 Before creating a project, board, column, task, or knowledge-base page, obtain the complete intended path and all material choices from the operator: organization, parent project, board, column or section where applicable, title, and any requested visibility or ownership. Verify every existing part of the path through the selected connector. Present unresolved alternatives to the operator; do not invent placement, names, permissions, or structure. If the connector cannot verify the full path or the requested entity type, stop before creation. In ambiguous cases, suggest that the operator create the entity in the YouGile interface and send its link; this is usually safer than connector-based creation.
 
+Reuse placement and other choices already confirmed by the operator for this task. Do not ask again
+when the target and circumstances remain the same; refresh the live existing path instead. A proposed
+default, unanswered question, or inferred placement is not a confirmed choice.
+
 ## Formatting descriptions and knowledge-base pages
 
 YouGile may render Markdown fenced code blocks and line breaks inside them as one continuous line. Do not use code fences, indented code, or a run of plain lines for commands, credentials, IDs, or other values that must remain distinct. Do not rely on inline-code styling to make them readable. Use the structures confirmed to survive in the target page: headings, short paragraphs, and one list item per distinct value or action.
@@ -27,12 +31,16 @@ For a sequence, use a numbered list. Put exactly one executable command in each 
 
 For access details and other field/value data, use one bullet per account or object with explicit labels such as `Role:`, `Login:`, and `Password:`. If a value is long or visually similar to another, give it its own bullet. Include passwords only when the operator authorized publishing those specific values to that YouGile destination; otherwise describe where to obtain them. Make URLs clickable when the editor supports links.
 
-Before a substantial write, format a small representative sample if rendering is uncertain. After writing, inspect the rendered page through the selected connector if it exposes that view; otherwise ask the operator to confirm the visual result. Adjust the formatting from observed behavior and record only reusable, confirmed lessons here.
+Before a substantial write, format a small representative sample if rendering is uncertain. After writing, inspect the rendered page through the selected connector if it exposes that view; otherwise report the visual result as unverified and request operator confirmation only when it is material to acceptance. Adjust the requested page's formatting from observed behavior. Recording a reusable lesson in this skill requires a separate explicit request to edit the skill.
 
 ## Writes and verification
 
 A link or read request does not authorize a write. Carry out only the requested field changes on the verified target. After a write, verify the response and, when supported, the resulting state through the same selected connector. After an uncertain result, reconcile before retrying. If a read tool fails while a write reports success, describe those separately and do not claim visual verification.
 
+For multi-step creation or updates, retain each returned identity and report what completed, failed,
+or remains unknown. Do not claim the whole workflow succeeded from a partial response or compensate
+with unrequested deletion/recreation.
+
 ## Evolving this skill
 
-After a real use reveals a reusable behavior, compare the connector result with the operator-visible outcome. When the operator confirms the lesson, update this skill with the narrowest rule that changes future decisions, including its scope and evidence. Revisit an existing rule when later confirmed evidence contradicts it. Do not turn one error, guess, or connector-specific behavior into a universal YouGile rule, and do not silently relax the connector, link, path, or authorization gates above.
+After a real use reveals a reusable behavior, compare the connector result with the operator-visible outcome. Operator confirmation establishes evidence for the lesson, not permission to edit this skill. Update it only after an explicit skill-edit request, using the narrowest rule that changes future decisions and recording its scope and evidence. Revisit an existing rule when later confirmed evidence contradicts it. Do not turn one error, guess, or connector-specific behavior into a universal YouGile rule, and do not silently relax the connector, link, path, or authorization gates above.

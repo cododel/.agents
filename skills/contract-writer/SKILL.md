@@ -25,9 +25,9 @@ Existing normative API/schema/docs may suffice; do not duplicate them in a separ
 |:--|:--|:--|
 | Locate the current normative owner | discovery | read-only |
 | Classify proposed/implemented behavior | impact | read-only |
-| Align an established owner with explicit behavior | update | local reversible work |
-| Establish a missing owner for already-explicit stable behavior | create | local reversible work |
-| Contract would decide unclear behavior/scope/ownership | decision gate | stop for operator |
+| Align an established owner with confirmed guarantees in authorized behavior/authoring work | update | scoped local reversible work |
+| Establish a justified missing owner for confirmed guarantees in authorized work | create | scoped local reversible work |
+| Contract would decide unresolved behavior/scope/ownership | decision gate | stop affected authoring for operator |
 
 Read `references/contract-spec.md` before classifying or writing and
 `references/workflow.md` for discovery, path, language, linking, and verification. Use the fallback
@@ -39,12 +39,15 @@ Classify relevant stable behavior as:
 
 - `unchanged` — the current owner already permits and explains it;
 - `extend` — an established owner needs a normative addition/narrowing;
-- `conflict` — requested behavior contradicts an established owner and requires an operator decision;
+- `conflict` — behavior contradicts an established owner; reconcile confirmed authority, and pause
+  only when the intended guarantee remains unresolved;
 - `missing` — all four value conditions hold and no suitable owner exists.
 
-`missing` is not an automatic approval gate. Create the contract only after the value test passes
-and behavior and ownership are unambiguous from established obligations plus implementation evidence.
-Ask only when writing the document
+Discovery and impact requests remain read-only even when `extend` or `missing` is found. An
+implementation request covering confirmed guarantee changes or an explicit authoring request permits
+the necessary owner update. `missing` is not an automatic approval gate within that authorized work:
+create only after the value test passes and behavior and ownership are unambiguous from established
+obligations plus implementation evidence. Ask only when writing the document
 would select among materially different semantics, boundaries, languages, or canonical homes.
 
 ## Grounding and anti-drift
@@ -60,11 +63,13 @@ Tests and incidental types alone do not establish adjacent product or architectu
 
 ## Decision boundary
 
-Proceed autonomously when the contract merely records already-established behavior. Stop when it would:
+Within authorized authoring/behavior work, proceed when the contract records already-established
+guarantees. A confirmed operator change may replace stale current-state text in the existing owner;
+do not ask the operator to reconfirm it solely because the old text differs. Stop only when it would:
 
 - choose which module/service owns a responsibility;
 - introduce a new invariant or compatibility promise;
-- resolve contradictory code/docs/operator statements;
+- resolve contradictory code/docs/operator statements whose governing intent is still unresolved;
 - select between co-equal documentation locations or languages;
 - convert a temporary implementation detail into a stable public commitment.
 

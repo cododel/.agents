@@ -34,7 +34,8 @@ make the smallest rewrite that solves the stated problem.
 
 Preserve:
 
-- factual claims, names, numbers, quotations, citations, and confidence levels;
+- factual claims and their scope, names, numbers, quotations, attribution, citations, and confidence
+  levels;
 - causal relationships, chronology, conditions, caveats, and technical meaning;
 - the intended audience, genre, tone, length constraints, and required structure;
 - deliberate terminology, brand language, legal wording, and repository conventions unless the
@@ -42,8 +43,10 @@ Preserve:
 
 Never invent anecdotes, sources, measurements, opinions, emotions, first-person experience, or
 concrete scene details to make prose feel human. Do not strengthen certainty, turn correlation into
-causation, or remove a necessary disclaimer. If a natural rewrite requires information the source
-does not contain, preserve the uncertainty or ask one narrow question.
+causation, narrow an assertion, remove attribution, or drop a necessary disclaimer merely to improve
+style. Changing meaning requires an explicit semantic-edit request; humanization alone is not that
+authority. If a natural rewrite requires information the source does not contain, preserve the
+uncertainty or ask one narrow question.
 
 Human writing is not defined by slang, messiness, contractions, short sentences, or arbitrary
 punctuation preferences. Use those only when they fit the established voice and context. Technical,
@@ -71,6 +74,9 @@ promotional adjectives, vague attribution, empty conclusions, repetitive rhetori
 formulaic transitions, excessive sectioning, and chatbot correspondence accidentally left in the
 text.
 
+These are editorial heuristics, not proof of AI authorship. In an audit, describe the phrasing and
+its effect; do not infer who or what wrote the passage from those signals.
+
 Read [references/patterns.md](references/patterns.md) for a broad audit, a stubborn passage, or an
 explanation of which patterns changed. Ordinary rewrites do not need the full catalog.
 
@@ -90,7 +96,9 @@ an understood fact rather than replace it with a slogan.
 ### 5. Rewrite at the right radius
 
 - Remove padding and chatbot artifacts before changing vocabulary.
-- Replace vague claims with existing specifics; if none exist, narrow the claim.
+- Replace vague phrasing with existing specifics only when the claim's meaning and scope survive.
+  If the source lacks specifics, preserve the assertion and attribution and flag the evidence gap
+  separately when useful; do not silently narrow or remove either.
 - Prefer direct subjects and verbs when they make ownership clearer.
 - Vary rhythm naturally, but do not force sentence-length randomness.
 - Collapse repetitive headings, lists, or parallel clauses only when they add no navigation value.

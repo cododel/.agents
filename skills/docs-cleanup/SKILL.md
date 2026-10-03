@@ -14,8 +14,10 @@ owner, and remove proven noise without treating every local file deletion as irr
 - **Apply** requires clear operator intent such as `clean up`, `apply the cleanup`, or `delete the
   proven stale docs`. That request authorizes exact local reversible repairs and deletion of candidates
   that pass the evidence and recovery gates below.
-- A separate checkpoint remains required for untracked/modified/unrecoverable content, ambiguous
-  scope/value, ADR-history deletion, broad globs/directories, or any remote/shared side effect.
+- A separate checkpoint remains required for valid untracked/modified/unrecoverable content or
+  ADR-history deletion. Unresolved scope/value or invalid symlink/path/type targets are blocked;
+  approval does not bypass those checks. Broad globs/directories and remote/shared actions remain
+  outside this exact-file cleanup authority.
 
 Never infer apply intent from a request to inspect, review, audit, or report.
 
@@ -37,9 +39,9 @@ construct delete globs.
 
 Read `references/value-criteria.md`.
 
-- Up to 10 candidates: classify inline.
-- More than 10: delegate coherent read-only batches using `references/classifier-method.md`, then
-  integrate compact JSON verdicts in the primary context.
+Classify inline or delegate coherent read-only batches according to semantic complexity, context
+cost, and available independence; candidate count alone does not force delegation. Delegated work
+uses `references/classifier-method.md`; integrate compact JSON evidence in the primary context.
 
 Valid outcomes include `keep`, `repair`, `close`, `stale`, `merge`, `supersede`,
 `promote-to-adr`, `delete`, and `ambiguous`. Classification is not deletion authority.
@@ -60,16 +62,19 @@ mutating procedures.
 ### 5. Pre-delete checks and recoverability
 
 For every `delete` candidate, run the read-only method in `references/pre-delete-method.md` (parallel
-when useful). Downgrade candidates with incoming references, unique content, uncertain status, or a
-safer semantic action.
+when useful). Incomplete/unavailable required checks are `inconclusive`; do not treat an untested
+boolean as false. Block candidates with load-bearing references, unique content, uncertain status,
+or a safer semantic action. A proven index-only reference can use an exact same-change repair plus
+reference recheck, as defined by the delete methods.
 
 Then apply `references/delete-gate.md` to classify each surviving candidate:
 
 - **recoverable** — exact regular file inside scope, tracked by Git, current contents unmodified and
   committed, no unresolved references/value;
-- **gated** — untracked, staged/modified, symlink/path ambiguity, absent proven recovery, or deletion of
-  ADR history;
-- **blocked** — failed evidence/value checks.
+- **gated** — valid exact-file target with untracked/staged/modified or unproven recovery, or deletion
+  of ADR history;
+- **blocked** — failed/incomplete evidence/value checks, unresolved scope, symlink, path escape, or
+  invalid type.
 
 ### 6. Apply or report
 

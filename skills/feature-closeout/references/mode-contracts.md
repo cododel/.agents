@@ -25,7 +25,9 @@ maintenance value. Use `$find-docs` for current APIs and verify affected-radius 
 Use for a bounded, well-understood feature or fix.
 
 - Reconstruct the target behavior and inspect the changed radius.
-- Run focused reproduction/tests plus relevant type/lint/static checks.
+- Use the smallest decisive evidence for the change: source/docs review, config or parser validation,
+  a focused probe, existing tests, or reproduction when behavior requires it. Add relevant
+  type/lint/static checks without forcing a runtime reproduction for a documentation/config change.
 - Inspect obvious failure paths, unsafe typing, stale comments/docs, and scope drift.
 - Repair one clear in-scope defect pass, then rerun focused checks.
 - Do not fan out by default, run a repository-wide audit, force a full suite, or claim release

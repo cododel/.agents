@@ -11,10 +11,10 @@ conventions and exact technical language.
 | Significance inflation | Routine facts become pivotal moments, testaments, or broad trends. | State the event and its supported consequence. |
 | Notability padding | Lists of media names or credentials replace the relevant claim. | Cite the specific coverage or argument that matters. |
 | Promotional language | Vibrant, groundbreaking, renowned, seamless, or stunning appears without evidence. | Name the concrete property or outcome. |
-| Vague attribution | Experts, observers, reports, or critics appear without identifiable sources. | Name the source or narrow/remove the attribution. |
+| Vague attribution | Experts, observers, reports, or critics appear without identifiable sources. | Name the source only when supplied; otherwise retain the attribution and flag the evidence gap. Narrowing or removal requires semantic-edit authority. |
 | Unsupported synthesis | An `-ing` clause adds importance, symbolism, or causality not established by the source. | Separate the observation from any supported interpretation. |
 | Knowledge disclaimers | Training-cutoff or availability language survives inside publishable prose. | Use a sourced date/fact or state the exact uncertainty. |
-| Excessive hedging | Several qualifiers stack around one claim. | Keep the one qualifier that matches the evidence. |
+| Excessive hedging | Several qualifiers stack around one claim. | Simplify only semantically redundant qualifiers while preserving every confidence level, condition, and caveat. |
 | Generic conclusion | The future is bright or a journey continues without a concrete next state. | End on a fact, decision, consequence, or open question. |
 | Formulaic outlook | A generic challenges/future section could apply to any subject. | Describe only evidenced constraints and planned actions. |
 | Premature slogan | An abstract verdict arrives before the situation that supports it. | Show the source-backed action or state first. |

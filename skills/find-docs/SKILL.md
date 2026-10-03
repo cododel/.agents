@@ -1,6 +1,6 @@
 ---
 name: find-docs
-description: "Auto-retrieve current, preferably exact-version official docs when work depends on drift-prone library, framework, SDK, CLI, cloud, MCP, or harness behavior. Not for general research or stable language concepts."
+description: "Resolve an unverified external API, configuration, lifecycle, or migration fact from current primary documentation for the relevant version. Use when implementation or diagnosis depends on that fact; skip facts already established by current local docs and general research."
 ---
 
 # Current Documentation Lookup
@@ -20,39 +20,35 @@ Invoke automatically when the task depends on:
 Do not invoke for general programming concepts, business logic, ordinary local refactoring, or facts
 already proven by vendored/current project documentation.
 
-## Source order
+## Sources and retrieval
 
-1. configured current-docs/MCP provider available in the harness;
-2. official vendor documentation or primary source for the exact version;
-3. an installed docs CLI/provider already declared by project/global configuration;
-4. Context7 CLI as a last local launcher fallback;
-5. training knowledge only when no current source is available, explicitly labeled stale-risk.
-
-Prefer primary sources. Community examples may explain usage but must not override official contracts.
+Use suitable available native reading/search or a configured documentation capability. Respect an
+explicit provider choice. Tool selection does not determine source authority: prefer official docs
+or primary implementation source applicable to the relevant version. Current vendored/local docs
+may already settle the question without retrieval. Community examples can explain usage but must
+not override the external contract. Label training-only answers with material stale-risk.
 
 ## Workflow
 
-1. Resolve the exact installed/requested version from lockfiles, manifests, CLI output, or the
-   operator. Do not silently substitute a nearby version.
+1. Resolve the relevant version from lockfiles, manifests, installed tools or the operator's request.
+   Distinguish current installed behavior from the target version of a requested migration.
+   Do not silently substitute a nearby version.
 2. Form a narrow query from the concrete implementation/debugging need. Never send proprietary code,
    private logs, credentials, or customer identifiers.
-3. Query one provider/source, then at most one focused follow-up for the unresolved detail. Pull only
-   the relevant section rather than an entire manual.
+3. Retrieve the relevant section, with one focused follow-up as the normal budget. Resolve identity
+   or provider failure when needed; use further queries only for a concrete remaining fact. Stop
+   when it is established or further retrieval makes no progress, reporting any material gap.
 4. Verify examples against the identified version and local language/runtime constraints.
 5. Apply the result to repository evidence; documentation proves the external contract, not that the
    local code/config currently follows it.
 
-When the configured current-docs provider supports library resolution, resolve the canonical library
-ID first. If no provider is configured and Context7 CLI is available, use an ephemeral launcher
-without global installation, preferring the project's existing package runner; otherwise use:
+When the selected provider requires library resolution, resolve its canonical ID before querying.
+For an already available documentation CLI, use its installed interface; lookup alone does not
+authorize installation or changing package runners/client configuration.
 
-```bash
-npx ctx7@latest library <name> "<focused query>"
-npx ctx7@latest docs <resolved-library-id> "<focused query>"
-```
-
-Do not install or choose Bun/npm/pnpm merely for this skill when another configured source is
-available.
+Verify that extraction includes the needed fragment; a successful response is not proof of complete
+content. Deduplicate underlying sources: the same page through two backends is one source, and
+search ranking is not evidence of correctness.
 
 ## Failure contract
 

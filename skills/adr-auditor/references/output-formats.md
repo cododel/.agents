@@ -7,6 +7,8 @@
 
 Scope: <confirmed roots>
 Coverage: <N audited / M total; unavailable checks>
+Requested checks: <exact dimensions and exclusions>
+Immutability: <per-record status, reason, baseline/range/current-diff coverage and gaps>
 
 ### Findings
 | ADR / corpus | Criterion | Evidence | Confidence | Recommended action |

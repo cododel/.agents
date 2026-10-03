@@ -98,7 +98,10 @@ signal to revisit grouping. Do not use a broad title to hide mixed scope.
    create new test infrastructure just to validate a trivial documentation edit.
 4. Commit only within existing authority and verification requirements. Let hooks run; inspect any
    changes they produce and recheck affected evidence before retrying. Do not bypass failures or
-   silently absorb hook edits from outside the chosen unit.
+   silently absorb hook edits from outside the chosen unit. Record the pre-commit HEAD and selected
+   index state. If the command times out or returns an uncertain result, compare current HEAD and
+   index with that state and inspect any new commit's parents, message, and diff before retrying.
+   Reconcile a completed commit or hook-altered index instead of creating a duplicate commit.
 5. Inspect the resulting commit's message and diff, its SHA, and the remaining staged/unstaged state.
    Report what was committed, decisive checks, and what remains. Distinguish local commits from push.
 

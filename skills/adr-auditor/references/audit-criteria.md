@@ -20,18 +20,32 @@ the auditor may repair by writing better prose.
 Extract concrete anchors from the decision, contracts, dependencies, services, data model, and
 invariants. Verify them in current source/config/runtime evidence.
 
-- `drift`: current implementation follows a different choice;
+- `drift`: evidence establishes a changed operator choice, with current implementation traced
+  separately;
 - `stale-invariant/code-defect`: implementation violates a choice that may still be intended;
 - `ambiguous`: evidence cannot distinguish the two;
 - `area-removed`: the decision surface no longer exists.
 
 A stale path link alone proves link drift, not necessarily a changed architectural choice.
+When implementation follows another approach but no changed operator choice is evidenced, report
+`stale-invariant/code-defect` if the intended choice is established, otherwise `ambiguous`.
 
 ### Immutability
 
-For Accepted/Superseded records, inspect `git log --follow -p` when available. Substantive edits to
-Context, Options, Decision, or Consequences after acceptance are findings. Status/link metadata and
-append-only review notes are allowed. State when Git history is unavailable.
+For Accepted/Superseded records in the requested immutability scope, establish the acceptance
+baseline from evidence, then inspect `git log --follow -p` and any current staged/unstaged changes.
+Substantive edits to Context, Options, Decision, or Consequences after acceptance are findings.
+Status/link metadata and append-only review notes are allowed. Report one exact check status:
+
+- `clean`: the acceptance baseline and complete relevant history/current diff were checked;
+- `violated`: a substantive post-acceptance rewrite is evidenced;
+- `skipped-no-git`: required repository history is unavailable;
+- `not-checked`: the check is outside requested scope or was not performed; explain which;
+- `not-applicable`: the record has not reached an immutable lifecycle state;
+- `unknown-acceptance-baseline`: available evidence cannot establish when acceptance began.
+
+Record the reason and coverage (baseline commit/date when known, history range/current diff checked,
+and any missing interval). Never encode a partial or skipped check as `clean`.
 
 ### Status truth and relationships
 
@@ -51,7 +65,7 @@ the ADR and no declared living/executable contract owns it. Do not demand a cont
 - supersession chains and relationship links;
 - contradictory live ADRs in the same decision area;
 - placement/naming against local convention;
-- density: trivial reversible decision noise versus known operator decisions that were intentionally
+- density: trivial decision noise versus known significant operator decisions that were intentionally
   supposed to be preserved;
 - staleness distribution and dead links;
 - duplicated normative current-state prose that should have one contract owner.
@@ -64,7 +78,8 @@ deployment topology, event guarantees, or dependency commitments. Classify each 
 - `known-missing-record` only when conversation/Issue/commit/docs evidence shows a significant
   operator decision and rationale intended for ADR preservation;
 - `candidate-needs-operator-history` when code shows only current state;
-- `not-an-adr` when mandated, obvious, or cheaply reversible.
+- `not-an-adr` when the shared significance gate fails; reversibility alone does not disqualify a
+  meaningful precedent or substantial alternatives whose rationale must survive.
 
 Do not headline a mature repository with few ADRs as defective by count alone. The audit cannot infer
 historical deliberation from architecture shape.

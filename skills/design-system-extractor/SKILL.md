@@ -39,11 +39,11 @@ and the conflict is reported, not silently resolved.
 
 ## Workflow
 
-Default mode is **interactive**: gather evidence, infer the concept, *confirm the concept
-with the user*, then write the full document. The manifesto and the "non-negotiable rules"
-are the subjective part, and confirming them is the cheapest place to fix a wrong reading.
-Fall back to a one-shot autonomous pass only if the user explicitly asks ("just generate it",
-"no questions").
+Choose the requested operation: **extract** creates a document, **update** preserves an existing
+document while refreshing evidence, and **audit** reports discrepancies without editing files.
+For authorized extraction/update, proceed when evidence is sufficient. Confirm only material
+unresolved intent or incompatible interpretations; reuse already confirmed decisions. An explicitly
+requested **interactive** mode still presents the concept for confirmation before authoring.
 
 ### Phase 1 — Gather evidence
 
@@ -71,7 +71,8 @@ boundary, and avoid pretending a partial scan was complete. Then:
    python <absolute-skill-dir>/scripts/scan_sessions.py <project_root> --transcript-dir <directory>
    ```
 
-   It returns short, redacted, design-relevant snippets from compatible JSONL transcripts. If
+   It returns short, filtered, design-relevant snippets from compatible JSONL transcripts; filtering
+   does not guarantee removal of all private material. If
    history is unavailable, incompatible, or declined, proceed without treating that as a gap.
 4. **Read intent docs (Layer 2).** Existing design docs, `docs/decisions/`, `AGENTS.md`,
    README; run `git log` filtered for design/ui/style/theme commits. Details in
@@ -88,23 +89,24 @@ From the combined evidence, derive:
 - **Manifesto** — one tight paragraph naming the design philosophy, plus a few keywords.
   Lean on Layer 3 and Layer 2 for the actual intent; do not invent a vibe the evidence
   doesn't support.
-- **Core rules (non-negotiables)** — detected mainly from *consistency* in the code. E.g.
-  `border-radius: 0` everywhere → "Zero Radius"; background always `#000000` → "True Black".
-  A rule is something the codebase enforces, not a one-off.
+- **Patterns and confirmed principles** — consistency supports an observed pattern, not an
+  operator-approved non-negotiable. Name a normative principle only when accepted intent evidence
+  establishes it; common values alone do not establish lasting obligations.
 - **Token system** — palette, typography, radii, spacing, all traced to code.
 
-Mark each item as **observed** (from code) or **inferred** (philosophy/rationale). Keep the
+Mark each item as **observed**, **confirmed intent**, or **inferred** (philosophy/rationale). Keep the
 distinction honest — it is what makes the document trustworthy.
 
-### Phase 3 — Confirm with the user (default)
+### Phase 3 — Resolve material intent or interactive confirmation
 
 Present the draft concept compactly: the manifesto, the core rules, and the key tokens
-(palette + fonts). Ask for corrections, missing rules, or renames. Do not write the full
-document until the user confirms — unless they requested the autonomous one-shot.
+(palette + fonts) when interactive mode was requested or a material intent fork remains. Ask only
+for the missing decision. Evidence-backed ordinary extraction/update needs no concept-approval pause.
 
 ### Phase 4 — Generate
 
-Fill the structure in `references/output-template.md`. Write the result and append a short
+For audit, report findings, evidence and coverage without writing. For authoring, fill the structure
+in `references/output-template.md`. Write the result and append a short
 provenance footer (which evidence layers were used, and any unresolved conflicts). See
 **Output rules** below.
 
@@ -118,7 +120,7 @@ provenance footer (which evidence layers were used, and any unresolved conflicts
   and why; never silently drop sections a human wrote on purpose.
 - **Never invent tokens.** Every color, font, radius, and spacing value must trace to the
   evidence. If you can't find something, say so rather than fabricating a plausible value.
-- **Frequency-aware language.** Describe ubiquitous values as rules and rare values as
+- **Frequency-aware language.** Describe ubiquitous values as patterns and rare values as
   exceptions; don't present a one-off accent as a system-wide token.
 - **Provenance footer** is mandatory: list the evidence layers consulted (code / docs / git /
   sessions), and flag any code-vs-doc conflicts you found.

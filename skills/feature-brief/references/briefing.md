@@ -20,8 +20,9 @@ into a question. Preserve the operator's motivation; it is the reference point f
 
 ## 2. Ask by consequence, not by template
 
-Ask one coherent batch of the highest-impact unresolved forks. Usually 2–5 questions is enough for a
-round. For each question:
+Ask one coherent batch of the highest-impact unresolved forks within the available interface's actual
+question limit. If a suitable interface is unavailable or disallowed in the current mode, use concise
+plain-chat questions at the point permitted by the applicable instructions. For each question:
 
 - explain the consequence of the alternatives in one compact sentence;
 - offer a recommended default only when evidence supports it;
@@ -29,6 +30,9 @@ round. For each question:
 - allow free-form input when the operator's intent cannot be reduced safely;
 - do not ask about internal naming, file layout, or implementation mechanics unless they encode a
   stable boundary or operator preference.
+
+Keep a recommendation distinct from the operator's selection. An unanswered question, proposed
+default, or recorded assumption does not establish agreement.
 
 After an answer, update the decision map and inspect new repository evidence before asking the next
 round. Do not ask everything foreseeable up front. A newly surfaced invariant may justify a later

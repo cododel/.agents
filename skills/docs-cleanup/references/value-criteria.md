@@ -20,7 +20,7 @@ with a mandatory pre-extraction check.
 | `merge`            | Duplicate or fragmented record that should be folded into a canonical document.                  |
 | `supersede`        | ADR or decision record replaced by a newer decision; mark superseded with link.                  |
 | `promote-to-adr`   | Closed issue that's actually an architectural decision; should live as an ADR instead.           |
-| `delete`           | No unique long-term value remains after reference and evidence checks.                           |
+| `delete`           | Proposed removal because the content appears to have no unique long-term value; separate pre-delete evidence, recovery, and authority checks must still pass. |
 
 ## Keep an issue if any of these is true
 
@@ -113,15 +113,16 @@ and whose unique knowledge (if any) is non-decision documentation is handled lik
   carries the suggested target.
 - If it contains nothing beyond what the fix commit already records: mark `delete`.
   The operator will run `issue-writer:close`, which re-checks for extractable value
-  before any `rm`, with an operator gate only for unrecoverable/ambiguous paths.
+  before any exact deletion, with a recovery gate for valid unrecoverable paths and a block for
+  unresolved value/scope or invalid targets.
 
 There is no `archive` verdict. Closed issues either get their value extracted into
 a real doc home or they get deleted — they don't accumulate in an archive subdirectory.
 
 ## Promote-to-ADR signals (issues only)
 
-A closed issue should be `promote-to-adr` only when its body preserves a significant
-choice and rationale, such as:
+A closed issue should be `promote-to-adr` only when its body and linked evidence preserve a significant
+operator-made choice and specific rationale, such as:
 
 - Non-trivial trade-off with rejected options spelled out
 - A decision invariant tied to a choice between real alternatives
@@ -137,12 +138,16 @@ source cleanup as a separate recovery-aware action under explicit cleanup intent
 
 ## Delete signals
 
-A document is `delete` only when **all** of these are true:
+A classifier may propose `delete` when the fully read record has no apparent unique long-term value
+or unresolved work, and no `repair` / `close` / `stale` / `merge` / `supersede` / `promote-to-adr` action
+better preserves its meaning. Cite the observed redundancy; age or thin formatting is insufficient.
 
-- The pre-delete-checker subagent confirmed no incoming references
-- Content is not unique (rationale, evidence, commands not preserved elsewhere)
-- No `repair` / `close` / `stale` / `merge` / `supersede` / `promote-to-adr` is a better fit
-- Apply intent covers the scope and the recovery-aware delete control authorizes the exact path
+This is a value proposal in both audit and apply modes. It does not require a pre-delete subagent to
+have already run or apply authorization to exist. The primary agent next runs the same read-only
+one-candidate safety method inline or through a subagent, then separately proves recovery and mutation
+authority. Complete evidence, no unresolved load-bearing references, preserved unique content, and
+authorized exact-file cleanup are required before deletion. Index-only references may be repaired in
+the same change under `pre-delete-method.md` and `delete-gate.md`; they are not silently ignored.
 
 For `[CLOSED]` issue files specifically, prefer routing through `issue-writer:close`
 rather than deleting via this skill's gate — `close` runs a second-pass pre-extraction

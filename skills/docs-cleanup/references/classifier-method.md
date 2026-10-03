@@ -56,7 +56,7 @@ Return a single JSON array with one object per candidate, in the same order as i
   {
     "path": "/abs/path/to/docs/issues/[CLOSED]-2026-01-12-foo.md",
     "verdict": "promote-to-adr",
-    "evidence": "Body has 'Options Considered' with three rejected alternatives and rationale for picking Bun; establishes package-manager policy across the monorepo.",
+    "evidence": "Body attributes the operator's Bun choice and specific rationale against three real alternatives; establishes package-manager precedent across the monorepo.",
     "fp_risk": "low",
     "recommended_alt": null,
     "title": "[CLOSED] Package manager policy: Bun only",
@@ -114,7 +114,8 @@ primary verdict.
 ## Boundaries
 
 - You are not the pre-delete checker. Your `delete` verdicts are *proposals*; the
-  orchestrator runs a separate safety check before any deletion.
+  orchestrator runs a separate safety check before any deletion. Classify value in audit mode too:
+  missing apply authority does not change a justified removal proposal into a value verdict.
 - You do not determine recoverability or mutation authority. Your output feeds the orchestrator's
   evidence and recovery checks.
 - If the scope brief excludes a candidate, return an object for that path with

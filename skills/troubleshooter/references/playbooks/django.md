@@ -1,12 +1,12 @@
-# Playbook: Django / Python
+# Playbook: Django / Django REST framework
 
-Load only for a Python traceback (Django or plain). This lists where Django *manufactures*
-bad state that obvious project code never shows. Use it with `discovery.md`, not instead.
+Load when dependencies and runtime/project structure prove Django or Django REST framework on the
+causal path. Generic Python uses `discovery.md` without this playbook.
 
 ## Reading the traceback
 
-- The deepest project frame owns the wrong assumption; frames inside `site-packages/`,
-  `django/`, `rest_framework/` are the path the bad state travelled, not its source.
+- The deepest relevant project frame anchors the symptom; it does not establish the root cause.
+  Trace state through application and framework frames to the producer or ownership boundary.
 - `AttributeError: 'NoneType' object has no attribute …` and `KeyError` are the dominant
   shapes — both mean *something assumed a value that was never guaranteed*. Find where it was
   supposed to be set.
@@ -14,12 +14,13 @@ bad state that obvious project code never shows. Use it with `discovery.md`, not
   `During handling of the above exception, another exception occurred` chain and read the
   *first* one.
 
-## Where bad state is born (in likelihood order)
+## Candidate origins to inspect
 
-1. **DRF serializers.** `.data` accessed before `.is_valid()`; `SerializerMethodField`
+1. **DRF serializers.** An input serializer constructed with `data=` accessed before `.is_valid()`;
+   output serialization with `Serializer(instance).data` needs no `.is_valid()`. `SerializerMethodField`
    returning `None`; `source=` pointing at a missing attr; `required=False` fields read as if
    present; nested serializer fed a queryset vs. instance.
-   `rg -n 'class \w+Serializer|SerializerMethodField|source=|is_valid\(' `
+   `rg -n -- 'class \w+Serializer|SerializerMethodField|source=|is_valid\(' <relevant-scope>`
 2. **QuerySet laziness & `.get()`.** `.first()` / `.filter().first()` returning `None` used
    downstream as an object; `.get()` raising `DoesNotExist`/`MultipleObjectsReturned`; a
    queryset evaluated in a template/`if` when the code expected a model. Bad state appears far
@@ -52,3 +53,6 @@ Run `pytest` and relevant `manage.py` checks in a verified local development cop
 [common authority rules](../../SKILL.md#intent-and-authority). Resolve the configured database and
 signal-driven external effects before shell or migration probes; use disposable test data for
 data-changing checks.
+
+Serializer semantics: [DRF official serializer guide](https://www.django-rest-framework.org/api-guide/serializers/#serializing-objects).
+Resolve the installed framework version before applying version-sensitive advice.

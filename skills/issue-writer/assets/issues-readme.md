@@ -3,7 +3,8 @@
 This directory stores deferred, independently resumable engineering work close to the code it affects.
 It is not a duplicate product tracker and not an archive for every observation.
 
-Create an Issue when evidence proves material work that should not widen the current task. Include a
+Create an Issue only when the operator requests recording/deferment of evidence-backed independently
+resumable work. Discovering debt alone calls for a brief report. Include a
 stable locator, context, root cause or explicit hypothesis, deferral reason, recommended direction,
 resume condition, and verification boundary. Add one linked code TODO when a stable seam benefits from
 an in-place warning.

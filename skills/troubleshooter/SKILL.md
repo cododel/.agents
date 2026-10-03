@@ -11,10 +11,11 @@ reproduction, patching, and proportionate verification without an extra approval
 
 ## Intent and authority
 
-- **Explain/diagnose only:** remain read-only with respect to tracked product code. Focused local probes
-  or existing tests are allowed when they are proven disposable and do not touch shared/persistent
+- **Explain/diagnose/debug:** remain read-only with respect to tracked product code unless the
+  operator also requests a fix. Debugging by itself authorizes investigation, not implementation.
+  Focused local probes or existing tests are allowed when they are proven disposable and do not touch shared/persistent
   state; otherwise show the exact risky command and stop at that gate.
-- **Fix/debug request:** investigate, reproduce when useful, apply the evidence-backed fix, improve
+- **Explicit fix request:** investigate, reproduce when useful, apply the evidence-backed fix, improve
   directly touched code when it reduces defect risk, and verify it. Do not ask for permission for
   ordinary local reversible edits.
 - **Material fork:** stop when plausible fixes encode different product behavior, stable contracts,
@@ -25,7 +26,7 @@ shared/persistent database mutation.
 
 Builds, focused tests, and development servers are allowed within a diagnosis/fix request in a
 verified local development copy without extra approval. Resolve the actual database, cache, queue,
-and API targets first; a local checkout alone does not prove that its services are local. Task-local
+API, and delivery targets first; a local checkout alone does not prove that its services are local. Task-local
 generated files and caches are ordinary local side effects. Run data-changing checks on isolated
 disposable test targets, retain the shared/production authorization gate, and stop task-owned
 processes before handoff. If a service target is unresolved, defer only the dependent command and
@@ -42,13 +43,13 @@ continue independent investigation.
    patch and confirm its failure expresses the bug, not setup noise. Reuse an existing failing test
    rather than duplicating it. For diagnosis-only or a seam where a durable test would be brittle or
    disproportionate, use a disposable probe or temporary test in task scratch and state the limit.
-3. **Trace origin to failure.** Follow `references/discovery.md`; load only the applicable stack
-   playbook. Verify decisive cross-module/event-flow edges in source. Use `$find-docs` for drift-prone
-   framework/library semantics.
+3. **Trace origin to failure.** Follow `references/discovery.md`; load only framework playbooks proved
+   along the causal path. Verify decisive cross-module/event-flow edges in source. Use `$find-docs`
+   for drift-prone framework/library semantics.
 4. **Name the root cause.** State the violated assumption and the concrete state/data/control path
    from origin to failure. Distinguish proven cause from remaining hypotheses.
-5. **Fix the best boundary.** Correct the origin or ownership boundary rather than adding a broad
-   catch/suppression at the crash site. Local touched-area refactoring is allowed when it reduces the
+5. **Fix the best boundary when authorized.** Correct the origin or ownership boundary rather than
+   adding a broad catch/suppression at the crash site. Local touched-area refactoring is allowed when it reduces the
    same failure class without widening merge-conflict or regression radius.
 6. **Verify correctness and quality.** Make the same focused repro/test pass after the patch and keep
    a useful regression test in the suite. Run relevant type/lint/static checks, inspect
@@ -63,8 +64,8 @@ continue independent investigation.
 Do not impose a fixed file-count stop on a cross-layer failure. Instead use evidence checkpoints:
 
 - begin narrow at the failing frame and widen by concrete data/control edges;
-- after roughly three widening rounds or 10–15 substantive file reads, summarize the current causal
-  chain and identify what next observation can falsify it;
+- when hypotheses diverge or the causal chain becomes unclear, summarize the established observations
+  and identify the next observation that can falsify or separate them;
 - continue autonomously when that observation is repository-local and likely decisive;
 - ask only when the remaining evidence requires unavailable input, shared/external mutation, or an
   operator decision;

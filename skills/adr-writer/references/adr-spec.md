@@ -8,6 +8,10 @@ An Architecture Decision Record is a dated record of a significant **operator-ma
 preserves the context, real alternatives, concrete rationale, consequences, and conditions under
 which that choice should be reconsidered.
 
+Keep the actual decision date separate from the record-creation date. Use evidenced dates; an old
+Issue's open/close date or today's recording date does not establish when the operator decided.
+When the decision date is unknown, say so and retain available source provenance.
+
 An ADR is not current-state documentation, a feature specification, implementation plan, progress
 tracker, code review, or a reconstruction of what the code seems to have decided.
 
@@ -40,9 +44,11 @@ An ADR is usually warranted when the choice has one or more of:
 - a precedent likely to shape future implementation;
 - substantial rejected alternatives whose rationale would otherwise be lost.
 
-An ADR is usually unnecessary when the choice is cheap and reversible, mandated with no real fork,
-local implementation detail, execution order, style/convention already owned elsewhere, or merely a
-description of current code.
+An ADR is usually unnecessary for a routine local implementation detail, execution order,
+style/convention already owned elsewhere, or merely a description of current code. Reversibility
+alone does not fail the gate: a reversible choice can establish a meaningful precedent or carry
+substantial alternative rationale worth preserving. A mandatory choice can qualify when a concrete
+consequential constraint explains the single option, as required below.
 
 A small one-way choice may deserve an ADR; a large but routine reversible implementation may not.
 
@@ -89,7 +95,7 @@ Across a corpus:
 - supersession chains and links are intact;
 - no two live ADRs contradict each other without succession;
 - placement/naming follow project convention;
-- records are neither flooded with trivial reversible choices nor missing known significant decisions
+- records are neither flooded with trivial choices nor missing known significant decisions
   that the operator explicitly chose and intended to preserve;
 - drift is handled through a successor or deprecation, not body rewrites.
 

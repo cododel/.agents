@@ -19,7 +19,8 @@ In create mode, an explicit request for a repository-local Issue authorizes crea
 `docs/issues/`, or `<scope>/docs/issues/` when one module is proven to own the deferral. Install
 `../assets/issues-readme.md` as its `README.md` and use `../assets/deferred-template.md` for the first
 Issue. Ask instead when the repository boundary or module scope is ambiguous or local instructions
-declare a different tracker/location. In close mode, report that there is no confirmed root and
+declare a different tracker/location. Bootstrap is part of the authorized recording request, never
+an automatic response to discovered debt. In review/close mode, report that there is no confirmed root and
 stop; never bootstrap an empty directory for a sweep.
 
 ## Filename pattern (fallback)
@@ -33,7 +34,7 @@ Components:
 - **`[STATUS]`** — see status tags below
 - **`YYYY-MM-DD`** — original issue date (today for new issues; **never change** when
   status or priority is updated — date encodes when the issue was first opened)
-- **`slug`** — English kebab-case, 3-7 words, `domain-symptom` shape (e.g.
+- **`slug`** — concise English kebab-case with enough domain/symptom identity to avoid collisions (e.g.
   `auth-token-leak-on-logout`, `migrations-fail-on-empty-db`)
 
 Filenames stay in English even when issue prose is in another language. This keeps
@@ -69,6 +70,9 @@ the fallback format.
 
 When status changes, **rename the file** in the same change that updates the body. Local
 links (in indexes, READMEs, sibling issues) must be updated too.
+Parse complete filename tags and complete body status values. `Closed pending verification` is not
+`Closed`, and `[CLOSEDNESS]` is not `[CLOSED]`. Legacy percent/status forms qualify only under the
+exact proven local syntax; never discover completed candidates through a loose prefix match.
 
 ## Priority and severity
 

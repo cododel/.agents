@@ -6,6 +6,8 @@ This directory contains durable records of significant architectural decisions.
 
 Use `ADR-YYYYMMDD-<english-kebab-decision>.md` unless the repository establishes a stronger
 local convention.
+The fallback uses the actual decision date when known, otherwise the recording date for filename
+identity. The body keeps `Decision date` and `Recorded` separate; never invent a historical date.
 
 ## Lifecycle
 

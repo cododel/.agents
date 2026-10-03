@@ -18,10 +18,10 @@ Durable-value routing:
 - <path> → contract / ADR candidate / runbook / Issue close
 
 Recoverable deletes:
-- <path> — tracked, clean, committed; no unique value/references
+- <path> — tracked, clean, committed; complete value/reference checks; exact index repair if needed
 
 Gated or blocked:
-- <path> — <untracked/modified/ADR history/ambiguous value/etc.>
+- <path> — <recovery/ADR-history gate, or invalid target/ambiguous value/inconclusive checks block>
 ```
 
 In audit mode, stop there. In apply mode, apply recoverable actions and show the exact decision block

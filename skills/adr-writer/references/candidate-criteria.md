@@ -35,7 +35,8 @@ Use when the record is only:
 
 - a bug fix, incident action, cleanup, routine dependency bump, CI/config tweak, or one-off script;
 - current behavior, responsibility, invariant, or policy without a preserved decision fork;
-- an implementation detail that is cheap/reversible or already mandated by a living convention;
+- a routine implementation detail without significance, or a rule already mandated and owned by a
+  living convention; reversibility alone is not a skip signal;
 - a topic that appears architectural only from its filename or affected files.
 
 Route non-obvious current-state semantics to `$contract-writer` when they have durable value.

@@ -1,6 +1,6 @@
 interface:
   display_name: "Feature Brief"
-  short_description: "Runs focused requirements briefings for large features"
+  short_description: "Resolves material feature requirements and architecture forks"
   default_prompt: "Use $feature-brief to resolve material feature decisions through a focused requirements briefing."
 policy:
   allow_implicit_invocation: true

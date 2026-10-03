@@ -4,8 +4,8 @@ The failure frame is evidence of where a violated assumption became observable, 
 that this frame owns the defect. Trace the exact data/control path backward until a focused probe can
 distinguish the proposed cause from plausible alternatives.
 
-Framework-specific hiding places live in `playbooks/<stack>.md`; load only the playbook proved by the
-repository/runtime stack.
+Framework-specific hiding places live in `playbooks/<stack>.md`; load only playbooks proved by the
+repository/runtime stack along the causal path. A cross-stack failure may need more than one.
 
 ## 1. Anchor the symptom precisely
 
@@ -27,9 +27,9 @@ Search for the value's creation, assignments, transformations, boundary crossing
 rather than reading from an entrypoint breadth-first. Adapt searches to the language:
 
 ```bash
-rg -n '\b<symbol>\s*[:=]' <relevant-scope>
-rg -n '\b<failing_fn>\s*\(' <relevant-scope>
-rg -n 'parse|deserialize|json|request|env|getenv|database|cache|queue' <relevant-scope>
+rg -n -- '\b<symbol>\s*[:=]' <relevant-scope>
+rg -n -- '\b<failing_fn>\s*\(' <relevant-scope>
+rg -n -- 'parse|deserialize|json|request|env|getenv|database|cache|queue' <relevant-scope>
 ```
 
 Common origin classes:
@@ -48,8 +48,7 @@ Treat these as search hypotheses, not probabilities or diagnoses.
 Start at the failing module, then follow proven callers, producers, event/schema edges, configuration,
 persistence, and lifecycle ownership. Verify every decisive edge in source.
 
-At a semantic checkpoint—roughly after several widening rounds or when the causal chain becomes
-unclear—summarize privately:
+When hypotheses diverge or the causal chain becomes unclear, summarize privately:
 
 - observations established;
 - current hypotheses and what each predicts;
@@ -59,14 +58,14 @@ unclear—summarize privately:
 Continue autonomously when a focused local observation is likely decisive. Stop to ask only when the
 remaining branch requires unavailable operator input, a material product/architecture choice,
 external/shared mutation, credentials, or disproportionate exploration with no falsifiable next step.
-File/read counts are signals for a checkpoint, never automatic stop conditions.
+Do not use a fixed number of widening rounds or file reads as a stop condition.
 
 ## 4. Use history selectively
 
 `git blame`, `git log -L`, and `git log -S` can explain when an assumption or boundary changed. Use
 history after narrowing a relevant symbol/path; recent adjacency is a lead, not causal proof.
 
-## 5. Load one applicable stack playbook
+## 5. Load applicable framework playbooks
 
 | Proven repository/runtime evidence | Playbook |
 |---|---|
@@ -75,6 +74,7 @@ history after narrowing a relevant symbol/path; recent adjacency is a lead, not 
 | Laravel dependency plus `artisan` or Laravel application structure | `playbooks/laravel.md` |
 
 Generic Python, PHP, JavaScript, or TypeScript projects use this guide without a framework playbook.
+Load another proven framework playbook only when the causal path crosses that stack.
 Use `$find-docs` when the causal path depends on version-sensitive framework behavior.
 
 ## 6. Confirm the causal claim

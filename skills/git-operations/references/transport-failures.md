@@ -12,7 +12,7 @@ Classify the failing layer before changing the write path:
 Use the normal configured `origin` for a read-only retry after a transient failure. Do not infer a
 permanent SSH outage from one agent refusal or conflate sandbox DNS with provider failure. If a
 different URL, transport, account, or API write path is still needed, identify its exact repository
-and branch. Confirm that existing operator authorization covers the changed method and identity,
+and destination ref. Confirm that existing operator authorization covers the changed method and identity,
 or obtain agreement before the write. HTTPS is an available alternative when authorized, not
 categorically forbidden.
 

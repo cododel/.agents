@@ -18,12 +18,14 @@ Treat uncertain lineage as cold audit. Record the context once for the run.
 
 ## 2. Enumerate closed candidates
 
-Follow the repository's status convention. Under the fallback, include files whose filename or body
-marks them `Closed`; recognize legacy `Resolved` only when local history proves it. Filename/body
-mismatches are `ambiguous` and remain untouched.
+Follow the repository's exact status convention. Under the fallback, parse the complete `[CLOSED]`
+tag and complete body value `Closed`; recognize exact legacy `Resolved` only when local history
+proves it. Prefixes such as `Closed pending verification` or `[CLOSEDNESS]` do not qualify.
+Filename/body mismatches are `ambiguous` and remain untouched.
 
 Read every candidate body in full. Search existing ADRs and contracts before classification so a new
-record does not duplicate the current owner.
+record does not duplicate the current owner. Reconcile the current chat and Issue evidence by
+decision identity as well; one decision receives one ADR regardless of source count.
 
 ## 3. Classify and group by decision identity
 
@@ -53,7 +55,24 @@ Ask before writing only when one of these remains:
 Present a compact table containing only the affected candidates and exact question. Continue with an
 unambiguous subset when it is independently useful and does not prejudice the unresolved choice.
 
-## 5. Write the ADRs
+## 5. Choose source disposition before edits
+
+Default to **retained**. Promotion alone never authorizes source deletion. Only explicit source
+cleanup covering the exact resolved scope can select **deletion-bound** sources.
+
+For each proposed deletion-bound source, read it fully, check incoming links and unique value, and
+prove its exact regular non-symlink path is in the confirmed Issue root. Before adding any backlink,
+record its fingerprint, repository-relative path, and reachable committed SHA containing the exact
+current contents; require clean working-tree and index state. Do not auto-commit a source or edit
+its body to manufacture this gate. If recovery is not proven, keep it retained/gated while resolving
+the existing recovery control; do not claim it is recoverable.
+
+Plan where every unique non-decision item will survive and how each incoming link will resolve.
+Unresolved work/value or load-bearing references block deletion. An unambiguous index-only entry may
+be removed or redirected in the same change, with recheck; it is not permission to break a semantic
+reference. If extraction cannot complete within the authorized scope, retain the source.
+
+## 6. Write the ADRs
 
 For each accepted candidate/group:
 
@@ -61,7 +80,7 @@ For each accepted candidate/group:
 2. use the compact ADR template and proportionate depth from `from-chat.md`/`adr-spec.md`;
 3. preserve only evidenced context, alternatives/constraint, rationale, consequences, invariants, and
    revisit conditions;
-4. add provenance:
+4. add provenance according to the selected disposition. For a retained source:
 
 ```markdown
 **Source issue:** `docs/issues/<file>.md`
@@ -69,15 +88,25 @@ For each accepted candidate/group:
 
 or a `Source issues` list for a merged decision;
 
+   for a deletion-bound source, use durable Git provenance rather than a dangling working-tree link:
+
+```markdown
+**Source issue at commit:** `<reachable-committed-sha>:docs/issues/<file>.md`
+```
+
+   Verify that `git show <sha>:<repo-relative-path>` retrieves the exact source bytes. Keep the
+   actual decision date separate from the record date; unknown decision dates remain explicit;
+
 5. link the current living contract when one exists, without copying its normative rules;
 6. use `Accepted` only for a completed operator choice; do not create core-rationale TODOs;
-7. update an unambiguous source Issue with `Promoted to ADR: <path>` before any later cleanup so the
-   relationship remains navigable while both files exist.
+7. add `Promoted to ADR: <path>` only to retained source Issues. Keep deletion-bound sources untouched
+   so backlink edits cannot invalidate their clean-source gate. The ADR and planned index repairs
+   carry their durable provenance.
 
 If generation reveals that the evidence is incomplete, reclassify the candidate as `ambiguous`; do
 not fill gaps from implementation code.
 
-## 6. Verify
+## 7. Verify
 
 For each created record:
 
@@ -85,28 +114,34 @@ For each created record:
 - real alternative/constraint and specific rationale;
 - no invented operator history;
 - status, naming, links, and provenance match local convention;
-- source Issue backlinks and existing ADR/contract relationships resolve;
+- retained source Issue backlinks and existing ADR/contract relationships resolve;
+- deletion-bound source provenance resolves to the exact bytes in the recorded reachable commit;
 - no live ADR contradiction is introduced;
 - documentation checks and `git diff --check` pass when available.
 
-## 7. Optional source-Issue cleanup
+## 8. Optional source-Issue cleanup
 
-Promotion does **not** imply deletion. Keeping the closed Issue until the normal `$issue-writer` close
-sweep preserves navigable provenance.
+Use the disposition selected before edits. Keeping a source preserves navigable provenance; a later
+close sweep must re-establish its current recovery state, since backlink edits made it modified.
 
 When the operator explicitly requests source cleanup in this workflow, apply the same recovery-aware
-control as `$issue-writer` close after all ADRs and backlinks verify:
+control as `$issue-writer` close after all ADRs, retained-source backlinks, and extraction targets verify:
 
 - exact regular file inside the confirmed Issue root;
-- fingerprint and source→ADR backlink rechecked immediately before removal;
+- original fingerprint, source Git state, exact committed provenance, incoming links, and unique
+  content rechecked immediately before removal;
 - tracked, clean, committed contents may be deleted as a reviewable local change;
-- untracked, staged/modified, symlinked, path-ambiguous, or otherwise unrecoverable contents require
-  an exact-path operator checkpoint;
+- untracked, staged/modified, or otherwise unproven recovery requires the exact-path operator
+  checkpoint; it never substitutes for value extraction or durable source provenance;
+- symlink, path escape, invalid type, or unresolved scope is blocked: correct the target, then rerun
+  the checks; approval cannot bypass target validity;
 - never use a glob, infer cleanup from promotion alone, or claim Git recovery without proof.
 
-Update an unambiguous Issue index in the same change; otherwise report it.
+Apply the planned unambiguous index repair in the same change and recheck references. If any
+load-bearing link remains unresolved or state drifted, retain that source. Never stage/commit merely
+to make source cleanup possible; Git mutations retain their separate checkout authority.
 
-## 8. Report
+## 9. Report
 
 Return a compact summary:
 

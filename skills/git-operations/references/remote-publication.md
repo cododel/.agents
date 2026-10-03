@@ -9,12 +9,15 @@
    different repository. Follow [transport failures](transport-failures.md) if normal access fails.
 3. If a non-fast-forward update is needed, stop for specific authorization. After authorization,
    use `--force-with-lease` against the expected remote SHA; never use plain `--force` as a retry.
-4. After push, compare `git rev-parse <local-ref>` with
-   `git ls-remote <destination> refs/heads/<branch>`. Confirm that the queried destination is the
-   one just written. A successful push to a direct URL may leave `origin/<branch>` stale.
-5. If the direct URL corresponds to the configured `origin`, fetch its branch through `origin`
-   when available, then check `origin/<branch>` against the verified remote SHA. If fetch cannot
-   complete, report the tracking ref as stale; do not represent `[⇡]` as proof the push failed.
+4. After push, query `git ls-remote <destination> <exact-destination-ref>` and compare the result
+   for that exact ref with the intended source SHA. Verify the local source ref's current SHA too;
+   if it moved, distinguish that new state from the SHA just published. Confirm the queried
+   repository is the one written. Do not substitute `refs/heads/<branch>` when the write targeted
+   a tag or another ref namespace. A direct-URL push may leave a local remote-tracking ref stale.
+5. For a branch destination only, if the direct URL corresponds to the configured `origin`, fetch
+   that branch through `origin` when available, then compare `origin/<branch>` with the verified
+   destination SHA. If fetch cannot complete, report the tracking ref as stale; `[⇡]` does not prove
+   the push failed. Tags and other destination refs do not imply branch upstream configuration.
 
-When a push result is ambiguous, query the destination ref before retrying. If the remote SHA
+When a push result is ambiguous, query the exact destination ref before retrying. If its remote SHA
 already equals the intended local SHA, treat delivery as complete and reconcile tracking state.

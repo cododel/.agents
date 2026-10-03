@@ -13,7 +13,8 @@ Do not encode implementation percentage or task progress in the fallback filenam
 # {Decision title}
 
 **Status:** {Proposed | Accepted | Superseded | Deprecated}
-**Date:** YYYY-MM-DD
+**Decision date:** {evidenced YYYY-MM-DD | Unknown}
+**Recorded:** YYYY-MM-DD
 **Scope / Component:** {system, service, module, or boundary}
 **Supersedes:** {link or `None`}
 **Superseded by:** {link or `None`}

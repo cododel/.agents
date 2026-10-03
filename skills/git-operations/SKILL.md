@@ -22,18 +22,20 @@ directly before acting on it; leave other case files unloaded.
 | Fetch, pull, divergence, or a stale upstream marker such as `[⇡]` | [Synchronization and tracking](references/sync-and-tracking.md) |
 | Create or change a worktree | `$worktree-task` |
 | Merge branches | `$merge-branches` |
-| Maintain an open PR through comments, conflicts, or CI | `$autopilot` |
+| Maintain an open PR through comments, conflicts, or CI | Use an available authorized PR workflow such as `$autopilot`, when installed, or existing tools. Its absence does not authorize installing it or stop work that current tools can perform. |
 
 ## Start
 
 1. Identify the selected checkout and task scope. Before a Git mutation, inspect repository root,
    branch, HEAD, status, and `git worktree list --porcelain`. Include untracked files in the review.
-2. For remote operations, identify the named remote, destination repository and branch, current
-   remote branch SHA (or its absence), transport, and intended write identity. Treat configured
-   access as evidence of availability, not authorization. Never print raw credential-bearing URLs
-   or credential-helper output; report only a sanitized host and repository path.
-3. State the exact remote target and method before a remote write. If the method or account changes,
-   return to the authorization check before writing.
+2. For read-only remote discovery, identify the named remote, sanitized repository target,
+   transport, and exact ref being queried. Discovery does not require an intended write identity
+   or grant authority to publish. Never print raw credential-bearing URLs or credential-helper
+   output.
+3. Immediately before a remote write, verify its authority, exact destination repository and ref,
+   local source SHA, current destination-ref SHA (or absence), transport, and intended write
+   identity. State that target and method. If the method, account, ref, or repository changes,
+   repeat the relevant write preflight. Configured access establishes availability, not authority.
 
 ## Execute and verify
 
@@ -41,14 +43,18 @@ directly before acting on it; leave other case files unloaded.
   do not use a broad add, reset, clean, or force operation to make status look tidy.
 - Run the smallest authorized Git operation. A failed or ambiguous remote write requires state
   reconciliation before any retry.
-- Verify the resulting local SHA, remote branch SHA when published, and tracking state when relevant.
+- If a commit command's outcome is unknown, inspect HEAD, the index, and any resulting commit
+  against the recorded pre-commit state before retrying; a timeout or missing success message is
+  not proof that no commit was created.
+- Verify the resulting local SHA, exact destination-ref SHA when published, and branch tracking
+  state when relevant.
   A command's success message alone does not prove all three.
 
 ## Handoff format
 
 Report, in this order and without secrets:
 
-1. **Target:** checkout, branch, destination repository/branch, and transport if remote.
+1. **Target:** checkout, branch, exact destination repository/ref, and transport if remote.
 2. **Action:** what ran and whether it succeeded, failed, or remains uncertain.
 3. **Evidence:** local SHA, remote SHA and tracking relation when applicable.
 4. **Remaining:** only concrete blockers or checks still needed. Say explicitly when work was local

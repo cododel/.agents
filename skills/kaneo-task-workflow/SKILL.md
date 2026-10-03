@@ -32,14 +32,22 @@ work into Kaneo and Markdown automatically.
 
 ## Establish exact context
 
-Use the narrowest discovery chain that resolves supplied names or IDs:
+Select the Kaneo connector/server applicable to the request and inspect its live tool declarations.
+Plugin metadata describes a declared capability; it does not prove that a separately configured local
+MCP server is active or authenticated. Do not register servers or change credentials as a task-management
+fallback. If the selected tool is unavailable, report the exact limit and continue independent work.
 
-1. Call `list_workspaces` when the workspace ID is unknown.
-2. Call `list_projects` for the selected workspace when the project ID is unknown. Include archived
+Use the narrowest discovery chain that resolves supplied names or IDs. Skip resolved ancestors:
+
+1. For a supplied task/project ID or link, read that entity directly with the selected tool and verify
+   its returned identity and ownership before a write. A known ID need not trigger workspace-wide listing.
+2. For an unknown ID, prefer a supported narrow search scoped to the known workspace/project and entity
+   type; otherwise call `list_workspaces` or `list_projects` only for the unresolved ancestor. Include archived
    projects only when the request concerns archived work.
-3. Call `list_tasks` to inspect the project board, status columns, planned tasks, archived tasks,
-   filters, and pagination. Status writes use the project's returned status slug/ID, not a guessed
-   display name.
+3. Read columns through `list_project_columns` when exposed; otherwise use project/board data returned
+   by supported reads. Inspect `list_tasks` only for the task inventory/filtering needed by the request.
+   Use the project's returned status value in the form required by the selected write schema. A column
+   ID, slug, and display name are not interchangeable.
 4. Call `get_task` before changing a task when current state or target identity is not already
    proven. Load comments, relations, or workspace labels only when the operation needs them.
 
@@ -56,11 +64,11 @@ and session-health fields.
 - Create, update, move, status, comment, label, relation, and delete calls require explicit
   task-management intent from the user. Merely reading or implementing a referenced task does not
   authorize status changes or comments.
-- Before a destructive call, re-read and verify the exact comment, relation, or label. Do not widen
+- Before a destructive call, re-read and verify the exact task, comment, relation, or label. Do not widen
   an ambiguous deletion request.
-- After a timeout or transport error on any write, read the target state before retrying. Kaneo has
-  no exposed idempotency key or batch-write tool, so a blind retry can duplicate tasks, comments,
-  labels, or relations.
+- After a timeout or transport error on any write, reconcile the target state before retrying. Use
+  documented idempotency only when the selected tool supports it; a blind retry can duplicate tasks,
+  comments, labels, or relations.
 - Create tasks only for work worth tracking independently. Do not turn every observation or nuance
   into a task unless the user explicitly asks.
 
@@ -75,9 +83,10 @@ load comments or relations only when they affect the answer.
 ### Create a task
 
 Resolve the exact project and inspect its columns before creation. Supply `title`, `description`,
-`priority`, `status`, and `projectId`; add dates and assignee only when known. Use only the supported
-priority values and a returned project status. Check for an obvious existing task before creating a
-duplicate. For multiple tasks, create them one at a time, retain every returned ID, and report any
+`priority`, `status`, and `projectId` when required by the selected live schema; add dates and assignee
+only when known. Use supported priority values and a returned status in the schema's expected form.
+Check for an obvious existing task before creating a duplicate. For multiple tasks, create them one
+at a time, retain every returned ID, and report any
 partial completion.
 
 ### Update status, fields, or project
@@ -87,6 +96,10 @@ only intended fields; the server fetches current state, merges those fields, and
 update. Use `move_task` to transfer a task between projects, and verify the destination status
 against the destination project's columns. Do not hard-code workflow names such as `in-progress`
 or `done` across projects.
+
+An explicit request to close a task authorizes its status transition to the verified final column
+that expresses the operator's intent. It does not authorize deletion, comments, time entries, or
+other field changes. If several final states express materially different outcomes, resolve that choice.
 
 ### Work with comments, labels, and relations
 
@@ -103,9 +116,10 @@ similar tools, or when exact parameters and supported filters matter.
 ## Handle unsupported or stale capabilities
 
 The live MCP catalog is the source of truth. If a documented tool is unavailable or its schema
-differs, inspect the live declaration and adapt without inventing arguments. The current catalog
-does not expose task deletion, project deletion, project archiving, batch creation, or member
-listing; report these limitations instead of simulating them through unrelated calls.
+differs, inspect the selected live declaration and adapt without inventing arguments. Task deletion,
+member listing, project columns, and other capabilities vary across connector/server versions; use
+them only when exposed and authorized. Report absent capabilities instead of simulating them through
+unrelated calls.
 
 ## Report results
 

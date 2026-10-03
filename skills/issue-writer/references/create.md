@@ -6,14 +6,16 @@ Establish:
 
 - the concrete observed problem and why it matters;
 - evidence and a stable grep-able locator;
-- why fixing it now falls outside the active affected radius or materially increases regression or
-  merge-conflict risk;
+- the operator's explicit deferral reason/resume condition, or evidence that fixing it now falls
+  outside the active affected radius or materially increases regression/merge-conflict risk;
 - enough independent scope that another session can resume it;
 - the first next step and observable completion/verification boundary;
 - whether an operator decision is still required.
 
 Proceed only on a request to record/defer this work. Preserve the operator's stated reason and resume
 conditions; discovering debt alone permits a concise report, not an Issue or TODO.
+An operator may validly defer work that was previously in the active scope. Do not reject that request
+solely because the agent could fix it now or cannot demonstrate increased technical risk.
 If the root cause is not proven, label it as a hypothesis and record the next falsifying probe; do not
 write a confident diagnosis.
 

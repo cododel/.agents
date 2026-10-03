@@ -1,6 +1,6 @@
 ---
 name: find-skills
-description: "Discover agent skills when the user requests an extension or a concrete capability gap prevents the task. Ordinary how-to questions, reviews, changelogs, or implementation requests do not trigger extension discovery."
+description: "Discover agent skills when the user requests an extension or a concrete capability gap prevents the task, including a demonstrated gap during implementation. A how-to question, review, changelog, or implementation request alone does not trigger discovery."
 ---
 
 # Find Skills
@@ -19,8 +19,10 @@ resolve. A specialized topic alone is not a gap.
    required tools, permissions, data handling, and compatibility with the current environment.
    Popularity can aid discovery but cannot establish quality or authorization.
 4. Present the relevant candidate, what gap it closes, and material setup requirements. Installation
-   follows the operator's authorization and the environment's established installation mechanism.
-5. If nothing fits, report the specific gap and continue the parts possible with existing tools.
+   needs the operator's authorization and the environment's established installation mechanism;
+   permission to discover or recommend candidates is not permission to install them.
+5. No suitable candidate is a valid result. Report the specific gap and continue the parts possible
+   with existing tools; do not force a recommendation or expand the search to justify installation.
 
 Examples: “find a skill for diagram editing” triggers discovery; “create a changelog” or “review this
 PR” uses current capabilities unless a concrete missing capability is demonstrated.

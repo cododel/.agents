@@ -9,6 +9,10 @@ established contract conventions, or repeated normative use—not filename simil
 Inspect code, tests, schemas, event flows, and ADRs to establish current behavior. They are evidence,
 not automatic replacement owners.
 
+Keep discovery/impact read-only. Identifying a missing owner does not authorize writing one; apply
+the findings only within an explicit authoring request or authorized behavior work that covers the
+guarantee change.
+
 ## 2. Resolve language and path
 
 Use, in order:
@@ -27,13 +31,23 @@ Fallbacks when no stronger convention exists:
 
 Do not invent a parallel hierarchy or multilingual family without evidence.
 
+When no contract root exists, a new owner is justified only if all four value conditions hold and
+the repository's docs root, language, module scope, and placement convention are proven. Within
+authorized authoring work, bootstrap the smallest area document under that established structure;
+do not create a contract merely because `docs/contracts/` is absent. If only a suitable existing
+API/schema/document needs an update, use it. Ask only for a genuinely unresolved canonical-home
+choice, not a missing conventional folder.
+
 ## 3. Classify impact and authority
 
 - `unchanged`: do not edit.
-- `extend`: update the established owner as part of requested behavior work.
-- `conflict`: stop for an operator decision; do not silently make code match either side.
-- `missing`: apply the value test. Create an owner autonomously when behavior, scope, language, and
-  path are unambiguous. Ask only when the document itself would decide one of those.
+- `extend`: in authorized behavior/authoring work, update the established owner.
+- `conflict`: if the operator already confirmed the changed guarantee, update the existing owner and
+  disclose any implementation gap. Otherwise stop affected authoring for the unresolved decision;
+  do not silently make code match either side.
+- `missing`: apply all four value conditions. Within authorized work, create an owner when behavior,
+  scope, language, and the proven documentation path are unambiguous. In discovery/impact mode,
+  report the justified gap without writing. Ask only when the document would decide a material fork.
 
 A missing contract discovered during a feature does not require documenting the whole surrounding
 legacy area. Capture only the stable boundary and proven rules needed to prevent the identified drift.

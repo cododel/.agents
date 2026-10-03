@@ -1,7 +1,7 @@
-# Playbook: Next.js / TypeScript
+# Playbook: Next.js
 
-Load only for a Next.js / React traceback. Where the framework manufactures bad state that
-the component code doesn't show. Use with `discovery.md`.
+Load when dependencies and runtime/project structure prove Next.js on the causal path. Generic
+JavaScript, TypeScript, or React projects use `discovery.md` without this Next.js playbook.
 
 ## Reading the traceback
 
@@ -14,11 +14,13 @@ the component code doesn't show. Use with `discovery.md`.
 - `undefined is not a function` / `Cannot read properties of undefined` is the dominant
   shape — an optional prop, an unresolved `await`, or a value that only exists on one side.
 
-## Where bad state is born (in likelihood order)
+## Candidate origins to inspect
 
 1. **Server/client boundary.** A Client Component reaching `window`/`document`/`localStorage`
-   during SSR (undefined on the server); a Server Component passing a non-serializable prop
-   (function, Date, class) to a Client Component; `'use client'` missing or misplaced.
+   during SSR (undefined on the server); a Server Component passing an unsupported value
+   such as an ordinary function or custom class instance to a Client Component;
+   `'use client'` missing or misplaced. React RSC serialization supports `Date` and Server Functions;
+   do not apply JSON-only restrictions to that boundary.
    `rg -n "'use client'|window\.|document\.|localStorage|typeof window"`
 2. **Data fetching & caching.** `fetch` returning cached/stale data (`cache`/`next.revalidate`
    options); a `route handler` returning the wrong shape; `async` Server Component whose
@@ -50,3 +52,6 @@ Run `next build`, focused tests, or `next dev` in a verified local development c
 [common authority rules](../../SKILL.md#intent-and-authority). Writing `.next/` is an ordinary local
 side effect; resolve server-side API targets before reproduction and stop task-owned development
 servers before handoff.
+
+Serialization semantics: [React RSC serializable props](https://react.dev/reference/rsc/use-client#serializable-types-returned-by-server-components).
+Resolve the installed React/Next.js versions before applying version-sensitive advice.

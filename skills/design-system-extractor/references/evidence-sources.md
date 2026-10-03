@@ -40,10 +40,11 @@ replace stack-native inspection or visual validation.
 
 ### How to read it
 
-- **Frequency is signal, not semantics.** A value used across the whole codebase may be a rule;
+- **Frequency is signal, not intent.** A value used across the whole codebase may be a pattern;
   confirm its role from definitions and representative usage before naming it as a token. A
   one-off value is normally an exception. For example, dominant `rounded-none` or
-  `border-radius: 0` supports a "Zero Radius" rule only after component usage confirms it.
+  `border-radius: 0` supports an observed "Zero Radius" pattern after usage confirms it. A
+  non-negotiable principle additionally needs accepted intent evidence.
 - **Capture the system, not the instance.** "Cards use a 1px grey border by default and an
   accent border on hover, with no background fill" is a system rule. Listing one card's exact
   classes is not.
@@ -95,7 +96,8 @@ later code/docs because the snippet may describe an abandoned intermediate direc
 
 - **Facts:** code wins. If a doc claims the accent is `#3B82F6` but the code consistently uses
   `#2663EB`, document `#2663EB` and note the discrepancy.
-- **Intent:** docs and approved session evidence inform the *why* and naming, but later accepted
-  docs and implemented behavior outrank an isolated historical snippet.
+- **Intent:** accepted docs establish confirmed direction; proposals and historical snippets remain
+  evidence to interpret, not new authority. Current code establishes observed behavior but does not
+  silently supersede a documented operator decision. Report any difference.
 - **Always report** unresolved conflicts in the provenance footer rather than papering over them.
   A surfaced conflict is useful to the user; a silent guess is not.

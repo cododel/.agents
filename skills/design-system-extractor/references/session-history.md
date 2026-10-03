@@ -2,8 +2,8 @@
 
 Optional client-neutral adapter for locating and mining past agent-session transcripts. Run it only
 after explicit user approval and only against a bounded transcript directory supplied by the user or
-already exposed by the current execution environment. `scripts/scan_sessions.py` implements all of
-this; read this file to understand it and to debug compatible layouts. The guiding principle is
+already exposed by the current execution environment. `scripts/scan_sessions.py` implements discovery
+and filtering; read this file to understand it and to debug compatible layouts. The guiding principle is
 **discover, don't hardcode**: transcript layouts and JSONL schemas drift, so match on stable signals
 (`cwd` plus readable message text), not a client-specific path.
 
@@ -47,12 +47,13 @@ this; read this file to understand it and to debug compatible layouts. The guidi
   branding/voice, and aesthetic direction. The script filters by a bilingual (EN/RU) keyword set.
 - **Weight user corrections heavily.** When a past session shows the user rejecting a direction
   or correcting the agent ("no, keep it pure black", "radius should be 0"), that is among the
-  strongest evidence of the real design intent.
+  useful evidence of historical intent. Confirm applicability against current accepted decisions;
+  a historical correction is not new authority to change the current task.
 - **Privacy / minimization (required):**
   - Never copy whole transcripts into the output document or into context wholesale.
   - Snippets are short and truncated; tool output and non-design chatter are dropped.
   - Drop lines containing likely secrets, credentials, authorization headers, private keys,
-    or password/token assignments. Keyword filtering is not secret redaction by itself.
+    or password/token assignments. Conservative filtering is not guaranteed secret redaction.
   - In the final document's provenance footer, state only that session history was *consulted*
     (and roughly how many sessions matched) — do not quote private/unrelated content.
 - If transcripts are found but none are design-relevant, treat Layer 3 as empty and say so.

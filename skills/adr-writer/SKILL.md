@@ -49,8 +49,9 @@ Project convention wins. The fallback is intentionally small and uses
 
 A living contract owns normative current behavior; an ADR owns dated decision history. When both
 exist, link them bidirectionally without copying rules. When a stable current contract is missing,
-`$contract-writer` may create one autonomously only if behavior and ownership are already explicit;
-otherwise report the unresolved semantic gate.
+`$contract-writer` may create one within authorized authoring work only when all four value conditions
+hold and behavior, scope, documentation convention, and ownership are explicit; otherwise report the
+unresolved semantic or authority gate.
 
 ## Authority and mutation
 

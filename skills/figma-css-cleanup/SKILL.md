@@ -5,13 +5,21 @@ description: "Audit and simplify CSS exported from Figma or visual builders with
 
 ## CSS Hygiene For Generated Designs
 
+An audit is read-only. Remove or rewrite CSS only when the request authorizes cleanup. Find the
+maintained source, its generated outputs, and all affected consumers before proposing or applying
+changes; regenerate outputs through the owning process when required.
+
 **Core Principles:**
 
-1. **Prove redundancy** — Remove a declaration only after comparing computed styles and relevant
-   layout states with and without it. A browser default is not redundant when the declaration is
-   an intentional reset.
+1. **Prove redundancy** — Adjacent, exactly identical declarations in the same block (property,
+   value, and priority) can be removed statically when no source/generator directive gives them a
+   distinct purpose. For other removals, compare computed styles and layout with and without the
+   declaration across affected consumers and relevant states. A browser default is not redundant
+   when the declaration is an intentional reset.
 
-2. **Leverage inheritance** — Don't redeclare inherited properties (`font-family`, `color`) unless overriding is intentional.
+2. **Verify inheritance** — Remove inherited-property declarations (`font-family`, `color`) only
+   when behavior stays equivalent across all affected consumers, themes, variants, and states.
+   Inheritance alone does not prove a declaration is redundant.
 
 3. **Eliminate duplication** — Consolidate truly identical declarations when specificity,
    cascade order, media queries, themes, and component isolation remain unchanged. Matching
@@ -29,4 +37,5 @@ description: "Audit and simplify CSS exported from Figma or visual builders with
    geometry. Cleanup removes accidental noise, not the design language.
 
 Report removed declarations, retained suspicious declarations and why they remain, and the
-states used for verification.
+states used for verification. Keep uncertain candidates unchanged and identify unverified states
+or consumers; one screenshot or unavailable browser evidence cannot establish preservation.

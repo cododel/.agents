@@ -18,6 +18,10 @@ yardstick.
 
 ## Per-record method
 
+Perform only dimensions included in the supplied audit scope. The checks below are available
+methods, not permission to expand a narrow assignment. Do not scan code for a relationship-only
+request or judge rationale in an immutability-only request; disclose excluded/unperformed coverage.
+
 1. Read the ADR in full and identify its stated decision, status, alternatives, rationale,
    consequences, assumptions/invariants, relationships, and current-contract link.
 2. Check whether it records a real operator decision rather than reconstructing history from code.
@@ -27,14 +31,16 @@ yardstick.
    data shapes, event guarantees, and decision invariants. Verify decisive anchors in current source
    or configuration.
 4. Classify current-state evidence carefully:
-   - `drift`: implementation demonstrably follows a different choice;
+   - `drift`: evidence establishes a changed operator choice;
    - `stale-invariant/code-defect`: implementation violates a choice that may still be intended;
    - `area-removed`: the decision surface no longer exists;
    - `ambiguous`: evidence cannot distinguish these states.
-   A missing path proves at most link drift until the underlying choice is traced.
-5. When Git history is available, inspect `git log --follow -p <path>`. For Accepted/Superseded ADRs,
-   substantive post-acceptance changes to Context, Options, Decision, or Consequences are
-   immutability findings. Status/link metadata and append-only review notes are allowed.
+   A missing path proves at most link drift until the underlying choice is traced. Different code
+   without changed operator-decision evidence is a possible violation or ambiguity, not proof of
+   a replacement decision. Skip code/history checks excluded by the supplied audit scope.
+5. For requested immutability checks, follow the acceptance-baseline and coverage rules in
+   `audit-criteria.md`. Inspect available history plus current staged/unstaged changes; allowed
+   metadata and append-only notes do not count as reasoning rewrites.
 6. Check lifecycle truth and relationships. Implemented code alone does not prove that a Proposed
    choice was operator-accepted. Supersession links must resolve in both directions.
 7. Report `adr-as-current-contract` only when the ADR is the sole normative owner of current behavior
@@ -68,6 +74,8 @@ Return one JSON object per input path, in order:
     "findings": [],
     "recommended_action": "none",
     "immutability": "clean",
+    "immutability_reason": "Acceptance baseline and complete subsequent history/current diff checked",
+    "immutability_coverage": {"acceptance_baseline": "<commit/date>", "checked": ["<range/current diff>"], "gaps": []},
     "ambiguous": false
   }
 ]
@@ -88,7 +96,11 @@ Field rules:
   `add-link`, `flip-status`, `mark-superseded`, `mark-deprecated`, `normalize`,
   `write-successor`, `split`, `flag-hollow`, `confirm-candidate`,
   `establish-current-contract`, `fix-code-or-contract`, or `none`.
-- `immutability`: `clean | violated | skipped-no-git`.
+- `immutability`: `clean | violated | skipped-no-git | not-checked | not-applicable |
+  unknown-acceptance-baseline`, as defined in `audit-criteria.md`.
+- `immutability_reason` and `immutability_coverage`: required for every status; state the established
+  baseline, checked history/current diff, and gaps. Use `null` for an unknown baseline, never a
+  guessed acceptance date. A skipped or incomplete check is not `clean`.
 - `ambiguous`: `true` when the material classification cannot be supported confidently.
 
 ## Boundaries

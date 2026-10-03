@@ -1,8 +1,10 @@
 # Kaneo MCP Tool Reference
 
-Use the live MCP declarations as the source of truth. This reference captures the official Kaneo
-MCP surface and its currently exposed schemas so an agent can select tools without rediscovering
-the entire catalog.
+Use the selected live MCP declarations as the source of truth. The examples below describe known
+Kaneo tool shapes, including the plugin declarations inspected on 2026-10-03. Names, schemas, and
+availability may differ on another connector or local MCP server. Plugin declarations do not prove
+local-server registration, authentication, or a successful call. Read only the relevant tool section
+and verify its selected live declaration before use.
 
 ## Contents
 
@@ -25,6 +27,17 @@ diagnostics and redact the session token from all output.
 
 List workspaces accessible to the signed-in user. Takes no arguments. Workspace objects provide
 the ID needed by project and label tools.
+
+### `search` when exposed
+
+The inspected plugin accepts `q`, optional `workspaceId`/`projectId`, `type`, and `limit`. Prefer a
+narrow query with a known scope and entity type when resolving a missing ID. A direct known-ID read
+is narrower still; search hits require identity verification before a write.
+
+### `list_workspace_members` when exposed
+
+The inspected plugin accepts `workspaceId`. Use only when resolving an assignee for the requested
+operation, then pass the returned user ID in the form the selected assignment schema expects.
 
 ## Projects
 
@@ -60,6 +73,12 @@ Apply only supplied project fields.
 
 ## Tasks
 
+### `list_project_columns` when exposed
+
+The inspected plugin accepts `projectId` and declares column **slugs** as the `status` values accepted
+by `create_task` and `update_task_status`. A different server may use another representation; verify
+its declaration rather than substituting a column ID or display name.
+
 ### `list_tasks`
 
 - `projectId` (required string)
@@ -71,7 +90,8 @@ Apply only supplied project fields.
 - `sortOrder` (optional: `asc`, `desc`)
 
 The response can contain project columns with `id`, `slug`, `name`, `isFinal`, and their tasks,
-plus planned tasks, archived tasks, and pagination. Use returned column slugs/IDs for status calls.
+plus planned tasks, archived tasks, and pagination. For status calls, use the returned value in the
+representation required by the selected live write schema.
 
 ### `get_task`
 
@@ -84,7 +104,7 @@ Get one task by ID.
 - `projectId` (required string)
 - `title` (required string)
 - `description` (required string; use an empty string only when the user provides no useful body)
-- `status` (required string from the target project's columns)
+- `status` (required string from the target project's columns in the selected schema's expected form)
 - `priority` (required: `no-priority`, `low`, `medium`, `high`, `urgent`)
 - `startDate`, `dueDate` (optional strings)
 - `userId` (optional string)
@@ -105,7 +125,7 @@ intended changes and use `null` only to clear a nullable field deliberately.
 ### `update_task_status`
 
 - `taskId` (required string)
-- `status` (required string from the current project columns)
+- `status` (required string from the current project columns in the selected schema's expected form)
 
 Prefer this tool for status-only transitions.
 
@@ -117,6 +137,12 @@ Prefer this tool for status-only transitions.
 
 Inspect the destination project first. Omitting `destinationStatus` delegates status choice to the
 server and may not express the user's intended workflow state.
+
+### `delete_task` when exposed
+
+The inspected plugin accepts `taskId`. Require explicit deletion intent for that exact task and
+re-read its current identity/state before invoking it. Closing a task is a status transition and
+does not imply deletion.
 
 ## Comments
 
@@ -200,12 +226,14 @@ Resolve the relation ID with `get_task_relations` before deletion.
 
 ## Operational constraints
 
-- There is no exposed batch mutation. Preserve returned IDs and stop on partial failure unless the
-  user asked for best-effort continuation.
-- There is no exposed idempotency key. After an uncertain write result, read before retrying.
-- There is no exposed task delete, project delete, project archive, or member-list tool.
+- Do not assume batch mutation or idempotency support; inspect the selected live declaration.
+  Preserve returned IDs and report partial failure. Reconcile uncertain writes before retrying.
+- Task deletion, member listing, project archive/delete, and other tools are version-dependent;
+  the inspected plugin exposed `delete_task` and `list_workspace_members`. An absent tool on another
+  selected server remains unavailable; do not simulate it through unrelated calls.
 - Project names and task titles are selectors for humans, not stable identity. Write calls use IDs.
-- Workflow statuses are project-defined. Never assume one project's slugs apply to another.
+- Workflow statuses are project-defined and schema-dependent. Never assume one project's values
+  or another connector's ID/slug representation apply to the selected write.
 - Dates are accepted by the MCP as strings. Preserve an explicit timezone/offset; if a date is
   materially ambiguous, ask rather than inventing one.
 

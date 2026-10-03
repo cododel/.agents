@@ -14,6 +14,11 @@ Use a short English kebab-case slug that names the decision. Make collisions mor
 using a numeric suffix. Match a proven legacy filename convention when it already exists, but never
 introduce implementation-percent naming as the fallback.
 
+The fallback filename date is the evidenced decision date; when that date is unknown, use the
+record-creation date for file identity and explicitly mark the decision date `Unknown` in the record.
+Record both dates separately. Preserve established local date-field semantics and add the separate
+recording field when needed; never change historical dates during metadata repair.
+
 Choose module-local placement only when one module clearly owns the decision. Use global placement for
 shared/cross-cutting behavior. If two canonical homes remain co-equal and choosing one establishes a
 new durable convention, ask the operator.

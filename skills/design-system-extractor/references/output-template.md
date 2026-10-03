@@ -5,8 +5,8 @@ section if the project genuinely
 has nothing for it (don't pad), and add one if the evidence clearly calls for it. Replace every
 `{{PLACEHOLDER}}`. Lines in `<!-- ... -->` are guidance for you and must not appear in the output.
 
-Keep facts traceable to code. Where useful, tag a claim as observed vs inferred, e.g.
-`(observed)` for code-derived facts and `(inferred)` for philosophy/rationale.
+Keep facts traceable to code. Distinguish observed patterns, confirmed intent and inferred rationale.
+Use confirmed principles only when accepted intent evidence supports their normative force.
 
 ---
 
@@ -19,14 +19,14 @@ Keep facts traceable to code. Where useful, tag a claim as observed vs inferred,
 
 {{ONE_PARAGRAPH_PHILOSOPHY}}
 
-**Keywords:** {{KW_1}}, {{KW_2}}, {{KW_3}}, {{KW_4}}, {{KW_5}}.
+<!-- Optional keywords when they clarify the evidenced concept; no fixed count. -->
 
 <!-- Pull the actual intent from Layer 2/3. Don't invent a vibe the evidence doesn't support. -->
 
-## 2. Core Rules (Non-Negotiables)
+## 2. Patterns And Confirmed Principles
 
-<!-- Each rule should be something the codebase ENFORCES (high frequency / consistency),
-     not a one-off. Bold the rule name, then state it in one sentence. -->
+<!-- Label observed patterns separately from accepted principles. Frequency alone does not make
+     an observation non-negotiable. Omit unsupported philosophy and fabricated rationale. -->
 
 1. **{{RULE_NAME}}**: {{RULE_STATEMENT}}.
 2. **{{RULE_NAME}}**: {{RULE_STATEMENT}}.
@@ -82,6 +82,8 @@ Keep facts traceable to code. Where useful, tag a claim as observed vs inferred,
 - {{any_recurring_motifs_dividers_cursors_etc}}
 
 ## 6. Layout Patterns
+
+<!-- Include evidenced spacing scale, shape/radius conventions and adaptive layout roles. -->
 
 - **{{Pattern_e.g._Hero}}:** {{desktop_and_mobile_behavior}}.
 - **{{Pattern_e.g._Lists/Grids}}:** {{structure}}.

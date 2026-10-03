@@ -1,6 +1,6 @@
 ---
 name: issue-writer
-description: "Create or update repository-local Issues for independently resumable technical debt. Use when the operator requests recording or deferring work; a linked TODO is optional when useful. Never file speculation, current-scope work, or generic observations."
+description: "Record or update repository-local deferred work on an operator request, or review/close completed Issues within explicit lifecycle scope. A linked TODO is optional; discovered debt alone does not authorize a record or sweep."
 ---
 
 # Issue Writer
@@ -13,9 +13,10 @@ do not justify branching the current session into unrelated work.
 
 | Intent | Mode | Reference |
 |:--|:--|:--|
-| Explicitly defer/park independently resumable work | create/update | `references/create.md` |
+| Explicitly record/defer/park independently resumable work | create/update | `references/create.md` |
 | Agent notices separate debt without a recording request | briefly report only | No file or TODO |
-| Sweep completed Issue records after extracting durable value | close | `references/close.md` |
+| Review lifecycle/completed Issue candidates | review, read-only | `references/close.md` |
+| Explicitly close/sweep completed Issue records after extracting durable value | close/apply | `references/close.md` |
 
 Read `../_shared/repository-discovery.md` and `references/conventions.md` before the selected mode.
 Project-local conventions override fallback paths and templates.
@@ -25,7 +26,9 @@ Project-local conventions override fallback paths and templates.
 Create or update an Issue only when the operator requests recording or deferring that work. Finding
 material debt during implementation or review is not authorization to create a record or TODO.
 Briefly report the evidence and impact, then continue the current task. Do not file speculative,
-cosmetic, or current-scope work merely because a template exists.
+cosmetic, or current-scope work merely because a template exists. An explicit operator deferral may
+move work out of the active scope; preserve that decision rather than requiring an agent-invented
+risk justification.
 
 Within a recording request, preserve enough evidence, scope, and completion criteria for independent
 resumption. Reuse an unambiguous existing owner and distinguish proven causes from hypotheses.
@@ -49,7 +52,8 @@ conditions, and verification.
   represent different root causes/ownership or when the update would change an operator decision.
 - Do not silently mark work `Closed`; completion requires evidence for its recorded criteria.
 - Closing/sweeping Issues is explicit. `references/close.md` may delete exact tracked, clean,
-  committed sources after value extraction; unrecoverable or ambiguous sources remain operator-gated.
+  committed sources after value/reference checks; valid unrecoverable sources remain operator-gated.
+  Review alone never closes, renames, or deletes. Invalid targets or unresolved value/scope are blocked.
 
 ## Durable-value routing
 

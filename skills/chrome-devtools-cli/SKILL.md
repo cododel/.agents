@@ -13,9 +13,9 @@ The `chrome-devtools-mcp` CLI lets you inspect and control a browser from the te
 
 ## AI Workflow
 
-1. **Execute**: Run tools directly. If you don't know the target page's ID, run `chrome-devtools list_pages` to find it. The background server starts implicitly; **do not** run `start`/`status`/`stop` before each use.
-2. **Inspect**: Use `chrome-devtools take_snapshot <pageId>` to get an element `<uid>`.
-3. **Act**: Use `chrome-devtools click <pageId> <uid>`, `chrome-devtools fill <pageId> <uid> <value>`, etc. State persists across commands.
+1. **Resolve the command and session**: Use the installed CLI's `--help` and command-specific help for available commands, arguments, and flags. The examples below are not a version contract. A tool command, including `list_pages`, implicitly starts a daemon when none exists; account for that process and its browser/profile before the first command. Inspect an existing session's ownership only when needed, rather than running `start`/`status`/`stop` before every use.
+2. **Inspect as needed**: If the page ID is unknown, use `list_pages`. Take a current `take_snapshot <pageId>` before a command that consumes an element `<uid>`; use only UIDs from that page's latest snapshot and refresh after navigation or relevant DOM changes. Network, console, and other non-UID diagnostics can run directly with the known page or request ID.
+3. **Act and retain ownership**: Use `click <pageId> <uid>`, `fill <pageId> <uid> <value>`, etc. State persists across commands. Record a daemon started for this task, including an implicit start. Start, restart, reconfigure, or stop only a task-owned daemon; an existing daemon or browser is not task-owned merely because the CLI can reach it.
 
 Snapshot example:
 
@@ -26,7 +26,14 @@ uid=1_0 RootWebArea "Example Domain" url="https://example.com/"
 
 ## Permissions & File Access
 
-By default, the CLI has full filesystem access (`--allowUnrestrictedPaths=true`), allowing file-saving parameters (`--filePath`, `--outputDirPath`) and `upload_file` to access files anywhere on the system. Pass `--allowUnrestrictedPaths=false` if you want to restrict file access to the OS temp directory.
+The CLI can default to unrestricted filesystem access, allowing file-saving parameters
+(`--filePath`, `--outputDirPath`) and `upload_file` to access paths outside the task. Tool access
+does not grant permission to read, write, or upload those files. Confirm the installed version's
+effective filesystem configuration; CLI defaults can differ from the underlying server defaults
+shown in help. When temp-only access is required, configure a task-owned daemon with an explicit OS
+temp root (`--workspace` or the installed equivalent) and `--allowUnrestrictedPaths=false` where
+supported. Do not assume that the false flag alone overrides a CLI default, or restart another
+task's daemon to change its restrictions.
 
 ## Command Usage
 
@@ -35,7 +42,9 @@ chrome-devtools <tool> [arguments] [flags]
 ```
 
 - Required arguments are passed positionally; optional arguments use flags.
-- Use `--help` on any command for usage details.
+- Use installed `--help` and command-specific help as the authority for syntax and supported tools;
+  use installed implementation or primary version-matched documentation to resolve a default that
+  help does not establish. An update notice does not authorize installation or daemon restart.
 - Output defaults to plain Markdown-like text; pass `--output-format=json` for JSON.
 
 ## Input Automation (<uid> from snapshot)
@@ -108,8 +117,8 @@ chrome-devtools take_heapsnapshot 1 "./snap.heapsnapshot" # Capture a memory hea
 ```bash
 chrome-devtools get_heapsnapshot_summary "./snap.heapsnapshot" # Get snapshot summary stats
 chrome-devtools compare_heapsnapshots "./base.heapsnapshot" "./target.heapsnapshot" # Compare two snapshots
-chrome-devtools get_heapsnapshot_class_nodes "./snap.heapsnapshot" "Array" # Inspect class instances
-chrome-devtools get_heapsnapshot_details "./snap.heapsnapshot" 123 # Detailed object properties
+chrome-devtools get_heapsnapshot_details "./snap.heapsnapshot" # Get aggregates and class IDs
+chrome-devtools get_heapsnapshot_class_nodes "./snap.heapsnapshot" 123 # Inspect instances using a class ID from details
 chrome-devtools get_heapsnapshot_dominators "./snap.heapsnapshot" 123 # Dominator tree for node
 chrome-devtools get_heapsnapshot_duplicate_strings "./snap.heapsnapshot" # Find duplicated strings
 chrome-devtools get_heapsnapshot_edges "./snap.heapsnapshot" 123 # Node edges/references
@@ -118,6 +127,10 @@ chrome-devtools get_heapsnapshot_retainers "./snap.heapsnapshot" 123 # Retaining
 chrome-devtools get_heapsnapshot_retaining_paths "./snap.heapsnapshot" 123 # Shortest retaining paths
 chrome-devtools close_heapsnapshot "./snap.heapsnapshot" # Free memory from loaded snapshot
 ```
+
+Release each loaded heap snapshot with `close_heapsnapshot` when analysis finishes, including both
+inputs of a comparison. Closing a loaded snapshot releases daemon memory; deleting its file does
+not replace this cleanup.
 
 ## Network
 
@@ -137,8 +150,6 @@ chrome-devtools list_network_requests 1 --includePreservedRequests true # Includ
 chrome-devtools evaluate_script "() => document.title" --pageId 1 # Evaluate a JavaScript function on page 1
 chrome-devtools evaluate_script "(a) => a.innerText" --pageId 1 --args 1_4 # Evaluate JS with UID arguments on page 1
 chrome-devtools get_console_message 1 1 # Gets a console message by its ID
-chrome-devtools get_css_styles 1 "1_4" # Retrieves resolved CSS styles (inline, matched, inherited, pseudo) for an element on page 1
-chrome-devtools get_css_styles 1 "1_4" --pageSize 20 --pageIdx 0 # Get CSS styles with pagination on page 1
 chrome-devtools lighthouse_audit 1 --mode "navigation" # Run Lighthouse audit for navigation
 chrome-devtools lighthouse_audit 1 --mode "snapshot" --device "mobile" # Run Lighthouse audit for a snapshot on mobile
 chrome-devtools lighthouse_audit 1 --outputDirPath ./out # Run Lighthouse audit and save reports
@@ -153,6 +164,10 @@ chrome-devtools take_snapshot 1 # Take a text snapshot of the page from the a11y
 chrome-devtools take_snapshot 1 --verbose true --filePath "s.txt" # Take a verbose snapshot and save to file
 ```
 
+For CSS inspection, use `get_css_styles` only when the installed help exposes it. Otherwise use
+available DevTools inspection or a read-only `evaluate_script` computed-style query. UID arguments
+still require a current snapshot.
+
 ## Extensions
 
 ```bash
@@ -166,7 +181,7 @@ chrome-devtools trigger_extension_action "extension_id" # Triggers the default a
 ## Progressive Web Apps (requires `--categoryPwa=true`)
 
 ```bash
-chrome-devtools install_pwa "https://example.com/" # Install PWA by manifest ID or URL
+chrome-devtools install_pwa "https://example.com/" "https://example.com/" # Install using manifest ID and install URL
 chrome-devtools launch_pwa "https://example.com/" # Launch installed PWA
 chrome-devtools get_os_app_state "https://example.com/" # Get OS app installation state
 chrome-devtools uninstall_pwa "https://example.com/" # Uninstall PWA and close windows
@@ -174,7 +189,9 @@ chrome-devtools uninstall_pwa "https://example.com/" # Uninstall PWA and close w
 
 ## Experimental Features
 
-Experimental tools are disabled by default. Enable them with the corresponding flag during `start`.
+Experimental tools are disabled by default. Enable them with the corresponding installed flag
+when starting or reconfiguring a task-owned daemon. Availability does not authorize a tool's
+external effects, extension/PWA installation, or execution of page-provided integrations.
 
 ```bash
 chrome-devtools click_at 1 100 200 # Clicks at the provided coordinates on page 1 (requires --experimentalVision=true)
@@ -187,6 +204,11 @@ chrome-devtools execute_3p_developer_tool 1 "tool_name" --params '{"arg":"val"}'
 ```
 
 ## Service Management
+
+Use `start` and `stop` only for a task-owned daemon; `status` can inspect an existing session when
+needed. `start` also restarts a running daemon, so it is not a harmless preparation step. Stop a
+daemon created for this task at handoff unless the operator asked to keep it running; do not stop a
+pre-existing session.
 
 ```bash
 chrome-devtools start   # Start or restart chrome-devtools-mcp
