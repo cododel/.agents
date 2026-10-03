@@ -5,6 +5,7 @@ Discovers transcripts robustly (glob + match by cwd; sanitized-dir fallback), pa
 JSONL defensively, and returns ONLY short, design-relevant, human-readable snippets.
 Run only after user approval. Never dumps whole transcripts, drops tool output,
 non-design chatter, and likely secret-bearing lines, and truncates every snippet.
+Filtering is conservative and does not guarantee that all private material is removed.
 
 Stdlib only.
 
@@ -19,7 +20,6 @@ import argparse
 import json
 import os
 import re
-import subprocess
 import sys
 from pathlib import Path
 
@@ -51,23 +51,15 @@ KEYWORDS = [
 SENSITIVE_RE = re.compile(
     r"(?:authorization\s*:|bearer\s+[a-z0-9._-]+|api[_-]?key\s*[:=]|"
     r"password\s*[:=]|secret\s*[:=]|(?:access|refresh|auth|api)[_-]?token\s*[:=]|"
+    r"(?<![\w-])[\"']?token[\"']?\s*[:=]|"
     r"-----BEGIN [A-Z ]+PRIVATE KEY-----)",
     re.IGNORECASE,
 )
 
 
 def project_root(arg: str) -> Path:
-    p = Path(arg).resolve()
-    try:
-        top = subprocess.run(
-            ["git", "-C", str(p), "rev-parse", "--show-toplevel"],
-            capture_output=True, text=True, timeout=5,
-        )
-        if top.returncode == 0 and top.stdout.strip():
-            return Path(top.stdout.strip()).resolve()
-    except (OSError, subprocess.SubprocessError):
-        pass
-    return p
+    """Keep the explicitly selected boundary, including a repository subdirectory."""
+    return Path(arg).expanduser().resolve()
 
 
 def transcript_root(arg: str) -> Path:
@@ -106,6 +98,8 @@ def file_cwd(path: Path) -> str | None:
                 try:
                     obj = json.loads(line)
                 except json.JSONDecodeError:
+                    continue
+                if not isinstance(obj, dict):
                     continue
                 cwd = obj.get("cwd")
                 if cwd:
