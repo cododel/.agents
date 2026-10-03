@@ -51,7 +51,8 @@ KEYWORDS = [
 SENSITIVE_RE = re.compile(
     r"(?:authorization\s*:|bearer\s+[a-z0-9._-]+|api[_-]?key\s*[:=]|"
     r"password\s*[:=]|secret\s*[:=]|"
-    r"(?<![\w-])[\"']?(?:(?:access|refresh|auth|api)[_-]?)?token[\"']?\s*[:=]|"
+    r"(?:access|refresh|auth|api)[_-]?token[\"']?\s*[:=]|"
+    r"(?<![\w-])[\"']?token[\"']?\s*[:=]|"
     r"-----BEGIN [A-Z ]+PRIVATE KEY-----)",
     re.IGNORECASE,
 )

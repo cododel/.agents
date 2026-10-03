@@ -74,6 +74,8 @@ class SessionScannerTest(unittest.TestCase):
             '"token": "SYNTHETIC_SENTINEL"',
             '"access_token": "SYNTHETIC_SENTINEL"',
             "'auth-token' = 'SYNTHETIC_SENTINEL'",
+            'oauth_token = "SYNTHETIC_SENTINEL"',
+            '"my_access_token": "SYNTHETIC_SENTINEL"',
         ):
             with self.subTest(assignment=assignment):
                 text = assignment + " # theme design\nTheme uses color_token = #ffffff"
