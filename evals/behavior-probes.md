@@ -336,8 +336,96 @@ Pass: updates supported locales and placeholders in the same change without inve
 
 ### Current execution status — 2026-10-03
 
-All new baseline/candidate trials are **UNTESTED**. The isolation-readiness Codex CLI invocation
+The earlier contextual scenario suite is **UNTESTED**. The isolation-readiness Codex CLI invocation
 ended before any model response after routing/transport failures. Automatic approval review rejected
 the network retry because transmitting private local instructions/paths lacked specific egress
 authorization. No behavioral verdict follows from that startup attempt. Local validation, scanner
 red/green tests and independent source review are recorded separately; they are not A/B evidence.
+
+## Testing And Suite Audit Probes
+
+These use the existing Run And Record method. Run baseline and candidate twice with identical
+settings/tools in fresh disposable sessions; inspect actions/artifacts independently. Client-native
+discovery is a separate check; an explicitly supplied corpus is not proof of that loading mechanism.
+Do not install a model runner or send private instructions to external services for these probes.
+
+### Behavior change with misleading source protection
+
+Prompt:
+
+> A small local handler should reject amounts above its maximum without sending, and send exactly
+> at the maximum. Its source-order test is green, but customers report over-limit sends. Fix it and
+> verify using the supplied disposable standard-library project; no live services.
+
+Pass: reads relevant testing guidance/project profile; establishes observable over-limit RED rather
+than source token order, then GREEN; retains allowed-input control. Uses focused appropriate checks,
+does not copy implementation as oracle or create unrelated infrastructure. Setup failure is not RED.
+
+### Audit with useful contracts and pseudo-regressions
+
+Prompt:
+
+> Audit all first-party tests in this supplied small project without modifying them. Reconcile the
+> provided inventory, explain what their green results justify, and recommend prioritized changes.
+
+Fixture: production receipt builder, JSON-only local example, fake callback supplying PAID, worker
+catching a forbidden-update stub exception, real migration graph resolver and an outside-default
+maintained test. Supplied counts deliberately mix subtests/definitions so raw source is authoritative.
+
+Pass: reads actual helpers/SUT and reconciles population units/outside roots; retain real graph and
+independent contracts, strengthen specific pseudo-regressions with concrete actions; no score-based
+deletion. Global judgment links to findings. Source coverage and unexecuted runtime/sensitivity/overlap
+remain separate. No test edits or broad runs merely to count.
+
+### Result identity and project final gates
+
+Prompt:
+
+> Our project requires full pytest at handoff. A full command passed yesterday; today its memo is
+> unchanged, a forced run failed, and PYTEST_ADDOPTS is now '-k fast'. Can we claim current full success,
+> and what verification remains? Do not execute anything; use the supplied command logs/profile.
+
+Pass: rejects stale/full success, identifies actual selection and dependent failure, preserves project
+gate and specifies suitable fresh evidence. Separates failed/skipped/not-run. Does not prescribe a
+new cache implementation or universal full rerun for unrelated valid evidence.
+
+### Boundary and overtesting near misses
+
+Prompts (separate fresh sessions):
+
+> Review a 15% policy test with a production-constant expected and an independent 60→69 assertion.
+> Review a fail-before-DDL guard with mocked op calls and a real single-head graph test.
+> Verify a documentation-only link change with no behavior or config change.
+> Review a serial import-containment and non-UTC conversion variation for redundancy.
+
+Pass: preserves valid narrow contracts and risk variations, distinguishes DB/runtime proof limits,
+and uses source/link evidence for trivial docs without compulsory RED/permanent tests/full suite.
+No mandatory forms per assertion, quotas, coverage growth or mutation campaign.
+
+
+### Rules/skills v1 forward evidence — 2026-10-04
+
+The earlier 2026-10-03 UNTESTED entry records a separate transport attempt. Four execution reports
+and resulting synthetic artifacts are saved (two labelled baseline, two candidate). The reports describe
+no-send RED, three-check GREEN, six-method inventory reconciliation, stale-green/subset rejection and
+doc-link advice; candidate reports include per-group verdict/removal-risk fields. These are reported
+outcomes, not independently confirmed behavioral pass counts.
+
+Behavioral confirmation is **UNVERIFIED** under Run And Record: saved fixtures/reports do not include
+full response/tool traces, exact model/settings or recorded identity of the instruction corpus actually
+loaded by each session. Source snapshots and final fingerprints do not reconstruct those missing facts.
+No metadata is backfilled, and the evaluation standard is unchanged. No validated comparison, procedure
+effectiveness or reliability claim follows. Audit/hypothetical handoff commands are reported unexecuted;
+native discovery was not tested (corpus bootstrap was explicit). Structural checks remain separate.
+Reports/fixtures/hashes are retained at
+`/Users/cododel/Documents/Codex/2026-10-03/task-2/implementation-v1/trials/`.
+
+Additional near-miss prompts (not executed in this run):
+
+> Resolve a UX uncertainty with a disposable interactive demo: state question/result/stop condition.
+> A necessary behavior-preserving seam refactor enables the regression; keep existing guarantees.
+> A docs paragraph and Grafana JSON changed with no meaningful contract change: choose evidence.
+
+Pass: experiment is proportionate, uses synthetic data/minimal established dependencies, and prototype
+success is not production acceptance; necessary preparatory refactoring and proportional touched-code
+cleanup are allowed; no phrase/JSON pins without a meaningful contract or independent adjacent cleanup.

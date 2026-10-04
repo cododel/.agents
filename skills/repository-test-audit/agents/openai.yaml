@@ -1,0 +1,6 @@
+interface:
+  display_name: "Repository Test Audit"
+  short_description: "Evidence-backed suite verdicts and concrete recommendations"
+  default_prompt: "Use $repository-test-audit to review this suite's guarantees and recommend prioritized improvements without modifying tests."
+policy:
+  allow_implicit_invocation: true

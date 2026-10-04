@@ -33,7 +33,10 @@ defer it. ADR recording requires operator intent and an actual significant opera
 
 ## Common review invariants
 
-These rules own the shared procedure for all modes:
+These rules own the shared procedure for all modes. Use
+[testing-evidence](../testing-evidence/SKILL.md) for check adequacy, boundary/oracle quality and result
+identity; project-required gates remain required. Closeout adds acceptance review, not an automatic
+fresh suite run or repository-wide test audit:
 
 1. Resolve repository/worktree, branch, HEAD, status, base, and exact change inventory. Freeze the
    current motivation, behavior, acceptance, decisions, non-goals, and material assumptions from

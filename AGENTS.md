@@ -24,8 +24,8 @@ destructive actions still require authorization covering the actual action and t
 
 ## Adaptive Workflow And Task Memory
 
-- Start from the request, discussion, and relevant repository evidence. Handle clear local changes
-  directly; do not require a briefing, plan file, subagent, or new test merely to follow a workflow.
+- Choose the next step by the uncertainty it resolves, grounded in the request and repository.
+  Handle clear local changes directly; do not require a briefing, plan, subagent or new test for ceremony.
 - Define observable expected behavior and a proportionate way to verify it before changing code.
   Use `$feature-brief` only to resolve material requirements or architecture questions.
 - When requirements, decisions, phases, or context switches become hard to retain reliably, use
@@ -64,8 +64,10 @@ destructive actions still require authorization covering the actual action and t
 
 - Use English as the default language for user-facing product text and as the fallback whenever
   a localized version is unavailable.
-- Prefer simple, direct changes in the existing structure. Refactor when necessary for the task or
-  when it materially reduces complexity or risk in touched code; avoid speculative abstractions.
+- Prefer a direct solution with minimum unnecessary complexity, not minimum diff; correctness,
+  security and data safety apply immediately. Allow behavior-preserving preparatory refactors needed
+  for the task and proportional cleanup of touched code after working behavior. Independent adjacent
+  subsystem improvements remain separate scope; avoid speculative abstractions.
 - Split by responsibility when it reduces complexity, not by arbitrary file-size thresholds.
   Keep the justified risk/merge-conflict radius small without preserving avoidable local debris.
 - Follow local idioms, preserve type safety, and validate untrusted inputs at boundaries. Do not hide
@@ -77,18 +79,17 @@ destructive actions still require authorization covering the actual action and t
 
 ## Verification And Evidence
 
-- For bug fixes and new logic, prefer a focused check before implementation. Confirm that its failure
-  expresses the intended behavioral gap, rather than an import, fixture, or environment failure.
-- Derive expectations from agreed requirements or independent examples, not implementation structure.
-  Correct a check only for an approved behavior change or demonstrated check defect, never just to pass.
-- Choose the smallest sufficient evidence: existing tests, a new regression, a temporary probe,
-  build/static checks, or observed UI behavior. Do not build test infrastructure for a trivial edit.
-- Start focused and broaden according to affected risk or project requirements. Do not repeat passing
-  checks without a relevant change, failure, or unresolved concern. Green tests are not full acceptance.
-- Separate observed facts, derived conclusions, and assumptions. Match claims to actual evidence;
-  distinguish product failures from environment or pre-existing failures and disclose material gaps.
-- Run data-changing checks only on isolated disposable test targets. Review formatter/build/test
-  commands for side effects; authorization for production/shared data follows the common gate.
+- For observable behavior changes, default to meaningful RED–GREEN–REFACTOR: establish agreed
+  acceptance, expose the intended gap, implement, then refactor. Extend existing protection before
+  adding duplicate tests; use justified exceptions when RED or a permanent test would mislead or
+  be disproportionate, and disclose material evidence limits.
+- Before planning verification, writing/editing/reviewing tests, or selecting/running/interpreting
+  checks, load `$testing-evidence`. It owns test-value, oracle/boundary, execution and evidence-reuse
+  procedures. Project profiles supply commands, isolation and required gates; do not silently relax them.
+- Match claims to actual evidence, separating observations, conclusions and assumptions. Green
+  tests are not complete acceptance. Do not weaken agreed behavior merely to make checks pass.
+- Run data-changing checks only on isolated disposable targets. Inspect command side effects;
+  production/shared data actions follow the common authorization gate.
 
 ## Delegation
 

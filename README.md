@@ -30,26 +30,31 @@ and target, as specified in `AGENTS.md`.
 
 Skills use a hybrid trigger model:
 
-- **automatic context/enforcement helpers:** `find-docs`, `troubleshooter`, `task-journal` when
+- **automatic context/enforcement helpers:** `testing-evidence` for verification decisions, `find-docs`, `troubleshooter`, `task-journal` when
   written memory helps, `worktree-task` when concrete isolation is needed, and `feature-closeout`
   when material acceptance/integration uncertainty warrants it;
 - **situational workflows:** `feature-brief`, `contract-writer`, and design/docs workflows;
-- **operator-intent workflows:** ADR creation/audit, contract audit, broad documentation cleanup,
+- **operator-intent workflows:** `repository-test-audit` for requested test-value/suite audits, ADR creation/audit, contract audit, broad documentation cleanup,
   requested Issue/TODO recording, tracker writes, and release-mode closeout. They may route from an unambiguous natural-language
   request; they do not run merely because related code or documents exist.
 
 Automatic does not mean unconditional. Each Skill's description and internal gate defines when its
 coordination cost is justified.
 
-There are **22 active portable Skills**. The routing matrix covers exactly their entrypoints:
+There are **24 active portable Skills**. The routing matrix covers exactly their entrypoints:
 
 - Documentation and design: `adr-auditor`, `adr-writer`, `contract-auditor`, `contract-writer`,
   `design-system-extractor`, `docs-cleanup`, `humanize`, `issue-writer`.
 - Engineering and verification: `chrome-devtools-cli`, `feature-brief`, `feature-closeout`,
   `figma-css-cleanup`, `git-operations`, `localization`, `merge-branches`, `troubleshooter`,
-  `worktree-task`.
+  `worktree-task`, `testing-evidence`, `repository-test-audit`.
 - Context and coordination: `find-docs`, `find-skills`, `kaneo-task-workflow`, `task-journal`,
   `yougile-workflow`.
+
+`testing-evidence` owns portable TDD/test-value and result-identity procedures. Repository profiles
+own commands/isolation/final gates; existing stricter requirements are preserved until explicitly
+revised. `repository-test-audit` shares those criteria and owns audit coverage, verdicts and synthesis;
+it does not authorize cleanup. Detailed references load only for the relevant work.
 
 Inactive historical Wiki sources are not active entrypoints. `task-journal` is unchanged by the
 contextual-Skills update. Source files, installed plugins and actual client discovery are separate
@@ -142,7 +147,12 @@ JSON, an explicit subdirectory boundary and suspicious token assignments. They d
 that a model follows the instructions. Behavioral runs
 use the prompts and grading criteria in [Behavior probes](evals/behavior-probes.md), with disposable
 workspaces and recorded model/tool traces. This repository currently has no automated model-runner.
-New contextual-Skill probes require two baseline and two candidate trials with identical settings in
-fresh isolated sessions. Their current status is **UNTESTED**: isolation startup failed before a model
-response, and automatic approval review rejected the network retry because specific authorization
-for private instruction/path egress was missing. Static checks and source review are separate evidence.
+Contextual-Skill probes require two baseline and two candidate trials with identical settings in
+fresh isolated sessions. The earlier contextual scenario suite remains **UNTESTED**: its 2026-10-03
+isolation startup failed before a model response, and automatic approval review rejected the network
+retry because specific authorization for private instruction/path egress was missing.
+The 2026-10-04 testing/audit probes have four saved execution reports, but behavioral confirmation is
+**UNVERIFIED**: full response/tool traces, exact model/settings and the loaded instruction-corpus
+identity were not recorded to the Run And Record standard. Reports/artifacts are retained as limited
+evidence, not pass counts or a validated baseline/candidate comparison. Structural checks passed
+separately; native discovery was not tested. See the dated status entries in Behavior probes.

@@ -23,9 +23,12 @@ blocks only its dependent command, while independent investigation continues.
 
 ## Focused workflow
 
+Use [testing-evidence](../testing-evidence/SKILL.md) for regression design, meaningful RED and check
+interpretation; the project profile supplies execution commands. Diagnosis owns the causal chain.
+
 1. Extract error/message, command/environment, relevant application frame, and the unexpected state.
    Resolve missing evidence from supplied artifacts, source, logs, or safe probes before asking.
-2. Establish the smallest falsifiable test/probe. For fixes, prefer a useful regression at the
+2. Choose the distinguishing test/probe by the uncertainty it removes. For fixes, prefer a useful regression at the
    behavior boundary and run it before patching; confirm the failure is the bug rather than setup
    noise. Reuse an existing failure. Diagnosis-only, brittle, or disproportionate seams may use
    disposable scratch probes with their limits stated.

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Testing Evidence"
+  short_description: "Meaningful TDD and trustworthy verification evidence"
+  default_prompt: "Use $testing-evidence to plan and verify this behavior change with the applicable project profile."
+policy:
+  allow_implicit_invocation: true
