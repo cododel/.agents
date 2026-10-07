@@ -20,6 +20,30 @@ lifecycle edits, extraction writes, index changes, or deletion.
 Use shared discovery and `conventions.md`. If several project/module Issue roots are plausible, ask
 which scope is intended; never sweep all roots by default.
 
+## Review a selected Issue for relevance or completion
+
+A request such as "is this Issue still relevant?", "was it already fixed?", or "can we close it?"
+authorizes read-only review of the selected record, including an open Issue. It does not authorize
+closure, deletion, repairs, or a sweep of other records. Read the report and its completion criteria;
+extract concrete symptoms, triggering conditions, environment, and report date.
+
+Check the current affected code path and relevant Git changes against those claims. A removed error
+string can be a rename or move; inspect the actual change before calling it a fix. Use runtime or
+data evidence when the claim depends on it, through project-approved access only. Code, history,
+and live data are complementary sources, not three mandatory gates for every Issue. Distinguish a
+fix in the inspected checkout from a fix verified in the deployed version.
+
+Report one of: relevant, resolved, currently unobserved, or inconclusive. Zero matching rows or no
+recent events establishes only the observed scope and time; it does not prove the defect cannot
+recur. Cite applicable file/line, commit/date, or scoped runtime/query evidence and name the precise
+evidence gap when inconclusive. Preserve source status separately from the review conclusion.
+A deeper causal investigation belongs to `troubleshooter`; an overview/grouping of multiple problems
+belongs to `issue-triage`. Neither handoff grants authority to repair or mutate records.
+
+For a relevance-only request, stop with the conclusion and next decision. If closure is also
+requested, verify completion and follow the value, reference, and recovery gates below; an open
+record does not become a completed candidate merely because review was requested.
+
 ## 2. Enumerate completed candidates
 
 Use the proven local lifecycle convention. Enumerate regular Markdown files with `rg --files` or

@@ -1,6 +1,6 @@
 ---
 name: issue-writer
-description: "Record or update repository-local deferred work on an operator request, or review/close completed Issues within explicit lifecycle scope. A linked TODO is optional; discovered debt alone does not authorize a record or sweep."
+description: "Record or update repository-local deferred work on an operator request, or review an existing Issue for current relevance/completion and close completed Issues within explicit lifecycle scope. A linked TODO is optional; discovered debt alone does not authorize a record or sweep."
 ---
 
 # Issue Writer
@@ -15,7 +15,7 @@ a brief report, not an Issue, TODO, or sweep.
 |:--|:--|:--|
 | Explicitly record/defer/park independently resumable work | create/update | `references/create.md` |
 | Agent notices separate debt without a recording request | briefly report only | No file or TODO |
-| Review lifecycle/completed Issue candidates | review, read-only | `references/close.md` |
+| Check whether a selected existing Issue is still relevant or complete; review lifecycle candidates | review, read-only | `references/close.md` |
 | Explicitly close/sweep completed Issue records after extracting durable value | close/apply | `references/close.md` |
 
 For an authorized recording or lifecycle request, resolve roots through
