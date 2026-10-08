@@ -35,13 +35,13 @@ Skills use a hybrid trigger model:
   when material acceptance/integration uncertainty warrants it;
 - **situational workflows:** `feature-brief`, `contract-writer`, and design/docs workflows;
 - **operator-intent workflows:** `repository-test-audit` for requested test-value/suite audits, ADR creation/audit, contract audit, broad documentation cleanup,
-  requested Issue/TODO recording, tracker writes, and release-mode closeout. They may route from an unambiguous natural-language
-  request; they do not run merely because related code or documents exist.
+  issue triage and operator-directed prioritization, requested Issue/TODO recording, tracker writes,
+  and release-mode closeout. They may route from an unambiguous natural-language request; they do not run merely because related code or documents exist.
 
 Automatic does not mean unconditional. Each Skill's description and internal gate defines when its
 coordination cost is justified.
 
-There are **24 active portable Skills**. The routing matrix covers exactly their entrypoints:
+There are **25 active portable Skills**. The routing matrix covers exactly their entrypoints:
 
 - Documentation and design: `adr-auditor`, `adr-writer`, `contract-auditor`, `contract-writer`,
   `design-system-extractor`, `docs-cleanup`, `humanize`, `issue-writer`.
@@ -49,7 +49,7 @@ There are **24 active portable Skills**. The routing matrix covers exactly their
   `figma-css-cleanup`, `git-operations`, `localization`, `merge-branches`, `troubleshooter`,
   `worktree-task`, `testing-evidence`, `repository-test-audit`.
 - Context and coordination: `find-docs`, `find-skills`, `kaneo-task-workflow`, `task-journal`,
-  `yougile-workflow`.
+  `yougile-workflow`, `issue-triage`.
 
 `testing-evidence` owns portable TDD/test-value and result-identity procedures. Repository profiles
 own commands/isolation/final gates; existing stricter requirements are preserved until explicitly
