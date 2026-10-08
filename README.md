@@ -90,6 +90,7 @@ not shared-agent configuration.
 - `evals/skill-scenarios.tsv` — portable Skill trigger contracts.
 - `evals/agent-behavior.tsv` — policy-level behavior contracts.
 - [Behavior probes](evals/behavior-probes.md) — concrete prompts and grading criteria for model runs.
+- [Issue triage probes](evals/issue-triage-probes.md) — ranking, causality, repeat-review, and visual-analysis scenarios.
 - `scripts/check-skills.py` — structural/link/eval validator.
 
 ## Client Adapters
