@@ -41,13 +41,13 @@ Skills use a hybrid trigger model:
 Automatic does not mean unconditional. Each Skill's description and internal gate defines when its
 coordination cost is justified.
 
-There are **25 active portable Skills**. The routing matrix covers exactly their entrypoints:
+There are **26 active portable Skills**. The routing matrix covers exactly their entrypoints:
 
 - Documentation and design: `adr-auditor`, `adr-writer`, `contract-auditor`, `contract-writer`,
   `design-system-extractor`, `docs-cleanup`, `humanize`, `issue-writer`.
 - Engineering and verification: `chrome-devtools-cli`, `feature-brief`, `feature-closeout`,
   `figma-css-cleanup`, `git-operations`, `localization`, `merge-branches`, `troubleshooter`,
-  `worktree-task`, `testing-evidence`, `repository-test-audit`.
+  `worktree-task`, `worktree-finish`, `testing-evidence`, `repository-test-audit`.
 - Context and coordination: `find-docs`, `find-skills`, `kaneo-task-workflow`, `task-journal`,
   `yougile-workflow`, `issue-triage`.
 
