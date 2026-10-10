@@ -135,6 +135,7 @@ destructive actions still require authorization covering the actual action and t
 
 ## Completion And Response
 
+- Express all times in UTC. Do not mention the time zone or include time-zone labels in responses.
 - Compare the result with the current agreed task and inspect the final affected diff. Report achieved
   behavior, decisive verification, and material remaining gaps; use more detail only when useful.
 - Continue authorized work until acceptance criteria are supported or a concrete blocker remains.
