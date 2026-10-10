@@ -88,6 +88,10 @@ destructive actions still require authorization covering the actual action and t
   procedures. Project profiles supply commands, isolation and required gates; do not silently relax them.
 - Match claims to actual evidence, separating observations, conclusions and assumptions. Green
   tests are not complete acceptance. Do not weaken agreed behavior merely to make checks pass.
+- Do not propose a fix or solution to a diagnosed problem until its root cause is established
+  by evidence. Symptoms, correlations and reproduced failure mechanisms alone are insufficient.
+  If the root cause remains unknown, state that explicitly and propose only diagnostic steps;
+  label hypotheses as hypotheses, not as a basis for recommending a solution.
 - Run data-changing checks only on isolated disposable targets. Inspect command side effects;
   production/shared data actions follow the common authorization gate.
 
