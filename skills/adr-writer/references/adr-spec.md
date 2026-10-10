@@ -84,6 +84,11 @@ and implementation progress are separate concerns.
 
 ## 6. Contract relationship
 
+Before creating a record, identify what enduring decision rationale it adds beyond the current owner
+and task memory. If it only restates behavior, skip it. State the chosen outcome briefly; leave detailed
+algorithms, formulas, acceptance checklists, and rollout procedures with their current owners. Include
+historical detail only when necessary to understand the trade-off, clearly as decision-time context.
+
 The ADR explains why a choice was made. A living contract explains what current implementations must
 preserve. Link the artifacts when both exist; do not copy normative current-state rules into decision
 history or treat an ADR as the only long-term implementation contract.

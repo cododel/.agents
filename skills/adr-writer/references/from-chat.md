@@ -6,8 +6,9 @@ Create an ADR from a decision established in the current conversation.
 
 Confirm the operator actually chose (or explicitly wants to record as `Proposed`) a significant path.
 Apply `adr-spec.md` §§2–3. If the chat contains only implementation shape, agent recommendation, or a
-routine detail that fails the shared significance gate, explain briefly why no ADR is warranted and
-stop. A reversible but consequential precedent can pass that gate.
+routine detail that fails the shared significance gate, skip recording; explain why if an ADR was
+requested. A reversible but consequential precedent can pass that gate. Apply the entrypoint's
+write-authority boundary; recording may accompany authorized work without a separate ADR request.
 
 ## Step F1 — Extract the decision evidence
 
@@ -21,9 +22,11 @@ Read the complete relevant conversation and extract without inventing:
 - related contracts, Issues, research, and prior ADRs;
 - the actual decision date when evidenced, separately from today's record-creation date.
 
-If plausible alternatives existed but were never discussed, ask the operator rather than fabricating
-them. A genuinely mandated single-option choice must name the hard constraint. Split independent forks
-into separate ADRs with `Related` links.
+If load-bearing decision evidence is missing, do not fabricate it. For an explicitly requested ADR,
+ask for the missing fact; for optional recording during implementation, skip the ADR without blocking
+independent work. Unresolved behavior still needs its own decision gate. A genuinely mandated
+single-option choice must name the hard constraint. Split independent forks into separate ADRs with
+`Related` links.
 
 ## Step F1.5 — Reconcile existing decision owners
 
@@ -71,4 +74,6 @@ is not a current contract.
 ## Step F4 — Save and confirm
 
 Create the proven path/directories, verify links and `git diff --check`, and respond only with a short
-repository-relative path confirmation. Do not echo the ADR body or add a celebratory status message.
+path confirmation for a standalone ADR request. When recording accompanies implementation, include
+the path in the task's normal result without replacing its verification/remaining-work report.
+Do not echo the ADR body.

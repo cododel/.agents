@@ -1,7 +1,9 @@
 # From-Issue promotion workflow
 
-Promote significant operator decisions preserved in closed repository Issues into proper ADRs. This
-is an explicit audit/promotion workflow, not an automatic part of Issue closeout.
+Preserve significant agreed decisions from closed repository Issues. An in-scope Issue may supply
+evidence during authorized implementation or documentation work, including an authorized close/apply
+workflow. Closure alone neither proves a significant decision nor requires an ADR. A retrospective
+promotion sweep requires an explicit request; read-only review never authorizes promotion.
 
 Read `candidate-criteria.md`, `adr-spec.md`, `path-resolution.md`, and the applicable local ADR/Issue
 conventions before mutation.
@@ -41,10 +43,13 @@ living contract, not an ADR.
 
 ## 4. Ask only for material unresolved decisions
 
-An explicit `from-issue` request authorizes creation of every unambiguous promotion in the resolved
-scope. Do not add a generic “approve the plan” ceremony.
+An explicit `from-issue` request authorizes unambiguous promotions in the resolved scope. For a
+specific Issue already in authorized implementation/documentation or close/apply scope, the
+entrypoint permits recording a fully evidenced significant agreed decision without a separate ADR
+request. Do not expand that into a sweep or add a generic “approve the plan” ceremony.
 
-Ask before writing only when one of these remains:
+For optional recording, skip ambiguous candidates and continue independent work; retain sources
+whose unique value is unresolved. For requested promotion, ask before writing when one of these remains:
 
 - missing operator choice, alternative/constraint, or rationale;
 - competing ADR roots/owners/languages with no established convention;

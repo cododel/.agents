@@ -33,8 +33,9 @@ Skills use a hybrid trigger model:
 - **automatic context/enforcement helpers:** `testing-evidence` for verification decisions, `find-docs`, `troubleshooter`, `task-journal` when
   written memory helps, `worktree-task` when concrete isolation is needed, and `feature-closeout`
   when material acceptance/integration uncertainty warrants it;
-- **situational workflows:** `feature-brief`, `contract-writer`, and design/docs workflows;
-- **operator-intent workflows:** `repository-test-audit` for requested test-value/suite audits, ADR creation/audit, contract audit, broad documentation cleanup,
+- **situational workflows:** `feature-brief`, `contract-writer`, `adr-writer` for significant agreed
+  decisions within authorized implementation/documentation work, and design/docs workflows;
+- **operator-intent workflows:** `repository-test-audit` for requested test-value/suite audits, ADR audit/retrospective promotion sweeps, contract audit, broad documentation cleanup,
   issue triage and operator-directed prioritization, requested Issue/TODO recording, tracker writes,
   and release-mode closeout. They may route from an unambiguous natural-language request; they do not run merely because related code or documents exist.
 

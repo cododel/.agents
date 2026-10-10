@@ -70,9 +70,10 @@ Block source deletion when it contains value not yet owned elsewhere, including:
 - unresolved work, risk, or completion criterion → reopen/repair rather than close.
 
 Current implementation shape alone is not ADR evidence. Preserve actual operator-decision intent;
-an Issue close request does not itself authorize ADR creation. Use `$adr-writer` only when promotion
-authority is explicit, otherwise retain the source and report the route. Contract extraction requires
-all four value conditions for a new owner, confirmed semantics/scope/language/ownership, and authoring
+an authorized close/apply workflow may preserve a fully evidenced significant agreed decision through
+`$adr-writer` without a separate promotion request. Do not create an ADR merely because an Issue closes.
+If evidence is incomplete, retain the source and report the gap; do not invent rationale or expand
+into a retrospective ADR sweep. Contract extraction requires all four value conditions for a new owner, confirmed semantics/scope/language/ownership, and authoring
 authority covering the change. Review mode never invokes writers or silently records new debt.
 
 A candidate is `safe-to-delete` only when no unique long-term value or unresolved work remains beyond

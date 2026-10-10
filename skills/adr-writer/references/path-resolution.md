@@ -23,7 +23,7 @@ Choose module-local placement only when one module clearly owns the decision. Us
 shared/cross-cutting behavior. If two canonical homes remain co-equal and choosing one establishes a
 new durable convention, ask the operator.
 
-An explicit ADR or `from-issue` request authorizes creation of the resolved local directory and
-fallback README when ownership is clear; mention a newly created root in the handoff. Ask only when
-several canonical homes remain plausible. Never invent a parent outside the repository's documentation
+When recording is authorized under the entrypoint's scope rules, it includes creation of the resolved
+local directory and fallback README when ownership is clear; mention a new root in the handoff.
+Ask only when several canonical homes remain plausible. Never invent a parent outside the repository's documentation
 structure.

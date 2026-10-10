@@ -113,8 +113,11 @@ destructive actions still require authorization covering the actual action and t
   lacking a suitable owner. Use `$contract-writer`; do not create one per feature or task completion.
 - Keep one owner per rule. Existing normative API/schema/docs may suffice; a separate Markdown
   contract is not mandatory. Never promote accidental implementation behavior into a guarantee.
-- ADRs record significant operator-made decisions and rationale; do not invent decisions or rewrite
-  accepted history. Task memory is neither a product contract nor an ADR.
+- Within authorized implementation or documentation work, agents may use `$adr-writer` to record
+  significant agreed decisions without a separate ADR request. Preserve evidenced alternatives and
+  rationale; never invent agreement or rewrite accepted history. Link current contracts instead of
+  duplicating their rules. Task/Issue closure does not require an ADR; task memory is not an ADR.
+  Do not expand this into a retrospective ADR sweep or mass revision of historical records.
 - Use repository-relative paths and the project's documentation language. Keep reusable procedures
   in Skills and project facts in project docs; create translations only when requested or required.
 

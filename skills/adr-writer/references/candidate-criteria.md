@@ -1,7 +1,7 @@
 # Closed-Issue ADR candidate criteria
 
-Use this only for explicit `from-issue` promotion. The question is not whether an Issue sounds
-architectural; it is whether the surviving evidence proves a significant **operator-made decision**
+Use this for in-scope `from-issue` recording under the entrypoint's authority rules. The question is
+not whether an Issue sounds architectural; it is whether the surviving evidence proves a significant **operator-made decision**
 with enough rationale to record honestly.
 
 ## Evidence context
