@@ -37,10 +37,13 @@ Skills use a hybrid trigger model:
   decisions within authorized implementation/documentation work, and design/docs workflows;
 - **operator-intent workflows:** `repository-test-audit` for requested test-value/suite audits, ADR audit/retrospective promotion sweeps, contract audit, broad documentation cleanup,
   issue triage and operator-directed prioritization, requested Issue/TODO recording, tracker writes,
-  and release-mode closeout. They may route from an unambiguous natural-language request; they do not run merely because related code or documents exist.
+  and a frozen independent final audit within Full closeout. They may route from an unambiguous natural-language request; they do not run merely because related code or documents exist.
 
 Automatic does not mean unconditional. Each Skill's description and internal gate defines when its
 coordination cost is justified.
+
+`feature-closeout` defaults to Full for completion; Quick is an interim alignment checkpoint.
+Legacy `--release` requests Full with an explicit frozen independent final audit, not deployment.
 
 There are **26 active portable Skills**. The routing matrix covers exactly their entrypoints:
 
