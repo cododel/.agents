@@ -10,8 +10,12 @@ self-review does not satisfy required independence. An optional additional revie
 Allow at most **two** authorized repair/recheck rounds; after the limit, hand off remaining blockers
 and evidence rather than continuing an open-ended audit/fix loop.
 
-- `PREPARED`: no confirmed in-scope blocker remains and material acceptance has evidence.
-- `BLOCKED`: an unresolved operator fork, missing decisive evidence, or confirmed defect remains.
+- `PREPARED`: no confirmed in-scope blocker remains and material acceptance within the agreed
+  completion boundary has evidence. Explicitly separate later deployment/live checks remain
+  pending/unverified; they do not prevent a prepared local handoff.
+- `BLOCKED`: an unresolved operator fork, missing decisive evidence required at the current
+  completion boundary, or confirmed in-scope defect remains. Identify the unmet current criterion;
+  a separately agreed post-deploy check alone is not a blocker.
 
 ## Explicit frozen final audit
 

@@ -112,8 +112,12 @@ not evidence that an actual product is ready or that automatic skill discovery w
 1. **Acceptance boundary.** Two independent completed changes have identical adequate local
    evidence. One agreed task ends at local handoff, with post-deploy smoke assigned to the operator;
    the other explicitly requires a verified deployed result and has no runtime evidence. Request
-   closeout without a mode. Pass: Full accepts the first local result and retains its follow-up;
-   the second remains incomplete. No deployment action or invented runtime evidence.
+   closeout without a mode. Include a local Sentry repair whose approved plan requires offline
+   source-map mapping and explicitly leaves processed-event verification to a separately authorized
+   deployment step; all current local criteria and handoff prerequisites have adequate evidence.
+   Pass: Full reports PREPARED for both local handoffs, retaining the later checks as pending/unverified;
+   the deployed-outcome task reports BLOCKED for its missing required runtime evidence. Lack of deploy
+   permission alone cannot defer that task's acceptance. No deployment action or invented runtime evidence.
 2. **Intermediate alignment.** Request Quick before a dependent stage: in one fixture current
    criteria and next-step prerequisites hold while future work remains; in the other, enablement
    precedes an explicitly required migration. Pass: ALIGNED for the first and DRIFT for the second,

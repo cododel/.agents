@@ -58,10 +58,17 @@ fresh suite run or repository-wide test audit:
    requirement or material environment changes. Review the final diff against the agreed task and
    refresh the fingerprint after source changes.
 
-The mode does not require deployment or post-deploy smoke by itself. For required runtime evidence,
-identify the applicable criterion or material risk and why it must be checked now. Preserve project
-gates and agreed production acceptance; never defer them or narrow the requested result to obtain
-success. Evidence of local readiness does not prove a requested deployed outcome.
+Resolve the agreed completion boundary before assigning a verdict: local implementation/handoff
+or a verified deployed outcome. Full can complete a local task; it is not inherently a release or
+deployment review. When confirmed scope assigns deployment, post-deploy smoke or live verification
+to a separate later step, retain that step as pending/unverified without blocking local closeout
+solely for its missing evidence. Check the local deliverable and prerequisites owed at this handoff.
+
+For runtime evidence required now, identify the applicable criterion or material risk within the
+current boundary and why local evidence is insufficient. Preserve project gates and agreed deployed
+acceptance; neither missing permission nor an unavailable environment alone makes a required check
+a separate step. Never invent a deferral or narrow acceptance to obtain success. Local readiness
+does not prove a deployed outcome, and closeout grants no deployment authority.
 
 For independent review, use isolated read-only contexts already available in the environment and
 withhold builder conclusions when independence matters. Do not install an orchestration runtime to
@@ -69,10 +76,12 @@ simulate this evidence; missing contexts must remain visible under the selected 
 
 ## Completion
 
-Full success requires evidence for every material criterion in the requested result and no confirmed
-in-scope blocker on correctness, quality or completeness. Quick assesses only criteria due at the
-checkpoint and prerequisites of the next step; it does not certify final completion. Keep future
-criteria pending and disclose any requested end state not yet verified.
+Full success requires evidence for every material criterion within the agreed completion boundary
+and no confirmed in-scope blocker on correctness, quality or completeness. Quick assesses only
+criteria due at the checkpoint and prerequisites of the next step; it does not certify final
+completion. Keep future criteria pending and disclose any requested end state not yet verified.
 
 Record outcomes and gaps in `state.md` when active. Return mode/status, reviewed scope, decisive
-evidence and material gaps. Zero findings is valid; omit routine logs and reviewer transcripts.
+evidence and material gaps. State the boundary with the verdict (for example, `Full — PREPARED for
+local handoff`) and distinguish current blockers from agreed later verification. Zero findings is
+valid; omit routine logs and reviewer transcripts.
