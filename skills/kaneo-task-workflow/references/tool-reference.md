@@ -90,8 +90,7 @@ its declaration rather than substituting a column ID or display name.
 - `sortOrder` (optional: `asc`, `desc`)
 
 The response can contain project columns with `id`, `slug`, `name`, `isFinal`, and their tasks,
-plus planned tasks, archived tasks, and pagination. For status calls, use the returned value in the
-representation required by the selected live write schema.
+plus planned tasks, archived tasks, and pagination.
 
 ### `get_task`
 

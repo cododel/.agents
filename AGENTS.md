@@ -11,7 +11,7 @@ destructive actions still require authorization covering the actual action and t
 - Resolve objective technical details from the repository and available evidence. Ask only when
   unresolved alternatives materially change behavior, scope, architecture, risk, or acceptance.
 - Outside Plan mode, ask early through asynchronous user input when a material alternative remains
-  unresolved. Continue independent work; do not treat an unanswered question as agreement.
+  unresolved. Continue independent work.
 - Reuse confirmed decisions and authorization. Do not ask again unless the target or circumstances
   change. A proposed default, recorded assumption, or unanswered question is not agreement.
 - Project sources establish project behavior and intent. Distinguish current implementation from
