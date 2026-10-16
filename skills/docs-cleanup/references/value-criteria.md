@@ -142,12 +142,9 @@ A classifier may propose `delete` when the fully read record has no apparent uni
 or unresolved work, and no `repair` / `close` / `stale` / `merge` / `supersede` / `promote-to-adr` action
 better preserves its meaning. Cite the observed redundancy; age or thin formatting is insufficient.
 
-This is a value proposal in both audit and apply modes. It does not require a pre-delete subagent to
-have already run or apply authorization to exist. The primary agent next runs the same read-only
-one-candidate safety method inline or through a subagent, then separately proves recovery and mutation
-authority. Complete evidence, no unresolved load-bearing references, preserved unique content, and
-authorized exact-file cleanup are required before deletion. Index-only references may be repaired in
-the same change under `pre-delete-method.md` and `delete-gate.md`; they are not silently ignored.
+In audit and apply modes, this value proposal needs neither a completed safety check nor apply
+authority. Before deletion, the primary follows `pre-delete-method.md` and `delete-gate.md`,
+including their exact-file, value, reference, recovery, and mutation-authority gates.
 
 For `[CLOSED]` issue files specifically, prefer routing through `issue-writer:close`
 rather than deleting via this skill's gate — `close` runs a second-pass pre-extraction

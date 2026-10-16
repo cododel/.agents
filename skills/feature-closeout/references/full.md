@@ -7,10 +7,7 @@ evidence or independence is required by the request or project.
 If required independent contexts are unavailable, continue useful inline review and report `BLOCKED`;
 self-review does not satisfy required independence. An optional additional reviewer is not a gate.
 
-Repeat until `PREPARED`: check current agreed acceptance, confirm gaps, immediately fix unambiguous
-authorized in-scope defects, clarify material choices with the operator, and recheck affected criteria
-and invalidated evidence. Continue independent work while a decision is pending. There is no fixed
-repair-round limit; a list of repairable findings is not completion.
+Continue independent work while a decision is pending. There is no fixed repair-round limit.
 
 If the same finding recurs without new decisive evidence, diagnose the missing link rather than
 blindly repeating. Report the concrete blocker when a missing decision, prerequisite, required
