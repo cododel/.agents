@@ -67,8 +67,6 @@ Every material rule row contains:
 - rule verdict and evidence level;
 - any gap or conflict.
 
-An established normative API/schema/document can own its bounded guarantee without a separate
-Markdown contract. Prove the role through project declarations or established normative use.
 An ADR or passing tests alone neither proves compliance nor automatically implies `missing-contract`;
 identify the concrete ownership gap and apply all four value conditions before reporting it.
 

@@ -31,12 +31,10 @@ Fallbacks when no stronger convention exists:
 
 Do not invent a parallel hierarchy or multilingual family without evidence.
 
-When no contract root exists, a new owner is justified only if all four value conditions hold and
-the repository's docs root, language, module scope, and placement convention are proven. Within
-authorized authoring work, bootstrap the smallest area document under that established structure;
-do not create a contract merely because `docs/contracts/` is absent. If only a suitable existing
-API/schema/document needs an update, use it. Ask only for a genuinely unresolved canonical-home
-choice, not a missing conventional folder.
+When no contract root exists, apply the `missing`/`extend` gates below. For authorized creation,
+prove the repository's docs root, language, module scope, and placement convention; bootstrap the
+smallest area document there. A missing `docs/contracts/` folder alone justifies neither a new
+contract nor a canonical-home question.
 
 ## 3. Classify impact and authority
 
