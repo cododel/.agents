@@ -53,13 +53,9 @@ acceptance but can miss validation being removed: add a missing second path, not
 
 Retain a meaningful narrow guarantee; strengthen a concrete oracle/boundary gap; consolidate only
 verified equivalent protection with unique cases retained. For a live guarantee, retirement needs
-verified surviving/replacement protection. For a legitimately obsolete requirement, establish its
-cancellation and absence of dependent consumers or remaining obligations; no meaningless replacement
-is needed. Investigate names missing contract/cancellation/consumer/helper/selection/replacement
-evidence and how it changes the decision. Unknown is not permission to remove.
-
-No numerical quality threshold, mock/source smell, green frequency, coverage total or no-incident
-history authorizes deletion. Authorization for remediation is separate from an audit verdict.
+verified surviving/replacement protection. Investigate names missing
+contract/cancellation/consumer/helper/selection/replacement evidence and how it changes the decision.
+Unknown is not permission to remove.
 
 ## Avoid artificial protection
 

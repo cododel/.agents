@@ -79,15 +79,12 @@ of the resulting working HEAD; record the synchronized working SHA.
 
 For conflicts at **any** step, distinguish mechanical integration from product decisions:
 
-- Resolve mechanical conflicts only when repository evidence determines how to preserve both
-  sides' intent; follow merge-branches rather than choosing whole-file `ours`/`theirs`.
 - For competing product behavior, contracts or architecture requiring operator/CEO vision,
   stop the dependent integration and present the evidenced alternatives and consequences to
   the operator or designated CEO. Do not choose for them or send a message externally without
   explicit messaging authority. A skill cannot invent a CEO decision.
-- Follow merge-branches' pause procedure: preserve safe mechanical progress, leave a started
-  task-owned merge uncommitted, and report unresolved paths and exact state. Do not automatically
-  abort it. Resume only after the required decision arrives and recheck live branch state.
+- Follow merge-branches' pause procedure. Resume only after the required decision arrives and
+  recheck live branch state.
 
 ## 3. Merge the synchronized working branch into base
 
