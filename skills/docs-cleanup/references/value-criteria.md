@@ -152,9 +152,7 @@ the same change under `pre-delete-method.md` and `delete-gate.md`; they are not 
 For `[CLOSED]` issue files specifically, prefer routing through `issue-writer:close`
 rather than deleting via this skill's gate — `close` runs a second-pass pre-extraction
 check that's tuned for issue bodies (rejected options, ops procedures, unique repros).
-The two safety nets are intentional: this skill catches `delete` candidates that
-shouldn't have been classified that way; `close` catches the same plus issue-specific
-documentation patterns.
+This skill catches misclassified `delete` candidates; `close` adds issue-specific documentation checks.
 
 ## What is NOT sufficient for `delete`
 

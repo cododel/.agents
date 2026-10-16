@@ -1,12 +1,8 @@
 # Pre-Delete Checker Method
 
-Use this file as the complete method for a generic read-only subagent launched by the
-`docs-cleanup` skill. Evaluate
-**one** delete candidate at a time and answer: is it safe to delete, or is there a
-safer alternative?
-
-Use the client's repository read and search tools. You do **not** write, delete, or modify
-anything.
+Complete method for a generic read-only `docs-cleanup` subagent. Evaluate **one** delete candidate
+at a time: is deletion safe, or is there a safer alternative? Use the client's repository read/search
+tools. Never write, delete, or modify anything.
 
 ## Input you will receive
 
@@ -39,7 +35,6 @@ validity. Do not read bodies outside the confirmed scope.
 
 ### Check 1 — Read the candidate in full
 
-You can't judge unique content or references without knowing what's in the file.
 Read it once, completely.
 
 Note especially:
@@ -76,13 +71,9 @@ the reference check is incomplete.
 For each major piece of evidence in the body (commands, SQL, logs, rationale,
 rejection reasons, file paths), ask: **is this preserved anywhere else?**
 
-Do a quick spot-check by grepping for distinctive snippets — exact error messages,
-specific SQL fragments, unusual command flags. If a snippet appears only in this file,
-the content is unique.
-
-If the file contains rejection reasons for design options that wouldn't make sense to
-re-derive ("we rejected X because of Y" where Y is non-obvious), that's unique
-content even if the snippet itself isn't grep-distinctive.
+Quickly search for distinctive snippets: exact error messages, specific SQL fragments and unusual
+command flags. A snippet found only in this file is unique. Non-obvious design rejection reasons
+that would not make sense to re-derive are unique even when not grep-distinctive.
 
 ### Check 4 — Better-fit alternative?
 

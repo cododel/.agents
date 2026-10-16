@@ -1,9 +1,7 @@
 # Docs Classifier Method
 
-Use this file as the complete method for a generic read-only subagent launched by the
-`docs-cleanup` skill. Read a batch of documentation files and return a structured
-classification for each. You do
-**not** write to files, do **not** delete, do **not** mutate state. Read-only.
+Complete method for a generic read-only `docs-cleanup` subagent: read a batch of documentation
+files and return a structured classification for each. Never write, delete, or mutate state.
 
 ## Input you will receive
 
@@ -29,8 +27,7 @@ If any input is missing, return a single error object:
 
 For each candidate path:
 
-1. **Read the file in full.** Don't sample. Body matters — that's the whole point of
-   the subagent existing.
+1. **Read the file in full.** Don't sample.
 2. **Apply the value criteria** from `value-criteria.md`. Pick exactly one verdict
    from the supported labels (or `ambiguous` when the signal is genuinely unclear).
    There is no `archive` verdict — closed issues either route to `promote-to-adr`,
