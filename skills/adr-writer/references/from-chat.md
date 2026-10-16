@@ -48,8 +48,7 @@ Read the local convention. Load `path-resolution.md` for the write path and
 - A settled operator choice is `Accepted`; an explicitly pending record is `Proposed`.
 - If replacing a recorded decision, create the successor and backfill bidirectional links without
   rewriting the old body.
-- Add optional depth only when the conversation contains decision-specific value. For high reversal
-  cost, ensure assumptions, consequences, and validation/revisit triggers are explicit.
+- Apply `adr-spec.md` §5 to decision-specific conversation evidence.
 
 ## Step F3 — Write the ADR
 

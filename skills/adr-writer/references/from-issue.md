@@ -43,10 +43,8 @@ living contract, not an ADR.
 
 ## 4. Ask only for material unresolved decisions
 
-An explicit `from-issue` request authorizes unambiguous promotions in the resolved scope. For a
-specific Issue already in authorized implementation/documentation or close/apply scope, the
-entrypoint permits recording a fully evidenced significant agreed decision without a separate ADR
-request. Do not expand that into a sweep or add a generic “approve the plan” ceremony.
+Apply the entrypoint's recording authority within the resolved scope. Do not expand a specific
+Issue into an unrequested sweep or add a generic “approve the plan” ceremony.
 
 For optional recording, skip ambiguous candidates and continue independent work; retain sources
 whose unique value is unresolved. For requested promotion, ask before writing when one of these remains:
