@@ -160,20 +160,9 @@ Field rules:
 - `gaps` — unavailable/unperformed check and reason, required even when empty. A safety result does
   not determine Git recovery or mutation authority; those remain with the primary agent.
 
-## Decision matrix
-
-Use this as the spine; the detailed checks above feed it:
-
-| Blocking references | Unique content | Better alt fits | Verdict           |
-|------------|----------------|-----------------|-------------------|
-| no         | no             | no              | `safe_to_delete`  |
-| yes        | —              | —               | `downgrade` → repair (or follow link target's preference) |
-| no         | yes            | —               | `downgrade` → repair (with `recommended_alt` naming the doc to move the content into — runbook, troubleshooting, ADR via `adr-writer:from-issue`) |
-| no         | no             | yes             | `downgrade` → the alt that fits |
-| unknown/incomplete required check | — | — | `inconclusive` → retain pending evidence |
-
-The first four rows require complete checks. Index-only references count as non-blocking only with
-the exact planned same-change repair and primary recheck described above.
+For `downgrade`, blocking references route to `repair` (or follow the link target's preference).
+When references are non-blocking and content is unique, use `repair` with `recommended_alt` naming
+the destination doc: runbook, troubleshooting, or ADR via `adr-writer:from-issue`.
 
 Uncertainty is `inconclusive`; a proven better action is `downgrade`. Neither permits deletion.
 
