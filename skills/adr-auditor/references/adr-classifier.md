@@ -30,17 +30,11 @@ request or judge rationale in an immutability-only request; disclose excluded/un
 3. Extract concrete anchors: paths, symbols, dependencies, providers, services, configuration keys,
    data shapes, event guarantees, and decision invariants. Verify decisive anchors in current source
    or configuration.
-4. Classify current-state evidence using the drift-versus-violated-invariant rules in
-   `audit-criteria.md`. Skip code/history checks excluded by the supplied audit scope.
-5. For requested immutability checks, follow the acceptance-baseline and coverage rules in
-   `audit-criteria.md`. Inspect available history plus current staged/unstaged changes; allowed
-   metadata and append-only notes do not count as reasoning rewrites.
-6. Check lifecycle truth and relationships. Implemented code alone does not prove that a Proposed
-   choice was operator-accepted. Supersession links must resolve in both directions.
-7. Report `adr-as-current-contract` only when the ADR is the sole normative owner of current behavior
-   that maintainers must preserve. Tests, schemas, types, and README summaries are not silently
-   canonical unless project instructions declare them so.
-8. Record the exact evidence for every finding. When evidence is insufficient, return ambiguity or no
+4. Apply the drift-versus-violated-invariant, immutability, status/relationship, and
+   `adr-as-current-contract` rules in `audit-criteria.md` within the supplied audit scope.
+   Tests, schemas, types, and README summaries are not silently canonical unless project
+   instructions declare them so.
+5. Record the exact evidence for every finding. When evidence is insufficient, return ambiguity or no
    finding; never invent a historical choice or rationale.
 
 The batch agent may read directly linked ADRs and decisive source/history evidence. Corpus-wide
