@@ -17,7 +17,7 @@ than one is plausible.
 
 The request authorizes the local merge, conflict resolution, focused verification, and the merge
 commit when one is required. It does not authorize rebase, cherry-pick, branch-history repair, push,
-deployment, destructive cleanup, or mutation of shared data. Follow stricter repository rules when
+destructive cleanup, or mutation of shared data. Follow stricter repository rules when
 present.
 
 For multiple explicitly requested merge pairs, process them sequentially. Give every pair its own

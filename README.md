@@ -47,7 +47,7 @@ clarify material choices, and recheck until `PREPARED` or a concrete blocker pre
 Quick is a bounded interim alignment checkpoint; neither has a fixed repair-round limit.
 Atomic work with decisive evidence needs only compact normal completion. Legacy `--release`
 requests preparation followed by a separate frozen independent final audit documented in Full,
-outside the repair loop; it grants no deployment authority.
+outside the repair loop.
 
 There are **26 active portable Skills**. The routing matrix covers exactly their entrypoints:
 

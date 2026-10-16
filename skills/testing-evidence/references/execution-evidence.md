@@ -2,7 +2,7 @@
 
 Resolve the project profile, affected radius and real service targets before execution. Local paths
 or localhost do not establish disposable DB/API targets. Use established isolated test harnesses;
-production/shared data actions follow global authorization policy. Inspect collection/setup/build
+environment and external-action limits follow global authority policy. Inspect collection/setup/build
 side effects as well as the command name. Do not install a new runner or cache to satisfy this skill.
 
 ## Iterations and final evidence

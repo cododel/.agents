@@ -13,9 +13,10 @@ anchors a symptom; it does not establish which producer or ownership boundary ca
 Explain/diagnose/debug requests permit investigation, not tracked product edits. An explicit fix
 request permits evidence-backed local repairs and proportionate verification. Stop for a material
 product, architecture, contract, migration, or irreversible-cost fork. Unrelated cleanup,
-push/deploy, destructive actions, and shared/persistent mutations remain gated.
+push, destructive actions, and shared non-production persistent mutations follow global authority rules.
 
-Builds, focused tests, and development servers are permitted in a verified local development copy.
+Builds, focused tests, and development servers are permitted in a verified local development copy;
+remote TEST execution follows the global environment and authority rules.
 First resolve actual database, cache, queue, API, and delivery targets; a local path proves no service
 is local. Data-changing checks require isolated disposable targets. Task-local generated files and
 caches are ordinary side effects; stop task-owned processes before handoff. An unresolved service

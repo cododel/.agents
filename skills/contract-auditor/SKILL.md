@@ -50,7 +50,7 @@ repeat/re-review request to `repeat-review` over the requested base mode.
 ## Read-only boundary
 
 - Do not edit code, contracts, ADRs, tests, Issues, dashboards, or configuration.
-- Do not stage, commit, push, deploy, migrate, enqueue, or perform production/database mutations.
+- Do not stage, commit, push, migrate, enqueue, or perform production/database mutations.
 - Tests and read-only probes are allowed when they do not rewrite tracked sources. Record exact
   commands, scope, results, and environment limits.
 - A confirmed blocker fixes the verdict at `NOT READY`. Finish only the already-launched discovery

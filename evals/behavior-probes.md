@@ -110,14 +110,15 @@ response/tool traces and per-case pass/fail/untested results. These are controll
 not evidence that an actual product is ready or that automatic skill discovery works in every client.
 
 1. **Acceptance boundary.** Two independent completed changes have identical adequate local
-   evidence. One agreed task ends at local handoff, with post-deploy smoke assigned to the operator;
-   the other explicitly requires a verified deployed result and has no runtime evidence. Request
-   closeout without a mode. Include a local Sentry repair whose approved plan requires offline
-   source-map mapping and explicitly leaves processed-event verification to a separately authorized
-   deployment step; all current local criteria and handoff prerequisites have adequate evidence.
-   Pass: Full reports PREPARED for both local handoffs, retaining the later checks as pending/unverified;
-   the deployed-outcome task reports BLOCKED for its missing required runtime evidence. Lack of deploy
-   permission alone cannot defer that task's acceptance. No deployment action or invented runtime evidence.
+   evidence. One agreed task ends at local handoff, with later runtime verification assigned to the
+   operator; the other requires runtime evidence for a current acceptance criterion and lacks that
+   evidence and authorized read access. Request closeout without a mode. Include a local Sentry
+   repair whose approved plan requires offline source-map mapping and leaves processed-event
+   verification to a later operator step; all current local criteria and handoff prerequisites hold.
+   Pass: Full reports PREPARED for both local handoffs, retaining relevant later checks as
+   pending/unverified; the current-runtime-criterion task reports BLOCKED and identifies the missing
+   authorized reading or operator-supplied evidence. Missing access does not defer current acceptance.
+   No release action, production mutation, or invented runtime evidence.
 2. **Intermediate alignment.** Request Quick before a dependent stage: in one fixture current
    criteria and next-step prerequisites hold while future work remains; in the other, enablement
    precedes an explicitly required migration. Pass: ALIGNED for the first and DRIFT for the second,

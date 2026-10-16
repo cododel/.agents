@@ -65,17 +65,12 @@ gaps, without an automatic fresh suite run or repository-wide test audit:
    or a concrete blocker prevents further authorized progress. Do not finalize with a repairable
    findings list. Keep Quick bounded to its checkpoint; it never certifies final completion.
 
-Resolve the agreed completion boundary before assigning a verdict: local implementation/handoff
-or a verified deployed outcome. Full can complete a local task; it is not inherently a release or
-deployment review. When confirmed scope assigns deployment, post-deploy smoke or live verification
-to a separate later step, retain that step as pending/unverified without blocking local closeout
-solely for its missing evidence. Check the local deliverable and prerequisites owed at this handoff.
-
-For runtime evidence required now, identify the applicable criterion or material risk within the
-current boundary and why local evidence is insufficient. Preserve project gates and agreed deployed
-acceptance; neither missing permission nor an unavailable environment alone makes a required check
-a separate step. Never invent a deferral or narrow acceptance to obtain success. Local readiness
-does not prove a deployed outcome, and closeout grants no deployment authority.
+Assess the agreed agent deliverable and prerequisites due at this handoff. Operator release work
+is not an automatic prerequisite for local closeout. Keep separately assigned later verification
+pending/unverified when relevant; local checks do not establish another environment's outcome.
+For runtime evidence required by a current criterion or material risk, explain why local evidence
+is insufficient and report the gap. Preserve project gates and agreed acceptance; missing permission
+or environment does not defer a required check. Never invent a deferral or narrow acceptance.
 
 For independent review, use isolated read-only contexts already available in the environment and
 withhold builder conclusions when independence matters. Do not install an orchestration runtime to

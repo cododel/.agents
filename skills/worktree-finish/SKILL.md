@@ -1,6 +1,6 @@
 ---
 name: worktree-finish
-description: "Finish a feature in an existing task-owned linked Git worktree: pull the base branch, merge base into the working branch, resolve mechanical conflicts, then merge the synchronized feature into base and report. Refuse outside a linked worktree. Not for feature review alone, worktree creation, push, deployment, or cleanup."
+description: "Finish a feature in an existing task-owned linked Git worktree: pull the base branch, merge base into the working branch, resolve mechanical conflicts, then merge the synchronized feature into base and report. Refuse outside a linked worktree. Not for feature review alone, worktree creation, push, or cleanup."
 ---
 
 # Worktree Finish
@@ -10,7 +10,7 @@ the working branch, verify that result, merge the working branch into base, then
 
 An explicit invocation or unambiguous request for this workflow authorizes these local pulls,
 merges, necessary task-owned commits and focused verification on the resolved branches. Merely
-discovering this skill grants no authority. Do not push, deploy, delete branches/worktrees, or
+discovering this skill grants no authority. Do not push, delete branches/worktrees, or
 rewrite history unless separately requested. Creating this skill is not a request to execute it.
 
 ## Mandatory worktree gate
@@ -107,4 +107,4 @@ Report the working/base branch names and checkout paths, fetched remote SHA, syn
 SHA and final base SHA; pull and each merge outcome; mechanical resolutions and operator/CEO
 decisions actually received; decisive checks and their limits; final status and preserved operator
 work. State whether integration completed or which step is blocked, and distinguish local state
-from any separately authorized push/deployment. Retain the branch and worktree for review.
+from any separately authorized push. Retain the branch and worktree for review.

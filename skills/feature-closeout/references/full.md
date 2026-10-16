@@ -17,13 +17,13 @@ blindly repeating. Report the concrete blocker when a missing decision, prerequi
 evidence, authority or agreed resource limit prevents further progress; resume when it is resolved.
 
 - `PREPARED`: no confirmed in-scope blocker remains and material acceptance within the agreed
-  completion boundary has evidence. Explicitly separate later deployment/live checks remain
+  completion boundary has evidence. Separately assigned later operator checks remain
   pending/unverified; they do not prevent a prepared local handoff.
 - `BLOCKED`: an unresolved operator fork, missing decisive evidence required at the current
   completion boundary, or another concrete barrier prevents further authorized progress on an
   in-scope defect. Identify the unmet criterion and required decision, prerequisite, authority or
   agreed resource limit. An obvious repairable defect triggers the next repair/recheck cycle;
-  a separately agreed post-deploy check alone is not a blocker.
+  a separately assigned later operator check alone is not a blocker.
 
 ## Explicit frozen final audit
 
@@ -42,7 +42,7 @@ If the required isolated reviewer is unavailable, return `UNVERIFIED`.
 
 Once the frozen audit begins, neither reviewer nor primary may repair that snapshot. Any fix or
 repeat requires leaving the audit, a new fingerprint and a new explicit invocation. Return the
-terminal verdict without automatically repairing or restarting. This grants no deployment authority.
+terminal verdict without automatically repairing or restarting.
 
 - `READY`: required local/review evidence supports the requested handoff.
 - `NOT READY`: a confirmed blocker exists; also disclose coexisting verification gaps.
