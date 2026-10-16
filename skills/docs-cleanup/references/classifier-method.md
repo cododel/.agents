@@ -51,24 +51,14 @@ Return a single JSON array with one object per candidate, in the same order as i
 ```json
 [
   {
-    "path": "/abs/path/to/docs/issues/[CLOSED]-2026-01-12-foo.md",
+    "path": "/abs/docs/issues/[CLOSED]-example.md",
     "verdict": "promote-to-adr",
-    "evidence": "Body attributes the operator's Bun choice and specific rationale against three real alternatives; establishes package-manager precedent across the monorepo.",
-    "fp_risk": "low",
+    "evidence": "Records an operator decision, real alternatives and rationale.",
+    "fp_risk": null,
     "recommended_alt": null,
-    "title": "[CLOSED] Package manager policy: Bun only",
+    "title": "Example decision",
     "status_filename": "[CLOSED]",
     "status_body": "Closed"
-  },
-  {
-    "path": "/abs/path/to/docs/issues/[OPEN]-2025-09-04-bar.md",
-    "verdict": "close",
-    "evidence": "Status is Open but body says 'fixed in #1234, verified in staging' — completion is verified.",
-    "fp_risk": null,
-    "recommended_alt": "rename to [CLOSED] and let issue-writer:close sweep it",
-    "title": "[OPEN] Foo bar timeout",
-    "status_filename": "[OPEN]",
-    "status_body": "Open"
   }
 ]
 ```

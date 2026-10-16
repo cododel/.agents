@@ -101,7 +101,7 @@ Return a single JSON object:
 
 ```json
 {
-  "path": "/abs/path/to/candidate.md",
+  "path": "/abs/docs/issues/example.md",
   "verdict": "downgrade",
   "downgrade_to": "repair",
   "checks": {
@@ -114,19 +114,16 @@ Return a single JSON object:
   "has_incoming_references": true,
   "has_blocking_references": true,
   "reference_examples": [
-    {"file": "docs/runbooks/deploy.md", "line": 42, "kind": "load-bearing", "snippet": "see [issue-foo.md] for context"},
-    {"file": "apps/api/README.md", "line": 8, "kind": "index-only", "snippet": "(linked from foo-resolution.md)"}
+    {"file": "docs/runbooks/repro.md", "line": 4, "kind": "load-bearing", "snippet": "repro: example.md"},
+    {"file": "docs/README.md", "line": 8, "kind": "index-only", "snippet": "index: example.md"}
   ],
   "planned_index_repairs": [],
   "content_unique": true,
   "better_alternative_fits": true,
-  "unique_signals": [
-    "Contains exact SQL fragment 'WITH RECURSIVE bots(...) AS (...)' not found elsewhere.",
-    "Documents rejection reason for X-approach that's not in any ADR."
-  ],
-  "recommended_alt": "repair: move the recursive-CTE SQL into a troubleshooting doc (e.g. docs/runbooks/sql-deadlocks.md), then let `issue-writer:close` sweep the file.",
+  "unique_signals": ["SQL repro absent elsewhere", "Non-obvious rejection rationale"],
+  "recommended_alt": "repair: preserve unique content in docs/runbooks/repro.md before issue-writer:close",
   "gaps": [],
-  "reasoning": "Two incoming references found and body contains unique recursive-CTE SQL. Delete would break the runbook link and lose the SQL. Repair preserves both."
+  "reasoning": "A runbook depends on unique Issue evidence. Preserve it and repair links before deletion."
 }
 ```
 

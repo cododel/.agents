@@ -30,14 +30,8 @@ request or judge rationale in an immutability-only request; disclose excluded/un
 3. Extract concrete anchors: paths, symbols, dependencies, providers, services, configuration keys,
    data shapes, event guarantees, and decision invariants. Verify decisive anchors in current source
    or configuration.
-4. Classify current-state evidence carefully:
-   - `drift`: evidence establishes a changed operator choice;
-   - `stale-invariant/code-defect`: implementation violates a choice that may still be intended;
-   - `area-removed`: the decision surface no longer exists;
-   - `ambiguous`: evidence cannot distinguish these states.
-   A missing path proves at most link drift until the underlying choice is traced. Different code
-   without changed operator-decision evidence is a possible violation or ambiguity, not proof of
-   a replacement decision. Skip code/history checks excluded by the supplied audit scope.
+4. Classify current-state evidence using the drift-versus-violated-invariant rules in
+   `audit-criteria.md`. Skip code/history checks excluded by the supplied audit scope.
 5. For requested immutability checks, follow the acceptance-baseline and coverage rules in
    `audit-criteria.md`. Inspect available history plus current staged/unstaged changes; allowed
    metadata and append-only notes do not count as reasoning rewrites.
