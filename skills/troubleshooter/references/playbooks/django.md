@@ -3,16 +3,19 @@
 Load when dependencies and runtime/project structure prove Django or Django REST framework on the
 causal path. Generic Python uses `discovery.md` without this playbook.
 
+This is conditional diagnostic guidance, not a recommendation to select this framework. Project
+contracts and installed-version evidence govern applicability. Candidate origins below are
+non-exhaustive hypotheses; neither a framework name nor an error shape establishes a cause.
+
 ## Reading the traceback
 
 - The deepest relevant project frame anchors the symptom; it does not establish the root cause.
   Trace state through application and framework frames to the producer or ownership boundary.
-- `AttributeError: 'NoneType' object has no attribute …` and `KeyError` are the dominant
-  shapes — both mean *something assumed a value that was never guaranteed*. Find where it was
-  supposed to be set.
-- For 500s without a clean trace, the real exception is often wrapped — look for the
-  `During handling of the above exception, another exception occurred` chain and read the
-  *first* one.
+- For `AttributeError: 'NoneType' object has no attribute …` or `KeyError`, trace the actual value
+  or key producer and the consumer's expectation. Check whether the contract guarantees it.
+- Inspect the complete exception chain, including `During handling of the above exception,
+  another exception occurred`. Determine which failure caused the reported outcome; the first
+  exception may have been expected and handled, so position alone does not establish the cause.
 
 ## Candidate origins to inspect
 
@@ -40,6 +43,8 @@ causal path. Generic Python uses `discovery.md` without this playbook.
    `*/migrations/` against the model.
 
 ## Masking mechanics to distrust
+
+Inspect the actual path before treating any of these patterns as causal masking:
 
 - A bare `except Exception:` (or `except:`) swallowing the real error and re-raising something
   generic. `rg -n 'except\b.*:\s*$|except Exception'` — read what it hides.

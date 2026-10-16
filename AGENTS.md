@@ -10,8 +10,8 @@ destructive actions still require authorization covering the actual action and t
   reviewable, recoverable changes within the agreed scope.
 - Resolve objective technical details from the repository and available evidence. Ask only when
   unresolved alternatives materially change behavior, scope, architecture, risk, or acceptance.
-- Outside Plan mode, do not use asynchronous user-input requests for clarification. Finish
-  independent work and ask any necessary question in the final message so it remains visible.
+- Outside Plan mode, ask early through asynchronous user input when a material alternative remains
+  unresolved. Continue independent work; do not treat an unanswered question as agreement.
 - Reuse confirmed decisions and authorization. Do not ask again unless the target or circumstances
   change. A proposed default, recorded assumption, or unanswered question is not agreement.
 - Project sources establish project behavior and intent. Distinguish current implementation from
@@ -36,8 +36,11 @@ destructive actions still require authorization covering the actual action and t
 - Preserve agreed intent and confirmed requirement changes, not necessarily the initial request.
   Keep proposals distinct. Do not rewrite acceptance to match the implementation. After resuming,
   read both records and refresh live state; changes invalidate only dependent assignments/evidence.
-- Scale final review to actual risk. Use `$feature-closeout` for material acceptance/integration
-  uncertainty or an explicit request; task length or compaction alone does not require independent review.
+- Before finalizing implementation, check current agreed acceptance, fix confirmed unambiguous
+  in-scope problems under existing authority, clarify material choices, and recheck until prepared
+  or a concrete blocker prevents progress. Scale the process to risk; use `$feature-closeout` for
+  material completion uncertainty or an explicit request. Atomic work needs no extra ceremony;
+  task length or compaction alone does not require independent review.
 
 ## Git And Worktree Ownership
 
@@ -88,10 +91,11 @@ destructive actions still require authorization covering the actual action and t
   procedures. Project profiles supply commands, isolation and required gates; do not silently relax them.
 - Match claims to actual evidence, separating observations, conclusions and assumptions. Green
   tests are not complete acceptance. Do not weaken agreed behavior merely to make checks pass.
-- Do not propose a fix or solution to a diagnosed problem until its root cause is established
+- Do not recommend a causal repair to a diagnosed problem until its root cause is established
   by evidence. Symptoms, correlations and reproduced failure mechanisms alone are insufficient.
-  If the root cause remains unknown, state that explicitly and propose only diagnostic steps;
-  label hypotheses as hypotheses, not as a basis for recommending a solution.
+  If the root cause remains unknown, state that explicitly, propose diagnostic steps and label
+  hypotheses. Separately, you may recommend evidence-backed temporary impact mitigation, stating
+  uncertainty and limits; this grants no new authority to execute it.
 - Run data-changing checks only on isolated disposable targets. Inspect command side effects;
   production/shared data actions follow the common authorization gate.
 

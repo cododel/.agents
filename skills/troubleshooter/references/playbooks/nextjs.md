@@ -3,14 +3,18 @@
 Load when dependencies and runtime/project structure prove Next.js on the causal path. Generic
 JavaScript, TypeScript, or React projects use `discovery.md` without this Next.js playbook.
 
+This is conditional diagnostic guidance, not a recommendation to select this framework. Project
+contracts and installed-version evidence govern applicability. Candidate origins below are
+non-exhaustive hypotheses; neither a framework name nor an error shape establishes a cause.
+
 ## Reading the traceback
 
-- Distinguish **server** from **client**: a stack in the terminal / function logs is SSR or a
-  route handler; a stack in the browser console is client. Inspect the owning module
-  and rendering boundary before assuming its code runs in both environments.
-- `Hydration failed` / `Text content does not match server-rendered HTML` means the server and
-  client rendered different trees — the bad state is a value that differs between the two
-  environments (time, random, `window`, locale, `localStorage`), not a crash in one of them.
+- Distinguish **server** from **client**: terminal/function logs and browser-console traces are
+  starting evidence, not proof of the originating execution context. Inspect the owning module
+  and rendering boundary before assuming where it runs or whether it runs in both environments.
+- For `Hydration failed` / `Text content does not match server-rendered HTML`, compare the actual
+  server/client trees and inputs. Time, randomness, browser globals, locale and stored state are
+  candidate differences to investigate, not an exhaustive explanation or an established cause.
 - `undefined is not a function` / `Cannot read properties of undefined` may come from an
   optional prop, an unresolved `await`, or a value that only exists on one side; verify the actual path.
 
@@ -39,6 +43,8 @@ JavaScript, TypeScript, or React projects use `discovery.md` without this Next.j
    the server and throws before any component renders.
 
 ## Masking mechanics to distrust
+
+Inspect the actual path before treating any of these patterns as causal masking:
 
 - `try { … } catch {}` in an async component or effect swallowing a rejected fetch.
 - `as` casts and non-null assertions (`value!`) hiding a `null` the type system was told to

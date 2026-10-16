@@ -1,14 +1,17 @@
 # Quick checkpoint
 
-Apply the common review invariants in `../SKILL.md` to the bounded changed radius.
+Apply the common completion invariants in `../SKILL.md` to the bounded changed radius.
 
 Compare the completed slice and next step with current agreed behavior, decisions, constraints and
 non-goals. Check criteria already due at this stage and prerequisites of the next step. Planned future
 work is not a defect, but a claimed completed stage without evidence or a violated dependency is a gap.
 
-Use proportional evidence under testing-evidence. Allow **one** clear authorized repair/recheck pass.
-Do not fan out by default or broaden the review beyond the checkpoint. Continue authorized work;
-stop the affected path for a material unresolved decision or unmet prerequisite.
+Use proportional evidence under testing-evidence. Fix clear authorized in-scope gaps and recheck
+affected criteria while making verified progress; there is no fixed repair-round limit. Keep the
+checkpoint bounded: do not fan out by default or broaden it; return larger work to ordinary
+implementation. Continue independent work and clarify material choices. Stop the affected path when
+a concrete unresolved decision, unmet prerequisite, stalled progress or agreed resource limit
+prevents progress; identify the blocker rather than repeating an unchanged check.
 
 Report the checked slice and one outcome; none certifies final acceptance:
 

@@ -3,15 +3,19 @@
 Load when dependencies and runtime/project structure prove Laravel on the causal path. Generic PHP
 uses `discovery.md` without this playbook.
 
+This is conditional diagnostic guidance, not a recommendation to select this framework. Project
+contracts and installed-version evidence govern applicability. Candidate origins below are
+non-exhaustive hypotheses; neither a framework name nor an error shape establishes a cause.
+
 ## Reading the traceback
 
 - The deepest relevant frame under `app/` anchors the symptom; it does not establish the root cause.
   Trace state through application and framework frames to the producer or ownership boundary.
-- `Call to a member method … on null` is the dominant shape — a model/relation/binding that
-  resolved to `null` and was used as an object. Find where it was supposed to resolve.
+- For `Call to a member method … on null`, trace how the accessed value was produced and whether
+  the relevant contract permits null; do not assume its producer is a model, relation or binding.
 - `BindingResolutionException` / `Target [X] is not instantiable` means the service container
-  couldn't build a dependency — the bad state is a missing or mis-registered binding, not the
-  class that asked for it.
+  could not build a dependency. Inspect the reported dependency, binding and construction path
+  before attributing the defect to a binding or excluding the consuming class.
 
 ## Candidate origins to inspect
 
@@ -35,10 +39,12 @@ uses `discovery.md` without this playbook.
    (`config:cache`); a `config('x.y')` key that doesn't exist returning `null`.
    `rg -n "env\(|config\("`
 6. **Facades hiding the real call.** A facade (`Auth::`, `DB::`, `Cache::`) resolving to a
-   manager whose underlying driver is misconfigured — the null comes from the driver, not the
-   facade.
+   manager whose underlying driver may be misconfigured. Trace the resolved manager, driver and
+   configuration; do not attribute a null to the facade or driver without evidence.
 
 ## Masking mechanics to distrust
+
+Inspect the actual path before treating any of these patterns as causal masking:
 
 - `optional($x)->y` and the `?->` operator deferring the crash to the next hard access.
 - `try { … } catch (\Throwable $e) {}` or a catch that logs and returns a default, swallowing

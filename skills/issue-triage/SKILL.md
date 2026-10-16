@@ -83,8 +83,9 @@ root-cause proof. A feature request can need prioritization without having a roo
 Assess observed impact separately from possible consequences, fix importance, investigation urgency,
 readiness, and dependencies. Poor evidence does not make a potentially consequential problem low
 priority; it can justify an early investigation. Highlight a confirmed ongoing incident promptly
-without waiting for the full inventory; recommend impact mitigation separately from RCA without
-starting repairs or replacing the operator's backlog criterion.
+without waiting for the full inventory. Recommend evidence-backed temporary impact mitigation
+separately from RCA, stating unknown cause and limits, without starting repairs or replacing the
+operator's backlog criterion.
 
 ## Recommend and report
 

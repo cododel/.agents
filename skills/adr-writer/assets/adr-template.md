@@ -49,7 +49,9 @@ Link to the current contract for normative behavior rather than copying it.}
 
 ## Assumptions And Decision Invariants
 
-- {Condition under which this decision remains valid, or `None` with reason}
+- {Material decision-specific condition under which this choice remains valid; omit the section
+  when there is none, without requiring a `None` explanation. Irreversible/high-cost choices still
+  require explicit assumptions under adr-spec.}
 
 ## Consequences
 
@@ -63,7 +65,9 @@ Link to the current contract for normative behavior rather than copying it.}
 
 ## Validation And Revisit Triggers
 
-- {Evidence that would support/falsify the decision or trigger reconsideration}
+- {Evidence or revisit condition warranted by material uncertainty or reversal cost; omit the
+  section when it adds no decision-specific value. Irreversible/high-cost choices still require
+  validation/revisit triggers and rollback or migration consequences under adr-spec.}
 
 ## References And Follow-ups
 

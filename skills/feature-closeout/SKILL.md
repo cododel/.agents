@@ -1,40 +1,45 @@
 ---
 name: feature-closeout
-description: "Review feature completion or an intermediate alignment checkpoint against the current agreed task and evidence. Use for material acceptance/integration uncertainty or an explicit request. Full is the default; Quick checks interim alignment. May repair authorized in-scope gaps; not a small-task ceremony or repository-wide cleanup."
+description: "Close an implementation task before finalization when material completion uncertainty remains or closeout is requested: check agreed acceptance, fix unambiguous authorized gaps, clarify material choices and recheck until PREPARED. Full closes the task; Quick checks interim alignment. Not a findings-only audit or broad cleanup."
 ---
 
 # Feature Closeout
 
-Judge correctness, quality, and completeness against the current agreed task. Use this skill for
-material acceptance/integration uncertainty or an explicit request. Task length, diff size,
-compaction, and task records alone do not require closeout or independent reviewers.
+Bring the current agreed implementation task to completion before finalization. Check correctness,
+quality and completeness, repair authorized gaps, clarify material choices and recheck. Use this skill
+for material completion uncertainty or an explicit request; atomic work with decisive evidence needs
+only compact normal completion. Task length, diff size, compaction and task records alone require
+neither a separate ceremony nor independent reviewers. Read-only review requests grant no repair authority.
 
 ## Select the mode
 
-- **Full (default)**: completion or handoff review; load [references/full.md](references/full.md).
+- **Full (default)**: completion or handoff process; load [references/full.md](references/full.md).
 - **Quick**: explicit quick request or an automatic interim checkpoint when material uncertainty
   could carry a deviation into a dependent step; load [references/quick.md](references/quick.md).
 
-Natural language is sufficient. Legacy `--release` or "release closeout" selects Full's explicitly
-requested frozen final audit; briefly explain the mapping. Never infer that audit from ordinary Full.
+Natural language is sufficient. Legacy `--release` or "release closeout" explicitly requests
+preparation followed by the separate frozen final audit documented in Full; briefly explain the
+mapping. That read-only audit is outside the repair loop, not a new mode or an automatic next step.
 Preserve the requested scope and demonstrated consumers. An atomic change with decisive evidence
 needs only normal completion review; neither Full nor automatic Quick runs merely because a stage ends.
 
 ## Authority
 
 An implementation request plus closeout permits reversible local repairs inside the agreed task and
-its demonstrated affected radius. Review alone does not authorize product changes. Closeout grants
-no authority to expand requirements, overwrite operator work, or perform external/shared mutations.
+its demonstrated affected radius. Fix confirmed unambiguous authorized defects immediately rather
+than merely listing them. Ask the operator about material unresolved choices and continue independent
+work. Review alone does not authorize product changes. Closeout grants no authority to expand
+requirements, overwrite operator work, or perform external/shared mutations.
 
 Update affected established documentation within scope. New contracts, Issues and ADRs follow their
 owner skills and existing authority; closeout alone does not require additional artifacts.
 
-## Common review invariants
+## Common completion invariants
 
 These rules own the shared procedure for all modes. Use
 [testing-evidence](../testing-evidence/SKILL.md) for check adequacy, boundary/oracle quality and result
-identity; project-required gates remain required. Closeout adds acceptance review, not an automatic
-fresh suite run or repository-wide test audit:
+identity; project-required gates remain required. Closeout checks acceptance and closes authorized
+gaps, without an automatic fresh suite run or repository-wide test audit:
 
 1. Resolve repository/worktree, branch, HEAD, status, base, and exact change inventory. Freeze the
    current motivation, behavior, acceptance, decisions, non-goals, and material assumptions from
@@ -51,12 +56,14 @@ fresh suite run or repository-wide test audit:
    checks, tests, and focused probes provide different evidence; a passing suite or clean diff is
    insufficient by itself.
 4. Separate confirmed in-scope defects, unknowns, environment or pre-existing failures, and independent
-   debt. Confirm and deduplicate findings before repairing. Never weaken acceptance/tests to match
+   debt. Confirm and deduplicate findings; immediately repair unambiguous authorized defects and
+   clarify material alternatives with the operator. Never weaken acceptance/tests to match
    implementation; expectation changes need an agreed behavior change or a demonstrated check defect.
-5. Repair only authorized confirmed defects within the selected procedure's limit. Use
-   testing-evidence for missing checks and result reuse; re-review invalidated vectors after fixes,
-   requirement or material environment changes. Review the final diff against the agreed task and
-   refresh the fingerprint after source changes.
+5. After repairs, use testing-evidence for missing checks and result reuse; recheck invalidated
+   criteria after fixes, requirement or material environment changes. Review the final diff against
+   the agreed task and refresh the fingerprint after source changes. Repeat Full until `PREPARED`
+   or a concrete blocker prevents further authorized progress. Do not finalize with a repairable
+   findings list. Keep Quick bounded to its checkpoint; it never certifies final completion.
 
 Resolve the agreed completion boundary before assigning a verdict: local implementation/handoff
 or a verified deployed outcome. Full can complete a local task; it is not inherently a release or
@@ -77,7 +84,9 @@ simulate this evidence; missing contexts must remain visible under the selected 
 ## Completion
 
 Full success requires evidence for every material criterion within the agreed completion boundary
-and no confirmed in-scope blocker on correctness, quality or completeness. Quick assesses only
+and no confirmed in-scope blocker on correctness, quality or completeness. Resolve obvious authorized
+gaps and repeat assessment before finalizing; report a concrete unmet decision, prerequisite, evidence,
+authority or agreed resource limit when it prevents further progress. Quick assesses only
 criteria due at the checkpoint and prerequisites of the next step; it does not certify final
 completion. Keep future criteria pending and disclose any requested end state not yet verified.
 

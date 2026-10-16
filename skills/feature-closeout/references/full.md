@@ -1,26 +1,35 @@
 # Full closeout
 
-Apply the common review invariants in `../SKILL.md` to actual acceptance and integration risks.
+Apply the common completion invariants in `../SKILL.md` to actual acceptance and integration risks.
 Select only useful review vectors; use independent read-only contexts when they add meaningful
 evidence or independence is required by the request or project.
 
 If required independent contexts are unavailable, continue useful inline review and report `BLOCKED`;
 self-review does not satisfy required independence. An optional additional reviewer is not a gate.
 
-Allow at most **two** authorized repair/recheck rounds; after the limit, hand off remaining blockers
-and evidence rather than continuing an open-ended audit/fix loop.
+Repeat until `PREPARED`: check current agreed acceptance, confirm gaps, immediately fix unambiguous
+authorized in-scope defects, clarify material choices with the operator, and recheck affected criteria
+and invalidated evidence. Continue independent work while a decision is pending. There is no fixed
+repair-round limit; a list of repairable findings is not completion.
+
+If the same finding recurs without new decisive evidence, diagnose the missing link rather than
+blindly repeating. Report the concrete blocker when a missing decision, prerequisite, required
+evidence, authority or agreed resource limit prevents further progress; resume when it is resolved.
 
 - `PREPARED`: no confirmed in-scope blocker remains and material acceptance within the agreed
   completion boundary has evidence. Explicitly separate later deployment/live checks remain
   pending/unverified; they do not prevent a prepared local handoff.
 - `BLOCKED`: an unresolved operator fork, missing decisive evidence required at the current
-  completion boundary, or confirmed in-scope defect remains. Identify the unmet current criterion;
+  completion boundary, or another concrete barrier prevents further authorized progress on an
+  in-scope defect. Identify the unmet criterion and required decision, prerequisite, authority or
+  agreed resource limit. An obvious repairable defect triggers the next repair/recheck cycle;
   a separately agreed post-deploy check alone is not a blocker.
 
 ## Explicit frozen final audit
 
 Run this procedure only when the user requests a frozen independent final audit or uses legacy
-`--release` / "release closeout". It is part of Full, not a separate mode or an automatic next step.
+`--release` / "release closeout". It is documented here for invocation compatibility, but is a separate
+read-only audit after preparation, outside the closeout repair loop; never infer it from ordinary Full.
 
 First complete Full preparation and any applicable release evidence not already covered by current
 results. If preparation is not `PREPARED`, report `NOT READY` for a confirmed blocker or `UNVERIFIED`

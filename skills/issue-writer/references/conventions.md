@@ -10,8 +10,9 @@ similar file found during discovery, it defines the convention. The patterns bel
 are the **fallback** — used only when no local convention exists, or to fill gaps the
 local convention doesn't cover.
 
-When following local convention, sample 2-3 existing files in the directory to confirm
-the documented rules match actual practice.
+When following local convention, inspect enough relevant existing files to establish whether the
+documented rules match actual practice. Resolve discrepancies rather than treating a fixed sample
+size as proof.
 
 ## Bootstrap when no issues root exists
 

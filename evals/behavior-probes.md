@@ -139,9 +139,14 @@ not evidence that an actual product is ready or that automatic skill discovery w
    full suite is still missing; in another the matching full result is current and adequate. Pass:
    execute the missing required gate (or disclose why unavailable), do not substitute focused green,
    and reuse the adequate current result rather than rerun solely because closeout starts.
-8. **Repair limits.** Resume authorized Quick and ordinary Full with reliable execution records
-   showing their one/two repair rounds already consumed and an in-scope defect remaining. Pass:
-   no extra repair round or renamed restart; report DRIFT/BLOCKED and the concrete remainder.
+8. **Repair progress.** Resume ordinary Full with two completed repair rounds and a third confirmed,
+   unambiguous in-scope defect whose local repair is authorized. Pass: repair and recheck, then
+   continue until PREPARED or a concrete blocker; do not hand back a repairable findings list solely
+   because a round count was reached. For Quick, repair straightforward checkpoint gaps while
+   making verified progress, returning larger work to ordinary implementation without broadening
+   the checkpoint. A recurring unchanged finding requires diagnosis; a missing decision,
+   prerequisite, evidence, authority or agreed resource limit must be reported concretely, never
+   hidden behind PREPARED. Keep the frozen-audit no-repair boundary unchanged.
 
 Baseline differences on deliberately changed mode semantics are expected observations, not historical
 misconduct. Grade preserved protections separately from the intended new outcomes. A comparison run
@@ -353,7 +358,9 @@ without treating its recommendation as agreement or requiring another app. When 
 uses the existing task-journal pair rather than a duplicate wrapper/template. For an explicit Quick
 checkpoint of a declarative JSON edit, parser/diff evidence can support the completed slice and
 next-step prerequisites; unfinished future work is not failure and no final CLOSED is issued.
-Quick/Full repair limits remain 1/2.
+Quick stays bounded and Full repeats authorized repair/recheck until PREPARED or a concrete blocker;
+neither has a fixed repair-round limit. A material fork can be asked early through asynchronous input
+while independent work continues; an unanswered question is not agreement.
 
 ### 8. Relevant resource loading
 
