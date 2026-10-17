@@ -73,7 +73,12 @@ Required strict vectors:
 Add vectors only when the target warrants them:
 
 - `executable-evidence` — declared schemas/types/OpenAPI plus their consumers and tests;
-- `migration-compatibility` — upgrade/downgrade, mixed versions, backfill, flags, and rollback;
+- `migration-compatibility` — upgrade/downgrade, mixed versions, backfill, flags, and rollback.
+  For an in-scope staged transition, assess reader/writer compatibility at the relevant stages,
+  safety of rerunning after partial completion, and the authorized stage boundary. Use the
+  expand/migrate/verify/contract model where applicable; do not require future stages for acceptance
+  of the current stage. Assess evidence only; execution and stack-specific sequencing remain with
+  project procedures.
 - `observability-lifecycle` — ownership, cleanup, cancellation, metrics, alerts, and operator view;
 - `named-risk:<id>` — independent closure proof for each operator-named material risk.
 

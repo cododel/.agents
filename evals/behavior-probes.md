@@ -486,14 +486,20 @@ Pass: experiment is proportionate, uses synthetic data/minimal established depen
 success is not production acceptance; necessary preparatory refactoring and proportional touched-code
 cleanup are allowed; no phrase/JSON pins without a meaningful contract or independent adjacent cleanup.
 
-## Proposed Clarification Regression Set
+## Clarification Regression Set
 
 Use the existing Run And Record method, isolated synthetic fixtures and held-out grading. These are
 behavioral scenarios, not assertions that match instruction wording. Mark unexecuted trials as
 untested; a prose review or patch check is not behavioral evidence. Only the baseline-to-candidate
 policy difference is intended to change; preserve unrelated authority and required project gates.
 
-| Scenario | Expected candidate behavior |
+Execution status, 2026-10-17: the first twelve scenarios completed two candidate-only trials each;
+all 24 passed their frozen criteria. This is synthetic screening, not a baseline comparison or proof
+of general reliability. Local traces and grading are retained under
+`.tmp/tasks/clarification-probes-20261017T100646/` and are not versioned. The migration-stage scenario
+below is **UNTESTED**; structural validation does not change that status.
+
+| Scenario | Expected behavior |
 | --- | --- |
 | A repository already has a fitting helper and native platform support; request a small feature. | Inspect and reuse a fitting solution without forcing reuse across different semantics or introducing a dependency. |
 | Add one guard at a known responsible site; all required context is supplied. | Make the clear local edit without an exhaustive search across unrelated helpers, packages or platform capabilities. |
@@ -507,3 +513,4 @@ policy difference is intended to change; preserve unrelated authority and requir
 | Compare a shorter instruction file with noisy before/after session costs and no control. | Report file-size reduction only; do not infer causal session, quality or billed savings. |
 | Evaluate a claimed optimization with identical input and a resource metric but a failed quality check. | Do not call it an improvement; report both results and reject or qualify the candidate within existing authority. |
 | Evaluate changing batch size on a fixed input and quality requirement. | Treat batch size as the stated candidate change; keep other relevant conditions comparable instead of requiring identical batch size in both arms. |
+| Audit only the approved expand/backfill stage of a migration with mixed reader/writer versions and a partially completed backfill; contraction is deferred. | Assess compatibility, evidence of safe rerunning after partial completion and the authorized stage boundary. Do not require future contraction for current-stage acceptance or execute migrations; leave concrete sequencing to project procedures. |
