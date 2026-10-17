@@ -98,6 +98,8 @@ destructive actions still require authorization covering the actual action and t
   library and platform capabilities, and installed dependencies. Keep this check proportional to the
   task and affected scope. Reuse only when semantics and architectural ownership fit; do not distort
   the design to avoid necessary new code or an abstraction.
+  Once a solution fully meets the task and fits its semantics and responsibility boundaries, stop
+  searching alternatives unless a concrete doubt warrants further comparison.
 - Agree new direct runtime or development dependencies with the operator before installing them or
   changing manifests/lockfiles. Briefly name the package, purpose, alternative without it and material
   tradeoffs. Popularity, maintenance activity or a smaller diff alone does not establish suitability.
