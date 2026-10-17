@@ -85,13 +85,24 @@ destructive actions still require authorization covering the actual action and t
 - Use English as the default language for user-facing product text and as the fallback whenever
   a localized version is unavailable.
 - Prefer a direct solution with minimum unnecessary complexity, not minimum diff; correctness,
-  security and data safety apply immediately. Allow behavior-preserving preparatory refactors needed
-  for the task and proportional cleanup of touched code after working behavior. Independent adjacent
-  subsystem improvements remain separate scope; avoid speculative abstractions.
+  security, data safety and accessibility apply immediately. Allow behavior-preserving preparatory
+  refactors needed for the task and proportional cleanup of touched code after working behavior.
+  Independent adjacent subsystem improvements remain separate scope; avoid speculative abstractions.
 - Split by responsibility when it reduces complexity, not by arbitrary file-size thresholds.
   Keep the justified risk/merge-conflict radius small without preserving avoidable local debris.
 - Follow local idioms, preserve type safety, and validate untrusted inputs at boundaries. Do not hide
-  errors with unsafe casts or broad ignores. Add dependencies only for a demonstrated benefit.
+  errors with unsafe casts or broad ignores.
+- Before introducing a new implementation, check relevant project components/helpers, standard
+  library and platform capabilities, and installed dependencies. Keep this check proportional to the
+  task and affected scope. Reuse only when semantics and architectural ownership fit; do not distort
+  the design to avoid necessary new code or an abstraction.
+- Agree new direct runtime or development dependencies with the operator before installing them or
+  changing manifests/lockfiles. Briefly name the package, purpose, alternative without it and material
+  tradeoffs. Popularity, maintenance activity or a smaller diff alone does not establish suitability.
+  An explicit request to adopt the named package is sufficient; do not ask again. Approval covers its
+  ordinary transitive resolution, not unrelated additions. Restoring dependencies already declared
+  by the project is not selecting a new dependency. Do not bypass approval with one-off package
+  execution or global installation. Other environment, credential and external-action gates remain.
 - Trace affected consumers, compatibility, persistence, and resource cleanup when changing interfaces
   or behavior. Make lifecycle ownership explicit where concurrency, cancellation, or shutdown matters.
 - Briefly report substantial debt outside the task. Create an Issue or linked TODO through
@@ -159,6 +170,12 @@ destructive actions still require authorization covering the actual action and t
 
 ## Completion And Response
 
+- Lead with the result or direct answer. Keep replies concise by removing repetition, ceremony and
+  immaterial detail, while retaining the evidence, uncertainty, limits and next action the reader
+  needs. Preserve negations, exceptions, conditions, confidence and action order; quoted commands,
+  paths, identifiers, numbers/units and decisive error text stay exact, with secrets redacted.
+  Use full sentences when compression creates ambiguity. Match detail to the task and reader,
+  without fixed word limits or mandatory risk/next-step boilerplate.
 - Express all times in UTC. Do not mention the time zone or include time-zone labels in responses.
 - Compare the result with the current agreed task and inspect the final affected diff. Report achieved
   behavior, decisive verification, and material remaining gaps; use more detail only when useful.

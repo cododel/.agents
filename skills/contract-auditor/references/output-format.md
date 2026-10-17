@@ -1,6 +1,9 @@
 # Contract audit output format
 
 Write in the user's or project's working language. Keep identifiers and verdict labels exact.
+Start each finding with one or two plain sentences naming the triggering condition and concrete user
+or operational consequence, distinguishing observed effects from possible consequences. Add context
+only where needed; the evidence fields and blocker gate remain required.
 
 ## Findings-first report
 
@@ -8,6 +11,7 @@ Write in the user's or project's working language. Keep identifiers and verdict 
 ## Findings
 
 1. [blocker] <short title>
+   <Trigger and concrete consequence, with uncertainty where applicable.>
    - class: `contract-violation`
    - rule/risk: `<id>` — `<contract path>`
    - proof: `<executed or two-vector deterministic confirmation>`

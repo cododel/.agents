@@ -24,3 +24,16 @@ permanent protection with demonstrated value; keep experimental artifacts out of
 requested. Preparatory behavior-preserving refactoring is allowed when the seam/testability/task needs
 it; preserve existing guarantees. Cleanup after working behavior is proportional to touched risk,
 while independent neighboring subsystem improvements remain separately scoped.
+
+## Evidence for resource optimizations
+
+When claiming lower latency, resource use or context cost, identify the intended change under
+comparison. Use the same representative fixed inputs and measurement basis, keeping other material
+environment/settings comparable. Define the quality or task-outcome check separately from the
+resource metric. Claim an improvement only when the agreed quality requirement is met and the
+resource result supports it. Account for relevant noise, cache state and confounders; choose
+repetitions only where they affect the conclusion. An ordinary unit-test pass alone does not
+demonstrate the optimization. Report keep, reject or inconclusive at
+the measured boundary; an inconclusive result is not a demonstrated improvement. Local measurements
+do not establish production savings. No benchmark, provider call or new harness is mandatory when
+no optimization claim is being made; existing authority and project gates still apply.

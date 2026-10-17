@@ -50,3 +50,10 @@ For mixed sets report components/counts and selection, rather than hide skips un
 Collection exit zero, empty selection, fake outcome, historical aggregate, static counterfactual or
 passing lint cannot be promoted into a different kind of proof. Separate observations, conclusions
 and assumptions; compare evidence with every material acceptance criterion and disclose gaps.
+
+For instruction/context optimizations, a smaller file establishes only its measured byte or token
+size. Distinguish that from session-wide usage, quality and monetary savings. Before/after sessions
+without a comparable control do not establish attribution; an external benchmark does not measure
+this project's benefit. Do not convert bytes or local token reductions into billed savings without
+applicable provider accounting. Use the paired-comparison method in [experiments.md](experiments.md)
+when evaluating a resource improvement.

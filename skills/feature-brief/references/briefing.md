@@ -47,6 +47,8 @@ Before closing, test the target contract against likely omissions:
 - permissions/security boundaries;
 - event ordering, retries, idempotency, and ownership where relevant;
 - operator-visible controls and observability;
+- expected data volume, concurrency and process topology when they could change architecture,
+  behavior or acceptance; derive them from project evidence before asking about material unknowns;
 - explicit non-goals and acceptable shortcuts.
 
 Raise only omissions that are material for this feature. Do not expand a normal feature into a generic

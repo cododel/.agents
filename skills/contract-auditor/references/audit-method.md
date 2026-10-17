@@ -56,6 +56,11 @@ Runtime logs, dashboards, or production rows enter scope only when available thr
 read-only access and relevant to the target. Record their timestamp/freshness; do not broaden into a
 full operations audit silently.
 
+Ground performance and capacity findings in the project's evidenced workload, data volume, process
+layout or explicit requirements. State material assumptions and distinguish a demonstrated failure
+from a conditional capacity risk when load is unknown. A correctness defect reachable at low
+concurrency does not need high-load evidence; existing blocker and verdict gates still apply.
+
 ## 4. Plan one fan-out wave
 
 Run independent vectors by concern, not one agent per file.
