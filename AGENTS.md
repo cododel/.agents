@@ -92,6 +92,8 @@ destructive actions still require authorization covering the actual action and t
   Keep the justified risk/merge-conflict radius small without preserving avoidable local debris.
 - Follow local idioms, preserve type safety, and validate untrusted inputs at boundaries. Do not hide
   errors with unsafe casts or broad ignores.
+- Comments explain only non-obvious reasons, constraints, or tradeoffs behind the code. Keep them
+  brief and relevant. Delete obvious comments; do not rephrase them as obvious answers to "why".
 - Before introducing a new implementation, check relevant project components/helpers, standard
   library and platform capabilities, and installed dependencies. Keep this check proportional to the
   task and affected scope. Reuse only when semantics and architectural ownership fit; do not distort

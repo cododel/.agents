@@ -53,7 +53,7 @@ Return a single JSON array with one object per candidate, in the same order as i
   {
     "path": "/abs/docs/issues/[CLOSED]-example.md",
     "verdict": "promote-to-adr",
-    "evidence": "Records an operator decision, real alternatives and rationale.",
+    "evidence": "Operator chose Bun for monorepo tooling; the record explains why npm, pnpm and Yarn were rejected.",
     "fp_risk": null,
     "recommended_alt": null,
     "title": "Example decision",
