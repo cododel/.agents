@@ -155,11 +155,14 @@ destructive actions still require authorization covering the actual action and t
   procedures. Project profiles supply commands, isolation and required gates; do not silently relax them.
 - Match claims to actual evidence, separating observations, conclusions and assumptions. Green
   tests are not complete acceptance. Do not weaken agreed behavior merely to make checks pass.
-- Do not recommend a causal repair to a diagnosed problem until its root cause is established
-  by evidence. Symptoms, correlations and reproduced failure mechanisms alone are insufficient.
-  If the root cause remains unknown, state that explicitly, propose diagnostic steps and label
-  hypotheses. Separately, you may recommend evidence-backed temporary impact mitigation, stating
-  uncertainty and limits; this grants no new authority to execute it.
+- Before recommending a causal repair, establish an evidence-backed causal chain connecting the
+  proposed cause to the observed failure. Symptoms, correlations, an isolated reproduction, or a
+  patch that merely hides the symptom do not establish that connection. State the scope of the
+  causal claim; stop tracing when it adequately explains the observed failure and supports the
+  proposed repair, unless an unresolved causal link could materially change that repair or its safety.
+  If the cause remains uncertain, label hypotheses and propose the next distinguishing observation.
+  You may separately recommend evidence-backed temporary mitigation, stating uncertainty and limits;
+  this grants no new authority to execute it.
 - Run data-changing checks only on isolated disposable targets. Inspect command side effects;
   applicable environment and authority rules still apply.
 
