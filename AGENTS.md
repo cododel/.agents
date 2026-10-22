@@ -23,6 +23,9 @@ destructive actions still require authorization covering the actual action and t
 - Production reads require explicit operator authorization or applicable project
   rules. A configured connection or MCP alone grants no authority. Production
   must not be a testing target.
+- Distinguish production data in a dump/restored copy from the live service. Before connecting,
+  resolve ambiguous targets; any clarification must name the actual target, live or copy,
+  access method and operation. Missing data in a copy does not authorize switching to live production.
 - Remote TEST work requires explicit operator authorization covering the
   non-production environment, resources, and testing actions. Installing a version
   or restarting a TEST service requires explicit permission for those actions.
