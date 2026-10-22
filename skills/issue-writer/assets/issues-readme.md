@@ -11,14 +11,15 @@ an in-place warning.
 
 ## Naming and lifecycle
 
-Use `[STATUS]-YYYY-MM-DD-<english-kebab-slug>.md` unless local convention says otherwise.
+Use stable filenames: `YYYY-MM-DD-<english-kebab-slug>.md`.
 
-- status: `OPEN`, `IMPLEMENTING`, `CLOSED`;
+- body status: `Open`, `Implementing`, `Closed`;
 - priority: `Critical`, `High`, `Medium`, `Low` for urgency/sequencing;
 - severity: `Critical`, `High`, `Medium`, `Low` for impact/harm;
 - body language follows the project/author; filenames remain English kebab-case.
 
-Status changes update both body and filename. Before removing a closed Issue, extract unique current
+The body is the single status owner; status or priority changes do not rename the file.
+Before removing a closed Issue, extract unique current
 behavior, significant decisions, or repeatable operations/debugging knowledge into their canonical
 owner. An explicit close sweep may remove an exact tracked, clean, committed source; untracked or
 modified content remains separately gated because its recovery is not proven.

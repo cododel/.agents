@@ -72,7 +72,8 @@ Keep priority (urgency/sequencing) and severity (impact/harm) independent. Unkno
 and source pointers.
 
 For an update, add current evidence and `Last reviewed`; revise stale claims rather than appending an
-unbounded diary. Change status/filename only when evidence supports the lifecycle transition.
+unbounded diary. Change status only when evidence supports the lifecycle transition. Keep stable
+filenames unchanged; rename only when the established local convention requires it.
 
 ## 4. Optional useful TODO
 
@@ -90,7 +91,7 @@ a TODO as a substitute for a failing test that belongs in the current fix.
 ## 5. Verify
 
 - path and filename follow local convention;
-- status/body and filename agree;
+- the complete body status is valid; filename status agrees only where local convention encodes it;
 - evidence locators exist and no paths/SHAs are fabricated;
 - no duplicate owner remains unlinked;
 - TODO link resolves when one was added;

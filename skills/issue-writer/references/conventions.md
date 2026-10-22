@@ -10,6 +10,11 @@ similar file found during discovery, it defines the convention. The patterns bel
 are the **fallback** — used only when no local convention exists, or to fill gaps the
 local convention doesn't cover.
 
+Use the stable-name fallback below for newly bootstrapped Issue roots. Preserve existing roots'
+documented or evidenced naming/lifecycle conventions, including the previous status-prefixed
+fallback. This change does not authorize migrating existing files or mixing naming schemes; if an
+existing root has no resolvable convention, clarify it before creating or renaming records.
+
 When following local convention, inspect enough relevant existing files to establish whether the
 documented rules match actual practice. Resolve discrepancies rather than treating a fixed sample
 size as proof.
@@ -27,12 +32,11 @@ stop; never bootstrap an empty directory for a sweep.
 ## Filename pattern (fallback)
 
 ```
-[STATUS]-YYYY-MM-DD-english-domain-symptom-slug.md
+YYYY-MM-DD-english-domain-symptom-slug.md
 ```
 
 Components:
 
-- **`[STATUS]`** — see status tags below
 - **`YYYY-MM-DD`** — original issue date (today for new issues; **never change** when
   status or priority is updated — date encodes when the issue was first opened)
 - **`slug`** — concise English kebab-case with enough domain/symptom identity to avoid collisions (e.g.
@@ -54,26 +58,26 @@ Where `STATUS-PERCENT%` is a locally defined legacy form such as `[ACTIVE-25%]` 
 The percentage reflects requirement coverage, not optimism about planned work.
 
 Use this only when the local README explicitly calls for it. Don't impose it on a
-repository that uses the simpler `[STATUS]` form.
+repository with another naming convention.
 
-## Status tags
+## Status
 
-| Tag                | Meaning                                                                                |
-|--------------------|----------------------------------------------------------------------------------------|
-| `[OPEN]`           | Deferred work is independently resumable but implementation has not started. Default. |
-| `[IMPLEMENTING]`   | Scoped implementation is actively in progress.                                        |
-| `[CLOSED]`         | Completion criteria are met and verified for the recorded scope.                       |
+Under the stable-name fallback, the body is the single status owner:
 
-Incomplete evidence or investigation does not introduce another lifecycle state: keep the
-Issue `Open` and record the uncertainty explicitly. Recognize `ACTIVE`, `INVESTIGATING`, and
-`RESOLVED` only when reading an established local or legacy convention; do not emit them in
-the fallback format.
+| Value | Meaning |
+|-------|---------|
+| `Open` | Deferred work is independently resumable but implementation has not started. Default. |
+| `Implementing` | Scoped implementation is actively in progress. |
+| `Closed` | Completion criteria are met and verified for the recorded scope. |
 
-When status changes, **rename the file** in the same change that updates the body. Local
-links (in indexes, READMEs, sibling issues) must be updated too.
-Parse complete filename tags and complete body status values. `Closed pending verification` is not
-`Closed`, and `[CLOSEDNESS]` is not `[CLOSED]`. Legacy percent/status forms qualify only under the
-exact proven local syntax; never discover completed candidates through a loose prefix match.
+Keep the filename unchanged when status or priority changes. Incomplete evidence or investigation
+keeps the Issue `Open`, with uncertainty recorded explicitly. Parse the complete body status value:
+`Closed pending verification` is not `Closed`; a missing or conflicting status is ambiguous.
+
+For established status-prefixed conventions, preserve their exact syntax and synchronize filename,
+body and affected links when that convention requires it. Recognize `ACTIVE`, `INVESTIGATING`,
+`RESOLVED` and percent-status forms only under an evidenced local or legacy convention.
+Never discover completed candidates through a loose prefix match.
 
 ## Priority and severity
 

@@ -50,14 +50,16 @@ record does not become a completed candidate merely because review was requested
 ## 2. Enumerate completed candidates
 
 Use the proven local lifecycle convention. Enumerate regular Markdown files with `rg --files` or
-`fd`, then parse the complete filename tag and complete body status value. Under the fallback,
-completed candidates have exactly `[CLOSED]` and `Closed`. Recognize exact legacy `Resolved` or
-percent-status syntax only when the local convention proves it. A file whose filename or body
-indicates completion enters mismatch review; loose prefixes such as `[CLOSEDNESS]`, `[RESOLVED-old]`,
-or `Closed pending verification` do not establish completion.
+`fd`. Under the stable-name fallback, a completed candidate has the exact body status `Closed`;
+the filename carries no status. Missing, conflicting or unrecognized status values are ambiguous,
+not evidence of completion. Do not infer status from prose mentioning a closed issue.
 
-Compare filename and body status. Mismatches are `ambiguous`: keep them and report the exact conflict.
-Do not silently decide whether work is complete.
+For established status-prefixed conventions, parse and compare complete filename tags and body
+status values. The previous fallback requires exactly `[CLOSED]` and `Closed`. Recognize legacy
+`Resolved` or percent-status syntax only when the local convention proves it. If either representation
+indicates completion but the other disagrees, retain the source and report the mismatch. Loose
+prefixes such as `[CLOSEDNESS]`, `[RESOLVED-old]`, or `Closed pending verification` do not establish
+completion. Candidate status alone never replaces the completion, value, reference and recovery gates.
 
 ## 3. Extract-value gate
 
