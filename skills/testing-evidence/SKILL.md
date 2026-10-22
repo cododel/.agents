@@ -33,6 +33,21 @@ probe or source/static/UI evidence. Explain material RED/permanent-test limits; 
 or destructively revert operator work. Critical money/access/persistence/lifecycle risks still need
 evidence at their responsible boundary, or an explicit gap.
 
+## Incomplete integrated stages
+
+If selected for task-specific reasons, an isolated stage may connect a broad path before every node
+is complete; this is permission, not a preferred sequence. Known failing
+checks can represent unimplemented final requirements or understood temporary regressions within
+that stage; preserve them as failures and identify the affected obligation. Do not relabel unknown
+failures as expected, weaken assertions, or disable protection to manufacture green. Unsafe effects
+must remain contained; temporary incompleteness does not authorize shared or production exposure.
+
+Demonstrate the stage's claimed behavior at its actual boundary. Mocks may enable exploration, but
+mocked guarantees remain unverified; replace them with real internal integrations when claiming those
+contracts. Apply RED/GREEN to meaningful behavior, then strengthen protection and refactor as risks
+become concrete. A skeleton/demo checkpoint is not final or release acceptance. A deliberately limited
+release needs explicit applicable acceptance and authorization, including any accepted limitations.
+
 ## Judge the actual guarantee
 
 Read assertions plus decisive setup/helpers and the subject. A double may provide inputs/external

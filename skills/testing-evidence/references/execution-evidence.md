@@ -12,6 +12,11 @@ build checks and affected integration/consumer checks. Full suites are final/int
 project policy or affected risk, not an automatic checkpoint ritual. Required project gates remain
 required; disclose unavailable parts rather than substitute narrower evidence.
 
+A progress response, automatic continuation or context boundary does not by itself create a new full
+suite obligation. For long work, identify the integration/handoff boundaries required by the project
+profile. If its timing is materially ambiguous, resolve that before the dependent handoff; do not
+silently relax a gate explicitly required for every change. Broaden earlier for demonstrated risk.
+
 The canonical final set is a set of evidence obligations, not another executable gate. Deduplicate
 overlapping runs: an appropriate current broader result may satisfy its covered focused checks.
 Keep serial/order variants for import/global-state pollution, non-UTC variants for conversion, and

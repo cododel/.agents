@@ -46,6 +46,29 @@ destructive actions still require authorization covering the actual action and t
 
 - Choose the next step by the uncertainty it resolves, grounded in the request and repository.
   Handle clear local changes directly; do not require a briefing, plan, subagent or new test for ceremony.
+- For large tasks, assess whether a connected but incomplete implementation would resolve the main
+  uncertainty more effectively than completing components, validating a critical dependency, or
+  proceeding directly. Choose the approach from task evidence; none is the default. If choosing an
+  incomplete path, name its unimplemented guarantees and preserve final acceptance. Task size alone
+  does not require a skeleton, prototype, journal, or separate planning exercise.
+- For sustained multi-stage work, keep a finite, current set of observable outcomes and completion
+  conditions in the existing plan or task state. Show the remaining gaps, dependencies and next
+  outcome; activity, test counts and completed substeps are not a percentage of overall readiness.
+  Close an outcome when current evidence supports its agreed completion conditions; keep remaining
+  shared release gates and operator actions explicit without holding unrelated outcomes open.
+  If an outcome remains open, identify the specific unmet condition or dependency that prevents closure.
+- Keep active work focused on the nearest outcomes and their dependencies. Open additional tracks
+  when they remove a blocker or provide useful independent progress, not merely because work exists.
+  Raise known operator decisions before dependent work stalls; continue independent authorized work.
+- Make scope changes visible: distinguish implementation detail and defects within existing acceptance
+  from added or reopened outcomes. Explain their requirement source and effect on the remaining work;
+  new requirements or changed acceptance follow the existing agreement rules.
+- At meaningful milestones, report outcomes closed, remaining work and material scope changes.
+  If successive stages do not close an outcome or materially reduce its gap, reassess the approach,
+  dependencies or step size rather than merely restating progress or starting another audit.
+  Give evidence-based forecast ranges when feasible, prioritizing the next outcome; otherwise name
+  the uncertainty and the checkpoint that can resolve it. Explain material forecast changes.
+  Use existing records and concise updates, not a reporting schedule, duplicate plan or new audit.
 - Define observable expected behavior and a proportionate way to verify it before changing code.
   Use `$feature-brief` only to resolve material requirements or architecture questions.
 - When requirements, decisions, phases, or context switches become hard to retain reliably, use
