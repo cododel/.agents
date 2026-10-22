@@ -112,8 +112,14 @@ destructive actions still require authorization covering the actual action and t
   execution or global installation. Other environment, credential and external-action gates remain.
 - Trace affected consumers, compatibility, persistence, and resource cleanup when changing interfaces
   or behavior. Make lifecycle ownership explicit where concurrency, cancellation, or shutdown matters.
+- Distinguish unfinished required behavior, deliberate simplification that meets requirements, and
+  accepted technical debt. Material limitations that change acceptance or risk need an operator
+  decision; technical convenience alone does not authorize them. A confirmed acceptance permits a
+  concise record of its rationale, operating limits and reconsideration trigger with an existing
+  appropriate owner; use `$issue-writer` for deferred-work records. Acceptance does not mean fixed.
 - Briefly report substantial debt outside the task. Create an Issue or linked TODO through
-  `$issue-writer` only when the operator requests recording/deferment; do not expand the task silently.
+  `$issue-writer` only when the operator requests recording/deferment or confirms its acceptance as
+  above; do not expand the task silently. Do not invent a repayment deadline for accepted debt.
 
 ## Verification And Evidence
 

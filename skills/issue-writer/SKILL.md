@@ -7,13 +7,14 @@ description: "Record or update repository-local deferred work on an operator req
 
 Preserve evidence-backed independently resumable work without silently expanding the active task.
 Recording/deferral and lifecycle cleanup are separate operator intents; discovering debt alone permits
-a brief report, not an Issue, TODO, or sweep.
+a brief report, not an Issue, TODO, or sweep. Confirmed operator acceptance of a material limitation
+permits its concise decision record under AGENTS; reuse an appropriate existing owner.
 
 ## Load the selected mode
 
 | Intent | Mode | Reference |
 |:--|:--|:--|
-| Explicitly record/defer/park independently resumable work | create/update | `references/create.md` |
+| Explicitly record/defer/park work, or confirm a material accepted limitation owned by an Issue | create/update | `references/create.md` |
 | Agent notices separate debt without a recording request | briefly report only | No file or TODO |
 | Check whether a selected existing Issue is still relevant or complete; review lifecycle candidates | review, read-only | `references/close.md` |
 | Explicitly close/sweep completed Issue records after extracting durable value | close/apply | `references/close.md` |

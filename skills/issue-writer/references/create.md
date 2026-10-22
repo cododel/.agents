@@ -12,12 +12,31 @@ Establish:
 - the first next step and observable completion/verification boundary;
 - whether an operator decision is still required.
 
-Proceed only on a request to record/defer this work. Preserve the operator's stated reason and resume
-conditions; discovering debt alone permits a concise report, not an Issue or TODO.
+Proceed on a request to record/defer this work or confirmed acceptance of a material limitation under
+AGENTS. Preserve the operator's stated reason and reconsideration conditions; discovering debt alone
+permits a concise report, not an Issue or TODO.
 An operator may validly defer work that was previously in the active scope. Do not reject that request
 solely because the agent could fix it now or cannot demonstrate increased technical risk.
 If the root cause is not proven, label it as a hypothesis and record the next falsifying probe; do not
 write a confident diagnosis.
+
+## Accepted limitations
+
+Distinguish work postponed for later implementation from an accepted limitation whose repair may never
+be worthwhile. For the latter, record the decision source, rationale and considered alternative,
+operating limits, material edge cases/consequences, how leaving those limits would be detected, and
+who revisits the decision under what condition. Use evidence or label uncertainty; unknown impact is
+not proven acceptable. Do not invent an implementation deadline or assert that the defect was fixed.
+
+Reuse one suitable Issue or existing decision owner. Route a significant agreed architectural choice
+to `adr-writer` only when its criteria fit; no mandatory Issue-plus-ADR pair. A simple implementation
+that already meets requirements does not need a debt record. Temporary missing work remains in the
+active task unless the operator actually changes acceptance or defers it.
+
+Keep local lifecycle conventions. Under the fallback, an Issue with accepted unresolved debt stays
+`Open`, with its disposition in the body; it is not a closure candidate merely because risk was
+accepted. For an accepted limitation, use reconsideration conditions and the next assessment instead
+of promising repayment. Revisit implementation only under the current authorized scope.
 
 ## 2. Discover local ownership and duplicates
 

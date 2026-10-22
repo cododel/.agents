@@ -33,6 +33,9 @@ data evidence when the claim depends on it, through project-approved access only
 and live data are complementary sources, not three mandatory gates for every Issue. Distinguish a
 fix in the inspected checkout from a fix verified in the deployed version.
 
+Accepted unresolved debt is not resolved by acceptance alone. Preserve its decision and reconsideration
+conditions; do not start repair or mark it completed merely because a lifecycle review was requested.
+
 Report one of: relevant, resolved, currently unobserved, or inconclusive. Zero matching rows or no
 recent events establishes only the observed scope and time; it does not prove the defect cannot
 recur. Cite applicable file/line, commit/date, or scoped runtime/query evidence and name the precise
