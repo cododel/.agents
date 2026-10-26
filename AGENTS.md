@@ -42,48 +42,20 @@ destructive actions still require authorization covering the actual action and t
 - Use secrets only through established tools for the authorized purpose; never print them, store them
   in project/task files, or send private source, logs, or credentials to external retrieval services.
 
-## Adaptive Workflow And Task Memory
+## Workflow And Task Memory
 
-- Choose the next step by the uncertainty it resolves, grounded in the request and repository.
-  Handle clear local changes directly; do not require a briefing, plan, subagent or new test for ceremony.
-- For large tasks, assess whether a connected but incomplete implementation would resolve the main
-  uncertainty more effectively than completing components, validating a critical dependency, or
-  proceeding directly. Choose the approach from task evidence; none is the default. If choosing an
-  incomplete path, name its unimplemented guarantees and preserve final acceptance. Task size alone
-  does not require a skeleton, prototype, journal, or separate planning exercise.
-- For sustained multi-stage work, keep a finite, current set of observable outcomes and completion
-  conditions in the existing plan or task state. Show the remaining gaps, dependencies and next
-  outcome; activity, test counts and completed substeps are not a percentage of overall readiness.
-  Close an outcome when current evidence supports its agreed completion conditions; keep remaining
-  shared release gates and operator actions explicit without holding unrelated outcomes open.
-  If an outcome remains open, identify the specific unmet condition or dependency that prevents closure.
-- Keep active work focused on the nearest outcomes and their dependencies. Open additional tracks
-  when they remove a blocker or provide useful independent progress, not merely because work exists.
-  Raise known operator decisions before dependent work stalls; continue independent authorized work.
-- Make scope changes visible: distinguish implementation detail and defects within existing acceptance
-  from added or reopened outcomes. Explain their requirement source and effect on the remaining work;
-  new requirements or changed acceptance follow the existing agreement rules.
-- At meaningful milestones, report outcomes closed, remaining work and material scope changes.
-  If successive stages do not close an outcome or materially reduce its gap, reassess the approach,
-  dependencies or step size rather than merely restating progress or starting another audit.
-  Give evidence-based forecast ranges when feasible, prioritizing the next outcome; otherwise name
-  the uncertainty and the checkpoint that can resolve it. Explain material forecast changes.
-  Use existing records and concise updates, not a reporting schedule, duplicate plan or new audit.
-- Define observable expected behavior and a proportionate way to verify it before changing code.
-  Use `$feature-brief` only to resolve material requirements or architecture questions.
-- When requirements, decisions, phases, or context switches become hard to retain reliably, use
-  `$task-journal` to maintain the current agreed task separately from execution state. Start the
-  records when needed, including midway through work; there are no mandatory task-size classes.
-- Keep the records in `.tmp/tasks/<task-id>/task.md` and `state.md` in the current checkout.
-  The agent owns maintenance; confirmed discussion needs no separate document-approval ceremony.
-- Preserve agreed intent and confirmed requirement changes, not necessarily the initial request.
-  Keep proposals distinct. Do not rewrite acceptance to match the implementation. After resuming,
-  read both records and refresh live state; changes invalidate only dependent assignments/evidence.
-- Before finalizing implementation, check current agreed acceptance, fix confirmed unambiguous
-  in-scope problems under existing authority, clarify material choices, and recheck until prepared
-  or a concrete blocker prevents progress. Scale the process to risk; use `$feature-closeout` for
-  material completion uncertainty or an explicit request. Atomic work needs no extra ceremony;
-  task length or compaction alone does not require independent review.
+- Handle clear local changes directly. Use `$feature-brief` for unresolved material requirements
+  or architecture choices; continue independent authorized work while awaiting decisions.
+- For sustained work, keep the agreed result, remaining gaps and next useful step clear in the
+  existing plan or task state. Reassess the approach when work stops reducing a relevant gap.
+- Use `$task-journal` when decisions or context changes become hard to retain. It owns record
+  storage and maintenance; do not create parallel task records.
+- Preserve the current agreed scope and acceptance. Keep proposals and incomplete behavior explicit;
+  material changes require agreement, while in-scope implementation details remain agent-owned.
+- Before finalizing, compare the result with the agreed task, repair clear authorized gaps and
+  verify affected behavior. Use `$feature-closeout` for material completion uncertainty or an
+  explicit request. Stop only at completion or a concrete blocker; no separate review is required
+  merely because a task is long or context was compacted.
 
 ## Git And Worktree Ownership
 
@@ -150,9 +122,10 @@ destructive actions still require authorization covering the actual action and t
   acceptance, expose the intended gap, implement, then refactor. Extend existing protection before
   adding duplicate tests; use justified exceptions when RED or a permanent test would mislead or
   be disproportionate, and disclose material evidence limits.
-- Before planning verification, writing/editing/reviewing tests, or selecting/running/interpreting
-  checks, load `$testing-evidence`. It owns test-value, oracle/boundary, execution and evidence-reuse
-  procedures. Project profiles supply commands, isolation and required gates; do not silently relax them.
+- Load `$testing-evidence` for substantive test design or review, test-failure diagnosis, uncertain
+  verification boundaries or evidence reuse, and money/access/persistence/lifecycle risks. Routine
+  established checks alone do not require it. Project commands, isolation and required gates apply
+  whether or not the skill is loaded; do not silently relax them.
 - Match claims to actual evidence, separating observations, conclusions and assumptions. Green
   tests are not complete acceptance. Do not weaken agreed behavior merely to make checks pass.
 - Before recommending a causal repair, establish an evidence-backed causal chain connecting the

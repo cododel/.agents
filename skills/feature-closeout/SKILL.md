@@ -14,8 +14,8 @@ neither a separate ceremony nor independent reviewers. Read-only review requests
 ## Select the mode
 
 - **Full (default)**: completion or handoff process; load [references/full.md](references/full.md).
-- **Quick**: explicit quick request or an automatic interim checkpoint when material uncertainty
-  could carry a deviation into a dependent step; load [references/quick.md](references/quick.md).
+- **Quick**: an explicitly requested interim checkpoint; load [references/quick.md](references/quick.md).
+  Handle ordinary implementation uncertainty directly without introducing a separate checkpoint mode.
 
 Natural language is sufficient. Legacy `--release` or "release closeout" explicitly requests
 preparation followed by the separate frozen final audit documented in Full; briefly explain the
@@ -37,16 +37,14 @@ owner skills and existing authority; closeout alone does not require additional 
 ## Common completion invariants
 
 These rules own the shared procedure for all modes. Use
-[testing-evidence](../testing-evidence/SKILL.md) for check adequacy, boundary/oracle quality and result
-identity; project-required gates remain required. Closeout checks acceptance and closes authorized
-gaps, without an automatic fresh suite run or repository-wide test audit:
+[testing-evidence](../testing-evidence/SKILL.md) when its scope applies; project-required gates remain required.
+Closeout checks acceptance and closes authorized gaps, without an automatic fresh suite run or repository-wide test audit:
 
-1. Resolve repository/worktree, branch, HEAD, status, base, and exact change inventory. Freeze the
-   current motivation, behavior, acceptance, decisions, non-goals, and material assumptions from
-   confirmed discussion or `task.md`; `state.md` supplies progress/evidence, never acceptance.
-   Identify applicable contracts and record a source fingerprint separately from builder claims.
-   Stop the affected branch for a missing material requirement/decision; never substitute what the
-   implementation happens to do.
+1. Establish the current agreed task, applicable contracts and actual changes. Use confirmed
+   discussion or `task.md` for acceptance and `state.md` for progress/evidence. Resolve checkout
+   identity where needed to distinguish the reviewed changes. Stop the affected path for a missing
+   material decision; never substitute the implementation for agreed requirements. A separate source
+   fingerprint is required only for the explicitly requested frozen final audit in Full.
 2. Trace demonstrated consumers, interfaces, data/events, configuration, persistence, cleanup, and
    operator controls. Include security, concurrency, migrations, mixed-version behavior,
    rollback/recovery, feature gates and observability where affected. Map material criteria to
@@ -59,10 +57,9 @@ gaps, without an automatic fresh suite run or repository-wide test audit:
    debt. Confirm and deduplicate findings; immediately repair unambiguous authorized defects and
    clarify material alternatives with the operator. Never weaken acceptance/tests to match
    implementation; expectation changes need an agreed behavior change or a demonstrated check defect.
-5. After repairs, use testing-evidence for missing checks and result reuse; recheck invalidated
-   criteria after fixes, requirement or material environment changes. Review the final diff against
-   the agreed task and refresh the fingerprint after source changes. Repeat Full until `PREPARED`
-   or a concrete blocker prevents further authorized progress. Do not finalize with a repairable
+5. After repairs, run missing or invalidated checks; reuse evidence only while relevant code,
+   configuration and environment remain compatible. Review the final diff against the agreed task.
+   Repeat Full until `PREPARED` or a concrete blocker prevents further authorized progress. Do not finalize with a repairable
    findings list. Keep Quick bounded to its checkpoint; it never certifies final completion.
 
 Assess the agreed agent deliverable and prerequisites due at this handoff. Operator release work

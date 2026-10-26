@@ -1,6 +1,6 @@
 ---
 name: testing-evidence
-description: "Use when changing behavior and planning verification, writing/editing/reviewing tests, diagnosing test failures, or selecting/running/interpreting checks. Provides meaningful TDD and evidence-quality decisions; project profiles supply commands and required gates. Does not initiate a suite-wide audit."
+description: "Use for substantive test design or review, test-failure diagnosis, uncertain verification boundaries or evidence reuse, and money/access/persistence/lifecycle risks. Routine established checks alone do not require this skill. Project profiles supply commands and required gates."
 ---
 
 # Testing Evidence

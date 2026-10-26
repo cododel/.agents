@@ -32,8 +32,8 @@ When requirements, decisions, or handoffs become hard to retain, or a record is 
 confirmed changes, and separate execution state. No separate default brief is needed; a requested
 export is a deliverable rather than another maintained task owner.
 
-When choosing acceptance evidence, use [testing-evidence](../testing-evidence/SKILL.md) and the
-project testing profile; agreed behavior stays the source of acceptance, not the latest green tests.
+Use the project testing profile for required checks and [testing-evidence](../testing-evidence/SKILL.md)
+when its scope applies. Agreed behavior stays the source of acceptance, not the latest green tests.
 A temporary PoC/operator demo may answer an API/design/UX fork before production integration; use
 [experiments](../testing-evidence/references/experiments.md) for its bounded evidence procedure.
 

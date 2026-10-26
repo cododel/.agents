@@ -9,15 +9,10 @@
 
 {Implemented or established state, without duplicating requirements.}
 
-## Current Outcome And Approach
+## Remaining Work
 
-{When useful: chosen approach and material rationale, next observable result, completion boundary,
-dependencies and remaining obligations. Reference task.md; omit for atomic work.}
-
-{For sustained multi-stage work: link to the current outcome list in the existing plan, or keep it
-here if there is no other owner. Include stable IDs, completion conditions, status, remaining gaps
-and dependencies. Retain closed results with evidence; note additions/reopenings and useful forecast
-changes. Omit this guidance for atomic work; do not duplicate the list.}
+{Remaining gaps, blockers and next useful result, or a link to the existing plan. Record material
+approach decisions and incomplete guarantees when needed for resumption. Do not duplicate task.md.}
 
 ## Verification
 

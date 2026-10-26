@@ -44,51 +44,12 @@ A direct request or confirmed discussion can establish agreement; do not request
 of its transcription. The initial request may have been superseded. Preserve the latest agreed target,
 not the first wording or the implementation's latest summary.
 
-## Approach and stages
-
-For a large task, assess whether a connected but incomplete implementation helps resolve its main
-uncertainty. Compare only relevant alternatives: direct implementation, completing a necessary
-component, validating a critical dependency, or a broader skeleton. Choose independently from current
-evidence, integration risk, dependencies and feedback value. None is preferred by this skill; neither
-size nor duration alone selects a skeleton. A material choice can be noted briefly in existing state,
-not a new report or approval ceremony. Reconsider when evidence changes the rationale.
-
-For the chosen approach, keep the next observable outcome and completion boundary in `state.md`,
-referencing agreed acceptance. Name necessary dependencies and remaining obligations. Component
-completion can be the right next outcome; relate it to the overall task instead of treating local
-activity as proof of global progress. Use parallel work where useful without imposing a fixed number
-of active stages.
-
-If a broad skeleton is chosen, it may precede complete implementations of individual nodes; a
-separate throwaway prototype is not mandatory. Identify mocks, simplified behavior and known failures,
-then deepen and stabilize the implementation against final acceptance. Investigate critical feasibility
-and safety assumptions early when they could invalidate the path. Testing depth and claims belong to
-`testing-evidence`, not this journal.
-
-Classify new work as needed now, a later required obligation, or outside scope. Reorder implementation
-independently while preserving requirements and authority. If work no longer resolves a relevant
-uncertainty or closes a dependency, reassess the approach; do not automatically switch to a skeleton
-or open another audit. Show useful reproducible results with their limits when available; continue
-independent authorized work unless operator feedback is a prerequisite.
-
 ## Updates and resumption
 
-For sustained multi-stage work, keep one current outcome list in the existing implementation plan
-or `state.md`; link to its owner from the other records instead of maintaining copies. Use stable IDs,
-observable completion conditions, status, remaining gaps and material dependencies/decisions. Build
-the initial list from known requirements and evidence; label unknowns without launching a new audit
-or rerunning checks merely to populate it. Separate local deliverables from later operator actions.
-
-Keep completed outcomes with concise evidence references. Record added or reopened outcomes and
-their requirement source; technical substeps and defects within the same acceptance stay under that
-outcome. Preserve identity when splitting or merging rows so decomposition cannot masquerade as
-progress or silently reset the baseline. Counts describe this list, not equal units of effort.
-
-At meaningful milestones, summarize changes against that baseline and the next observable result.
-If no outcome closed, identify the material gap reduced. Record a useful forecast's basis, uncertainty
-and significant revisions; when an estimate is unsupported, name the checkpoint needed to form one.
-Apply the global convergence rule when successive stages fail to reduce the gap; updating the list
-is not itself implementation progress. This procedure adds no separate report or approval stage.
+Keep enough state to resume: established results and evidence, remaining gaps, blockers and the next
+useful step. Link an existing plan rather than copying it. When the approach affects acceptance or
+handoff, record its material rationale and any incomplete guarantees. No fixed outcome schema,
+forecast, stage decomposition or separate planning exercise is required.
 
 Update at meaningful changes, not after every tool call:
 
