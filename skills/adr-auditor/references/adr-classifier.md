@@ -32,8 +32,9 @@ request or judge rationale in an immutability-only request; disclose excluded/un
    or configuration.
 4. Apply the drift-versus-violated-invariant, immutability, status/relationship, and
    `adr-as-current-contract` rules in `audit-criteria.md` within the supplied audit scope.
-   Tests, schemas, types, and README summaries are not silently canonical unless project
-   instructions declare them so.
+   Establish normative ownership using `../../contract-writer/references/contract-spec.md`:
+   project declarations or evidenced established normative use, not mere existence, naming,
+   or example coverage.
 5. Record the exact evidence for every finding. When evidence is insufficient, return ambiguity or no
    finding; never invent a historical choice or rationale.
 

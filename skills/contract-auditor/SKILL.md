@@ -41,7 +41,8 @@ repeat/re-review request to `repeat-review` over the requested base mode.
 3. Assign stable per-run rule IDs and reverse-check consequential lasting obligations for a concrete
    ownership gap.
 4. Freeze one audit matrix, causal frontier, and explicit audit budget, then run one bounded
-   discovery fan-out. Strict review requires at least two independent vectors.
+   discovery pass inline or through delegation. Strict review requires at least two independent
+   reviewer contexts covering the required vectors.
 5. Apply the confirmation gate to every blocking candidate, then deduplicate.
 6. Apply the bounded confirmation protocol in `references/audit-method.md` to the same immutable
    snapshot. Never repeat the full search, fix findings, or restart an audit automatically.

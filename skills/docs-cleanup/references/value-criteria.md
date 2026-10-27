@@ -9,28 +9,31 @@ behavior, ops procedures, or unique repros — `repair` to move the value into t
 or they are `delete`. The `issue-writer:close` workflow enforces this at sweep time
 with a mandatory pre-extraction check.
 
+Issue status and filename handling follow `../../issue-writer/references/conventions.md`.
+The stable-name fallback updates the body only; rename only under an established local convention.
+
 ## The eight labels
 
 | Label              | Meaning                                                                                          |
 |--------------------|--------------------------------------------------------------------------------------------------|
 | `keep`             | Still changes future engineering behavior. Open, accurate, useful as written.                    |
 | `repair`           | Potentially useful but under-specified, stale in document details, missing evidence, or poorly formatted while the tracked work remains valid. Also covers "extract content into a different doc home (living contract via `$contract-writer` / runbook / troubleshooting / README) before close." |
-| `close`            | Open/implementing issue is complete and verified; rename to `[CLOSED]` so the next `issue-writer:close` sweep handles it.         |
+| `close`            | Open/implementing issue is complete and verified; mark closed under the established convention so the next `issue-writer:close` sweep handles it.         |
 | `stale`            | Open issue has stale premises but completion is unverified; add review evidence without changing status.                        |
 | `merge`            | Duplicate or fragmented record that should be folded into a canonical document.                  |
 | `supersede`        | ADR or decision record replaced by a newer decision; mark superseded with link.                  |
 | `promote-to-adr`   | Closed issue that's actually an architectural decision; should live as an ADR instead.           |
 | `delete`           | Proposed removal because the content appears to have no unique long-term value; separate pre-delete evidence, recovery, and authority checks must still pass. |
 
-## Keep an issue if any of these is true
+## Retain issue content when it still has value
 
-- An open action item remains
-- Reproducible evidence of a real problem
-- An unresolved risk
-- A recurring symptom pattern (look for `## Incidents` sections with multiple rows)
-- Production, financial, security, or data-integrity relevance
-- Knowledge not captured anywhere else (rare commands, hard-won SQL, operator
-  procedure)
+- Unresolved work or risk remains.
+- Reproduction evidence or a recurring symptom pattern is still needed and not preserved elsewhere.
+- Unique operational knowledge is not captured by an appropriate owner.
+
+Use `keep` for accurate open work; for completed work, apply the extraction rules below.
+Production, financial, security, or data-integrity relevance warrants careful checking,
+not automatic retention of a completed duplicate.
 
 ## Keep an ADR if any of these is true
 
@@ -54,7 +57,7 @@ with a mandatory pre-extraction check.
 A document is `repair` (not `delete`) when:
 
 - The decision or issue is real, but the body is thin, vague, or missing key fields
-- Filename status doesn't match body status (e.g. `[CLOSED]` filename, `Status: Open` body)
+- An established status-prefixed convention has a filename/body status mismatch (e.g. `[CLOSED]` filename, `Status: Open` body)
 - Evidence (logs, repro steps, file paths, line numbers) is missing where the local
   template expects them
 - Project guardrails (the local README's "respect these rules" list) are violated by
@@ -69,9 +72,9 @@ A document is `repair` (not `delete`) when:
 A document is `close` when:
 
 - The original problem is gone in the current codebase, but the issue still has
-  `[OPEN]` or `[IMPLEMENTING]` status
+  an open or implementing status under its established convention
 - The fix can be pointed to (commit, PR, file path) — leave the issue file in place,
-  rename to `[CLOSED]`, add a brief completion note. The next sweep
+  update status under the established convention and add a brief completion note. The next sweep
   (`issue-writer:close`) will handle extraction-then-delete.
 
 A document is `stale` when its premises no longer match current evidence but completion
@@ -100,7 +103,7 @@ Do not delete superseded ADRs — they explain why the current state was chosen.
 
 ## Closed issues with no ADR signal
 
-A `[CLOSED]` issue whose body does **not** preserve a significant choice and rationale
+A closed issue whose body does **not** preserve a significant choice and rationale
 and whose unique knowledge (if any) is non-decision documentation is handled like this:
 
 - If it establishes durable product, UI, API, domain, persistence, security, or current
@@ -146,7 +149,7 @@ In audit and apply modes, this value proposal needs neither a completed safety c
 authority. Before deletion, the primary follows `pre-delete-method.md` and `delete-gate.md`,
 including their exact-file, value, reference, recovery, and mutation-authority gates.
 
-For `[CLOSED]` issue files specifically, prefer routing through `issue-writer:close`
+For closed issue files specifically, prefer routing through `issue-writer:close`
 rather than deleting via this skill's gate — `close` runs a second-pass pre-extraction
 check that's tuned for issue bodies (rejected options, ops procedures, unique repros).
 This skill catches misclassified `delete` candidates; `close` adds issue-specific documentation checks.

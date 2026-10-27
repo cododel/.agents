@@ -58,7 +58,7 @@ and any missing interval). Never encode a partial or skipped check as `clean`.
 ### ADR used as current contract
 
 Report `adr-as-current-contract` only when maintainers need normative current behavior/ownership from
-the ADR and no declared living/executable contract owns it. Do not demand a contract for every ADR.
+the ADR and no established normative owner covers it. Do not demand a contract for every ADR.
 
 ## Corpus checks
 

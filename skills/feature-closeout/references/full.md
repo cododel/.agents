@@ -39,7 +39,10 @@ If the required isolated reviewer is unavailable, return `UNVERIFIED`.
 
 Once the frozen audit begins, neither reviewer nor primary may repair that snapshot. Any fix or
 repeat requires leaving the audit, a new fingerprint and a new explicit invocation. Return the
-terminal verdict without automatically repairing or restarting.
+terminal verdict without automatically repairing or restarting. When using `$contract-auditor`,
+preserve its verdict and stated boundary unchanged, including `READY WITH ACCEPTED RISKS`;
+`NOT READY` for contract noncompliance does not by itself assert a rollout blocker.
+The labels below apply to the other bounded release-review path.
 
 - `READY`: required local/review evidence supports the requested handoff.
 - `NOT READY`: a confirmed blocker exists; also disclose coexisting verification gaps.

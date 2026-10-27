@@ -61,9 +61,9 @@ layout or explicit requirements. State material assumptions and distinguish a de
 from a conditional capacity risk when load is unknown. A correctness defect reachable at low
 concurrency does not need high-load evidence; existing blocker and verdict gates still apply.
 
-## 4. Plan one fan-out wave
+## 4. Plan one bounded discovery pass
 
-Run independent vectors by concern, not one agent per file.
+Group vectors by concern, not by file. Non-strict audits may run inline; delegate when useful.
 
 Required strict vectors:
 
@@ -82,11 +82,12 @@ Add vectors only when the target warrants them:
 - `observability-lifecycle` — ownership, cleanup, cancellation, metrics, alerts, and operator view;
 - `named-risk:<id>` — independent closure proof for each operator-named material risk.
 
-Ordinary audits run one bounded parallel wave and no automatic full repeat. Strict review always
-uses at least two independent subagents, even for a small diff. Use isolated reviewer contexts already
+Ordinary audits run one bounded discovery pass, inline or delegated, with no automatic full repeat.
+Strict review always uses at least two independent subagents, even for a small diff. Use isolated reviewer contexts already
 exposed by the current execution environment; do not start, install, or require an external
 orchestration runtime solely for the audit. If the environment cannot provide that independence,
-continue the useful inline review but the overall verdict cannot exceed `UNVERIFIED`.
+continue useful inline review and record the missing independence. Apply overall verdict precedence:
+a still-valid `NOT READY` condition takes priority; otherwise return `UNVERIFIED`.
 
 Before launching, record a finite audit budget in the matrix: `max_vectors`, `max_agents`,
 `max_discovery_passes=1`, `max_confirmation_passes=1`, and whether one conflict-resolution pass is
@@ -124,7 +125,8 @@ not include the expected answer or prior conclusions. Use `subagent-method.md` a
 - Run the strongest focused read-only checks available. Distinguish product failures from harness,
   environment, permission, and configuration failures.
 - Apply the blocker confirmation gate from `evidence-and-verdicts.md`. A candidate below the gate is
-  a risk or verification gap, never a release blocker and never a reason to extend the audit.
+  not a release blocker and never a reason to extend the audit. Preserve any proven contract
+  violation and apply overall verdict precedence independently of rollout severity.
 - Include non-contract findings only when they create correctness, security, or operability risk
   for the rollout. Exclude style and maintainability-only observations.
 - Deduplicate by `<class>|<rule-or-risk-id>|<root-cause>|<affected-surface>`, not prose similarity.
@@ -155,7 +157,9 @@ may authorize a new audit with a newly resolved fingerprint; a standing "until c
 does not. The sole exception is an explicitly declared composite release workflow that performed no
 earlier audit, completed all mutations first, froze a new fingerprint, and invokes this audit once
 as its terminal read-only step. If time, context, tool availability, independence, or required
-evidence prevents this bounded protocol, report completed work and return `UNVERIFIED`.
+evidence prevents this bounded protocol, report completed work and apply overall verdict precedence:
+retain `NOT READY` when its basis remains valid for the frozen target; otherwise return `UNVERIFIED`.
+A changed snapshot follows step 1 instead; do not carry an obsolete finding onto a new target.
 
 ## 7. Decide and report
 

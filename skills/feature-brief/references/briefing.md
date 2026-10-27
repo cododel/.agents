@@ -24,8 +24,10 @@ Ask one coherent batch of the highest-impact unresolved forks within the availab
 question limit. If a suitable interface is unavailable or disallowed in the current mode, use concise
 plain-chat questions at the point permitted by the applicable instructions. For each question:
 
-- explain the consequence of the alternatives in one compact sentence;
-- offer a recommended default only when evidence supports it;
+- explain the material consequences of real alternatives, including whether existing
+  structures suffice and what any added complexity buys; do not invent options;
+- recommend an option when evidence supports it, considering project fit and maintenance
+  cost alongside behavior and risk; leave the unresolved choice to the operator.
 - use mutually exclusive options when they are real choices;
 - allow free-form input when the operator's intent cannot be reduced safely;
 - do not ask about internal naming, file layout, or implementation mechanics unless they encode a

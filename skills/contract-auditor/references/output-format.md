@@ -32,7 +32,8 @@ No confirmed findings.  <!-- use only when the list is empty -->
 Target: `<worktree, head, base, staged/unstaged scope, snapshot fingerprint>`
 Mode: `<mode>`; strict: `<yes/no>`; protocol: `<discovery/confirmation/conflict status>`
 Budget: `<vectors, agents, passes>`
-Reason: `<one evidence-based sentence>`
+Reason: `<noncompliance, confirmed rollout blocker, pending risk acceptance, evidence gap, or satisfied boundary>`
+Rollout effect: `<blocker | risk | none; apply the blocker gate separately from contract compliance>`
 
 ## Contract traceability
 

@@ -8,8 +8,10 @@ destructive actions still require authorization covering the actual action and t
 
 - Diagnosis authorizes investigation; an implementation request authorizes necessary local,
   reviewable, recoverable changes within the agreed scope.
-- Resolve objective technical details from the repository and available evidence. Ask only when
-  unresolved alternatives materially change behavior, scope, architecture, risk, or acceptance.
+- Resolve repository facts and routine implementation details from evidence.
+  The operator owns unresolved product and material architecture choices unless
+  explicitly delegated. Present real alternatives with a recommendation and tradeoffs
+  before implementing the choice; an agent preference is not an objective necessity.
 - Outside Plan mode, ask early through asynchronous user input when a material alternative remains
   unresolved. Continue independent work.
 - Reuse confirmed decisions and authorization. Do not ask again unless the target or circumstances
@@ -82,11 +84,16 @@ destructive actions still require authorization covering the actual action and t
 
 - Use English as the default language for user-facing product text and as the fallback whenever
   a localized version is unavailable.
-- Prefer a direct solution with minimum unnecessary complexity, not minimum diff; correctness,
-  security, data safety and accessibility apply immediately. Allow behavior-preserving preparatory
-  refactors needed for the task and proportional cleanup of touched code after working behavior.
-  Independent adjacent subsystem improvements remain separate scope; avoid speculative abstractions.
-- Split by responsibility when it reduces complexity, not by arbitrary file-size thresholds.
+- Start with the simplest sufficient change that fits the project's established architecture
+  and agreed requirements. For each proposed approach, consider whether existing structures
+  and execution paths suffice. Before proposing additional persistent entities, independent
+  state, subsystems or extension points beyond the agreed design, briefly explain the established
+  need and why using existing structures would be insufficient or more complex overall.
+  Hypothetical consumers, symmetry and future flexibility are not sufficient reasons.
+- Judge complexity across the affected operation: dependencies, sources of truth, coordination
+  and places that must change together, not counts of files or tables. Preserve correctness,
+  security, data safety and accessibility. Allow necessary behavior-preserving preparatory
+  refactors and proportional cleanup; unrelated improvements stay outside scope.
   Keep the justified risk/merge-conflict radius small without preserving avoidable local debris.
 - Follow local idioms, preserve type safety, and validate untrusted inputs at boundaries. Do not hide
   errors with unsafe casts or broad ignores.
@@ -96,8 +103,11 @@ destructive actions still require authorization covering the actual action and t
   library and platform capabilities, and installed dependencies. Keep this check proportional to the
   task and affected scope. Reuse only when semantics and architectural ownership fit; do not distort
   the design to avoid necessary new code or an abstraction.
-  Once a solution fully meets the task and fits its semantics and responsibility boundaries, stop
-  searching alternatives unless a concrete doubt warrants further comparison.
+  Stop searching for simpler alternatives once the solution is sufficient and fits
+  the project's architecture. Continue required verification and repair confirmed gaps.
+  Revisit an accepted design only for a concrete concern supported by evidence,
+  changed requirements or an operator request; a merely conceivable simpler variant
+  is not enough.
 - Agree new direct runtime or development dependencies with the operator before installing them or
   changing manifests/lockfiles. Briefly name the package, purpose, alternative without it and material
   tradeoffs. Popularity, maintenance activity or a smaller diff alone does not establish suitability.

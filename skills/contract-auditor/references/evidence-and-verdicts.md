@@ -32,8 +32,8 @@ A finding can block rollout only when all of these are true:
   unavailable.
 
 `derived` evidence alone, a hypothetical path, missing runtime proof, or one unconfirmed vector
-cannot produce a release blocker. Record it as `verification-gap`, `risk`, or `unverified`. Such a
-finding remains visible but does not stop or extend the bounded audit.
+cannot produce a release blocker. Preserve a proven contract violation; otherwise classify the supported risk or evidence gap.
+Such a finding remains visible but does not stop or extend the bounded audit.
 
 For every blocking candidate, record each gate item as an explicit boolean.
 No aggregate score substitutes for a missing rule, reachability trace, mitigation check, impact, or
@@ -87,13 +87,20 @@ readiness claim.
 
 ## Overall verdict precedence
 
+The overall verdict covers the audited contract and acceptance boundary, not deployment permission.
+A proven material contract violation fails that boundary regardless of severity. Its rollout effect
+remains separate: only the blocker confirmation gate permits `readiness effect: blocker`.
+A violation requires current evidence of an exact normative contradiction; suspicion remains unverified.
+
 Apply in this order:
 
-1. `NOT READY` when a material contract violation, unresolved contract drift, or rollout blocker
-   satisfies the blocker confirmation gate.
-2. `UNVERIFIED` when no confirmed blocker exists but a material rule/risk is `partial` or
-   `unverified`, a missing contract prevents comparison, required production-like evidence is
-   absent, independent strict fan-out was unavailable, or the bounded confirmation protocol was
+1. `NOT READY` when a material contract violation is proven, a finding satisfies the rollout
+   blocker confirmation gate, or an evidenced material non-contract rollout risk remains unaccepted.
+   State whether the reason is noncompliance, a confirmed rollout blocker, or pending risk acceptance;
+   pending acceptance is not an evidence gap and does not itself make the risk a blocker.
+2. `UNVERIFIED` when no `NOT READY` condition holds but a material rule/risk is `partial` or
+   `unverified`, unresolved contract drift prevents determining the governing rule, a missing
+   contract prevents comparison, required production-like evidence is absent, independent strict fan-out was unavailable, or the bounded confirmation protocol was
    not completed.
 3. `READY WITH ACCEPTED RISKS` when all material contract rules and required evidence are complete,
    no violation/blocker remains, and the only remaining rollout risks were explicitly accepted.
@@ -102,5 +109,5 @@ Apply in this order:
    when required.
 
 Explicit risk acceptance cannot waive a contract violation or unresolved conflict. Green tests
-cannot raise a lower verdict. When `NOT READY` and verification gaps coexist, report `NOT READY`
-and list the gaps without weakening the confirmed blocker.
+cannot raise a lower verdict. When a still-valid `NOT READY` condition and verification gaps coexist,
+retain `NOT READY` and list the gaps separately. Evidence for an obsolete snapshot cannot establish the current verdict.
