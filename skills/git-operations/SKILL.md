@@ -25,6 +25,9 @@ directly before acting on it; leave other case files unloaded.
 | Explicitly integrate a linked task worktree: update base, base into working, working into base | [Worktree integration](references/worktree-integrate.md) |
 | Maintain an open PR through comments, conflicts, or CI | Use existing authorized PR tools or an available PR workflow; do not install missing tools merely to follow this route. |
 
+For a one-time PR status request, report a fresh snapshot, including pending or unknown states.
+Monitor or wait only when the requested outcome requires it; a push alone does not.
+
 ## Start
 
 1. Identify the selected checkout and task scope. Before a Git mutation, inspect repository root,

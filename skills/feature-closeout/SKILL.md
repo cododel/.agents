@@ -54,8 +54,10 @@ Closeout checks acceptance and closes authorized gaps, without an automatic fres
    checks, tests, and focused probes provide different evidence; a passing suite or clean diff is
    insufficient by itself.
 4. Separate confirmed in-scope defects, unknowns, environment or pre-existing failures, and independent
-   debt. Confirm and deduplicate findings; immediately repair unambiguous authorized defects and
-   clarify material alternatives with the operator. Never weaken acceptance/tests to match
+   debt. Before accepting a candidate defect, trace its triggering conditions and check whether
+   existing guards, ordering or cleanup prevent it. Deduplicate confirmed findings; immediately
+   repair unambiguous authorized defects and clarify material alternatives with the operator.
+   Never weaken acceptance/tests to match
    implementation; expectation changes need an agreed behavior change or a demonstrated check defect.
 5. After repairs, run missing or invalidated checks; reuse evidence only while relevant code,
    configuration and environment remain compatible. Review the final diff against the agreed task.

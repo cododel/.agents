@@ -20,8 +20,10 @@ into a question. Preserve the operator's motivation; it is the reference point f
 
 ## 2. Ask by consequence, not by template
 
-Ask one coherent batch of the highest-impact unresolved forks within the available interface's actual
-question limit. If a suitable interface is unavailable or disallowed in the current mode, use concise
+Ask one coherent batch of the highest-impact unresolved forks whose prerequisites are settled,
+within the available interface's actual question limit. If one answer could change whether another
+question applies or which options it offers, defer that question until the answer arrives.
+If a suitable interface is unavailable or disallowed in the current mode, use concise
 plain-chat questions at the point permitted by the applicable instructions. For each question:
 
 - explain the material consequences of real alternatives, including whether existing
