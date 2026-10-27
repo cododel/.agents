@@ -72,22 +72,24 @@ For each major piece of evidence in the body (commands, SQL, logs, rationale,
 rejection reasons, file paths), ask: **is this preserved anywhere else?**
 
 Quickly search for distinctive snippets: exact error messages, specific SQL fragments and unusual
-command flags. A snippet found only in this file is unique. Non-obvious design rejection reasons
-that would not make sense to re-derive are unique even when not grep-distinctive.
+command flags to locate possible duplicates, then compare their meaning. A missing snippet match
+does not prove unique knowledge; equivalent content may use different wording. Assess design
+rejection reasons by their substance too. If preservation elsewhere remains unknown, report the
+uniqueness check as inconclusive.
 
 ### Check 4 — Better-fit alternative?
 
 Run through the alternatives:
 
-- `repair` — is the doc fixable rather than disposable? (Most docs are.) Also covers
+- `repair` — does the doc retain established value with a specific repairable defect? Also covers
   "move unique content into the proper doc home (runbook / troubleshooting / inline
   comment) before delete" — there is no `archive` fallback.
-- `merge` — does another doc cover the same ground and could absorb this?
-- `close` (Issues only) — is the work complete and verified, requiring lifecycle closure
-  and the `issue-writer:close` extraction gate rather than direct deletion?
+- `merge` — is duplicate/fragmented coverage established under [value criteria](value-criteria.md)?
+- `close` (Issues only) — is the work complete and verified, requiring a status transition with
+  source retention rather than deletion? Any proposed removal uses `issue-writer` cleanup/apply.
 - `stale` (Issues only) — are the premises stale while completion remains unverified,
   requiring `Last reviewed` plus a `Stale note` while the Issue stays `Open`?
-- `supersede` (ADRs only) — is there a newer ADR explicitly replacing this?
+- `supersede` (ADRs only) — is accepted replacement established under [value criteria](value-criteria.md)?
 - `promote-to-adr` — does this closed issue actually encode an architectural
   decision?
 
@@ -121,7 +123,7 @@ Return a single JSON object:
   "content_unique": true,
   "better_alternative_fits": true,
   "unique_signals": ["SQL repro absent elsewhere", "Non-obvious rejection rationale"],
-  "recommended_alt": "repair: preserve unique content in docs/runbooks/repro.md before issue-writer:close",
+  "recommended_alt": "repair: preserve unique content in docs/runbooks/repro.md before issue-writer cleanup/apply",
   "gaps": [],
   "reasoning": "A runbook depends on unique Issue evidence. Preserve it and repair links before deletion."
 }
@@ -162,7 +164,7 @@ Field rules:
 
 For `downgrade`, blocking references route to `repair` (or follow the link target's preference).
 When references are non-blocking and content is unique, use `repair` with `recommended_alt` naming
-the destination doc: runbook, troubleshooting, or ADR via `adr-writer:from-issue`.
+the destination doc: runbook, troubleshooting, or ADR via `adr:from-issue`.
 
 Uncertainty is `inconclusive`; a proven better action is `downgrade`. Neither permits deletion.
 

@@ -12,8 +12,9 @@ destructive actions still require authorization covering the actual action and t
   The operator owns unresolved product and material architecture choices unless
   explicitly delegated. Present real alternatives with a recommendation and tradeoffs
   before implementing the choice; an agent preference is not an objective necessity.
-- Outside Plan mode, ask early through asynchronous user input when a material alternative remains
-  unresolved. Continue independent work.
+- Outside Plan mode, ask early when a material alternative remains unresolved. Use asynchronous
+  user input when available and permitted; otherwise use the available conversational interface.
+  Continue independent authorized work.
 - Reuse confirmed decisions and authorization. Do not ask again unless the target or circumstances
   change. A proposed default, recorded assumption, or unanswered question is not agreement.
   Respect explicit refusals.
@@ -52,8 +53,10 @@ destructive actions still require authorization covering the actual action and t
   existing plan or task state. Reassess the approach when work stops reducing a relevant gap.
 - Use `$task-journal` when decisions or context changes become hard to retain. It owns record
   storage and maintenance; do not create parallel task records.
-- Preserve the current agreed scope and acceptance. Keep proposals and incomplete behavior explicit;
-  material changes require agreement, while in-scope implementation details remain agent-owned.
+- Preserve agreed outcomes, acceptance, authority, and scope exclusions. Adapt implementation and
+  investigation as evidence changes within those boundaries; these methods remain agent-owned.
+  Keep proposals and incomplete behavior explicit. Material changes to the agreed boundaries
+  require operator agreement.
 - Before finalizing, compare the result with the agreed task, repair clear authorized gaps and
   verify affected behavior. Use `$feature-closeout` for material completion uncertainty or an
   explicit request. Stop only at completion or a concrete blocker; no separate review is required
@@ -62,8 +65,9 @@ destructive actions still require authorization covering the actual action and t
 ## Git And Worktree Ownership
 
 - Before Git mutation, inspect status, branch, HEAD, and `git worktree list --porcelain`.
-- Work in the selected checkout and branch by default. Use `$worktree-task` only for requested
-  isolation, another required base, independent writable work, unsafe overlap, or a protected target.
+- Work in the selected checkout and branch by default. Use the `$git-operations` worktree-preparation
+  route only for requested isolation, another required base, independent writable work, unsafe overlap,
+  or a protected target.
   A feature, long task, or dirty but separable workspace alone does not require another worktree.
 - In the primary checkout, an implementation request permits scoped file edits. Staging, committing,
   switching, rebasing, and conflict resolution require an explicit request.
@@ -84,12 +88,9 @@ destructive actions still require authorization covering the actual action and t
 
 - Use English as the default language for user-facing product text and as the fallback whenever
   a localized version is unavailable.
-- Start with the simplest sufficient change that fits the project's established architecture
-  and agreed requirements. For each proposed approach, consider whether existing structures
-  and execution paths suffice. Before proposing additional persistent entities, independent
-  state, subsystems or extension points beyond the agreed design, briefly explain the established
-  need and why using existing structures would be insufficient or more complex overall.
-  Hypothetical consumers, symmetry and future flexibility are not sufficient reasons.
+- Derive additions or structural changes from established requirements and necessary
+  correctness guarantees, then compare sufficient implementations by overall complexity.
+  Reusing a structure does not by itself justify adding data or behavior.
 - Judge complexity across the affected operation: dependencies, sources of truth, coordination
   and places that must change together, not counts of files or tables. Preserve correctness,
   security, data safety and accessibility. Allow necessary behavior-preserving preparatory
@@ -99,15 +100,14 @@ destructive actions still require authorization covering the actual action and t
   errors with unsafe casts or broad ignores.
 - Comments explain only non-obvious reasons, constraints, or tradeoffs behind the code. Keep them
   brief and relevant. Delete obvious comments; do not rephrase them as obvious answers to "why".
-- Before introducing a new implementation, check relevant project components/helpers, standard
-  library and platform capabilities, and installed dependencies. Keep this check proportional to the
-  task and affected scope. Reuse only when semantics and architectural ownership fit; do not distort
-  the design to avoid necessary new code or an abstraction.
-  Stop searching for simpler alternatives once the solution is sufficient and fits
-  the project's architecture. Continue required verification and repair confirmed gaps.
-  Revisit an accepted design only for a concrete concern supported by evidence,
-  changed requirements or an operator request; a merely conceivable simpler variant
-  is not enough.
+- Check relevant project components, platform capabilities and installed dependencies
+  before introducing an implementation. Reuse them when their evidenced semantics and
+  ownership fit the task; otherwise choose an appropriate new implementation.
+  A design proposal may be conditional on unresolved project facts.
+  Stop comparing alternatives when proportionate evidence supports the solution's
+  sufficiency and project fit; continue required verification and repairs.
+  Revisit an accepted design for changed requirements, a concrete evidence-backed concern
+  or an operator request, not merely because another design is conceivable.
 - Agree new direct runtime or development dependencies with the operator before installing them or
   changing manifests/lockfiles. Briefly name the package, purpose, alternative without it and material
   tradeoffs. Popularity, maintenance activity or a smaller diff alone does not establish suitability.
@@ -167,7 +167,7 @@ destructive actions still require authorization covering the actual action and t
   lacking a suitable owner. Use `$contract-writer`; do not create one per feature or task completion.
 - Keep one owner per rule. Existing normative API/schema/docs may suffice; a separate Markdown
   contract is not mandatory. Never promote accidental implementation behavior into a guarantee.
-- Within authorized implementation or documentation work, agents may use `$adr-writer` to record
+- Within authorized implementation or documentation work, agents may use `$adr` to record
   significant agreed decisions without a separate ADR request. Preserve evidenced alternatives and
   rationale; never invent agreement or rewrite accepted history. Link current contracts instead of
   duplicating their rules. Task/Issue closure does not require an ADR; task memory is not an ADR.
@@ -199,9 +199,8 @@ destructive actions still require authorization covering the actual action and t
   Use full sentences when compression creates ambiguity. Match detail to the task and reader,
   without fixed word limits or mandatory risk/next-step boilerplate.
 - Express all times in UTC. Do not mention the time zone or include time-zone labels in responses.
-- Compare the result with the current agreed task and inspect the final affected diff. Report achieved
-  behavior, decisive verification, and material remaining gaps; use more detail only when useful.
-- Continue authorized work until acceptance criteria are supported or a concrete blocker remains.
-  Do not manufacture findings, completion claims, or elapsed time without evidence.
+- Inspect the final affected diff. Report the achieved result, decisive verification, and material
+  remaining gaps with detail proportional to the task. Do not manufacture findings, completion
+  claims, or elapsed time.
 - Provide resolved clickable paths for requested artifacts when supported. Retain precise technical
   terms, and avoid marketing, superlatives, and emoji.

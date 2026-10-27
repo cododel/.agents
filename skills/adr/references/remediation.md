@@ -10,7 +10,7 @@ remediation request; changed decisions require real operator rationale and a suc
 | `mark-superseded` | successor already exists and relationship is proven | status + bidirectional links |
 | `mark-deprecated` | decision area is gone with no direct successor | status + concise append-only note |
 | `normalize` | filename/date/placement violates proven local convention | move/rename and update inbound links |
-| `write-successor` | operator made a new significant choice | hand off to `adr-writer`, then supersede old |
+| `write-successor` | operator made a new significant choice | hand off to `adr`, then supersede old |
 | `split` | ADR bundles independent decisions | operator-backed successor records; retire bundle |
 | `flag-hollow` | rationale/options are missing or unsupported | request real author/operator evidence; never invent |
 | `confirm-candidate` | code shows a consequential fork but no decision history | ask whether an ADR-worthy operator decision exists |

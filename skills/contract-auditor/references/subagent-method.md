@@ -10,7 +10,7 @@ The orchestrator supplies:
 - repository root, worktree, target HEAD, base revision, and change inventory;
 - snapshot fingerprint for the immutable audit target;
 - contract inventory with paths, scopes, and stable rule IDs;
-- named risks and scope exclusions;
+- named risks, scope exclusions, and the assigned share of the audit budget;
 - absolute paths to this method, `evidence-and-verdicts.md`, and
   `../../contract-writer/references/contract-spec.md` resolved by the orchestrator.
 
@@ -19,7 +19,9 @@ contract assigned to the vector. Do not trust summaries when the source artifact
 
 ## Review procedure
 
-1. Inspect only the assigned vector across the full affected call-site and configuration radius.
+1. Inspect the assigned concern across its affected dependencies within the supplied scope and
+   budget. Report newly discovered normative owners to the orchestrator for shared rule IDs; hand
+   off concerns outside the assignment rather than silently expanding it.
 2. Map each applicable contract rule to exact implementation evidence.
 3. Locate existing tests or declared executable evidence and run focused checks when authorized.
 4. Inspect negative paths appropriate to the vector; do not infer cleanup, rollback, or retry

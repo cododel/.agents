@@ -1,6 +1,6 @@
 # ADR audit criteria
 
-Read `../../adr-writer/references/adr-spec.md` first. This file adds review-time checks that require
+Read `adr-spec.md` first. This file adds review-time checks that require
 code, Git history, and corpus context.
 
 ## Per-ADR checks
@@ -32,7 +32,8 @@ When implementation follows another approach but no changed operator choice is e
 
 ### Immutability
 
-For Accepted/Superseded records in the requested immutability scope, establish the acceptance
+For records that ever reached Accepted, including now Superseded or Deprecated records,
+within the requested immutability scope establish the acceptance
 baseline from evidence, then inspect `git log --follow -p` and any current staged/unstaged changes.
 Substantive edits to Context, Options, Decision, or Consequences after acceptance are findings.
 Status/link metadata and append-only review notes are allowed. Report one exact check status:

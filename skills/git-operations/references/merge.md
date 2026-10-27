@@ -1,8 +1,3 @@
----
-name: merge-branches
-description: "Safely merge one Git branch or ref into another on explicit request, resolve mechanical conflicts without dropping either side's behavior, and stop on product, contract, or architecture forks. Not for rebase, cherry-pick, history repair, push, or generic Git diagnosis."
----
-
 # Merge Branches
 
 Merge the requested source into the exact destination while preserving the behavior and intent of
@@ -11,7 +6,8 @@ functionality was lost.
 
 ## Scope and authority
 
-Use this skill only for an explicit merge request. The request must identify, or make unambiguous,
+Use this procedure only for an explicit merge request, including merges covered by an explicitly
+requested ordered worktree integration. The request must identify, or make unambiguous,
 the source, destination, and merge direction. Do not choose a conventional destination when more
 than one is plausible.
 
@@ -25,11 +21,9 @@ preflight, resolution, and verification; do not let a failed pair contaminate th
 
 ## Establish the merge target
 
-Before mutation, resolve and record:
+Apply the common preflight in [Git operations](../SKILL.md), then resolve and record:
 
-- repository root, current worktree, active branch, and all linked worktrees;
 - requested source and destination ref names and merge direction;
-- staged, unstaged, and untracked state;
 - applicable project instructions, merge strategy, checks, and stable contracts.
 
 If the request requires current remote state, verify the requested remote and fetched ref and
@@ -40,7 +34,7 @@ merge does not authorize publication.
 
 Use the destination's existing workspace when its ownership is clear. Do not silently switch an
 operator-owned checkout, create another worktree, or reuse a branch checked out elsewhere. Route to
-`$worktree-task` only when its isolation gate is actually satisfied.
+[worktree preparation](worktree-prepare.md) only when its isolation gate is actually satisfied.
 
 Before an ordinary merge, require the index to equal destination HEAD (`git diff --cached --quiet`)
 and no pre-existing merge or unmerged entries. Unrelated unstaged or untracked changes may remain

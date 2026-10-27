@@ -1,4 +1,0 @@
-interface:
-  display_name: "Worktree Task"
-  short_description: "Prepares Git worktrees when isolation is justified"
-  default_prompt: "Use $worktree-task to prepare an isolated branch and worktree when this task needs separate writable ownership."

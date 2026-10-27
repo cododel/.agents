@@ -61,7 +61,7 @@ layout or explicit requirements. State material assumptions and distinguish a de
 from a conditional capacity risk when load is unknown. A correctness defect reachable at low
 concurrency does not need high-load evidence; existing blocker and verdict gates still apply.
 
-## 4. Plan one bounded discovery pass
+## 4. Plan a bounded audit
 
 Group vectors by concern, not by file. Non-strict audits may run inline; delegate when useful.
 
@@ -93,24 +93,27 @@ Before launching, record a finite audit budget in the matrix: `max_vectors`, `ma
 `max_discovery_passes=1`, `max_confirmation_passes=1`, and whether one conflict-resolution pass is
 available. The strict default is at most four vectors with one agent per vector. Group named risks
 into those vectors; exceed the default only when the operator explicitly names more independent
-risks, and freeze the higher bound before discovery. Subagents never spawn audit subagents.
+risks. Keep the agreed budget fixed while adapting the investigation within it. Subagents never spawn audit subagents.
 
-Freeze the contract inventory, rule IDs, vectors, named risks, scope exclusions, and snapshot
-fingerprint before discovery. Any later confirmation uses these exact IDs and scope; do not add
-search areas or reinterpret rules between phases.
+Fix the audit objective, authorized scope, target snapshot, scope exclusions, and budget before
+discovery. Keep the contract inventory and investigation map current: follow concrete dependencies
+and falsifiable hypotheses within those boundaries, including newly discovered normative owners.
+Preserve existing rule IDs and meanings; assign IDs to additions and share them with affected
+reviewers. Reassign or add vectors only within the budget. A newly discovered path is not a scope
+change; changing acceptance, permissions, or the agreed target requires operator agreement.
 
 ### Cascade boundary
 
 A cascade is a finite downstream consequence of one root defect through an exact control-flow,
 data-flow, persistence, ownership, or resource-lifecycle edge. Record `root_finding_id`,
 `causal_parent`, `causal_edge`, and `depth` for every claimed cascade consequence. Follow it only
-inside the frozen causal frontier and audit budget. Deduplicate consequences that share one root
+inside the authorized scope and audit budget. Deduplicate consequences that share one root
 cause instead of inflating the finding count.
 
 When a shared root is plausible but one causal edge is still missing, classify the observation as a
 `cascade-candidate`, name the proposed root and missing proof, and keep it separate from confirmed
 cascade consequences. Without either a demonstrable edge or a bounded falsifiable edge hypothesis,
-classify it as an independent finding. If it is outside the frozen matrix, report an out-of-scope
+classify it as an independent finding. If it is outside the authorized scope, report an out-of-scope
 hand-off and do not inspect it further. Changing code, contracts, configuration, or the snapshot
 ends cascade analysis; it never starts a new recursive audit.
 
@@ -135,31 +138,33 @@ not include the expected answer or prior conclusions. Use `subagent-method.md` a
 
 ## 6. Confirm strict and repeat review
 
-Use at most one full discovery pass, one candidate-confirmation pass, and one optional
-conflict-resolution pass over the frozen matrix and snapshot. A clean streak is not required and
-must not be simulated by repeating the full search.
+Use the recorded discovery, confirmation, and optional conflict-resolution budget on the same
+snapshot. Evidence-led follow-ups may refine the investigation within that budget; they do not
+reset it or authorize repeated full searches. A clean streak is not required.
 
 1. Recompute the snapshot fingerprint after every vector and before integration or confirmation.
-   If it changed, stop with `UNVERIFIED`; never continue or silently adopt the new target.
-2. Complete the already-launched discovery wave. Do not add vectors, rules, or search areas after
-   launch.
-3. Confirm only `blocker`/`high` candidates and disputed prior findings with the strongest bounded
-   read-only evidence. If there are no candidates, re-open only the material traceability rows
-   needed to validate integration; do not rerun discovery.
-4. Once one finding satisfies the blocker gate, fix the overall verdict at `NOT READY`. Collect
-   results from the already-launched discovery vectors to inventory coexisting blockers, but start
-   no new test, vector, or pass.
-5. Use the optional third pass only to resolve conflicting independent evidence. It cannot discover
-   new surfaces or reset the audit.
+   If it changed, stop with `UNVERIFIED`; never silently adopt a new target.
+2. Confirm `blocker`/`high` candidates and disputed prior findings with the strongest bounded
+   read-only evidence. If there are none, validate the material traceability rows needed for the
+   requested conclusion. Keep unresolved findings and coverage gaps explicit.
+3. A confirmed blocker fixes the verdict at `NOT READY`. If the request is only a readiness decision,
+   finish already-launched work and report the bounded coverage. If the request also requires a
+   findings inventory or named-risk closure, continue that authorized coverage within the budget;
+   the verdict alone does not establish its completion.
+4. Stop when the requested assessment is supported, the budget is exhausted, or a concrete evidence,
+   access, or decision blocker prevents further useful work. Do not create new checks merely to
+   obtain another clean result. The optional conflict-resolution pass addresses conflicting evidence,
+   not a fresh full audit.
 
-Any implementation hand-off ends this audit invocation. After a fix, only a new operator request
-may authorize a new audit with a newly resolved fingerprint; a standing "until clean" instruction
-does not. The sole exception is an explicitly declared composite release workflow that performed no
-earlier audit, completed all mutations first, froze a new fingerprint, and invokes this audit once
-as its terminal read-only step. If time, context, tool availability, independence, or required
-evidence prevents this bounded protocol, report completed work and apply overall verdict precedence:
-retain `NOT READY` when its basis remains valid for the frozen target; otherwise return `UNVERIFIED`.
-A changed snapshot follows step 1 instead; do not carry an obsolete finding onto a new target.
+An implementation hand-off ends this read-only invocation. A later audit resolves a new snapshot
+and uses `repeat-review`; it is authorized when the existing operator instruction covers it,
+including an agreed repair-and-review workflow. Otherwise request that authorization. The audit
+itself grants no repair, deployment, or external-write authority. Reuse evidence only where its
+relevant sources and conditions remain valid; do not carry an obsolete finding onto a new target.
+
+If time, context, tooling, independence, or required evidence prevents completion, report completed
+coverage and apply verdict precedence: retain `NOT READY` when its basis remains valid for the
+reviewed target; otherwise return `UNVERIFIED`.
 
 ## 7. Decide and report
 

@@ -1,6 +1,6 @@
 # ADR classifier method
 
-Use this method for a bounded, read-only ADR batch delegated by `$adr-auditor`. Read the supplied
+Use this method for a bounded, read-only ADR batch delegated by `$adr`. Read the supplied
 quality specification and audit criteria before inspecting records. Return evidence, not rewritten
 history.
 
@@ -10,8 +10,8 @@ The primary agent supplies:
 
 - `candidates`: exact ADR paths;
 - `scope_context`: repository root, confirmed ADR convention, and any narrowed audit scope;
-- `criteria_paths`: absolute paths to `adr-writer/references/adr-spec.md` and
-  `adr-auditor/references/audit-criteria.md`.
+- `criteria_paths`: absolute paths to `adr/references/adr-spec.md` and
+  `adr/references/audit-criteria.md`.
 
 If a required input or criterion file is missing, return a structured error instead of improvising a
 yardstick.

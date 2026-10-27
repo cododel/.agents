@@ -1,0 +1,6 @@
+interface:
+  display_name: "Architecture Decisions"
+  short_description: "Record agreed decisions or audit ADR history"
+  default_prompt: "Use $adr to record or review architecture decisions within the requested scope."
+policy:
+  allow_implicit_invocation: true

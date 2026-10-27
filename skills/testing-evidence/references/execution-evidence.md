@@ -10,7 +10,8 @@ side effects as well as the command name. Do not install a new runner or cache t
 Start with the smallest check that distinguishes the intended behavior. Add relevant static/type/
 build checks and affected integration/consumer checks. Full suites are final/integration evidence by
 project policy or affected risk, not an automatic checkpoint ritual. Required project gates remain
-required; disclose unavailable parts rather than substitute narrower evidence.
+required; disclose unavailable parts rather than substitute narrower evidence. An iteration alone does not
+require a full suite, mutation campaign or fresh infrastructure.
 
 A progress response, automatic continuation or context boundary does not by itself create a new full
 suite obligation. For long work, identify the integration/handoff boundaries required by the project
@@ -22,6 +23,14 @@ overlapping runs: an appropriate current broader result may satisfy its covered 
 Keep serial/order variants for import/global-state pollution, non-UTC variants for conversion, and
 cross-OS/process/filesystem variants where behavior differs. Identical assertions do not make these
 equivalent. Runtime/skip/duration claims require observed execution, not collection or source labels.
+
+## Incomplete stages
+
+An isolated incomplete stage may establish some behavior while other requirements remain unfinished;
+this is not a preferred implementation sequence. Keep known failures labeled failed with their
+unmet obligation, and unknown failures unresolved rather than expected. Demonstrate each stage claim
+at its actual boundary; mocked integrations do not establish their real guarantees. Stage evidence
+does not establish final acceptance or authorize reduced requirements or shared/production exposure.
 
 ## Reuse and invalidation
 
@@ -56,9 +65,4 @@ Collection exit zero, empty selection, fake outcome, historical aggregate, stati
 passing lint cannot be promoted into a different kind of proof. Separate observations, conclusions
 and assumptions; compare evidence with every material acceptance criterion and disclose gaps.
 
-For instruction/context optimizations, a smaller file establishes only its measured byte or token
-size. Distinguish that from session-wide usage, quality and monetary savings. Before/after sessions
-without a comparable control do not establish attribution; an external benchmark does not measure
-this project's benefit. Do not convert bytes or local token reductions into billed savings without
-applicable provider accounting. Use the paired-comparison method in [experiments.md](experiments.md)
-when evaluating a resource improvement.
+For resource-improvement claims, use the comparison method in [experiments.md](experiments.md).

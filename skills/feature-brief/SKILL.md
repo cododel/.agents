@@ -39,7 +39,7 @@ A temporary PoC/operator demo may answer an API/design/UX fork before production
 
 Once material forks are resolved, continue the explicitly requested planning or implementation.
 Update existing normative owners when agreed guarantees change; use `$contract-writer` for a new
-owner only under its value test. During authorized implementation/documentation work, `$adr-writer`
+owner only under its value test. During authorized implementation/documentation work, `$adr`
 may record significant agreed decisions under its evidence gates without a separate ADR request;
 planning alone does not authorize this. Stop affected work for an unresolved contract or architecture fork.
 

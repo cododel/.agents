@@ -31,6 +31,7 @@ No confirmed findings.  <!-- use only when the list is empty -->
 
 Target: `<worktree, head, base, staged/unstaged scope, snapshot fingerprint>`
 Mode: `<mode>`; strict: `<yes/no>`; protocol: `<discovery/confirmation/conflict status>`
+Objective: `<requested decision and coverage>`
 Budget: `<vectors, agents, passes>`
 Reason: `<noncompliance, confirmed rollout blocker, pending risk acceptance, evidence gap, or satisfied boundary>`
 Rollout effect: `<blocker | risk | none; apply the blocker gate separately from contract compliance>`
@@ -43,9 +44,9 @@ Rollout effect: `<blocker | risk | none; apply the blocker gate separately from 
 
 ## Named-risk closure
 
-| Risk | Lifecycle | Cleanup | Concurrency | Detection | Runtime | Result |
-|:--|:--|:--|:--|:--|:--|:--|
-| `<risk-id>` | `<result>` | `<result>` | `<result>` | `<result>` | `<result>` | `<result>` |
+| Risk | Applicable dimensions | Evidence and gaps | Result |
+|:--|:--|:--|:--|
+| `<risk-id>` | `<dimensions required by this risk>` | `<proof or missing evidence>` | `<result>` |
 
 ## Coverage and gaps
 
@@ -57,7 +58,7 @@ Rollout effect: `<blocker | risk | none; apply the blocker gate separately from 
 
 ## Hand-offs
 
-- `$contract-writer`: `<missing owner or contract conflict; separate approval required>`
+- `$contract-writer`: `<missing owner or contract conflict; state any unresolved decision or missing authoring authority>`
 - implementation/tests/operations: `<confirmed bounded work>`
 ```
 

@@ -38,8 +38,9 @@ is requested; otherwise use a bounded release reviewer. Its own audit constraint
 If the required isolated reviewer is unavailable, return `UNVERIFIED`.
 
 Once the frozen audit begins, neither reviewer nor primary may repair that snapshot. Any fix or
-repeat requires leaving the audit, a new fingerprint and a new explicit invocation. Return the
-terminal verdict without automatically repairing or restarting. When using `$contract-auditor`,
+repeat leaves this invocation and requires authorization covering that action; reuse an existing
+operator instruction when it covers the continuation. A later review resolves a new fingerprint.
+Return the verdict before any separately authorized continuation. When using `$contract-auditor`,
 preserve its verdict and stated boundary unchanged, including `READY WITH ACCEPTED RISKS`;
 `NOT READY` for contract noncompliance does not by itself assert a rollout blocker.
 The labels below apply to the other bounded release-review path.

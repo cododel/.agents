@@ -3,11 +3,10 @@
 This is the rulebook the classifier (subagent or inline) uses to assign verdicts.
 Eight labels, ordered from "definitely keep as-is" to "definitely remove."
 
-There is intentionally **no `archive` verdict**. Closed issues either have extractable
-documentation value (`promote-to-adr`, or — for non-decision value like durable current-state
-behavior, ops procedures, or unique repros — `repair` to move the value into the right home first),
-or they are `delete`. The `issue-writer:close` workflow enforces this at sweep time
-with a mandatory pre-extraction check.
+There is intentionally **no `archive` verdict**. Closing an Issue retains its source by default.
+For proposed removal, preserve unique documentation value through `promote-to-adr` or `repair`;
+otherwise a `delete` proposal still requires the deletion gates. Route Issue removal through
+`issue-writer` cleanup/apply, which checks completion and extraction before authorized deletion.
 
 Issue status and filename handling follow `../../issue-writer/references/conventions.md`.
 The stable-name fallback updates the body only; rename only under an established local convention.
@@ -17,8 +16,8 @@ The stable-name fallback updates the body only; rename only under an established
 | Label              | Meaning                                                                                          |
 |--------------------|--------------------------------------------------------------------------------------------------|
 | `keep`             | Still changes future engineering behavior. Open, accurate, useful as written.                    |
-| `repair`           | Potentially useful but under-specified, stale in document details, missing evidence, or poorly formatted while the tracked work remains valid. Also covers "extract content into a different doc home (living contract via `$contract-writer` / runbook / troubleshooting / README) before close." |
-| `close`            | Open/implementing issue is complete and verified; mark closed under the established convention so the next `issue-writer:close` sweep handles it.         |
+| `repair`           | Potentially useful but under-specified, stale in document details, missing evidence, or poorly formatted while the tracked work remains valid. Also covers "extract content into a different doc home (living contract via `$contract-writer` / runbook / troubleshooting / README) before removal." |
+| `close`            | Open/implementing issue is complete and verified; mark closed under the established convention and retain the source unless removal is separately covered.         |
 | `stale`            | Open issue has stale premises but completion is unverified; add review evidence without changing status.                        |
 | `merge`            | Duplicate or fragmented record that should be folded into a canonical document.                  |
 | `supersede`        | ADR or decision record replaced by a newer decision; mark superseded with link.                  |
@@ -74,8 +73,8 @@ A document is `close` when:
 - The original problem is gone in the current codebase, but the issue still has
   an open or implementing status under its established convention
 - The fix can be pointed to (commit, PR, file path) — leave the issue file in place,
-  update status under the established convention and add a brief completion note. The next sweep
-  (`issue-writer:close`) will handle extraction-then-delete.
+  update status under the established convention and add a brief completion note. Any later removal
+  uses the authorized `issue-writer` cleanup/apply route and its extraction/recovery gates.
 
 A document is `stale` when its premises no longer match current evidence but completion
 cannot be verified. Keep `Status: Open`, update `Last reviewed`, and recommend a concise
@@ -85,18 +84,19 @@ cannot be verified. Keep `Status: Open`, update `Last reviewed`, and recommend a
 
 A document is `merge` when:
 
-- Multiple files describe the same incident, decision, or symptom — common when
-  several people opened separate issues independently
-- A long-running issue has spawned several follow-up issues that didn't get linked
-  back to the parent
+- Evidence shows duplicate or fragmented knowledge that belongs in one owner. For Issues,
+  compare the actual work scope and completion criteria. A shared incident, decision or symptom
+  alone is insufficient.
+- Missing links from independently resumable follow-up Issues call for relationship repair,
+  not merging distinct scopes or completion criteria.
 
 ## Supersede signals (ADRs only)
 
 A document is `supersede` when:
 
-- A newer ADR explicitly contradicts or replaces it
-- The system has clearly moved on (the ADR's chosen option is no longer in the code,
-  and a different approach has its own ADR)
+- Evidence establishes an accepted successor decision and its replacement relationship.
+  Contradiction, a Proposed successor or implementation divergence alone does not establish
+  replacement; unresolved decision/relationship evidence remains `ambiguous`.
 
 The action: keep the file, add a `**Superseded by:** <newer-adr-path>` header line.
 Do not delete superseded ADRs — they explain why the current state was chosen.
@@ -108,19 +108,19 @@ and whose unique knowledge (if any) is non-decision documentation is handled lik
 
 - If it establishes durable product, UI, API, domain, persistence, security, or current
   architecture behavior: mark `repair` with a note to update the existing living contract via
-  `$contract-writer` before close. If none exists, `$contract-writer` may establish it when current
+  `$contract-writer` before removal. If none exists, `$contract-writer` may establish it when current
   semantics, language, scope, and ownership are already explicit; otherwise report the material fork.
 - If it contains unique repros, commands, or procedures worth keeping: mark `repair`
   with a note to move that content into the appropriate home (runbook, troubleshooting
-  doc, inline code comment) before close. The classifier's `recommended_alt` field
+  doc, inline code comment) before removal. The classifier's `recommended_alt` field
   carries the suggested target.
 - If it contains nothing beyond what the fix commit already records: mark `delete`.
-  The operator will run `issue-writer:close`, which re-checks for extractable value
+  If removal is authorized, `issue-writer` cleanup/apply re-checks for extractable value
   before any exact deletion, with a recovery gate for valid unrecoverable paths and a block for
   unresolved value/scope or invalid targets.
 
-There is no `archive` verdict. Closed issues either get their value extracted into
-a real doc home or they get deleted — they don't accumulate in an archive subdirectory.
+There is no `archive` verdict. A closed status alone neither authorizes removal nor requires
+an archive directory; retain the source until the proposed action is authorized and its gates pass.
 
 ## Promote-to-ADR signals (issues only)
 
@@ -135,7 +135,7 @@ operator-made choice and specific rationale, such as:
 - Rationale for keeping a legacy approach
 - "By design" decision
 
-For these, **surface the `adr-writer:from-issue` flow** rather than promoting inline. It verifies
+For these, **surface the `adr:from-issue` flow** rather than promoting inline. It verifies
 operator-decision evidence, groups only one coherent decision, writes provenance/backlinks, and keeps
 source cleanup as a separate recovery-aware action under explicit cleanup intent.
 
@@ -146,13 +146,12 @@ or unresolved work, and no `repair` / `close` / `stale` / `merge` / `supersede` 
 better preserves its meaning. Cite the observed redundancy; age or thin formatting is insufficient.
 
 In audit and apply modes, this value proposal needs neither a completed safety check nor apply
-authority. Before deletion, the primary follows `pre-delete-method.md` and `delete-gate.md`,
+authority. Before deletion, the primary follows `pre-delete-method.md` and [document deletion](../../_shared/document-deletion.md),
 including their exact-file, value, reference, recovery, and mutation-authority gates.
 
-For closed issue files specifically, prefer routing through `issue-writer:close`
-rather than deleting via this skill's gate — `close` runs a second-pass pre-extraction
-check that's tuned for issue bodies (rejected options, ops procedures, unique repros).
-This skill catches misclassified `delete` candidates; `close` adds issue-specific documentation checks.
+For proposed removal of closed Issue files, prefer `issue-writer` cleanup/apply rather than direct
+deletion here. It preserves Issue-specific completion and extraction checks for decision history,
+operational procedures, and unique reproductions; a cleanup recommendation grants no removal authority.
 
 ## What is NOT sufficient for `delete`
 

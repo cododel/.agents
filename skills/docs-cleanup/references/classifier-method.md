@@ -36,9 +36,10 @@ For each candidate path:
 3. **Record evidence.** A one-sentence quote or paraphrase of the signal that matched
    the label, so the orchestrator and operator can audit your call without re-reading
    the file.
-4. **Note false-positive risk** for `delete` verdicts. If you suspect the file might
-   still be referenced elsewhere or contain unique operational knowledge, lean
-   toward `repair` / `merge` / `promote-to-adr` and explain in the evidence field.
+4. **Note false-positive risk** for `delete` verdicts. If references or unique operational
+   knowledge remain uncertain, report that uncertainty and the needed check. Use `ambiguous`
+   when value cannot be established; reference uncertainty keeps deletion safety unresolved.
+   Choose repair, merge or promotion only from established value and applicable criteria.
 
 You may read additional files for context (e.g. checking whether an ADR is superseded
 by reading the newer one referenced in the candidate's body). Do not exhaustively
@@ -74,7 +75,7 @@ Field rules:
   and `fp_risk >= medium`, OR if `verdict == ambiguous`, OR if `verdict == repair`
   and the suggested fix is "move content into a different doc home" (specify the
   target: living contract via `$contract-writer`, runbook path, troubleshooting doc,
-  or ADR via `adr-writer:from-issue`). For
+  or ADR via `adr:from-issue`). For
   `close`, state the status update required by `../../issue-writer/references/conventions.md`; for `stale`, state the
   `Last reviewed` and `Stale note` update while keeping `Status: Open`. Null otherwise.
 - `title` — the document's H1 heading or filename if no H1.

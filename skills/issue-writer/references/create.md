@@ -1,24 +1,17 @@
 # Create / update workflow
 
-## 1. Prove the deferral
+## 1. Establish the work and recording authority
 
-Establish:
-
-- the concrete observed problem and why it matters;
-- evidence and a stable grep-able locator;
-- the operator's explicit deferral reason/resume condition, or evidence that fixing it now falls
-  outside the active affected radius or materially increases regression/merge-conflict risk;
-- enough independent scope that another session can resume it;
-- the first next step and observable completion/verification boundary;
-- whether an operator decision is still required.
+Identify the observed defect, agreed improvement, requested capability, or accepted limitation being
+recorded, its source, affected scope, and why it matters. Establish enough context for another
+session to resume: unresolved decisions, the next useful action, and observable completion or
+reconsideration conditions. Preserve stated deferral reasons; do not invent one when none was given.
 
 Proceed on a request to record/defer this work or confirmed acceptance of a material limitation under
-AGENTS. Preserve the operator's stated reason and reconsideration conditions; discovering debt alone
-permits a concise report, not an Issue or TODO.
-An operator may validly defer work that was previously in the active scope. Do not reject that request
-solely because the agent could fix it now or cannot demonstrate increased technical risk.
-If the root cause is not proven, label it as a hypothesis and record the next falsifying probe; do not
-write a confident diagnosis.
+AGENTS. Discovering debt alone permits a concise report, not an Issue or TODO. An operator may defer
+in-scope work even when the agent could fix it now; no technical-risk justification is required.
+For a defect, separate observed symptoms from established causes and hypotheses. If the cause is
+unknown, say so; record a distinguishing probe when one is supported, not a mandatory invented cause.
 
 ## Accepted limitations
 
@@ -29,7 +22,7 @@ who revisits the decision under what condition. Use evidence or label uncertaint
 not proven acceptable. Do not invent an implementation deadline or assert that the defect was fixed.
 
 Reuse one suitable Issue or existing decision owner. Route a significant agreed architectural choice
-to `adr-writer` only when its criteria fit; no mandatory Issue-plus-ADR pair. A simple implementation
+to `adr` only when its criteria fit; no mandatory Issue-plus-ADR pair. A simple implementation
 that already meets requirements does not need a debt record. Temporary missing work remains in the
 active task unless the operator actually changes acceptance or defers it.
 
@@ -41,12 +34,12 @@ of promising repayment. Revisit implementation only under the current authorized
 ## 2. Discover local ownership and duplicates
 
 Use shared repository discovery to prove one Issues root. Read its README/template and sample 1–2
-recent open records. Search distinctive symptoms, identifiers, paths, and root-cause terms before
-creating a file.
+recent open records. Search relevant requirements, intended outcomes, symptoms, identifiers, paths,
+and established causes before creating a file.
 
-- Update an existing Issue when ownership/root cause clearly matches.
-- Create a related new Issue when evidence proves a distinct root cause, boundary, or completion
-  target; link the relationship.
+- Update an existing Issue when it owns the same work and completion target.
+- Create a related new Issue for a distinct completion target, boundary, or established defect cause;
+  link the relationship.
 - Ask only when the records are plausibly competing owners and the choice would change historical or
   operator intent.
 
@@ -56,20 +49,20 @@ Stop if repository or module scope is ambiguous.
 
 ## 3. Write useful resumption context
 
-Match local convention. Otherwise use `../assets/deferred-template.md` and capture:
+Match local convention. Otherwise adapt `../assets/deferred-template.md` to the recorded work:
 
-- title, date, `Open` status, priority, and severity;
-- affected scope and stable code/runtime probes;
-- problem, evidence, root cause or explicit hypothesis;
-- why deferred now and the risk of leaving it unresolved;
-- recommended direction without pretending an unresolved design is decided;
-- resume conditions/first actions;
-- completion criteria and verification;
-- related contracts, ADRs, Issues, commits, or task context.
+- title, date, `Open` status, affected scope, and established priority;
+- the observed problem or requested outcome, its source, and available evidence;
+- for a defect, observed impact and any established cause or explicit hypothesis;
+- stated deferral reason, relevant consequences, and unresolved decisions;
+- supported direction, resume conditions/first actions, and completion criteria with verification;
+- relevant contracts, ADRs, Issues, commits, or task context.
 
-Keep priority (urgency/sequencing) and severity (impact/harm) independent. Unknown material facts use
-`TODO:` rather than invented values. Do not paste logs or chat transcripts; preserve decisive excerpts
-and source pointers.
+Keep priority (urgency/sequencing) separate from severity (impact/harm). Severity and causal analysis
+apply to defects or evidenced harmful limitations, not automatically to every requested capability.
+Omit inapplicable fields. Mark applicable unknown material facts as `TODO:` or unknown rather than
+inventing values; an absent hypothesis is not a missing requirement. Preserve decisive excerpts and
+source pointers instead of copying logs or transcripts.
 
 For an update, add current evidence and `Last reviewed`; revise stale claims rather than appending an
 unbounded diary. Change status only when evidence supports the lifecycle transition. Keep stable

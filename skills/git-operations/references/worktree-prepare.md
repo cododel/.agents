@@ -1,8 +1,3 @@
----
-name: worktree-task
-description: "Create or prepare one isolated linked worktree and dedicated branch when isolation is explicitly requested or concretely needed for a separate base, parallel writable work, conflicting ownership, or protected checkout. Do not use for ordinary feature, fix, implementation, or long-running work in a suitable operator-selected workspace."
----
-
 # Worktree Task
 
 Prepare one task-owned linked worktree and dedicated branch while preserving the operator's checkout.
@@ -16,15 +11,7 @@ changes, or worktree/branch deletion.
 
 ## Prove ownership and route
 
-Before Git mutation, inspect:
-
-```bash
-git rev-parse --show-toplevel
-git status --short --branch
-git branch --show-current
-git rev-parse HEAD
-git worktree list --porcelain
-```
+Apply the common preflight in [Git operations](../SKILL.md).
 
 Identify the primary checkout from the worktree inventory. Preserve staged/untracked/dirty operator
 work; never move the primary checkout, change `core.worktree`, share a checked-out branch, or resolve
@@ -60,12 +47,12 @@ its resolved path, non-empty attached task branch, HEAD, and worktree inventory 
 
 ## Prepare only required capabilities
 
-If task commands need local setup, read [references/setup.md](references/setup.md); offline/source
+If task commands need local setup, read [worktree-setup.md](worktree-setup.md); offline/source
 work may need none. Use already available user- or project-scoped MCP tools for required task calls.
 A project config file is not mandatory. Test the narrow required read-only operation before dependent
 implementation; a declaration/registration alone is not proof of a working call.
 
-If a required MCP tool is unavailable, read [references/mcp-readiness.md](references/mcp-readiness.md).
+If a required MCP tool is unavailable, read [worktree-capabilities.md](worktree-capabilities.md).
 Defer only dependent work and continue independent offline work. Do not improvise production access
 or copy credentials to bypass a missing capability.
 

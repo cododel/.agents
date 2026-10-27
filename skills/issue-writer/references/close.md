@@ -1,19 +1,18 @@
 # Close workflow
 
-Sweep completed repository Issues after extracting durable value. Closed Issues are not a second
-archive: keep active debt in the Issues root and move enduring knowledge to its canonical owner.
+Review, close, or remove repository Issues according to the requested lifecycle action. Closure
+records verified completion; source removal additionally requires preservation of durable value.
 
 ## Authority
 
-A clear request to close/sweep/apply completed Issues authorizes exact local reversible lifecycle
-edits and deletion of **tracked, clean, committed** source files that pass this workflow. A request to
-audit/review only is read-only.
+Review is read-only. An explicit close request authorizes the selected Issue's verified status
+transition and applicable index update, retaining its source by default. Removal requires an explicit
+cleanup/removal request, an agreed deletion plan, or an established local lifecycle that makes
+removal part of the requested closure. Do not infer deletion from the word "close" alone.
 
-Require an exact operator checkpoint for valid untracked, staged/modified, or otherwise unrecoverable
-sources. Symlink, path escape, invalid type, or unresolved scope is blocked until corrected and
-rechecked; approval cannot bypass target validity. Never infer remote tracker writes, commits in the
-primary checkout, or broad directory deletion. Review mode performs the same diagnosis without
-lifecycle edits, extraction writes, index changes, or deletion.
+Every deletion uses [the shared procedure](../../_shared/document-deletion.md), including its
+recovery and authority gates. Lifecycle work never authorizes remote tracker writes or commits in
+the primary checkout. Review permits no lifecycle edits, extraction writes, index changes or deletion.
 
 ## 1. Resolve one Issues scope
 
@@ -43,13 +42,16 @@ evidence gap when inconclusive. Preserve source status separately from the revie
 A deeper causal investigation belongs to `troubleshooter`; an overview/grouping of multiple problems
 belongs to `issue-triage`. Neither handoff grants authority to repair or mutate records.
 
-For a relevance-only request, stop with the conclusion and next decision. If closure is also
-requested, verify completion and follow the value, reference, and recovery gates below; an open
-record does not become a completed candidate merely because review was requested.
+For a relevance-only request, stop with the conclusion and next decision. If closure is authorized
+and completion is verified, update status and the unambiguous index under local conventions. Under
+the fallback, set the body status to `Closed` and retain the stable filename and source. If completion
+is unresolved, retain the current status and report the gap. Accepted unresolved debt remains open.
+Proceed to removal only when that action is authorized; a status change alone does not establish
+safe deletion or recoverability of the newly modified source.
 
-## 2. Enumerate completed candidates
+## 2. Enumerate authorized removal candidates
 
-Use the proven local lifecycle convention. Enumerate regular Markdown files with `rg --files` or
+For authorized removal, use the proven local lifecycle convention. Enumerate regular Markdown files with `rg --files` or
 `fd`. Under the stable-name fallback, a completed candidate has the exact body status `Closed`;
 the filename carries no status. Missing, conflicting or unrecognized status values are ambiguous,
 not evidence of completion. Do not infer status from prose mentioning a closed issue.
@@ -68,15 +70,16 @@ Read every non-ambiguous candidate in full and route unique value through
 
 Block source deletion when it contains value not yet owned elsewhere, including:
 
-- significant operator decision with real alternatives/rationale → `$adr-writer:from-issue`;
+- significant operator decision with real alternatives/rationale → `$adr:from-issue`;
 - non-obvious stable product/UI/API/domain/persistence/security/module behavior → existing or justified
   missing living contract through `$contract-writer`;
 - repeatable operation, recovery, incident, or diagnostic technique → runbook/reference/test/comment;
-- unresolved work, risk, or completion criterion → reopen/repair rather than close.
+- unresolved work, risk, or completion criterion → retain; reopen only within authorized lifecycle
+  scope, otherwise report the mismatch. This workflow does not authorize implementation repairs.
 
 Current implementation shape alone is not ADR evidence. Preserve actual operator-decision intent;
-an authorized close/apply workflow may preserve a fully evidenced significant agreed decision through
-`$adr-writer` without a separate promotion request. Do not create an ADR merely because an Issue closes.
+an authorized extraction/removal workflow may preserve a fully evidenced significant agreed decision through
+`$adr` without a separate promotion request. Do not create an ADR merely because an Issue closes.
 If evidence is incomplete, retain the source and report the gap; do not invent rationale or expand
 into a retrospective ADR sweep. Contract extraction requires all four value conditions for a new owner, confirmed semantics/scope/language/ownership, and authoring
 authority covering the change. Review mode never invokes writers or silently records new debt.
@@ -86,73 +89,27 @@ canonical docs, implementation, and committed history.
 
 ## 3.5. Check incoming references
 
-Before deletion, search the confirmed repository for the exact filename/path, slug, and distinctive
-decision/problem identifiers, excluding generated/dependency trees and the candidate itself. Trace
-actual links rather than treating every text match as load-bearing.
-
-- A semantic reference depending on the Issue's evidence/rationale blocks deletion until that
-  content has a verified canonical owner and the reference is repaired.
-- An unambiguous index-only entry may be removed or redirected through an exact planned repair in
-  the same change, followed by recheck.
-- Unknown reference meaning, incomplete search, or an ambiguous repair keeps the source.
+Use the shared procedure's reference check; preserve the following Issue-specific provenance.
 
 Do not replace links to historical decision evidence with a current contract that drops its rationale.
 If an ADR receives the history, retain its verified source provenance (reachable committed SHA plus
 repository-relative path) when the Issue will be deleted. Choose retained versus deletion-bound
-sources before backlink edits using `../../adr-writer/references/from-issue.md`; a newly modified backlink
+sources before backlink edits using `../../adr/references/from-issue.md`; a newly modified backlink
 does not satisfy the original clean-source gate.
 
-## 4. Prove recovery
+## 4. Delete eligible sources
 
-For each `safe-to-delete` candidate, resolve canonical path, require a regular non-symlink file inside
-the confirmed Issue root, and record a fingerprint.
+After completion and value checks, apply [document deletion](../../_shared/document-deletion.md)
+to each exact eligible source. Its final recheck includes this workflow's status/completion criteria
+and extraction/provenance; `Closed` alone never establishes eligibility. A recovery checkpoint cannot
+substitute for these requirements. Keep the existing report below rather than creating another ledger.
 
-- **Recoverable:** Git tracks the exact path; working tree and index are clean for it; current contents
-  are present in a reachable commit whose SHA and repository-relative path are recorded.
-- **Gated:** valid untracked, staged/modified, ignored-only files, or recovery is not
-  proven.
-- **Blocked:** invalid symlink/type/path/scope, unresolved value/status/reference, or incomplete checks.
-
-Never auto-commit or stage a modified source to make recovery look proven. A planned backlink or
-extraction edit changes source state and requires a fresh recovery assessment; preserve exact current
-contents and separate their state from the committed version.
-
-In an explicit close/apply workflow, recoverable candidates need no second ceremonial approval.
-Render a compact exact-path gate only for gated candidates:
-
-```text
-Issue deletion requiring a recovery checkpoint:
-- <path> — <state, fingerprint, why recovery is not proven>
-
-Reply with:
-- approve unrecoverable delete: <path>[, <path>]
-- keep: <path>[, <path>]
-- cancel
-```
-
-A bulk approval applies only to the already rendered exact list and only while fingerprints/state stay
-unchanged. It never authorizes unseen paths. Blocked value candidates cannot be overridden through
-this recovery gate; extract/resolve their value first.
-
-## 5. Apply
-
-Immediately before each authorized deletion:
-
-1. re-resolve path/type/scope and re-read the file;
-2. recompute fingerprint and Git state;
-3. repeat the decisive status/value/reference check;
-4. skip that path on drift;
-5. apply planned unambiguous index/link repairs and remove the exact file in the same change;
-6. recheck remaining/repaired incoming links; if repair fails, restore only this task's exact
-   deletion and retain/report that source.
-
-Staging/committing follows checkout authority. Never use a broad glob or recursive delete.
-
-## 6. Report
+## 5. Report
 
 Return a compact semantic result:
 
-- deleted recoverable paths/count;
+- review conclusion and any verified status changes;
+- retained sources or deleted recoverable paths/count, according to the requested action;
 - gated or drift-skipped paths and exact reason;
 - ambiguous status records;
 - blocked durable-value records grouped by contract/ADR/runbook/reopen route;

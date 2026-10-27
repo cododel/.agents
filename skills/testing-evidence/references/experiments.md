@@ -21,9 +21,7 @@ the chosen behavior with integration/consumer, error, lifecycle and relevant sec
 A successful demo is not production acceptance. Independent expected results must come from the
 agreed behavior/examples, not a copy of the exploratory implementation. Retain only reusable code or
 permanent protection with demonstrated value; keep experimental artifacts out of product scope unless
-requested. Preparatory behavior-preserving refactoring is allowed when the seam/testability/task needs
-it; preserve existing guarantees. Cleanup after working behavior is proportional to touched risk,
-while independent neighboring subsystem improvements remain separately scoped.
+requested.
 
 ## Evidence for resource optimizations
 
@@ -37,3 +35,8 @@ demonstrate the optimization. Report keep, reject or inconclusive at
 the measured boundary; an inconclusive result is not a demonstrated improvement. Local measurements
 do not establish production savings. No benchmark, provider call or new harness is mandatory when
 no optimization claim is being made; existing authority and project gates still apply.
+
+For instruction/context optimizations, a smaller file establishes only its measured byte or token
+size, not session-wide usage, quality or monetary savings. Before/after sessions without comparable
+controls do not establish attribution; external benchmarks do not measure this project's benefit.
+Do not convert bytes or local token reductions into billed savings without applicable accounting.

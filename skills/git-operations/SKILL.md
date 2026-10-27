@@ -1,6 +1,6 @@
 ---
 name: git-operations
-description: Guide Git operations and diagnosis, including commit composition, sizing, grouping, messages, staging, synchronization, push, and transport recovery. Use for a requested Git operation or state diagnosis, requests to split changes into commits or draft/review commit messages, and authorized workflows reaching a commit checkpoint. Ordinary code editing alone does not trigger this skill. Route worktree and merge operations to their specialized skills.
+description: Guide Git operations and diagnosis, including commit composition, sizing, grouping, messages, staging, synchronization, push, and transport recovery. Use for a requested Git operation or state diagnosis, requests to split changes into commits or draft/review commit messages, and authorized workflows reaching a commit checkpoint. Ordinary code editing alone does not trigger this skill. Includes requested merges, worktree preparation and explicitly requested ordered worktree integration.
 ---
 
 # Git operations
@@ -20,8 +20,9 @@ directly before acting on it; leave other case files unloaded.
 | Push, create a remote branch, or rewrite a remote ref | [Remote publication](references/remote-publication.md) |
 | Sandbox/DNS, network, SSH agent, or HTTPS access failure; proposed transport/account change | [Transport failures](references/transport-failures.md) |
 | Fetch, pull, divergence, or a stale upstream marker such as `[⇡]` | [Synchronization and tracking](references/sync-and-tracking.md) |
-| Create or change a worktree | `$worktree-task` |
-| Merge branches | `$merge-branches` |
+| Prepare or reuse an isolated task worktree | [Worktree preparation](references/worktree-prepare.md) |
+| Merge branches | [Merge](references/merge.md) |
+| Explicitly integrate a linked task worktree: update base, base into working, working into base | [Worktree integration](references/worktree-integrate.md) |
 | Maintain an open PR through comments, conflicts, or CI | Use existing authorized PR tools or an available PR workflow; do not install missing tools merely to follow this route. |
 
 ## Start
@@ -60,5 +61,7 @@ Report, in this order and without secrets:
 4. **Remaining:** only concrete blockers or checks still needed. Say explicitly when work was local
    only, pushed, or merely fetched; do not equate a push with deployment.
 
-Use project conventions for commit messages, branch names, and permissions. The specialized skills
-in the route table remain the owners of their case-specific procedures.
+Use project conventions for commit messages, branch names, and permissions. The selected reference
+owns its operation-specific constraints; common checks above apply to it.
+Choosing this skill does not authorize every route. Preparation does not imply integration, and
+ordinary merge does not imply the ordered worktree integration workflow.

@@ -1,7 +1,7 @@
 # From-Issue promotion workflow
 
 Preserve significant agreed decisions from closed repository Issues. An in-scope Issue may supply
-evidence during authorized implementation or documentation work, including an authorized close/apply
+evidence during authorized implementation or documentation work, including an authorized extraction/removal
 workflow. Closure alone neither proves a significant decision nor requires an ADR. A retrospective
 promotion sweep requires an explicit request; read-only review never authorizes promotion.
 
@@ -64,17 +64,16 @@ unambiguous subset when it is independently useful and does not prejudice the un
 Default to **retained**. Promotion alone never authorizes source deletion. Only explicit source
 cleanup covering the exact resolved scope can select **deletion-bound** sources.
 
-For each proposed deletion-bound source, read it fully, check incoming links and unique value, and
-prove its exact regular non-symlink path is in the confirmed Issue root. Before adding any backlink,
-record its fingerprint, repository-relative path, and reachable committed SHA containing the exact
-current contents; require clean working-tree and index state. Do not auto-commit a source or edit
-its body to manufacture this gate. If recovery is not proven, keep it retained/gated while resolving
-the existing recovery control; do not claim it is recoverable.
+For each proposed deletion-bound source, use the value/reference and recovery checks in
+[document deletion](../../_shared/document-deletion.md) before adding any backlink. This workflow
+additionally requires a reachable committed SHA and repository-relative path retrieving the exact
+source bytes for durable ADR provenance. Record the original fingerprint and keep working-tree and
+index contents clean. If provenance/recovery is unproven, retain/gate the source; recovery approval
+cannot replace durable source provenance.
 
-Plan where every unique non-decision item will survive and how each incoming link will resolve.
-Unresolved work/value or load-bearing references block deletion. An unambiguous index-only entry may
-be removed or redirected in the same change, with recheck; it is not permission to break a semantic
-reference. If extraction cannot complete within the authorized scope, retain the source.
+Plan where each unique non-decision item will survive. If extraction cannot complete within the
+authorized scope, retain the source. Choose disposition before edits; the writing step below owns
+retained-source backlinks and deletion-bound provenance.
 
 ## 6. Write the ADRs
 
@@ -127,24 +126,13 @@ For each created record:
 ## 8. Optional source-Issue cleanup
 
 Use the disposition selected before edits. Keeping a source preserves navigable provenance; a later
-close sweep must re-establish its current recovery state, since backlink edits made it modified.
+cleanup must re-establish its current recovery state, since backlink edits made it modified.
 
-When the operator explicitly requests source cleanup in this workflow, apply the same recovery-aware
-control as `$issue-writer` close after all ADRs, retained-source backlinks, and extraction targets verify:
-
-- exact regular file inside the confirmed Issue root;
-- original fingerprint, source Git state, exact committed provenance, incoming links, and unique
-  content rechecked immediately before removal;
-- tracked, clean, committed contents may be deleted as a reviewable local change;
-- untracked, staged/modified, or otherwise unproven recovery requires the exact-path operator
-  checkpoint; it never substitutes for value extraction or durable source provenance;
-- symlink, path escape, invalid type, or unresolved scope is blocked: correct the target, then rerun
-  the checks; approval cannot bypass target validity;
-- never use a glob, infer cleanup from promotion alone, or claim Git recovery without proof.
-
-Apply the planned unambiguous index repair in the same change and recheck references. If any
-load-bearing link remains unresolved or state drifted, retain that source. Never stage/commit merely
-to make source cleanup possible; Git mutations retain their separate checkout authority.
+Only after explicitly requested source cleanup and verification of the ADRs, retained-source backlinks
+and extraction targets, apply [document deletion](../../_shared/document-deletion.md). Its final
+recheck must also verify this workflow's original source fingerprint and exact committed provenance.
+A retained-source backlink changes recovery state; never treat the previous clean-source check as
+current. Promotion alone, or approval of recovery risk, cannot bypass these provenance requirements.
 
 ## 9. Report
 

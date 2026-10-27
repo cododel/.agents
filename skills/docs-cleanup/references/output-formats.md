@@ -24,8 +24,9 @@ Gated or blocked:
 - <path> — <recovery/ADR-history gate, or invalid target/ambiguous value/inconclusive checks block>
 ```
 
-In audit mode, stop there. In apply mode, apply recoverable actions and show the exact decision block
-from `delete-gate.md` only when gated candidates remain.
+In audit mode, stop there. In apply mode, use [document deletion](../../_shared/document-deletion.md)
+for authorized actions and any missing exact-path recovery authorization. ADR-history authority
+follows this skill's historical-decision gate even when recovery is proven.
 
 ## Post-apply report
 
@@ -45,7 +46,7 @@ Skipped after final recheck:
 - <path> — <drift/evidence change>
 
 Next durable workflow:
-- <path> → `$contract-writer` / `$adr-writer` / `$issue-writer`
+- <path> → `$contract-writer` / `$adr` / `$issue-writer`
 ```
 
 Do not list unchanged `keep` files individually in large audits unless the operator requests the full

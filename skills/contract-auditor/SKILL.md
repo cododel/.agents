@@ -40,12 +40,12 @@ repeat/re-review request to `repeat-review` over the requested base mode.
 2. Discover and fully read the relevant living and explicitly declared executable contracts.
 3. Assign stable per-run rule IDs and reverse-check consequential lasting obligations for a concrete
    ownership gap.
-4. Freeze one audit matrix, causal frontier, and explicit audit budget, then run one bounded
-   discovery pass inline or through delegation. Strict review requires at least two independent
-   reviewer contexts covering the required vectors.
+4. Fix the audit objective, authorized scope, snapshot, and budget; adapt the investigation map
+   within those boundaries under `references/audit-method.md`. Strict review requires at least two
+   independent reviewer contexts covering the required vectors.
 5. Apply the confirmation gate to every blocking candidate, then deduplicate.
-6. Apply the bounded confirmation protocol in `references/audit-method.md` to the same immutable
-   snapshot. Never repeat the full search, fix findings, or restart an audit automatically.
+6. Apply the bounded confirmation and repeat-review protocol in `references/audit-method.md`.
+   Keep this invocation read-only and tied to its immutable snapshot.
 7. Report traceability, named-risk closure, remaining gaps, hand-offs, and one overall verdict.
 
 ## Read-only boundary
@@ -54,14 +54,10 @@ repeat/re-review request to `repeat-review` over the requested base mode.
 - Do not stage, commit, push, migrate, enqueue, or perform production/database mutations.
 - Tests and read-only probes are allowed when they do not rewrite tracked sources. Record exact
   commands, scope, results, and environment limits.
-- A confirmed blocker fixes the verdict at `NOT READY`. Finish only the already-launched discovery
-  vectors so the report inventories coexisting blockers; do not start another vector, pass, or
-  search area. Implementation and any later audit require a new operator request and a newly
-  resolved target.
-- A declared composite release workflow may invoke this skill once as its terminal step when the
-  operator explicitly selected preparation plus final audit before any mutation. Require a newly
-  frozen target, remain read-only, and return the terminal verdict to the orchestrator. Never return
-  authority to fix a finding or repeat the audit.
+- A confirmed blocker fixes the verdict at `NOT READY`; coverage and stopping follow the selected
+  audit objective and budget in `references/audit-method.md`. A verdict is not a claim of exhaustive
+  coverage. Later repair or review uses existing operator authorization when it covers that action;
+  this skill grants neither by itself.
 - Apply all four contract-writer value conditions before reporting `missing-contract`; do not infer
   a gap from absence of a separate Markdown file. Recommend `$contract-writer` for a justified gap;
   this read-only audit does not invoke a writer. Creation requires separately authorized scope.

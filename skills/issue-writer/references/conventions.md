@@ -86,17 +86,18 @@ Use the same literals for two independent fields:
 - `Priority: Critical | High | Medium | Low` records urgency and sequencing.
 - `Severity: Critical | High | Medium | Low` records impact or harm.
 
-Do not derive either field from the other. Keep both in the body and out of the filename so
-priority can change without renaming the Issue. Recognize `P0` through `P3` only where an
-established local or legacy convention requires them.
+Do not derive either field from the other. Keep applicable fields in the body, not the filename.
+Severity applies to defects or evidenced harmful limitations; omit it when inapplicable and mark
+applicable unknown values explicitly. Recognize `P0` through `P3` only where an established local
+or legacy convention requires them.
 
 ## Language rules
 
 - **Filenames**: English kebab-case, always. No Cyrillic, no spaces, no punctuation
   beyond hyphens.
-- **Issue body**: preserve the user's language (Russian, English, etc.) unless the local
-  convention clearly enforces one. Code, paths, error messages, and identifiers stay in
-  their original language regardless.
+- **Issue body**: follow the project's documentation language unless the operator explicitly requests
+  another language; if none is established, use the request's language. Code, paths, error messages,
+  and identifiers retain their original language.
 - **Status, priority, and severity values**: always use the English literals above.
 
 ## Refresh notes

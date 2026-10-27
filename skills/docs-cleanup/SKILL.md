@@ -25,19 +25,19 @@ the evidence/recovery gates; review/report requests do not authorize mutation.
    checks inline or through a reviewer. Incomplete/unavailable checks are `inconclusive`; untested
    booleans are `null`. A safe evidence result does not grant authority. Unresolved semantic references
    and unique value block removal; index-only links require exact same-change repair and recheck.
-5. For delete candidates, load `references/delete-gate.md` to prove recovery, resolve any exact-path
-   checkpoint, and perform final state/reference rechecks. Audit mode reports only. Apply mode may
-   perform covered unambiguous repairs and exact recoverable deletes; never use globs/directories or
-   claim recovery for unproven contents.
+5. For delete candidates, apply [document deletion](../_shared/document-deletion.md) for target
+   validity, recovery, authority and final state/reference checks. Reuse step 4 evidence; the shared
+   procedure does not replace this workflow's value classification.
 6. Load `references/output-formats.md` for the audit/applied result: scope, counts, actual actions,
    gated/blocked/drifted paths, routing, and incomplete evidence. Do not dump bodies or transcripts.
 
-## Non-bypassable gates
+## Historical decision deletion
 
-Valid untracked/modified/unrecoverable content requires a separate recovery checkpoint; meaningful
-ADR-history deletion requires explicit exact-path semantic authority. Unresolved value/scope or
-invalid symlink/path/type targets are blocked, never approval bypasses. Bulk approval covers only an
-already shown unchanged exact list. Remote/shared actions remain outside this local cleanup scope.
+Prefer `supersede` or `deprecate` over deleting ADR history. Even when Git-recoverable, deleting
+meaningful ADR history requires explicit exact-path operator intent: semantic loss is distinct from
+filesystem recovery. Empty/generated duplicates may be proposed, never inferred. Other intentional
+immutable history also needs its scenario-specific semantic authority; ordinary cleanup is insufficient.
+Remote/shared actions remain outside this local cleanup scope.
 
 Delegated methods define their input/JSON contracts. Reviewers stay read-only; the primary agent
 verifies their source evidence and owns classification, recovery, and mutation.

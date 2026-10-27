@@ -36,8 +36,10 @@ non-exhaustive hypotheses; neither a framework name nor an error shape establish
 4. **Props & optional chaining gaps.** A prop typed optional but read as required; an API
    response typed as `T` but actually `T | null`; `?.` that defers the crash to the next
    non-optional access. Check the type vs. the runtime shape at the boundary.
-5. **Env vars.** `process.env.X` is `undefined` on the client unless prefixed
-   `NEXT_PUBLIC_`; a server-only secret read in a Client Component reads as undefined.
+5. **Env vars.** Variables supplied through the environment or `.env` are not exposed to
+   client code by default without `NEXT_PUBLIC_`. Check how the value is supplied: entries
+   in `next.config.js` `env` are bundled even without that prefix. Inspect actual build/config
+   behavior before attributing an undefined value or assuming a secret cannot reach the client.
    `rg -n 'process\.env\.'`
 6. **Module-load-time code.** Top-level code touching browser globals or env runs at import on
    the server and throws before any component renders.

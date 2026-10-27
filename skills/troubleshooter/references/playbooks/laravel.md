@@ -35,8 +35,9 @@ non-exhaustive hypotheses; neither a framework name nor an error shape establish
    404ing or injecting the wrong model; middleware ordering leaving a value unset; a global
    middleware that runs only on the `web` group, not `api`. Check `app/Http/Middleware/` and
    the route group.
-5. **Config & env.** `env()` called outside `config/` returns `null` once config is cached
-   (`config:cache`); a `config('x.y')` key that doesn't exist returning `null`.
+5. **Config & env.** After `config:cache`, `.env` is not loaded; externally supplied environment
+   variables and explicit `env()` defaults may still produce values. Trace the actual source
+   rather than assuming every `env()` call returns null. Check missing `config('x.y')` keys too.
    `rg -n "env\(|config\("`
 6. **Facades hiding the real call.** A facade (`Auth::`, `DB::`, `Cache::`) resolving to a
    manager whose underlying driver may be misconfigured. Trace the resolved manager, driver and

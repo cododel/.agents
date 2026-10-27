@@ -6,7 +6,7 @@ owner. Do not copy the same normative rule or rationale across document types.
 | Durable value | Canonical home |
 |:--|:--|
 | Stable product, UI, API, domain, persistence, security, module-responsibility, or current architecture behavior | Existing suitable normative owner; new contract via `$contract-writer` only when all four value conditions hold, never from accidental behavior |
-| Significant operator-made choice with real alternatives, rationale, and consequences | ADR via `$adr-writer` after its decision/significance gates |
+| Significant operator-made choice with real alternatives, rationale, and consequences | ADR via `$adr` after its decision/significance gates |
 | Repeatable operational, recovery, incident, or production-control procedure | Runbook/playbook |
 | Unique reproduction, failure signature, diagnostic probe, or debugging technique | Relevant troubleshooting/reference documentation, focused regression test, or one local non-obvious comment |
 | Independently resumable technical debt/deferred work | Report briefly; repository Issue only on a request to record/defer it |
@@ -20,8 +20,8 @@ Indexes route readers; they do not duplicate the owner's rules.
 
 Before deleting a temporary or completed source artifact, extract only genuinely unique value. If the
 content adds nothing beyond its canonical owners and committed implementation/history, it may be a
-delete candidate. Exact tracked, clean, committed files are locally recoverable under explicit cleanup
-intent; untracked, modified, ambiguous, or historical-decision content remains operator-gated.
+delete candidate. For proposed deletion, use [document deletion](document-deletion.md) under the
+owning workflow's value, lifecycle and semantic-authority requirements.
 
 Use the project's primary documentation language. Existing translations do not create a multilingual
 obligation; require a project rule or explicit request.

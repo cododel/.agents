@@ -1,6 +1,6 @@
 # ADR quality specification
 
-This file is the shared definition used by `adr-writer` and `adr-auditor`.
+This file is the shared definition used by ADR recording and audit procedures.
 
 ## 1. Identity and immutability
 

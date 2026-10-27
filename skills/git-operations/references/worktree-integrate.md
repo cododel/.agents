@@ -1,31 +1,17 @@
----
-name: worktree-finish
-description: "Finish a feature in an existing task-owned linked Git worktree: pull the base branch, merge base into the working branch, resolve mechanical conflicts, then merge the synchronized feature into base and report. Refuse outside a linked worktree. Not for feature review alone, worktree creation, push, or cleanup."
----
-
 # Worktree Finish
 
 Complete the local integration in this exact order: update base from its remote, merge base into
 the working branch, verify that result, merge the working branch into base, then report.
 
-An explicit invocation or unambiguous request for this workflow authorizes these local pulls,
+An explicit request for this ordered integration workflow authorizes these local pulls,
 merges, necessary task-owned commits and focused verification on the resolved branches. Merely
-discovering this skill grants no authority. Do not push, delete branches/worktrees, or
-rewrite history unless separately requested. Creating this skill is not a request to execute it.
+discovering this procedure grants no authority. Do not push, delete branches/worktrees, or
+rewrite history unless separately requested. Editing this procedure is not a request to execute it.
 
 ## Mandatory worktree gate
 
-Before any mutation, inspect the selected checkout with:
-
-```bash
-git rev-parse --show-toplevel
-git rev-parse --git-dir
-git rev-parse --git-common-dir
-git status --short --branch
-git branch --show-current
-git rev-parse HEAD
-git worktree list --porcelain
-```
+Apply the common preflight in [Git operations](../SKILL.md). Additionally inspect
+`git rev-parse --git-dir` and `git rev-parse --git-common-dir` to establish linked-worktree identity.
 
 Resolve paths and prove the selected checkout is an existing **linked** worktree registered in
 this repository, distinct from the primary checkout, attached to the task's working branch.
@@ -38,11 +24,11 @@ to make the request qualify. An explicitly selected worktree may be inspected fr
 
 ## Resolve targets and prepare
 
-Load [git-operations](../git-operations/SKILL.md), its
-[synchronization route](../git-operations/references/sync-and-tracking.md),
-[merge-branches](../merge-branches/SKILL.md), and applicable project instructions.
-Before selecting checks, load [testing-evidence](../testing-evidence/SKILL.md).
-These skills own Git mechanics, conflict handling and verification; apply them to every merge.
+Load [Git operations](../SKILL.md), its
+[synchronization route](sync-and-tracking.md),
+[merge](merge.md), and applicable project instructions.
+Before selecting checks, load [testing-evidence](../../testing-evidence/SKILL.md).
+These procedures own Git mechanics, conflict handling and verification; apply them to every merge.
 
 Resolve the working branch, base branch, base's remote repository/ref and local destination
 checkout from the operator request or confirmed task/project evidence. Do not assume `main`,
@@ -56,7 +42,7 @@ stop and request a destination decision; do not create or repurpose a checkout a
 
 Finish and verify task-owned feature changes in coherent local commits before starting. Preserve
 unrelated operator changes. Require a clean base checkout and no pending merge/rebase/unmerged
-state on either branch; follow merge-branches' index and preservation gates for the working tree.
+state on either branch; follow the merge procedure's index and preservation gates for the working tree.
 If operator work prevents safe integration, report the blocker without stash/reset/clean/autostash.
 
 ## 1. Pull the base branch
@@ -66,25 +52,20 @@ the base checkout, pull that explicit remote and branch with `--ff-only`, preven
 rebase or unchecked merge commit. Record the fetched remote SHA and updated local base SHA.
 
 If fast-forward fails because base and remote diverged, inspect both histories and use
-merge-branches to merge the freshly fetched remote commit into base, with its full conflict and
+the merge procedure to merge the freshly fetched remote commit into base, with its full conflict and
 verification procedure. This is the controlled merge form of pull; do not rebase, reset base to
 remote, or force-update it. Other pull failures block later steps until resolved.
 
 ## 2. Merge base into the working branch
 
 Freeze the updated base SHA and working HEAD. In the task worktree, merge the exact frozen base
-commit into the working branch using merge-branches. Inspect both sides and verify affected
+commit into the working branch using the merge procedure. Inspect both sides and verify affected
 behavior before completing any required merge commit. Prove base's frozen SHA is an ancestor
 of the resulting working HEAD; record the synchronized working SHA.
 
-For conflicts at **any** step, distinguish mechanical integration from product decisions:
-
-- For competing product behavior, contracts or architecture requiring operator/CEO vision,
-  stop the dependent integration and present the evidenced alternatives and consequences to
-  the operator or designated CEO. Do not choose for them or send a message externally without
-  explicit messaging authority. A skill cannot invent a CEO decision.
-- Follow merge-branches' pause procedure. Resume only after the required decision arrives and
-  recheck live branch state.
+For conflicts at any step, use the merge procedure's mechanical/product distinction and pause
+procedure. Resolve material choices with the operator or explicitly designated decision-maker;
+this workflow grants no authority to send external messages. Recheck live branch state on resume.
 
 ## 3. Merge the synchronized working branch into base
 
@@ -95,10 +76,10 @@ verification before integrating. Stop and report ongoing concurrent movement rat
 indefinitely. Remote changes after pull are outside this local snapshot; do not claim freshness
 beyond the recorded fetch.
 
-In the base checkout, merge the frozen synchronized working SHA via merge-branches. Use the
+In the base checkout, merge the frozen synchronized working SHA via the merge procedure. Use the
 project's merge strategy; normally this is a fast-forward, but do not force a merge commit or
 silently replace merge with squash/rebase. Verify the candidate and final result as required by
-merge-branches, and prove the synchronized working commit is an ancestor of final base HEAD.
+the merge procedure, and prove the synchronized working commit is an ancestor of final base HEAD.
 An already-contained feature is a verified no-op, not a reason to create another commit.
 
 ## 4. Report
