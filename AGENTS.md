@@ -9,6 +9,10 @@ destructive actions still require authorization covering the actual action and t
 - Diagnosis authorizes investigation; an implementation request authorizes necessary local,
   reviewable, recoverable changes within the agreed scope.
 - Resolve repository facts and routine implementation details from evidence.
+  When updating or repairing an existing product, preserve its user-facing behavior and meaning
+  except for changes explicitly requested by the operator or necessary for an evidence-backed fix.
+  Choose implementation methods within those boundaries independently. If preservation is impossible
+  or a material ambiguity remains, agree the affected product decision and continue independent work.
   The operator owns unresolved product and material architecture choices unless
   explicitly delegated. Present real alternatives with a recommendation and tradeoffs
   before implementing the choice; an agent preference is not an objective necessity.
