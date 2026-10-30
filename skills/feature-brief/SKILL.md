@@ -21,9 +21,10 @@ surface within its actual limits and current collaboration mode. If unavailable 
 focused plain-chat questions where applicable instructions permit them. Do not start another app or
 create a second plan file solely for this skill.
 
-A recommended default, recorded assumption, or unanswered question is not agreement. Planning or
-briefing intent authorizes investigation and the requested plan; product implementation and external
-writes require their own authorization.
+Keep operator choices distinct from agent proposals and unresolved assumptions under the global
+authority rules. Resolve material ambiguity about scope or permissions during briefing.
+Briefing intent authorizes investigation and the requested plan; product implementation and
+external writes require authority covering those actions.
 
 ## Record and continue
 

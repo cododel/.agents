@@ -40,9 +40,11 @@ sections and keep only useful detail.
   material assumptions/questions, active assignments, and next actions. Reference acceptance criteria
   in `task.md` rather than copying them.
 
-A direct request or confirmed discussion can establish agreement; do not request a separate approval
-of its transcription. The initial request may have been superseded. Preserve the latest agreed target,
-not the first wording or the implementation's latest summary.
+Record established operator instructions and choices with their decision source; distinguish
+agent interpretations and unresolved proposals. Recording or summarizing a discussion does not
+establish additional agreement or authority. Do not request separate approval merely to transcribe
+an established decision. Preserve the latest established target, including explicit changes,
+rather than the first wording or the implementation's latest summary.
 
 ## Updates and resumption
 

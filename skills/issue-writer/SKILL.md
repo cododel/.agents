@@ -18,7 +18,7 @@ permits its concise decision record under AGENTS; reuse an appropriate existing 
 | Agent notices separate debt without a recording request | briefly report only | No file or TODO |
 | Check whether a selected existing Issue is still relevant or complete; review lifecycle candidates | review, read-only | `references/close.md` |
 | Explicitly close a completed Issue | close, retain source by default | `references/close.md` |
-| Explicitly remove completed Issue sources or apply an agreed deletion plan | cleanup/apply | `references/close.md` |
+| Operator instruction covers removal of completed Issue sources and its scope | cleanup/apply | `references/close.md` |
 
 For an authorized recording or lifecycle request, resolve roots through
 `../_shared/repository-discovery.md`, read `references/conventions.md`, and load only the selected

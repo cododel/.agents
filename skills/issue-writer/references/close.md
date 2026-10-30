@@ -6,9 +6,9 @@ records verified completion; source removal additionally requires preservation o
 ## Authority
 
 Review is read-only. An explicit close request authorizes the selected Issue's verified status
-transition and applicable index update, retaining its source by default. Removal requires an explicit
-cleanup/removal request, an agreed deletion plan, or an established local lifecycle that makes
-removal part of the requested closure. Do not infer deletion from the word "close" alone.
+transition and applicable index update, retaining its source by default. Removal requires an
+operator instruction covering deletion and its scope, or an established local lifecycle that
+makes removal part of the requested closure. Do not infer deletion from the word "close" alone.
 
 Every deletion uses [the shared procedure](../../_shared/document-deletion.md), including its
 recovery and authority gates. Lifecycle work never authorizes remote tracker writes or commits in
