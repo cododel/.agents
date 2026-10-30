@@ -56,6 +56,9 @@ need several; use `$find-docs` only for unverified version-sensitive external se
 
 ## Handoff
 
+When a bug report is the requested deliverable, use [bug-report](../bug-report/SKILL.md) for its
+content. An ordinary diagnostic answer does not require a full report.
+
 Report cause versus hypotheses, the semantic fix when authorized, decisive before/after evidence,
 and material gaps. Diagnosis-only reports must omit implementation claims and identify the next
 falsifying observation when uncertain. Briefly report independent debt; record it through

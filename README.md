@@ -30,11 +30,11 @@ global instruction path to `~/.agents/AGENTS.md`.
 
 ## Portable Skills
 
-The repository has **24 portable Skill entrypoints**, matched against the scenario matrix by the
+The repository has **25 portable Skill entrypoints**, matched against the scenario matrix by the
 validator.
 
 - Documentation and design: `adr`, `contract-auditor`, `contract-writer`,
-  `design-system-extractor`, `docs-cleanup`, `humanize`, `issue-writer`.
+  `bug-report`, `design-system-extractor`, `docs-cleanup`, `humanize`, `issue-writer`.
 - Engineering and verification: `chrome-devtools-cli`, `feature-brief`, `feature-closeout`,
   `adversarial-review`, `figma-css-cleanup`, `git-operations`, `localization`, `troubleshooter`,
   `testing-evidence`, `repository-test-audit`.
@@ -48,6 +48,8 @@ alone does not authorize a workflow or external action.
 
 [Testing evidence](skills/testing-evidence/SKILL.md) describes how to choose and assess
 verification; project profiles supply commands, isolation requirements, and required checks.
+[Bug report](skills/bug-report/SKILL.md) owns report content and an optional local Markdown preview
+for reviewing multiple Issue/fix-PR drafts; it does not grant tracker write authority.
 [Feature closeout](skills/feature-closeout/SKILL.md) checks completion when requested or when a
 material question about completion remains. Small, self-contained changes with clear evidence need
 no separate closeout process. [Task journal](skills/task-journal/SKILL.md) records the agreed task

@@ -39,6 +39,9 @@ authorization covering removal. `references/close.md` owns these routes and uses
 [document deletion](../_shared/document-deletion.md) for every proposed deletion.
 Local lifecycle scope never implies remote tracker authority.
 
+When the requested record includes a bug report, use [bug-report](../bug-report/SKILL.md) for its
+content. Ordinary deferral records and lifecycle reviews do not require a full bug report.
+
 Load `../_shared/durable-documentation.md` before extracting/removing unique value. Keep decision
 history and current guarantees with their canonical owners under the relevant authoring gates.
 

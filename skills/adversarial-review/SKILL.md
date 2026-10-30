@@ -83,6 +83,9 @@ when it can change a material conclusion; make additions to the agreed scope vis
 
 ## Findings and closure
 
+When findings must be delivered as bug reports, use [bug-report](../bug-report/SKILL.md) for report
+content. A brief findings summary does not require full reports for every observation.
+
 Keep findings and coverage together in the response or existing record; use a durable register when
 needed to retain multi-stage work. No separate report or prescribed table is required. Each material
 finding should connect:
