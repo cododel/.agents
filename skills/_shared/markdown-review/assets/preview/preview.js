@@ -101,7 +101,7 @@ function render() {
     rendered = fingerprint;
   }
   if (!collectionCurrent) notice("Draft connection unavailable — preview may be stale", true);
-  else notice(report.error ? "Source unavailable — preview is not current" : "Synced with Markdown · unpublished", Boolean(report.error));
+  else notice(report.error ? "Source unavailable — preview is not current" : "Synced with Markdown", Boolean(report.error));
 }
 
 async function refresh() {
