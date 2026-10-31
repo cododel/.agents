@@ -11,7 +11,7 @@ Project repositories own their architecture, commands, conventions, and project-
 | `skills/<name>/SKILL.md` | A portable Skill's trigger, boundaries, procedure, and expected outcome. |
 | `skills/<name>/references/` | Details loaded only for the relevant stage or question. |
 | `skills/<name>/assets/` | Templates and fallback resources. |
-| [Shared references](skills/_shared/) | Guidance on finding repository records and maintaining durable documentation. |
+| [Shared references](skills/_shared/) | Shared guidance, evidence standards and the Markdown review wrapper. |
 | [Code intelligence manifest](capabilities/code-intelligence/manifest.json) | Declarative tool requirements and repair commands. |
 | [Skill scenarios](evals/skill-scenarios.tsv) | Trigger, near-miss, required-outcome, and forbidden-outcome cases. |
 | [Agent behavior scenarios](evals/agent-behavior.tsv) | Policy-level behavior cases. |
@@ -30,11 +30,11 @@ global instruction path to `~/.agents/AGENTS.md`.
 
 ## Portable Skills
 
-The repository has **25 portable Skill entrypoints**, matched against the scenario matrix by the
+The repository has **26 portable Skill entrypoints**, matched against the scenario matrix by the
 validator.
 
 - Documentation and design: `adr`, `contract-auditor`, `contract-writer`,
-  `bug-report`, `design-system-extractor`, `docs-cleanup`, `humanize`, `issue-writer`.
+  `bug-report`, `design-system-extractor`, `docs-cleanup`, `humanize`, `issue-writer`, `pr-writer`.
 - Engineering and verification: `chrome-devtools-cli`, `feature-brief`, `feature-closeout`,
   `adversarial-review`, `figma-css-cleanup`, `git-operations`, `localization`, `troubleshooter`,
   `testing-evidence`, `repository-test-audit`.
@@ -48,8 +48,11 @@ alone does not authorize a workflow or external action.
 
 [Testing evidence](skills/testing-evidence/SKILL.md) describes how to choose and assess
 verification; project profiles supply commands, isolation requirements, and required checks.
-[Bug report](skills/bug-report/SKILL.md) owns report content and an optional local Markdown preview
-for reviewing multiple Issue/fix-PR drafts; it does not grant tracker write authority.
+[Bug report](skills/bug-report/SKILL.md) owns report content; it does not grant tracker write authority.
+The shared [Markdown review wrapper](skills/_shared/markdown-review/README.md) renders Issue and PR drafts.
+[PR writer](skills/pr-writer/SKILL.md) covers feature, fix and maintenance descriptions and demonstrations,
+reusing the same preview and shared evidence standard. PRs with media use the preview; simple text-only
+descriptions are delivered as text unless preview is requested.
 [Feature closeout](skills/feature-closeout/SKILL.md) checks completion when requested or when a
 material question about completion remains. Small, self-contained changes with clear evidence need
 no separate closeout process. [Task journal](skills/task-journal/SKILL.md) records the agreed task

@@ -23,6 +23,7 @@ directly before acting on it; leave other case files unloaded.
 | Prepare or reuse an isolated task worktree | [Worktree preparation](references/worktree-prepare.md) |
 | Merge branches | [Merge](references/merge.md) |
 | Explicitly integrate a linked task worktree: update base, base into working, working into base | [Worktree integration](references/worktree-integrate.md) |
+| Prepare, update or review PR text and demonstrations | Use [pr-writer](../pr-writer/SKILL.md) for content and preview; remote actions retain their existing authority requirements. |
 | Maintain an open PR through comments, conflicts, or CI | Use existing authorized PR tools or an available PR workflow; do not install missing tools merely to follow this route. |
 
 For a one-time PR status request, report a fresh snapshot, including pending or unknown states.

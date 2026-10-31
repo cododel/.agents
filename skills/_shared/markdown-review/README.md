@@ -1,11 +1,16 @@
 # Markdown review preview
 
-Use this optional wrapper when the operator requests a rendered review. It supports a collection
-of Issue and fix-PR bodies with sidebar navigation, GitHub-like Markdown styling, media, source
+Use this wrapper when a rendered review is requested or called for by the owning authoring workflow.
+It supports a collection
+of Issue and PR bodies with sidebar navigation, GitHub-like Markdown styling, media, source
 links and automatic refresh. It is local-only and read-only; it has no publishing or editing API.
-This is the single review renderer specified by the skill entrypoint. The publication Markdown
+This is the single review renderer used by the report and PR authoring skills. The publication Markdown
 and evidence remain the deliverables; a requested archive can retain those sources without a second
 HTML representation.
+
+For general PR content and the media-versus-text delivery default, use
+[pr-writer](../../pr-writer/SKILL.md). The wrapper is shared; it does not require a full bug report
+for a feature or an already documented Issue fix.
 
 ## Canonical drafts
 
@@ -55,7 +60,7 @@ preview preparation alone or claim local paths will work for GitHub readers.
 From the selected checkout, run in a retained terminal session:
 
 ```sh
-python3 <skill-directory>/scripts/preview.py <collection-directory>/reports.json
+python3 <skills-directory>/_shared/markdown-review/scripts/preview.py <collection-directory>/reports.json
 ```
 
 Resolve placeholders to actual paths. Python's standard library is sufficient; no package install
@@ -85,7 +90,7 @@ the `report` URL parameter. Unchanged bodies are not replaced during polling. Ch
 metadata is re-rendered; missing sources clear the selected body with an error, and collection or
 connection failures visibly mark the previous preview as potentially stale.
 Source revision checks, loaded media and layout checks validate the preview, not the evidentiary
-value of an attachment or the correctness of a fix; apply the report's evidence standard separately.
+value of an attachment or the correctness of a fix; apply the owning authoring workflow's evidence standard separately.
 
 Use the host's own annotation feature when available; no custom comment system is included. Treat
 feedback as referring to the selected report and displayed source revision. Apply it to that report's
@@ -100,4 +105,4 @@ model. Marked's GFM tables, lists, task checkboxes and fenced code are supported
 matching GitHub comments. This is a review approximation, not GitHub's own renderer: platform-specific
 mentions, autolinks, diagrams and attachment processing may differ. Inspect material differences
 before claiming the published result will be identical. The wrapper does not verify that a proposed
-fix works; use the fix-report evidence requirements in the skill entrypoint.
+fix works; use the [fix-report evidence requirements](../../bug-report/SKILL.md#fix-reports) when reviewing a defect correction.

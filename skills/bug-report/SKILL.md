@@ -33,16 +33,9 @@ Adapt the structure to the recipient while preserving these applicable elements:
 - **Reproduction:** minimal steps, expected behavior with its requirement/documentation or other
   evidenced basis, and actual result. Give observed successful reproductions / attempts when
   measured; otherwise state the repeatability limit without inventing counts.
-- **Evidence:** select each artifact for the specific claim it actually establishes; do not carry
-  attachments forward merely because they appeared in an earlier report. Caption its demonstrated
-  result and limits. Omit noncontributing material; retain context only when it helps the reader and
-  label it as context, not proof. A normal-looking state alone does not establish a preceding action,
-  transition or wrong input owner. Use video when the sequence or dynamics are material; show the
-  relevant actions and observed outcome against the stated expectation. Still images can establish
-  visible state defects, but not unrecorded interactions. Use logs, tests or other inspectable records
-  for the claims they support; avoid redundant artifacts.
-  Identify missing required evidence explicitly. Exclude secrets, personal data and unrelated
-  workspace content while preserving decisive diagnostics; use synthetic examples where possible.
+- **Evidence:** apply the shared [review evidence standard](../_shared/review-evidence.md). Include
+  artifacts that establish the reported claim, distinguish helpful context from proof, and identify
+  missing required evidence explicitly.
 - **Code and mechanism:** when sources are accessible, identify relevant code at the affected
   revision with verified links or locators. Separate the symptom location, established causal chain,
   and hypotheses. Code access alone does not establish the cause; record unresolved attribution.
@@ -79,7 +72,7 @@ already authorized action. Tracker state, duplicates, and lifecycle remain with 
 
 ## Optional review preview
 
-When a rendered review is requested, use [the local preview wrapper](references/preview.md) for
+When a rendered review is requested, use [the local preview wrapper](../_shared/markdown-review/README.md) for
 one or several Issue/fix-PR drafts. Edit the canonical Markdown, not a separate HTML copy, and keep
 the shown revision synchronized. Do not create a per-task HTML/CSS layout, DOM-snapshot export or
 standalone duplicate of the review. If the wrapper cannot present required content, report the

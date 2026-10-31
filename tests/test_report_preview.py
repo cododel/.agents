@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 SPEC = importlib.util.spec_from_file_location(
-    "report_preview", Path(__file__).resolve().parents[1] / "skills/bug-report/scripts/preview.py"
+    "report_preview", Path(__file__).resolve().parents[1] / "skills/_shared/markdown-review/scripts/preview.py"
 )
 preview = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(preview)
@@ -111,6 +111,16 @@ class PreviewTest(unittest.TestCase):
         self.write_manifest()
         with self.assertRaises(ValueError):
             self.collection.reports()
+
+    def test_shared_wrapper_serves_its_bundled_assets(self):
+        server = self.start_server()
+        for route, filename in (("/", "index.html"), ("/preview.css", "preview.css"),
+                                ("/preview.js", "preview.js")):
+            with self.subTest(route=route):
+                status, body, _ = self.request(server, route)
+                self.assertEqual(200, status)
+                self.assertEqual((preview.ASSETS / filename).read_bytes(), body)
+                self.assertTrue(body)
 
 
     def test_polls_extend_idle_deadline_but_do_not_reset_lifetime(self):
