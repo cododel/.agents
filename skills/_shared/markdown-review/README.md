@@ -60,12 +60,12 @@ preview preparation alone or claim local paths will work for GitHub readers.
 From the selected checkout, run in a retained terminal session:
 
 ```sh
-python3 <skills-directory>/_shared/markdown-review/scripts/preview.py <collection-directory>/reports.json
+bun <skills-directory>/_shared/markdown-review/scripts/preview.ts <collection-directory>/reports.json
 ```
 
-Resolve placeholders to actual paths. Python's standard library is sufficient; no package install
-or build is needed. The server chooses a free loopback port and prints its URL. `--port` selects a
-specific port if needed. Verify a successful response, then open that URL in an available embedded
+Resolve placeholders to actual paths. Bun must be installed; Python is not required for this wrapper.
+The server uses built-in Bun/Node APIs, so no package install or build is needed. It chooses a free
+loopback port and prints its URL. `--port` selects a specific port if needed. Verify a successful response, then open that URL in an available embedded
 browser; use another already authorized local browser only if necessary. Do not publish the server
 or expose it on a non-loopback interface. Follow task process ownership rules and report how to stop any
 server intentionally kept running for the operator's review; otherwise stop it before handoff.

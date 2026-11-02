@@ -68,18 +68,21 @@ rule that discovery requires a concrete capability gap or an explicit request.
 
 ## Validation
 
-From the repository root, using Python's standard library:
+From the repository root (Python standard library for repository checks, Bun for preview tests):
 
 ```bash
 python3 scripts/check-skills.py
 python3 -m unittest discover -s tests -p 'test_*.py'
+bun test tests/report-preview.test.ts
 git diff --check
 ```
 
 The validator checks Skill metadata, agreement between entrypoints and scenarios, local links in
 Skills, and source portability. It does not check links in this README or model behavior. The tests
 check validator portability and how the session scanner handles non-object JSON, explicit
-subdirectory boundaries, and suspicious token assignments. `git diff --check` checks patch whitespace.
+subdirectory boundaries, and suspicious token assignments. Bun tests exercise the Markdown preview
+server, canonical source refresh, file containment and process expiry/shutdown.
+`git diff --check` checks patch whitespace.
 
 See [Behavior probes](evals/behavior-probes.md) for the trial method and dated results. This
 repository has no automated model-runner. Older contextual trials remain untested or unverified as
