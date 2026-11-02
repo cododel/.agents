@@ -190,6 +190,7 @@ destructive actions still require authorization covering the actual action and t
 
 ## Tools And Working Environment
 
+- For standalone helper scripts without an established project runtime, prefer TypeScript with Bun.
 - Prefer available LSP tools for symbol relationships, AST tools for structural queries/edits,
   and `rg` for text (`fd` or `rg --files` for discovery); avoid broad scans of generated/dependency trees.
 - Use `$find-docs` when work depends on drift-prone external behavior. Prefer installed-version
