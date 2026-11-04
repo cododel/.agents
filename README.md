@@ -30,7 +30,7 @@ global instruction path to `~/.agents/AGENTS.md`.
 
 ## Portable Skills
 
-The repository has **26 portable Skill entrypoints**, matched against the scenario matrix by the
+The repository has **28 portable Skill entrypoints**, matched against the scenario matrix by the
 validator.
 
 - Documentation and design: `adr`, `contract-auditor`, `contract-writer`,
@@ -39,12 +39,17 @@ validator.
   `adversarial-review`, `figma-css-cleanup`, `git-operations`, `localization`, `troubleshooter`,
   `testing-evidence`, `repository-test-audit`.
 - Context and coordination: `find-docs`, `find-skills`, `kaneo-task-workflow`, `task-journal`,
-  `yougile-workflow`, `issue-triage`, `process-friction-audit`.
+  `yougile-workflow`, `issue-triage`, `process-friction-audit`, `skill-evolution`, `task-finish`.
 
 Each Skill's description and entrypoint explain when to use it. Use context helpers when they
 address a relevant uncertainty or evidence question. Review, cleanup, tracker, and external-write
 workflows need the corresponding operator intent or a declared project workflow. Mentioning a topic
 alone does not authorize a workflow or external action.
+
+[Skill evolution](skills/skill-evolution/SKILL.md) embeds evidence-based learning and scoped promotion
+in a new or existing skill when requested, for example: “Create skill X with a mechanism of evolution.”
+The resulting package works without loading the meta-skill; existing permissions determine which
+repairs may be applied and which remain proposed changes.
 
 [Testing evidence](skills/testing-evidence/SKILL.md) describes how to choose and assess
 verification; project profiles supply commands, isolation requirements, and required checks.
