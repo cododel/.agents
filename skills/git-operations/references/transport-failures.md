@@ -9,6 +9,10 @@ Classify the failing layer before changing the write path:
 | SSH authentication rejected by host | The presented identity did not authenticate for this host. | Check intended host/account and a read-only remote query. |
 | HTTPS authentication rejected | That HTTPS credential did not authenticate. | Check intended account through established tooling without revealing credentials. |
 
+Before declaring configured access unavailable, try a read-only query with `tty=true`, without
+agent-added SSH overrides or short kill deadlines. Distinguish the observed error from hypotheses
+about its cause; success under changed conditions does not identify which change mattered.
+
 Use the same selected remote and target ref for a read-only retry after a transient failure. Do not infer a
 permanent SSH outage from one agent refusal or conflate sandbox DNS with provider failure. If a
 different URL, transport, account, or API write path is still needed, identify its exact repository
