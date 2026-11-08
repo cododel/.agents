@@ -42,7 +42,6 @@ Filesystem normalization:
 Reasoning-dependent hand-offs:
 - <successor/split/candidate requiring operator rationale>
 
-Reply with the exact actions to apply, adjust, or cancel.
 ```
 
 ## Post-apply

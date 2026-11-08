@@ -31,8 +31,10 @@ Choose the route from actual state:
   branches before retrying. Recover/attach an existing task-owned result even if registration failed;
   never remove paths/branches blindly or create duplicates.
 
-For a new checkout, use a native facility only when it preserves path, base, and branch constraints;
-otherwise use Git CLI. With a new branch:
+If the environment requires a particular worktree tool, use it.
+Otherwise, use a native facility or Git CLI that preserves the required
+path, base, and branch. Do not silently relax those constraints.
+With a new branch:
 
 ```bash
 git worktree add -b <branch> <resolved-path> <base>

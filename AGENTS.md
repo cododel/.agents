@@ -165,7 +165,7 @@ destructive actions still require authorization covering the actual action and t
 ## Delegation
 
 - Delegate for independent verification, separate research, or parallel work with non-overlapping
-  writes when it helps the task. Ordinary work stays with the primary agent.
+  writes when it helps the task. Prefer direct execution for short or tightly coupled work.
 - Supply expected outcomes, material constraints, accessible sources, acceptance criteria, and write
   boundaries. Leave implementation freedom; do not hide requirements that cannot be discovered.
 - For independent assessment, omit prior conclusions and desired verdicts. Held-out examples may
