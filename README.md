@@ -30,7 +30,7 @@ global instruction path to `~/.agents/AGENTS.md`.
 
 ## Portable Skills
 
-The repository has **29 portable Skill entrypoints**, matched against the scenario matrix by the
+The repository has **28 portable Skill entrypoints**, matched against the scenario matrix by the
 validator.
 
 - Documentation and design: `adr`, `contract-auditor`, `contract-writer`,
@@ -40,7 +40,7 @@ validator.
   `adversarial-review`, `figma-css-cleanup`, `git-operations`, `localization`, `troubleshooter`,
   `testing-evidence`, `repository-test-audit`.
 - Context and coordination: `find-docs`, `find-skills`, `kaneo-task-workflow`, `task-journal`,
-  `yougile-workflow`, `issue-triage`, `process-friction-audit`, `skill-evolution`, `task-finish`.
+  `issue-triage`, `process-friction-audit`, `skill-evolution`, `task-finish`.
 
 Each Skill's description and entrypoint explain when to use it. Use context helpers when they
 address a relevant uncertainty or evidence question. Review, cleanup, tracker, and external-write
