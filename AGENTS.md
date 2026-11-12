@@ -139,6 +139,11 @@ destructive actions still require authorization covering the actual action and t
 
 ## Verification And Evidence
 
+- Do not run E2E tests locally, including through aggregate commands or in headless mode. Leave E2E
+  verification to the operator or the project's existing CI workflow.
+- Follow project rules for other checks. When the project does not specify which checks to run,
+  select applicable checks such as type checking, targeted regression tests, and a build. Base the
+  selection on the change, regression risk, and expected runtime.
 - For observable behavior changes, default to meaningful RED–GREEN–REFACTOR: establish agreed
   acceptance, expose the intended gap, implement, then refactor. Extend existing protection before
   adding duplicate tests; use justified exceptions when RED or a permanent test would mislead or
