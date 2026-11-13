@@ -2,15 +2,15 @@ import {afterEach, beforeEach, expect, test} from "bun:test";
 import {mkdtempSync, writeFileSync, readFileSync, rmSync, symlinkSync, unlinkSync} from "node:fs";
 import {tmpdir} from "node:os";
 import {join, resolve} from "node:path";
-import {ASSETS, Collection, positiveSeconds, startPreview} from "../skills/_shared/markdown-review/scripts/preview";
+import {ASSETS, Collection, positiveSeconds, startPreview} from "../skills/markdown-preview/scripts/preview";
 
 let root: string;
 let manifest: string;
-let entries: {id: string; kind: string; title: string; target: string; path: string}[];
+let entries: {id: string; kind: string; title: string; target?: string; path: string}[];
 const stops: (() => void)[] = [];
 function writeManifest() { writeFileSync(manifest, JSON.stringify({reports: entries})); }
-function start(options = {}) {
-  const preview = startPreview(new Collection(manifest), options);
+function start(input = manifest) {
+  const preview = startPreview(new Collection(input));
   stops.push(preview.stop);
   return preview.server.url.href;
 }
@@ -49,13 +49,31 @@ test("HTTP serves canonical bytes and refreshes changed, missing and recovered M
 
 test("Issue and PR metadata updates are read from the manifest", async () => {
   writeFileSync(join(root, "pr.md"), "After evidence");
+  writeFileSync(join(root, "README.md"), "# Project");
   entries.push({id: "two", kind: "pr", title: "Fix", target: "example/repo", path: "pr.md"});
+  entries.push({id: "docs", kind: "markdown", title: "README", path: "README.md"});
   writeManifest();
   const url = start();
-  expect((await reports(url)).map((r: {kind: string}) => r.kind)).toEqual(["issue", "pr"]);
+  expect((await reports(url)).map((r: {kind: string}) => r.kind)).toEqual(["issue", "pr", "markdown"]);
   entries[1].title = "Updated title";
   writeManifest();
   expect((await reports(url))[1].title).toBe("Updated title");
+});
+
+test("a Markdown file opens directly and refreshes its original source", async () => {
+  const path = join(root, "Project README.MD");
+  const original = '<div align="center"><img src="cover.png" alt="Cover"></div>\n';
+  writeFileSync(path, original);
+  writeFileSync(join(root, "cover.png"), "synthetic-cover");
+  const url = start(path);
+  expect((await reports(url))[0]).toMatchObject({
+    kind: "markdown", title: "Project README.MD", path: "Project README.MD", markdown: original,
+  });
+  expect(await (await fetch(url + "files/Project%20README.MD")).text()).toBe(original);
+  expect(await (await fetch(url + "files/cover.png")).text()).toBe("synthetic-cover");
+  expect((await fetch(url + "files/issue.md")).status).toBe(404);
+  writeFileSync(path, "# Updated");
+  expect((await reports(url))[0].markdown).toBe("# Updated");
 });
 
 test("containment blocks traversal, symlinks, missing paths through symlinks and private files", async () => {
@@ -107,7 +125,7 @@ test("malformed manifest fails visibly and recovers", async () => {
 });
 
 async function processPreview(args: string[], poll: boolean, signal?: NodeJS.Signals) {
-  const proc = Bun.spawn([process.execPath, resolve(import.meta.dir, "../skills/_shared/markdown-review/scripts/preview.ts"),
+  const proc = Bun.spawn([process.execPath, resolve(import.meta.dir, "../skills/markdown-preview/scripts/preview.ts"),
     manifest, ...args], {stdout: "pipe", stderr: "pipe"});
   const output: string[] = [];
   let url = "";
@@ -156,7 +174,7 @@ test("SIGTERM closes the listener and exits cleanly", async () => {
 test("disabled and nonfinite time limits are rejected", async () => {
   for (const value of ["0", "-1", "NaN", "Infinity", ""]) expect(() => positiveSeconds(value)).toThrow();
   for (const flag of ["--idle-timeout", "--max-lifetime"]) {
-    const proc = Bun.spawn([process.execPath, resolve(import.meta.dir, "../skills/_shared/markdown-review/scripts/preview.ts"),
+    const proc = Bun.spawn([process.execPath, resolve(import.meta.dir, "../skills/markdown-preview/scripts/preview.ts"),
       manifest, flag, "0"], {stdout: "pipe", stderr: "pipe"});
     expect(await proc.exited).toBe(1);
     expect(await new Response(proc.stderr).text()).toContain("finite positive");

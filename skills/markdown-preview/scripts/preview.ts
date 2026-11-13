@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-/** Serve canonical Markdown drafts through a read-only loopback preview. */
+/** Serve Markdown sources through a read-only loopback preview. */
 import { readFileSync, realpathSync, lstatSync, readlinkSync } from "node:fs";
 import { basename, dirname, extname, isAbsolute, relative, resolve } from "node:path";
 import { parseArgs } from "node:util";
@@ -25,15 +25,15 @@ function canonical(path: string): string {
   }
 }
 
-type Report = { id: string; title: string; kind: "issue" | "pr"; target: string; path: string;
+type Report = { id: string; title: string; kind: "markdown" | "issue" | "pr"; target?: string; path: string;
   markdown?: string; revision?: string; error?: string };
 
 export class Collection {
-  readonly manifest: string;
+  readonly input: string;
   readonly root: string;
-  constructor(manifest: string) {
-    this.manifest = realpathSync(manifest);
-    this.root = dirname(this.manifest);
+  constructor(input: string) {
+    this.input = realpathSync(input);
+    this.root = dirname(this.input);
   }
   inside(input: string): string {
     if (typeof input !== "string" || isAbsolute(input)) throw new Error("Expected a relative path");
@@ -45,15 +45,20 @@ export class Collection {
     return path;
   }
   reports(): Report[] {
-    const entries: unknown = JSON.parse(readFileSync(this.manifest, "utf8")).reports;
+    const path = basename(this.input);
+    const entries: unknown = extname(path).toLowerCase() === ".md"
+      ? [{id: path, title: path, kind: "markdown", path}]
+      : JSON.parse(readFileSync(this.input, "utf8")).reports;
     if (!Array.isArray(entries) || !entries.length) throw new Error("Manifest requires a nonempty reports array");
     const ids = new Set<string>();
     return entries.map((entry) => {
       if (!entry || typeof entry !== "object") throw new Error("Each report must be an object");
-      for (const field of ["id", "title", "kind", "target", "path"]) {
+      for (const field of ["id", "title", "kind", "path"]) {
         if (typeof entry[field] !== "string" || !entry[field].trim()) throw new Error(`Report requires ${field}`);
       }
-      if (ids.has(entry.id) || !["issue", "pr"].includes(entry.kind)) throw new Error("Invalid ID or kind");
+      if (ids.has(entry.id) || !["markdown", "issue", "pr"].includes(entry.kind)) throw new Error("Invalid ID or kind");
+      if ((entry.kind !== "markdown" || entry.target !== undefined) &&
+          (typeof entry.target !== "string" || !entry.target.trim())) throw new Error("Report requires target");
       ids.add(entry.id);
       const path = this.inside(entry.path);
       if (extname(path).toLowerCase() !== ".md") throw new Error("Body must be Markdown");
@@ -147,9 +152,9 @@ if (import.meta.main) {
       "max-lifetime": {type: "string", default: "14400"}, help: {type: "boolean"},
     }});
     if (values.help) {
-      console.log("Usage: bun preview.ts <reports.json> [--port N] [--idle-timeout 300] [--max-lifetime 14400]");
+      console.log("Usage: bun preview.ts <file.md | reports.json> [--port N] [--idle-timeout 300] [--max-lifetime 14400]");
     } else {
-      if (positionals.length !== 1) throw new Error("Expected one reports.json path; use --help");
+      if (positionals.length !== 1) throw new Error("Expected one Markdown or manifest path; use --help");
       const port = Number(values.port);
       if (!Number.isInteger(port) || port < 0 || port > 65535) throw new Error("Invalid port");
       const idleTimeout = positiveSeconds(values["idle-timeout"]!);

@@ -41,6 +41,8 @@ Local lifecycle scope never implies remote tracker authority.
 
 When the requested record includes a bug report, use [bug-report](../bug-report/SKILL.md) for its
 content. Ordinary deferral records and lifecycle reviews do not require a full bug report.
+When the operator requests a rendered Markdown preview of an Issue, use
+[markdown-preview](../markdown-preview/SKILL.md).
 
 Load `../_shared/durable-documentation.md` before extracting/removing unique value. Keep decision
 history and current guarantees with their canonical owners under the relevant authoring gates.

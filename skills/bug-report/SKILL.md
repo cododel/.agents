@@ -1,6 +1,6 @@
 ---
 name: bug-report
-description: "Prepare or review a bug report, or preview Markdown drafts of reports and fix PRs. Use for requested report content or review previews; not ordinary diagnosis, brief findings summaries, investigation, general PR authoring, or tracker lifecycle operations."
+description: "Prepare or review a bug report, including evidence for a fix PR. Use for requested report content or content review; not ordinary diagnosis, brief findings summaries, investigation, general PR authoring, or tracker lifecycle operations."
 ---
 
 # Bug Report
@@ -72,14 +72,6 @@ already authorized action. Tracker state, duplicates, and lifecycle remain with 
 
 ## Optional review preview
 
-When a rendered review is requested, use [the local preview wrapper](../_shared/markdown-review/README.md) for
-one or several Issue/fix-PR drafts. Edit the canonical Markdown, not a separate HTML copy, and keep
-the shown revision synchronized. Do not create a per-task HTML/CSS layout, DOM-snapshot export or
-standalone duplicate of the review. If the wrapper cannot present required content, report the
-limitation and address it in the shared wrapper only within authorized scope. Fix-PR previews use
-the fix-report evidence distinction above; this does not invoke general PR authoring.
-
-The agent may open a ready requested preview in an available embedded browser without another
-approval. Use host-provided annotations where available; this wrapper does not own comment storage
-or confer publication approval. Retain draft identity when applying feedback and verify the updated
-render before returning it for further review.
+When a rendered preview is requested, use [markdown-preview](../markdown-preview/SKILL.md) for the
+canonical Issue or fix-PR drafts. Apply the fix-report evidence requirements above when preparing
+content for a fix-PR preview.

@@ -1,6 +1,7 @@
 "use strict";
 
 const ui = Object.fromEntries(["reports", "connection", "target", "title", "kind", "source", "raw", "body"].map(id => [id, document.getElementById(id)]));
+const draftLabels = {pr: "Pull request", issue: "Issue"};
 let reports = [];
 let selected = new URLSearchParams(location.search).get("report");
 let rendered = "";
@@ -24,11 +25,15 @@ function render() {
     ui.reports.replaceChildren(...reports.map(item => {
       const button = document.createElement("button");
       button.className = "draft-tab";
-      const type = document.createElement("small");
-      type.textContent = item.kind === "pr" ? "PULL REQUEST" : "ISSUE";
+      const label = draftLabels[item.kind];
+      if (label) {
+        const type = document.createElement("small");
+        type.textContent = label.toUpperCase();
+        button.append(type);
+      }
       const title = document.createElement("strong");
       title.textContent = item.title;
-      button.append(type, title);
+      button.append(title);
       button.dataset.report = item.id;
       button.onclick = () => { selected = item.id; render(); };
       return button;
@@ -45,9 +50,12 @@ function render() {
   const fingerprint = JSON.stringify(report);
   if (fingerprint !== rendered) {
     ui.title.textContent = report.title;
-    document.title = `${report.title} · Draft review`;
-    ui.target.textContent = report.target;
-    ui.kind.textContent = report.kind === "pr" ? "Draft pull request" : "Draft issue";
+    document.title = `${report.title} · Markdown preview`;
+    ui.target.hidden = !report.target;
+    ui.target.textContent = report.target ?? "";
+    const label = draftLabels[report.kind];
+    ui.kind.hidden = !label;
+    ui.kind.textContent = label ? `Draft ${label.toLowerCase()}` : "";
     ui.raw.hidden = Boolean(report.error);
     ui.raw.href = fileUrl(report.path);
     ui.raw.target = "_blank";
@@ -58,7 +66,7 @@ function render() {
       ui.body.textContent = report.error;
       delete ui.body.dataset.revision;
     } else {
-      const html = marked.parse(report.markdown, {gfm: true, breaks: true});
+      const html = marked.parse(report.markdown, {gfm: true, breaks: Boolean(label)});
       const fragment = DOMPurify.sanitize(html, {
         RETURN_DOM_FRAGMENT: true,
         USE_PROFILES: {html: true},
@@ -100,14 +108,14 @@ function render() {
     }
     rendered = fingerprint;
   }
-  if (!collectionCurrent) notice("Draft connection unavailable — preview may be stale", true);
+  if (!collectionCurrent) notice("Connection unavailable — preview may be stale", true);
   else notice(report.error ? "Source unavailable — preview is not current" : "Synced with Markdown", Boolean(report.error));
 }
 
 async function refresh() {
   try {
     const response = await fetch("/api/reports", {cache: "no-store"});
-    if (!response.ok) throw new Error("Cannot read drafts — check the collection manifest");
+    if (!response.ok) throw new Error("Cannot read preview sources");
     const data = await response.json();
     reports = data.reports;
     if (!collectionCurrent) rendered = "";

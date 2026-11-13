@@ -55,7 +55,7 @@ repairs may be applied and which remain proposed changes.
 [Testing evidence](skills/testing-evidence/SKILL.md) describes how to choose and assess
 verification; project profiles supply commands, isolation requirements, and required checks.
 [Bug report](skills/bug-report/SKILL.md) owns report content; it does not grant tracker write authority.
-The shared [Markdown review wrapper](skills/_shared/markdown-review/README.md) renders Issue and PR drafts.
+[Markdown preview](skills/markdown-preview/SKILL.md) renders README files, documentation, and Issue or PR drafts.
 [PR writer](skills/pr-writer/SKILL.md) covers feature, fix and maintenance descriptions and demonstrations,
 reusing the same preview and shared evidence standard. PRs with media use the preview; simple text-only
 descriptions are delivered as text unless preview is requested.

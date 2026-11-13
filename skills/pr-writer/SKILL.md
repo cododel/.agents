@@ -53,12 +53,8 @@ Maintain one canonical Markdown body and the actual proposed title. Save the bod
 preview or file delivery is needed; a simple response-only description needs no separate file.
 Use the same body for later authorized publication rather than rewording a second copy.
 
-For a PR containing media, or an explicit preview request, render through the existing
-[review wrapper](../_shared/markdown-review/README.md) and open it in an available embedded browser
-when ready. Use the manifest's title, target, stable ID and `kind: pr`; the body remains the actual
-publication Markdown. Reuse the tab and bounded task-owned process, apply feedback to the Markdown,
-and verify the refreshed render. Do not create a custom HTML duplicate. If preview is unavailable,
-return the draft and the concrete preview limitation, without inventing a successful demonstration.
+For a PR containing media or when preview is requested, use
+[markdown-preview](../markdown-preview/SKILL.md) with the canonical body and proposed title.
 
 Deliver a simple text-only PR as text unless preview was requested. Neither route adds a new approval
 gate: obey any established editorial review requirement and reuse existing publication authority.

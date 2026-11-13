@@ -1,25 +1,42 @@
-# Markdown review preview
+---
+name: markdown-preview
+description: Render local Markdown previews of README files, documentation, notes, and Issue or pull request drafts. Use to open or inspect rendered Markdown, including safe inline HTML, media, and collections of documents.
+---
 
-Use this wrapper when a rendered review is requested or called for by the owning authoring workflow.
-It supports a collection
-of Issue and PR bodies with sidebar navigation, GitHub-like Markdown styling, media, source
-links and automatic refresh. It is local-only and read-only; it has no publishing or editing API.
-This is the single review renderer used by the report and PR authoring skills. The publication Markdown
-and evidence remain the deliverables; a requested archive can retain those sources without a second
-HTML representation.
+# Markdown preview
 
-For general PR content and the media-versus-text delivery default, use
-[pr-writer](../../pr-writer/SKILL.md). The wrapper is shared; it does not require a full bug report
-for a feature or an already documented Issue fix.
+Render one or more Markdown files using the bundled local viewer. The viewer provides
+sidebar navigation, GitHub-like Markdown styling, media, source links and automatic refresh. Review
+is read-only and local. For a requested archive, retain the source Markdown, manifest and evidence.
 
-## Canonical drafts
+## Single file
 
-Create one collection folder in the task's ignored scratch directory, or use the operator's chosen
-draft folder. Keep each actual publication body in its own UTF-8 `.md` file. Create `reports.json`:
+Pass the original file directly. Edits to the source appear in the open preview.
+
+```sh
+bun <skill-directory>/scripts/preview.ts /path/to/README.md
+```
+
+The file's directory is the serving boundary for relative media. If documentation uses media
+from a parent directory, put a temporary manifest in a common ancestor inside the project and
+reference the original Markdown by its relative path. The manifest directory is then the serving
+boundary. Keep temporary manifests out of Git.
+
+## Collections and draft metadata
+
+For several files or for Issue and PR metadata, create a `reports.json` manifest. Keep each actual
+publication body in its own UTF-8 `.md` file. Use the task's ignored scratch directory for generated
+drafts or the operator's chosen draft folder.
 
 ```json
 {
   "reports": [
+    {
+      "id": "readme",
+      "kind": "markdown",
+      "title": "README",
+      "path": "README.md"
+    },
     {
       "id": "browser-focus",
       "kind": "issue",
@@ -38,7 +55,8 @@ draft folder. Keep each actual publication body in its own UTF-8 `.md` file. Cre
 }
 ```
 
-IDs are stable and unique; `kind` is `issue` or `pr`. Titles in the manifest are the actual proposed
+IDs are stable and unique. Use `kind: markdown` for a document, with optional `target`, and
+`kind: issue` or `kind: pr` for a draft, with a target. Draft titles are the actual proposed
 publication titles; `path` points to the exact body to submit, without preview-only frontmatter or
 text stripped during publication. Edit titles in the manifest and body content in Markdown. Display
 an unknown target honestly rather than inventing a repository. Keep operator notes outside the body.
@@ -60,10 +78,11 @@ preview preparation alone or claim local paths will work for GitHub readers.
 From the selected checkout, run in a retained terminal session:
 
 ```sh
-bun <skills-directory>/_shared/markdown-review/scripts/preview.ts <collection-directory>/reports.json
+bun <skill-directory>/scripts/preview.ts <collection-directory>/reports.json
 ```
 
-Resolve placeholders to actual paths. Bun must be installed; Python is not required for this wrapper.
+Use the directory containing this SKILL.md for `<skill-directory>` and resolve both paths before
+launching. The viewer requires Bun.
 The server uses built-in Bun/Node APIs, so no package install or build is needed. It chooses a free
 loopback port and prints its URL. `--port` selects a specific port if needed. Verify a successful response, then open that URL in an available embedded
 browser; use another already authorized local browser only if necessary. Do not publish the server
@@ -98,11 +117,17 @@ Markdown, check the refreshed render, and keep unresolved comments explicit. Hos
 need to be revisited after a source update; do not promise persistence or remapping that the host
 does not establish. Viewing or commenting on a preview does not itself approve publication.
 
+If the viewer cannot display required content, return the canonical draft and report the concrete
+limitation. Use the bundled viewer for review and keep feedback and corrections tied to the Markdown
+source. A ready requested preview may be opened in the embedded browser under the existing request.
+
 ## Rendering limits
 
 The body is parsed directly from the publication Markdown, not reconstructed from a second data
 model. Marked's GFM tables, lists, task checkboxes and fenced code are supported, with line breaks
-matching GitHub comments. This is a review approximation, not GitHub's own renderer: platform-specific
+matching GitHub comments for Issue and PR drafts. Documents use normal Markdown line breaks.
+Safe HTML blocks such as `<div align="center">` and `<details>` are supported. Inline CSS and scripts
+are removed. Leave blank lines around Markdown nested in HTML blocks when it should render as
+Markdown. This is a review approximation, not GitHub's own renderer: platform-specific
 mentions, autolinks, diagrams and attachment processing may differ. Inspect material differences
-before claiming the published result will be identical. The wrapper does not verify that a proposed
-fix works; use the [fix-report evidence requirements](../../bug-report/SKILL.md#fix-reports) when reviewing a defect correction.
+before claiming the published result will be identical.

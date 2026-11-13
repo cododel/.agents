@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Draft review</title>
+  <title>Markdown preview</title>
   <link rel="stylesheet" href="/preview.css">
   <script defer src="https://cdn.jsdelivr.net/npm/marked@18.1.2/lib/marked.umd.js" integrity="sha384-nCN5FOaVTXXYilftBH/VQuC9ypBYOxrctAZn2x7ggYClXaporWSzM0y+ODhb8MTi" crossorigin="anonymous"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.4.17/dist/purify.min.js" integrity="sha384-P0JNneQf81HOl9VwNXK76cQ9VMD6Nfsnepxb0cCOg8+UzEdzgPHAPV4wVQrvYQSx" crossorigin="anonymous"></script>
@@ -11,16 +11,16 @@
 </head>
 <body>
   <aside>
-    <nav id="reports" aria-label="Drafts"></nav>
+    <nav id="reports" aria-label="Markdown sources"></nav>
   </aside>
   <main>
-    <div id="connection" role="status">Loading drafts…</div>
+    <div id="connection" role="status">Loading Markdown…</div>
     <header>
       <p id="target" class="target"></p>
-      <h1 id="title">Draft review</h1>
-      <div class="metadata"><span id="kind" class="badge">Draft</span><span id="source"></span></div>
+      <h1 id="title">Markdown preview</h1>
+      <div class="metadata"><span id="kind" class="badge" hidden></span><span id="source"></span></div>
     </header>
-    <section class="document" aria-label="Draft document">
+    <section class="document" aria-label="Rendered Markdown">
       <div class="document-toolbar"><strong>Markdown preview</strong><a id="raw" hidden>View source</a></div>
       <article id="body" class="markdown-body"></article>
     </section>
