@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import json
 import re
 import sys
 from pathlib import Path
@@ -206,10 +205,6 @@ def main() -> int:
         if path.is_file() and path.suffix in {".md", ".py"}
     )
     errors.extend(validate_client_neutrality(root, portable_runtime_paths))
-
-    lock = json.loads((root / ".skill-lock.json").read_text(encoding="utf-8"))
-    if "find-skills" in lock.get("skills", {}):
-        errors.append(".skill-lock.json: locally maintained find-skills must not be installer-managed")
 
     corpus_paths = [
         path for path in root.rglob("*")

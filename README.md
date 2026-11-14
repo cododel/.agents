@@ -30,16 +30,16 @@ global instruction path to `~/.agents/AGENTS.md`.
 
 ## Portable Skills
 
-The repository has **30 portable Skill entrypoints**, matched against the scenario matrix by the
+The repository has **28 portable Skill entrypoints**, matched against the scenario matrix by the
 validator.
 
 - Documentation and design: `adr`, `contract-auditor`, `contract-writer`,
   `bug-report`, `cododel-post-covers`, `design-system-extractor`, `docs-cleanup`, `humanize`,
   `issue-writer`, `markdown-preview`, `pr-writer`.
 - Engineering and verification: `chrome-devtools-cli`, `feature-brief`, `feature-closeout`,
-  `adversarial-review`, `figma-css-cleanup`, `git-operations`, `localization`, `troubleshooter`,
+  `adversarial-review`, `git-operations`, `localization`, `troubleshooter`,
   `testing-evidence`, `repository-test-audit`, `redis`.
-- Context and coordination: `find-docs`, `find-skills`, `kaneo-task-workflow`, `task-journal`,
+- Context and coordination: `find-docs`, `kaneo-task-workflow`, `task-journal`,
   `issue-triage`, `process-friction-audit`, `skill-evolution`, `task-finish`.
 
 Each Skill's description and entrypoint explain when to use it. Use context helpers when they
@@ -64,13 +64,6 @@ material question about completion remains. Small, self-contained changes with c
 no separate closeout process. [Task journal](skills/task-journal/SKILL.md) records the agreed task
 and work progress under `.tmp/tasks/<task-id>/` when they become hard to retain reliably; `/.tmp/`
 is ignored.
-
-## External Skill Provenance
-
-`find-skills` is locally maintained, derived from `vercel-labs/skills`,
-`skills/find-skills/SKILL.md` (source folder hash
-`76a98a285cb0434f3d39e1a873823556330e398b`). Review upstream changes manually and preserve the
-rule that discovery requires a concrete capability gap or an explicit request.
 
 ## Validation
 
