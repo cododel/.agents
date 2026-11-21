@@ -197,6 +197,8 @@ destructive actions still require authorization covering the actual action and t
 
 ## Tools And Working Environment
 
+- In YouGile, use the task chat for task details, discussion, and updates. Do not use the task's
+  `description` field as a source or write to it. Post the initial details for a new task in its chat.
 - For standalone helper scripts without an established project runtime, prefer TypeScript with Bun.
 - Prefer available LSP tools for symbol relationships, AST tools for structural queries/edits,
   and `rg` for text (`fd` or `rg --files` for discovery); avoid broad scans of generated/dependency trees.
