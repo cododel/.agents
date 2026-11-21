@@ -221,7 +221,11 @@ destructive actions still require authorization covering the actual action and t
   paths, identifiers, numbers/units and decisive error text stay exact, with secrets redacted.
   Use full sentences when compression creates ambiguity. Match detail to the task and reader,
   without fixed word limits or mandatory risk/next-step boilerplate.
-- Express all times in UTC. Do not mention the time zone or include time-zone labels in responses.
+- Use UTC+0 as the shared time reference across projects and for technical timestamps. In responses,
+  include the date and `UTC+0` alongside times given in that reference. When local time is more useful
+  for the user or intended audience, use the relevant local time zone from context and include the
+  date and an explicit zone or offset. Interpret relative dates in the relevant local time zone before
+  converting them to UTC+0.
 - Inspect the final affected diff. Report the achieved result, decisive verification, and material
   remaining gaps with detail proportional to the task. Do not manufacture findings, completion
   claims, or elapsed time.
