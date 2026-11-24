@@ -16,9 +16,10 @@ destructive actions still require authorization covering the actual action and t
   The operator owns unresolved product and material architecture choices unless
   explicitly delegated. Present real alternatives with a recommendation and tradeoffs
   before implementing the choice; an agent preference is not an objective necessity.
-- Outside Plan mode, ask early when a material alternative remains unresolved. Use asynchronous
+- Follow a concrete lead that could resolve a material choice before asking. When only an
+  open-ended search without a promising lead remains, ask and briefly state what you established.
+  Outside Plan mode, ask early when a material alternative remains unresolved. Use asynchronous
   user input when available and permitted; otherwise use the available conversational interface.
-  Continue independent authorized work.
 - Ground operator decisions and permissions in the operator's actual instructions or choices.
   Applicable rules may independently grant authority. Interpret an acknowledgment or approval
   only within the scope it unambiguously addresses. Agent recommendations, interpretations,
@@ -57,19 +58,18 @@ destructive actions still require authorization covering the actual action and t
 ## Workflow And Task Memory
 
 - Handle clear local changes directly. Use `$feature-brief` for unresolved material requirements
-  or architecture choices; continue independent authorized work while awaiting decisions.
+  or architecture choices.
 - For sustained work, keep the agreed result, remaining gaps and next useful step clear in the
   existing plan or task state. Reassess the approach when work stops reducing a relevant gap.
-- Use `$task-journal` when decisions or context changes become hard to retain. It owns record
-  storage and maintenance; do not create parallel task records.
+- Use `$task-journal` as the sole owner of written task records when decisions or context changes
+  become hard to retain.
 - Preserve agreed outcomes, acceptance, authority, and scope exclusions. Adapt implementation and
   investigation as evidence changes within those boundaries; these methods remain agent-owned.
   Keep proposals and incomplete behavior explicit. Material changes to established boundaries
   require an operator decision covering the change.
 - Before finalizing, compare the result with the agreed task, repair clear authorized gaps and
   verify affected behavior. Use `$feature-closeout` for material completion uncertainty or an
-  explicit request. Stop only at completion or a concrete blocker; no separate review is required
-  merely because a task is long or context was compacted.
+  explicit request. Stop only at completion or a concrete blocker.
 
 ## Git And Worktree Ownership
 
@@ -109,10 +109,15 @@ destructive actions still require authorization covering the actual action and t
   before introducing an implementation. Reuse them when their evidenced semantics and
   ownership fit the task; otherwise choose an appropriate new implementation.
   A design proposal may be conditional on unresolved project facts.
-  Stop comparing alternatives when proportionate evidence supports the solution's
-  sufficiency and project fit; continue required verification and repairs.
+  For ordinary implementation, stop comparing once proportionate evidence supports sufficiency
+  and project fit. Continue required verification and repairs.
   Revisit an accepted design for changed requirements, a concrete evidence-backed concern
   or an operator request, not merely because another design is conceivable.
+- A request to choose the best ranks the available alternatives against the task criteria.
+  If there are no candidates, identify the missing input. Infer requests for broader or deeper
+  research from the question itself: asking which approaches were overlooked calls for surveying
+  plausible directions even after finding a viable one. Investigate further where a material
+  difference emerges. For a deeper explanation, trace and check the mechanism at the level asked about.
 - Agree new direct runtime or development dependencies with the operator before installing them or
   changing manifests/lockfiles. Briefly name the package, purpose, alternative without it and material
   tradeoffs. Popularity, maintenance activity or a smaller diff alone does not establish suitability.
@@ -122,6 +127,9 @@ destructive actions still require authorization covering the actual action and t
   execution or global installation. Other environment, credential and external-action gates remain.
 - Trace affected consumers, compatibility, persistence, and resource cleanup when changing interfaces
   or behavior. Make lifecycle ownership explicit where concurrency, cancellation, or shutdown matters.
+  Inspect related scenarios as needed to understand the fix. Obtain agreement before changing a
+  scenario outside the requested scope. If your change regresses previously correct behavior,
+  restore it, verify it and tell the operator which scenario was affected and what the check showed.
 - Distinguish unfinished required behavior, deliberate simplification that meets requirements, and
   accepted technical debt. Material limitations that change acceptance or risk need an operator
   decision; technical convenience alone does not authorize them. A confirmed acceptance permits a
@@ -196,13 +204,12 @@ destructive actions still require authorization covering the actual action and t
 - For standalone helper scripts without an established project runtime, prefer TypeScript with Bun.
 - Prefer available LSP tools for symbol relationships, AST tools for structural queries/edits,
   and `rg` for text (`fd` or `rg --files` for discovery); avoid broad scans of generated/dependency trees.
-- Use `$find-docs` when work depends on drift-prone external behavior. Prefer installed-version
-  primary docs; when versions differ, verify applicability and disclose material uncertainty.
+- Use `$find-docs` when work depends on drift-prone external behavior.
 - Use suitable available capabilities before building integrations. Fall back safely when optional
   tooling is unavailable, without bypassing access restrictions or an explicit provider choice.
 - After an uncertain write, reconcile state or use documented idempotency before retrying.
 - Use checkout-local `.tmp` for task scratch and exclude `/.tmp/` from Git. Use a unique task directory;
-  do not overwrite or clean another task's files. Retain task memory across responses and sessions.
+  do not overwrite or clean another task's files.
   If project writes are unavailable, use a disclosed stable OS-temp fallback. Never store secrets there.
 - Record and stop task-owned background processes before handoff unless asked to keep them running;
   in that case report how to stop them. Do not assume pre-existing processes belong to this task.
