@@ -1,0 +1,12 @@
+# Explain the verified change
+
+Use the operator's language. For a substantial task, create one self-contained HTML report from the final inventory and verification already assembled. Reuse the active task's scratch location under [task-journal](../../task-journal/SKILL.md) or an explicitly requested destination. Preserve existing reports. Return a clickable path. A small local correction ordinarily needs just the response. If artifact creation is blocked, deliver the content in the available medium and disclose the missing visual deliverable.
+
+Lead with the handoff boundary, the practical effect for users/operators, and any real decision or outstanding risk. Group the remaining material by capability:
+
+- Explain what became possible, changed or disappeared. Include sound decisions and the guarantees they protect. On substantial work with no findings, the reader should still be able to describe how the system now works.
+- Compare the same scenario and component responsibilities before and after. Label relationships with actions and indicate removed, added or uncertain links in words. If there is no dependable baseline, show the known present and name the missing comparison. Skip a diagram where a short comparison communicates the result better.
+- Show what initially failed, how it was resolved and what verifies the corrected behavior. Distinguish open findings, unavailable checks and operator decisions from resolved defects. Link each material obligation or grouped area to its outcome. Keep significant gaps visible at the top level.
+- Put revision identity, scope and exclusions, source locators, exact checks, decisive observations, conditions, independence and evidence limits in native disclosures. Select existing sanitized evidence. Preserve the distinction between an observed execution and a static path.
+
+Adapt [the offline HTML template](../assets/report-template.html). Replace its placeholders and omit empty sections. Keep disclosures keyboard accessible, use text as well as color and check links and layout. Escape interpolated text and restrict links to intended local targets. Omit secrets, private URLs and sensitive payloads. Use local CSS and native HTML without a server, remote scripts, fonts, CDN, telemetry or uploads. An already available visual tool may render the established findings within these limits. Before handoff verify the visible conclusions, diagram edges and checks against the final inventory and target. A diagram alone supplies no execution evidence.

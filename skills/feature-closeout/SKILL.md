@@ -1,90 +1,29 @@
 ---
 name: feature-closeout
-description: "Close an implementation task before finalization when material completion uncertainty remains or closeout is requested: check agreed acceptance, fix unambiguous authorized gaps, clarify material choices and recheck until PREPARED. Full closes the task; Quick checks interim alignment. Not a findings-only audit or broad cleanup."
+description: "Bring an implementation to an evidenced local handoff when closeout is requested or material completion uncertainty remains. Reconstruct behavior and architecture, resolve authorized defects, and explain the verified result to the operator."
 ---
 
 # Feature Closeout
 
-Bring the current agreed implementation task to completion before finalization. Check correctness,
-quality and completeness, repair authorized gaps, clarify material choices and recheck. Use this skill
-for material completion uncertainty or an explicit request; atomic work with decisive evidence needs
-only compact normal completion. Task length, diff size, compaction and task records alone require
-neither a separate ceremony nor independent reviewers. Read-only review requests grant no repair authority.
+Establish what the task changed, whether it delivers the agreed result, and what the operator can rely on at this handoff. Scale the investigation to consequences, interactions, uncertainty and available evidence. A small change with decisive evidence needs only a compact answer.
 
-## Select the mode
+1. **Set the boundary.** Recover the agreed outcome, constraints, decisions and checks due now from the operator, applicable project sources and active [task journal](../task-journal/SKILL.md). Establish the task baseline if available and identify the actual target, including relevant commits, staged, unstaged and untracked changes. Preserve other people's work. If the baseline is missing, assess the target against the agreement and identify which comparisons are unknown.
+2. **Reconstruct and trace.** Group material changes by capability and responsibility, including correct changes, removals and justified decisions. Follow actual entry points through their consumers and effects. For substantial changes or uncertain interactions, use [change investigation](references/investigation.md) to account for the affected areas, changed relationships and gaps. Trace each material obligation to its enforcement and each material new behavior back to its authority.
+3. **Challenge the result.** For each consequential guarantee, look for a reachable condition under which it breaks. Where a material outcome depends on a later actor, establish how that actor discovers the outstanding work and what happens to work its selection rules exclude. Verify suspected defects against reachable guards and contrary evidence. Verify a proposed simplification against the same contract. Use [testing-evidence](../testing-evidence/SKILL.md) for substantive verification, including check selection, execution, interpretation and reuse. Follow project gates and global authority, isolation and E2E limits. Use [adversarial-review](../adversarial-review/SKILL.md) when a particular guarantee warrants specialized investigation. Consume its evidence once.
+4. **Resolve and recheck.** With implementation authority, repair confirmed unambiguous defects within the agreed task and its demonstrated affected radius. An explicit read-only assessment leaves the implementation untouched. For a material unresolved choice, present the evidence, alternatives, consequences and recommendation to the operator. Continue independent work. Update affected documentation, inventory and claims after repairs or target drift. Refresh missing or invalidated evidence and reuse demonstrably current results. If the same finding persists, investigate the missing causal link. Continue useful repair/recheck cycles until prepared or concretely blocked.
+5. **Verify the handoff.** Inspect the final affected diff and compare the final state with every material criterion due now. Record results and remaining gaps in the active journal if present. Include significant original defects, their resolution and the decisive final checks. For substantial work deliver a [local visual report](references/report.md) from this investigation, including when the change is sound. For small work give the scoped outcome and evidence directly.
 
-- **Full (default)**: completion or handoff process; load [references/full.md](references/full.md).
-- **Quick**: an explicitly requested interim checkpoint; load [references/quick.md](references/quick.md).
-  Handle ordinary implementation uncertainty directly without introducing a separate checkpoint mode.
+Choose independent read-only contexts when they add material evidence or when required by the operator, project or specialist procedure. Give them the task, constraints and raw target first, withholding builder conclusions and expected verdicts. Reconcile their returned evidence against the actual target. If required independence is unavailable, continue useful work and identify that blocker. Label same-context checks accurately.
 
-Natural language is sufficient. Legacy `--release` or "release closeout" explicitly requests
-preparation followed by the separate frozen final audit documented in Full; briefly explain the
-mapping. That read-only audit is outside the repair loop, not a new mode or an automatic next step.
-Preserve the requested scope and demonstrated consumers. An atomic change with decisive evidence
-needs only normal completion review; neither Full nor automatic Quick runs merely because a stage ends.
+## Completion boundary
 
-## Authority
+- **PREPARED for [agreed handoff]** when evidence covers every material criterion due there and no confirmed in-scope correctness, quality or completeness blocker remains. Identify separately assigned later operator checks as pending.
+- **BLOCKED for [agreed handoff]** when a specific unmet decision, required evidence, prerequisite, authority or agreed resource limit prevents further authorized progress. Name the affected obligation and what would resolve it. Preserve any confirmed defects alongside evidence gaps.
 
-An implementation request plus closeout permits reversible local repairs inside the agreed task and
-its demonstrated affected radius. Fix confirmed unambiguous authorized defects immediately rather
-than merely listing them. Ask the operator about material unresolved choices and continue independent
-work. Review alone does not authorize product changes. Closeout grants no authority to expand
-requirements, overwrite operator work, or perform external/shared mutations.
+A completed read-only assessment can establish that the implementation is blocked. Preserve the agreed boundary even if runtime access is missing. Local preparation and operator acceptance or production rollout are separate decisions. Git, worktree, external actions and documentation ownership follow applicable instructions.
 
-Update affected established documentation within scope. New contracts, Issues and ADRs follow their
-owner skills and existing authority; closeout alone does not require additional artifacts.
+## Existing invocations
 
-## Common completion invariants
+Legacy **Full** means ordinary closeout. A **Quick** or interim request checks only the requested slice, its due criteria and prerequisites of the next step. Correct clear authorized gaps within that scope and report deviations and missing proof. Future work stays pending. An interim check never certifies final handoff.
 
-These rules own the shared procedure for all modes. Use
-[testing-evidence](../testing-evidence/SKILL.md) when its scope applies; project-required gates remain required.
-Closeout checks acceptance and closes authorized gaps, without an automatic fresh suite run or repository-wide test audit:
-
-1. Establish the current agreed task, applicable contracts and actual changes. Use confirmed
-   discussion or `task.md` for acceptance and `state.md` for progress/evidence. Resolve checkout
-   identity where needed to distinguish the reviewed changes. Stop the affected path for a missing
-   material decision; never substitute the implementation for agreed requirements. A separate source
-   fingerprint is required only for the explicitly requested frozen final audit in Full.
-2. Trace demonstrated consumers, interfaces, data/events, configuration, persistence, cleanup, and
-   operator controls. Include security, concurrency, migrations, mixed-version behavior,
-   rollback/recovery, feature gates and observability where affected. Map material criteria to
-   implementation evidence, verification and status; no new record format is required.
-3. Assess **correctness** against agreed behavior, **quality** of safety/types/maintenance, and
-   **completeness** of consumers/failure paths/lifecycle/compatibility. Source, docs, parser/static
-   checks, tests, and focused probes provide different evidence; a passing suite or clean diff is
-   insufficient by itself.
-4. Separate confirmed in-scope defects, unknowns, environment or pre-existing failures, and independent
-   debt. Before accepting a candidate defect, trace its triggering conditions and check whether
-   existing guards, ordering or cleanup prevent it. Deduplicate confirmed findings; immediately
-   repair unambiguous authorized defects and clarify material alternatives with the operator.
-   Never weaken acceptance/tests to match
-   implementation; expectation changes need an agreed behavior change or a demonstrated check defect.
-5. After repairs, run missing or invalidated checks; reuse evidence only while relevant code,
-   configuration and environment remain compatible. Review the final diff against the agreed task.
-   Repeat Full until `PREPARED` or a concrete blocker prevents further authorized progress. Do not finalize with a repairable
-   findings list. Keep Quick bounded to its checkpoint; it never certifies final completion.
-
-Assess the agreed agent deliverable and prerequisites due at this handoff. Operator release work
-is not an automatic prerequisite for local closeout. Keep separately assigned later verification
-pending/unverified when relevant; local checks do not establish another environment's outcome.
-For runtime evidence required by a current criterion or material risk, explain why local evidence
-is insufficient and report the gap. Preserve project gates and agreed acceptance; missing permission
-or environment does not defer a required check. Never invent a deferral or narrow acceptance.
-
-For independent review, use isolated read-only contexts already available in the environment and
-withhold builder conclusions when independence matters. Do not install an orchestration runtime to
-simulate this evidence; missing contexts must remain visible under the selected mode's limits.
-
-## Completion
-
-Full success requires evidence for every material criterion within the agreed completion boundary
-and no confirmed in-scope blocker on correctness, quality or completeness. Resolve obvious authorized
-gaps and repeat assessment before finalizing; report a concrete unmet decision, prerequisite, evidence,
-authority or agreed resource limit when it prevents further progress. Quick assesses only
-criteria due at the checkpoint and prerequisites of the next step; it does not certify final
-completion. Keep future criteria pending and disclose any requested end state not yet verified.
-
-Record outcomes and gaps in `state.md` when active. Return mode/status, reviewed scope, decisive
-evidence and material gaps. State the boundary with the verdict (for example, `Full — PREPARED for
-local handoff`) and distinguish current blockers from agreed later verification. Zero findings is
-valid; omit routine logs and reviewer transcripts.
+Only an explicit frozen final audit, legacy `--release` or “release closeout” invokes the [frozen audit](references/frozen-audit.md) after preparation. Explain that mapping for release aliases.

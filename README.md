@@ -59,11 +59,13 @@ verification; project profiles supply commands, isolation requirements, and requ
 [PR writer](skills/pr-writer/SKILL.md) covers feature, fix and maintenance descriptions and demonstrations,
 reusing the same preview and shared evidence standard. PRs with media use the preview; simple text-only
 descriptions are delivered as text unless preview is requested.
-[Feature closeout](skills/feature-closeout/SKILL.md) checks completion when requested or when a
-material question about completion remains. Small, self-contained changes with clear evidence need
-no separate closeout process. [Task journal](skills/task-journal/SKILL.md) records the agreed task
+[Task journal](skills/task-journal/SKILL.md) records the agreed task
 and work progress under `.tmp/tasks/<task-id>/` when they become hard to retain reliably; `/.tmp/`
 is ignored.
+
+## Close an engineering task
+
+Use [feature-closeout](skills/feature-closeout/SKILL.md) to finish the agreed task. Supply its requirements and the baseline and target when known. The agent checks the implementation, repairs confirmed gaps within its authority and rechecks the affected behavior. For substantial changes, a local visual report explains the final behavior, architecture, decisions, repairs and remaining gaps. Small changes can be handed off directly in the response. Request a read-only assessment when the implementation must remain untouched.
 
 ## Validation
 

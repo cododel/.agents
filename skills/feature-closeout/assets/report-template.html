@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feature closeout</title>
+<style>
+:root { color-scheme: light dark; --bg:#f6f7f9;--paper:#fff;--text:#16202d;--muted:#536173;--line:#d8dee7;--accent:#225fbf;--ok:#207048;--warn:#895700;--bad:#a83232; }
+@media(prefers-color-scheme:dark){:root{--bg:#11151c;--paper:#191f29;--text:#e8edf6;--muted:#a6b3c4;--line:#343f50;--accent:#8cb8ff;--ok:#81d6a7;--warn:#f3c36f;--bad:#ff9d9d;}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:32px clamp(16px,4vw,48px) 72px}header{border-bottom:1px solid var(--line);padding:0 0 24px}h1{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.2;letter-spacing:-.025em;margin:.4rem 0 1rem}h2{font-size:1.32rem;line-height:1.35;margin:0 0 14px}h3{font-size:1rem;margin:0 0 .5rem}p{margin:.4rem 0 1rem}a{color:var(--accent);overflow-wrap:anywhere}nav{display:flex;flex-wrap:wrap;gap:10px 18px;padding:18px 0;border-bottom:1px solid var(--line)}nav a{font-size:.88rem;text-decoration:none}section{padding-top:28px;scroll-margin-top:12px}.kicker,.muted,figcaption{color:var(--muted);font-size:.87rem}.panel,figure,details{border:1px solid var(--line);border-radius:10px;background:var(--paper);padding:16px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid>.panel{margin:0}.state{font-weight:650}.state[data-status=prepared]{color:var(--ok)}.state[data-status=blocked]{color:var(--warn)}.table-wrap{overflow:auto;max-width:100%}table{border-collapse:collapse;width:100%;text-align:left;font-size:.91rem}th,td{border-bottom:1px solid var(--line);vertical-align:top;padding:10px 12px;overflow-wrap:anywhere}th{color:var(--muted);font-weight:600}tr:last-child td{border-bottom:0}summary{cursor:pointer;font-weight:600}details>div{padding-top:12px}code,pre{font: .85rem/1.5 ui-monospace,monospace;overflow-wrap:anywhere;white-space:pre-wrap}svg{display:block;width:100%;height:auto;max-height:440px;color:var(--text)}img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:6px}figcaption{margin-top:10px}.flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:12px 0}.node{border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:var(--bg);text-align:center}.added{border:2px solid var(--warn)}.arrow{color:var(--muted);font-size:.85rem}footer{border-top:1px solid var(--line);margin-top:32px;padding-top:16px}@media(max-width:700px){main{padding-top:20px}.grid{grid-template-columns:1fr}th,td{padding:8px;min-width:100px}}
+</style>
+</head>
+<body><main>
+<header>
+<h1>[Task and practical outcome]</h1>
+<p class="state">[PREPARED or BLOCKED for the agreed handoff]</p>
+<p>[Who can do what now? Name the decisive evidence and any unresolved gate.]</p>
+</header>
+<section><h2>What changed</h2>
+<p>[Describe the affected capability, guarantee and engineering decision, including justified changes.]</p>
+<figure><div class="grid">
+<div class="panel"><h3>Before</h3><p>[Previous scenario and responsibilities, or unknown with reason.]</p></div>
+<div class="panel"><h3>At handoff</h3><p>[Same scenario and responsibilities, labeled changes in calls, state or effects.]</p></div>
+</div><figcaption>[Why the change matters. Label any inferred relationship.]</figcaption></figure>
+</section>
+<section><h2>What the checks establish</h2>
+<p>[Agreed outcomes, supporting final checks and limits. Keep partial or unverified obligations visible.]</p>
+<details><summary>Scope and supporting evidence</summary><div>[Compared states, included areas, exclusions, locators, checks, observed results and limits.]</div></details>
+</section>
+<section><h2>Problems found and resolved</h2>
+<p>[Original consequence, correction and evidence for the final behavior. Remove section when empty.]</p>
+</section>
+<section><h2>Remaining decisions and risks</h2>
+<p>[What remains, who owns it, alternatives and consequences. Remove section when empty.]</p>
+</section>
+</main></body></html>

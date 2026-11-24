@@ -5,7 +5,7 @@ description: "Complete the current implementation task, verify readiness, and in
 
 # Task Finish
 
-Thin shortcut for Full closeout followed by ordered local worktree integration.
+Finish the agreed task, then integrate its linked worktree locally.
 Invoking this skill requests both stages for the current agreed task; it does not
 request executing the workflow when merely creating, editing or discussing this skill.
 
@@ -14,9 +14,9 @@ request executing the workflow when merely creating, editing or discussing this 
    Establish the route's linked-worktree gate, targets and ownership before repairs or
    integration. Preserve its blockers and authority boundaries; do not substitute a
    primary-checkout workflow or guess an unresolved base branch.
-2. Run [feature-closeout](../feature-closeout/SKILL.md) in **Full** mode for the
+2. Run [feature-closeout](../feature-closeout/SKILL.md) for the
    agreed task. Continue to integration only when it is `PREPARED` for the local
-   handoff. Ordinary Full does not request the separate frozen final audit.
+   handoff. The frozen final audit requires a separate explicit request.
 3. Execute the Worktree integration route in its prescribed order, including its
    task-owned commits, synchronization and verification. Reuse still-valid closeout
    evidence under the owning procedures.
