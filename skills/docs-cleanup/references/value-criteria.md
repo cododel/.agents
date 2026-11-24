@@ -68,17 +68,15 @@ A document is `repair` (not `delete`) when:
 
 ## Close and stale signals (issues only)
 
-A document is `close` when:
+Before classifying Issue status or recommending a lifecycle update, use the project convention and
+[Issue conventions](../../issue-writer/references/conventions.md).
 
-- The original problem is gone in the current codebase, but the issue still has
-  an open or implementing status under its established convention
-- The fix can be pointed to (commit, PR, file path) — leave the issue file in place,
-  update status under the established convention and add a brief completion note. Any later removal
-  uses the authorized `issue-writer` cleanup/apply route and its extraction/recovery gates.
+Recommend `close` when the Issue is open or implementing and current evidence verifies its recorded
+scope is complete. Identify the fix (commit, PR or file) and recommend a brief completion note.
+Keep the source. Any later removal uses the authorized `issue-writer` cleanup/apply route.
 
-A document is `stale` when its premises no longer match current evidence but completion
-cannot be verified. Keep `Status: Open`, update `Last reviewed`, and recommend a concise
-`Stale note` that states the evidence. Do not use stale as a fourth lifecycle status.
+Recommend `stale` when evidence shows that an open Issue's premises have changed and completion
+remains unverified. State what changed and recommend the applicable refresh notes.
 
 ## Merge signals
 

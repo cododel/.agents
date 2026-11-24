@@ -28,10 +28,8 @@ missing evidence.
 
 ### Check 0 — Validate the target
 
-Require the exact candidate to be a regular non-symlink file inside the confirmed documentation scope
-and repository root. A symlink, path escape, invalid type, or unresolved boundary blocks deletion;
-return the exact reason without following an invalid target. Operator approval cannot bypass target
-validity. Do not read bodies outside the confirmed scope.
+Apply the target-validity checks in [document deletion](../../_shared/document-deletion.md)
+before opening the candidate. Return the reason if validation fails. Stay inside the confirmed scope.
 
 ### Check 1 — Read the candidate in full
 
@@ -47,24 +45,9 @@ Note especially:
 
 ### Check 2 — Search for incoming references
 
-Search from the repo root for distinctive strings that would indicate something links to this
-file. Probe with at least:
-
-- The exact filename (e.g. `[CLOSED]-2026-01-12-foo.md`)
-- The slug part of the filename (without status tag / priority)
-- The H1 title (if distinctive)
-- 1-2 distinctive identifiers from the body
-
-Exclude noise paths (`node_modules`, `.git`, build artifacts, the candidate file
-itself). Report what you find, not what you searched for. Empty results are fine —
-say so.
-
-Distinguish **load-bearing references** from **unambiguous index-only entries**. The former depends on
-the document's meaning and blocks deletion until a verified replacement owner and link repair exist.
-The latter may be removed or redirected only through a recorded exact repair in the same change,
-followed by recheck. Report both kinds and the planned repairs; do not label all references blocking
-or silently ignore indexes. If any incoming reference cannot be classified or repaired unambiguously,
-the reference check is incomplete.
+Use the shared document deletion reference search. Include the H1 if distinctive and one or two
+identifiers from the body. Report the observed references by kind, exact planned repairs and any
+remaining gaps in the fields below. State explicitly when the completed search finds none.
 
 ### Check 3 — Assess content uniqueness
 
@@ -87,8 +70,8 @@ Run through the alternatives:
 - `merge` — is duplicate/fragmented coverage established under [value criteria](value-criteria.md)?
 - `close` (Issues only) — is the work complete and verified, requiring a status transition with
   source retention rather than deletion? Any proposed removal uses `issue-writer` cleanup/apply.
-- `stale` (Issues only) — are the premises stale while completion remains unverified,
-  requiring `Last reviewed` plus a `Stale note` while the Issue stays `Open`?
+- `stale` (Issues only) — do the [value criteria](value-criteria.md) support a review note about
+  changed premises while completion remains unverified?
 - `supersede` (ADRs only) — is accepted replacement established under [value criteria](value-criteria.md)?
 - `promote-to-adr` — does this closed issue actually encode an architectural
   decision?

@@ -12,7 +12,7 @@ Unique knowledge must already have a verified appropriate owner; recovery from G
 for preserving knowledge still needed by consumers. A safe evidence result grants no mutation authority.
 
 Search the confirmed repository for the exact filename/path, slug and distinctive decision/problem
-identifiers, excluding generated/dependency trees and the candidate. Trace actual links rather than
+identifiers, excluding Git metadata, generated/dependency trees and the candidate. Trace actual links rather than
 assuming every text match is load-bearing. A semantic reference stays blocking until its meaning has
 a verified owner and its link is repaired. An unambiguous index-only entry may be removed or redirected
 in the same change, followed by recheck. Unknown reference meaning, incomplete search or ambiguous
@@ -20,9 +20,10 @@ repair keeps the source. Reuse a completed applicable search rather than repeati
 
 ## Recovery and target validity
 
-Resolve the exact canonical path, require a regular non-symlink file within the confirmed scope, and
-record its content fingerprint. A symlink, path escape, invalid/changed type or unresolved scope is
-blocked until corrected and rechecked; approval cannot bypass target validity or incomplete evidence.
+Resolve the exact canonical path before reading the candidate. Require a regular non-symlink file
+within the confirmed repository and documentation scope. Record its content fingerprint. A symlink,
+path escape, invalid/changed type or unresolved scope is blocked until corrected and rechecked;
+approval cannot bypass target validity or incomplete evidence.
 
 Recovery is proven only when Git tracks the exact path, working-tree and index contents are clean
 and match the current bytes in a reachable commit. Record that commit SHA and repository-relative

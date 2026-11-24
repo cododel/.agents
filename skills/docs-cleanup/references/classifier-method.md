@@ -75,9 +75,8 @@ Field rules:
   and `fp_risk >= medium`, OR if `verdict == ambiguous`, OR if `verdict == repair`
   and the suggested fix is "move content into a different doc home" (specify the
   target: living contract via `$contract-writer`, runbook path, troubleshooting doc,
-  or ADR via `adr:from-issue`). For
-  `close`, state the status update required by `../../issue-writer/references/conventions.md`; for `stale`, state the
-  `Last reviewed` and `Stale note` update while keeping `Status: Open`. Null otherwise.
+  or ADR via `adr:from-issue`). For `close` or `stale`, state the update under the project
+  convention and [Issue conventions](../../issue-writer/references/conventions.md). Null otherwise.
 - `title` — the document's H1 heading or filename if no H1.
 - `status_filename` — status tag from filename (`[OPEN]`, `[CLOSED]`, etc.) or
   null if no convention.

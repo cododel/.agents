@@ -21,13 +21,12 @@ the evidence/recovery gates; review/report requests do not authorize mutation.
 3. Load `../_shared/durable-documentation.md` when unique value needs routing. Recommend the relevant
    writer/Issue/runbook workflow within its authority; a cleanup audit does not silently invoke
    unrelated mutations. Keep active task/handoff material.
-4. For each proposed delete, load `references/pre-delete-method.md` and run its one-candidate read-only
-   checks inline or through a reviewer. Incomplete/unavailable checks are `inconclusive`; untested
-   booleans are `null`. A safe evidence result does not grant authority. Unresolved semantic references
-   and unique value block removal; index-only links require exact same-change repair and recheck.
-5. For delete candidates, apply [document deletion](../_shared/document-deletion.md) for target
-   validity, recovery, authority and final state/reference checks. Reuse step 4 evidence; the shared
-   procedure does not replace this workflow's value classification.
+4. For each proposed delete, run the [pre-delete method](references/pre-delete-method.md) with
+   [document deletion](../_shared/document-deletion.md) for target and reference checks. Pass both
+   resolved paths to any delegated reviewer before it inspects the candidate. Keep the check
+   read-only; incomplete evidence yields `inconclusive` and untested booleans stay `null`.
+5. Before applying a deletion, reuse that evidence and follow the shared procedure for recovery,
+   authority, final state checks and same-change reference repairs. The primary agent owns this step.
 6. Load `references/output-formats.md` for the audit/applied result: scope, counts, actual actions,
    gated/blocked/drifted paths, routing, and incomplete evidence. Do not dump bodies or transcripts.
 
