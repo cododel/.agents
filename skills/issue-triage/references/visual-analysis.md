@@ -40,11 +40,11 @@ status when those fields exist. Explain the status definitions: a confirmed unme
 not establish root cause, readiness to fix, or current production impact. Keep this distinct from
 an impact-by-evidence view; neither silently chooses the operator's priority policy.
 
-Use one view per decision, with a compact switcher when alternative views are useful, rather than
-a long stack of overlapping charts. For a small set of views or priorities, prefer visible,
-keyboard-accessible buttons with a clear selected state. Preserve selection and keyboard focus
-when switching. Native dropdowns remain suitable for larger option sets if their expanded options
-are readable in the active theme.
+Use one view per decision. When handing off an interactive view, give the renderer the choices,
+current selection and member IDs. The rendering workflow owns the controls, themes and focus
+behavior. For short lists, keep available choices visible or verify a readable alternative. Ask the
+renderer to preserve selection and keyboard focus and verify keyboard access, both themes, narrow
+layout and view switching, including the open state of any menu. Report any unverified UI behavior.
 
 ## Interaction and integrity
 
@@ -62,13 +62,8 @@ are readable in the active theme.
   read is unavailable data, not a zero. Do not infer recovery from declining telemetry alone.
 - Keep missing values visible rather than silently removing hard-to-assess cases. Use ordinal
   categories for ordinal evidence, not invented decimal scores, scatter positions, or effort.
-- Label meaningful colors and connections; use readable labels and keyboard-accessible interaction.
-  Provide a textual/tabular equivalent and direct evidence links. Essential details cannot depend
-  on hover or color alone.
-- Use theme-aware foreground/background pairs. Check rendered light and dark appearances, narrow
-  layout, selected/focused controls, and view/filter switching. If using dropdowns, check expanded
-  options as well as the closed control; a dark field does not prove a readable native menu. Report
-  any unverified rendering/interaction boundary rather than claiming a text design is a tested UI.
+- Supply labels for meaningful colors and connections, a textual/tabular equivalent and direct
+  evidence links so the evidence is accessible without hover or color cues.
 
 Dense all-issue graphs, many-slice pies, and word clouds seldom answer a triage decision. Prefer a
 selected cluster, comparable bars, or a matrix. A table is often the right visual. A causal diagram

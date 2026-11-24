@@ -20,12 +20,11 @@ created in the period, events occurring in the period, and currently open work. 
 
 When ranking is requested without a goal or criterion, first produce a neutral inventory of the
 agreed collection: work types, source statuses, available fields, major groups, and evidence gaps.
-Then ask one focused question about the decision the operator needs to make. Follow the current
-interaction mode for questions. Outside Plan, ask early through available, permitted asynchronous
-input and continue independent work. Include a still-open question in the final response only as
-a fallback when no permitted early question channel is available, or as a reminder. Do not silently
-rank by frequency, severity, age, or effort while awaiting the answer. A proposed default is not
-agreement.
+Then ask one focused question about the operator's decision using the channel and timing
+specified by the current interaction mode and global policy. A still-open question may appear
+in the final response as a reminder or when no early channel was available. While awaiting the
+criterion, keep the inventory neutral and continue independent work. Do not silently adopt frequency,
+severity, age, effort or a proposed default.
 
 Once chosen, state the goal, priority criterion, grouping, and material tie-breakers briefly. Do
 not ask the operator to choose internal tooling or chart mechanics. Apply an already explicit
