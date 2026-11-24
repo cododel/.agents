@@ -44,15 +44,13 @@ destructive actions still require authorization covering the actual action and t
   non-production environment, resources, and testing actions. Installing a version
   or restarting a TEST service requires explicit permission for those actions.
   If permission is absent and the action has not been refused, ask before acting.
-- Push requires explicit operator authorization in every checkout, including
-  worktrees. An explicit push request is sufficient when preconfigured CI deploys
-  automatically; do not request approval again or routinely investigate deployment
-  triggers. When requesting missing push authorization, mention automatic
-  deployment only if already known. Push does not authorize operating release
-  jobs or rollout.
-- Before external writes, push, merge, shared non-production persistent data changes, secret use,
-  or destructive actions, verify the live target, ownership, recovery limits, and explicit authority.
-  Preserve operator work; do not infer authorization from a configured connection or available tool.
+- Push requires explicit operator authorization in every checkout. An explicit push request is
+  sufficient when preconfigured CI deploys automatically. Push does not authorize release or rollout.
+  Before requesting push authorization or pushing, use the remote-publication route in `$git-operations`.
+- Before external writes, push, merge, branch/worktree deletion, remote changes, shared non-production
+  persistent data changes, secret use, or destructive actions, verify the live target, ownership,
+  recovery limits, and explicit authority. Preserve operator work. A configured connection or available
+  tool alone grants no authority.
 - Use secrets only through established tools for the authorized purpose; never print them, store them
   in project/task files, or send private source, logs, or credentials to external retrieval services.
 
@@ -75,25 +73,21 @@ destructive actions still require authorization covering the actual action and t
 
 ## Git And Worktree Ownership
 
-- Before Git mutation, inspect status, branch, HEAD, and `git worktree list --porcelain`.
+- Use `$git-operations` before any Git mutation, when naming a branch, or when drafting or reviewing
+  a commit message.
 - Work in the selected checkout and branch by default. Use the `$git-operations` worktree-preparation
   route only for requested isolation, another required base, independent writable work, unsafe overlap,
   or a protected target.
-  A feature, long task, or dirty but separable workspace alone does not require another worktree.
 - In the primary checkout, an implementation request permits scoped file edits. Staging, committing,
   switching, rebasing, and conflict resolution require an explicit request.
 - In a linked worktree, verify HEAD is attached to this task's dedicated branch before editing.
-  Create and attach that branch if absent; never repurpose another task's branch or unrelated changes.
+  If the dedicated branch is absent or HEAD is detached, use the worktree-preparation route before
+  editing. Never repurpose another task's branch or unrelated changes.
 - A dedicated task worktree permits scoped edits, staging, checkpoint commits, amend of task-owned
   commits, and local conflict resolution. Finish completed task-owned work in coherent local commits
   unless the operator requests otherwise; read-only work and blocked incomplete deliverables are exempt.
 - Never move the primary checkout, change `core.worktree`, share a branch across worktrees, rewrite
   operator history, or broadly restore/reset/clean to tidy up. Revert only exact agent-owned changes.
-- Name branches `<type>/<short-kebab-description>` or `<type>/<task-id>/<short-kebab-description>`.
-  Types: `feat`, `fix`, `refactor`, `docs`, `test`, `perf`, `build`, `ci`, `chore`.
-- Use Conventional Commits: `<type>(<scope>): <subject>`; lowercase imperative, one scope, no final
-  period, agent attribution, or co-authorship trailer. Branch/worktree deletion and remote changes
-  follow the authorization gate above.
 
 ## Direct Changes And Code Quality
 

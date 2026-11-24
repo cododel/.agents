@@ -26,7 +26,7 @@ Choose the route from actual state:
 - **New worktree:** use the operator's exact path/base first, including a requested active-session
   path to recreate. Otherwise use the current task's proven branch/HEAD and an established worktree
   root or collision-free sibling such as `../<repo-name>-<task-slug>`. Ask only about material base or
-  ownership ambiguity. Follow project branch rules, otherwise `<type>/<short-kebab-description>`.
+  ownership ambiguity. Choose the branch name under [Git operations](../SKILL.md).
 - **Partial/unknown creation:** reconcile operation status, filesystem, worktree inventory, and
   branches before retrying. Recover/attach an existing task-owned result even if registration failed;
   never remove paths/branches blindly or create duplicates.

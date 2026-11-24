@@ -17,7 +17,7 @@ directly before acting on it; leave other case files unloaded.
 | Signal in the task or checkout | Route |
 | --- | --- |
 | Plan, stage, create, or review commits; choose their size, grouping, or messages | Read [Commit composition](references/commit-composition.md), then use the common procedure below for authorized mutations. |
-| Push, create a remote branch, or rewrite a remote ref | [Remote publication](references/remote-publication.md) |
+| Ask for push permission, push, create a remote branch, or rewrite a remote ref | [Remote publication](references/remote-publication.md) |
 | Sandbox/DNS, network, SSH agent, or HTTPS access failure; proposed transport/account change | [Transport failures](references/transport-failures.md) |
 | Fetch, pull, divergence, or a stale upstream marker such as `[⇡]` | [Synchronization and tracking](references/sync-and-tracking.md) |
 | Prepare or reuse an isolated task worktree | [Worktree preparation](references/worktree-prepare.md) |
@@ -28,6 +28,10 @@ directly before acting on it; leave other case files unloaded.
 
 For a one-time PR status request, report a fresh snapshot, including pending or unknown states.
 Monitor or wait only when the requested outcome requires it; a push alone does not.
+
+When choosing a branch name, follow project conventions. The default is
+`<type>/<short-kebab-description>` or `<type>/<task-id>/<short-kebab-description>`.
+Use `feat`, `fix`, `refactor`, `docs`, `test`, `perf`, `build`, `ci`, or `chore`.
 
 ## Start
 

@@ -1,5 +1,10 @@
 # Remote publication
 
+An explicit push request covers the push when preconfigured CI deploys automatically. Do not ask
+again or routinely investigate deployment triggers. If push authority is missing, mention automatic
+deployment in the permission request only if already known. Release jobs and rollout remain
+operator-owned.
+
 1. Confirm the operator authorized this write to this destination. Identify the exact `owner/repo`,
    destination ref, local source ref and SHA, remote ref and SHA, and push method. Check for unrelated
    local work and unexpected remote advancement. A PR request alone may not authorize push under

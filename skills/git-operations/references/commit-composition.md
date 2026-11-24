@@ -54,7 +54,7 @@ unrelated outcomes. Never rewrite already-created history just to improve groupi
 
 ## Write the message from the selected diff
 
-Follow the applicable project's explicit message rules and tooling. Under the global defaults, use:
+Follow the applicable project's explicit message rules and tooling. Use Conventional Commits by default.
 
 ```text
 <type>(<scope>): <subject>
@@ -73,7 +73,7 @@ Follow the applicable project's explicit message rules and tooling. Under the gl
   limits; otherwise favor a readable subject over an arbitrary character quota.
 - Add a body only when it helps explain the problem, rationale, significant coupling, compatibility,
   or verification limitations. Do not paste a file inventory, session transcript, or unverified test
-  claims. Omit agent attribution and co-authorship trailers under the global defaults.
+  claims. Omit agent attribution and co-authorship trailers by default.
 - For a real breaking contract change, use the repository's supported breaking-change notation
   (`!` and/or `BREAKING CHANGE:`) and explain the incompatibility and required migration. Do not label
   an internal refactor as breaking merely because it touches many files.
