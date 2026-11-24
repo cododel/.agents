@@ -9,7 +9,7 @@ owner. Do not copy the same normative rule or rationale across document types.
 | Significant operator-made choice with real alternatives, rationale, and consequences | ADR via `$adr` after its decision/significance gates |
 | Repeatable operational, recovery, incident, or production-control procedure | Runbook/playbook |
 | Unique reproduction, failure signature, diagnostic probe, or debugging technique | Relevant troubleshooting/reference documentation, focused regression test, or one local non-obvious comment |
-| Independently resumable technical debt/deferred work | Report briefly; repository Issue only on a request to record/defer it |
+| Independently resumable debt or an accepted material limitation | Report debt briefly. On a request to record/defer work or confirmed operator acceptance of the limitation, use [issue-writer](../issue-writer/SKILL.md) to route a deferred-work record to one suitable owner. |
 | Current agreed task and unresolved proposals | Shared `task.md` via `$task-journal` when written memory helps |
 | Current execution state needed across compaction/sessions/subagents | Shared `state.md` via `$task-journal`, separate from agreed requirements |
 

@@ -29,8 +29,8 @@ never creates a missing Issues root.
 ## Essential boundaries
 
 An explicit operator deferral may remove work from the active scope; preserve the stated reason and
-resume conditions without inventing a technical-risk prerequisite. Reuse an unambiguous existing
-owner; label uncertain causes as hypotheses. A useful code TODO is optional within the recording
+resume conditions without inventing a technical-risk prerequisite. Use a short entry in an existing local list when it already owns ordinary deferred work.
+Reuse an unambiguous existing owner; label uncertain causes as hypotheses. A useful code TODO is optional within the recording
 request, explains why the risk remains, and never replaces the Issue's resumption evidence.
 
 Review is read-only. Closure needs explicit lifecycle scope and evidence of completion; it retains

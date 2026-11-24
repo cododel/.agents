@@ -33,9 +33,9 @@ of promising repayment. Revisit implementation only under the current authorized
 
 ## 2. Discover local ownership and duplicates
 
-Use shared repository discovery to prove one Issues root. Read its README/template and sample 1–2
-recent open records. Search relevant requirements, intended outcomes, symptoms, identifiers, paths,
-and established causes before creating a file.
+Look for an existing local record or list that already owns the work. For a standalone Issue,
+use the established Issues root and its conventions. Inspect examples when the format or
+ownership is unclear. Search for the same outcome before adding a record.
 
 - Update an existing Issue when it owns the same work and completion target.
 - Create a related new Issue for a distinct completion target, boundary, or established defect cause;
@@ -43,30 +43,19 @@ and established causes before creating a file.
 - Ask only when the records are plausibly competing owners and the choice would change historical or
   operator intent.
 
-When no Issues root exists, an explicit recording/deferral request authorizes
+When a standalone Issue is needed and no Issues root exists, an explicit recording/deferral request authorizes
 bootstrapping `docs/issues/` or a proven module-local equivalent with the fallback README/template.
 Stop if repository or module scope is ambiguous.
 
 ## 3. Write useful resumption context
 
-Match local convention. Otherwise adapt `../assets/deferred-template.md` to the recorded work:
+For ordinary deferred work, a short entry can identify the affected place, the desired outcome
+and how the next person will recognize completion. An existing list can carry this in one bullet.
+For a standalone file, follow local conventions or use the compact fallback template.
 
-- title, date, `Open` status, affected scope, and established priority;
-- the observed problem or requested outcome, its source, and available evidence;
-- for a defect, observed impact and any established cause or explicit hypothesis;
-- stated deferral reason, relevant consequences, and unresolved decisions;
-- supported direction, resume conditions/first actions, and completion criteria with verification;
-- relevant contracts, ADRs, Issues, commits, or task context.
-
-Keep priority (urgency/sequencing) separate from severity (impact/harm). Severity and causal analysis
-apply to defects or evidenced harmful limitations, not automatically to every requested capability.
-Omit inapplicable fields. Mark applicable unknown material facts as `TODO:` or unknown rather than
-inventing values; an absent hypothesis is not a missing requirement. Preserve decisive excerpts and
-source pointers instead of copying logs or transcripts.
-
-For an update, add current evidence and `Last reviewed`; revise stale claims rather than appending an
-unbounded diary. Change status only when evidence supports the lifecycle transition. Keep stable
-filenames unchanged; rename only when the established local convention requires it.
+Preserve an explicitly stated deferral reason. Add evidence, priority, a dependency, or a first
+investigation step when it changes how someone resumes the work. For a defect, distinguish an
+observed symptom from a suspected cause. Use the accepted-limitation guidance above when applicable.
 
 ## 4. Optional useful TODO
 
@@ -84,7 +73,7 @@ a TODO as a substitute for a failing test that belongs in the current fix.
 ## 5. Verify
 
 - path and filename follow local convention;
-- the complete body status is valid; filename status agrees only where local convention encodes it;
+- for standalone Issues, the complete body status is valid; filename status agrees only where local convention encodes it;
 - evidence locators exist and no paths/SHAs are fabricated;
 - no duplicate owner remains unlinked;
 - TODO link resolves when one was added;

@@ -5,6 +5,9 @@ it after shared repository discovery and before `create.md` / `close.md`.
 
 ## Local convention always wins
 
+When project conventions allow an existing list to own the work, use its entry format. The standalone-file
+conventions below apply when an Issue file is needed.
+
 If the target directory has a `README.md`, `ISSUE_TEMPLATE.md`, `CONTRIBUTING.md`, or
 similar file found during discovery, it defines the convention. The patterns below
 are the **fallback** — used only when no local convention exists, or to fill gaps the
@@ -115,8 +118,10 @@ or, when material context shifted:
 completion criteria have not been verified. Keeping the Issue Open pending operator review.
 ```
 
-Use `Stale note` only with evidence. It annotates an `Open` Issue and never acts as a fourth
-status. Review notes preserve audit trail without rewriting history.
+Use `Stale note` only with evidence. For a cleanup recommendation that classifies an Issue as
+stale under the fallback convention, specify both the `Last reviewed` update and a concise,
+evidence-backed `Stale note`. It annotates an `Open` Issue and never acts as a fourth status. Review notes preserve
+audit trail without rewriting history.
 
 ## Stop and ask, never invent fields
 

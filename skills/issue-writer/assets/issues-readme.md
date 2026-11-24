@@ -5,11 +5,9 @@ It is not a duplicate product tracker and not an archive for every observation.
 
 Create an Issue only when the operator requests recording/deferment of evidence-backed independently
 resumable work or confirms acceptance of a material limitation owned by an Issue.
-Discovering debt alone calls for a brief report. Include a
-source/locator, context, the observed problem or requested outcome, stated deferral reason, supported
-direction, resume condition, and verification boundary. Include causes or hypotheses only for defects
-and distinguish unknown from inapplicable information. A linked code TODO is optional when a stable
-seam benefits from an in-place warning.
+Discovering debt alone calls for a brief report. An ordinary entry identifies the affected
+area, the intended outcome and how to recognize completion. Preserve the stated deferral
+reason and any evidence or constraint needed to resume. A linked code TODO is optional.
 
 ## Naming and lifecycle
 

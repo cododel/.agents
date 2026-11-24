@@ -132,12 +132,11 @@ destructive actions still require authorization covering the actual action and t
   restore it, verify it and tell the operator which scenario was affected and what the check showed.
 - Distinguish unfinished required behavior, deliberate simplification that meets requirements, and
   accepted technical debt. Material limitations that change acceptance or risk need an operator
-  decision; technical convenience alone does not authorize them. A confirmed acceptance permits a
-  concise record of its rationale, operating limits and reconsideration trigger with an existing
-  appropriate owner; use `$issue-writer` for deferred-work records. Acceptance does not mean fixed.
-- Briefly report substantial debt outside the task. Create an Issue or linked TODO through
-  `$issue-writer` only when the operator requests recording/deferment or confirms its acceptance as
-  above; do not expand the task silently. Do not invent a repayment deadline for accepted debt.
+  decision. Technical convenience alone does not authorize them. Confirmed acceptance permits a
+  concise record with the appropriate existing owner and does not mean the limitation is fixed.
+- Briefly report substantial debt outside the task. Use `$issue-writer` for deferred-work records.
+  Create an Issue or linked TODO only on a request to record/defer it or confirmed acceptance of a
+  material limitation as above. Stay within the agreed scope.
 
 ## Verification And Evidence
 
