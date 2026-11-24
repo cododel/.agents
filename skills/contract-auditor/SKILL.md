@@ -53,7 +53,9 @@ repeat/re-review request to `repeat-review` over the requested base mode.
 - Do not edit code, contracts, ADRs, tests, Issues, dashboards, or configuration.
 - Do not stage, commit, push, migrate, enqueue, or perform production/database mutations.
 - Tests and read-only probes are allowed when they do not rewrite tracked sources. Record exact
-  commands, scope, results, and environment limits.
+  commands, scope, results, and environment limits. For evidence decisions covered by
+  [testing-evidence](../testing-evidence/SKILL.md), load it before selecting or interpreting a check.
+  Routine established checks alone follow the project profile.
 - A confirmed blocker fixes the verdict at `NOT READY`; coverage and stopping follow the selected
   audit objective and budget in `references/audit-method.md`. A verdict is not a claim of exhaustive
   coverage. Later repair or review uses existing operator authorization when it covers that action;

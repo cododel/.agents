@@ -14,7 +14,8 @@ agent counts and green checks do not establish acceptance or security.
 - **acceptance**: assess algorithms, business rules, state transitions and recovery against agreed
   behavior. Read [acceptance](references/acceptance.md).
 - **security**: investigate how an actor could violate a protected property through reachable
-  inputs or actions. Read [security](references/security.md).
+  inputs or actions. Read [security](references/security.md). If the operator requests a managed
+  security scan, use the selected scanner workflow for that request.
 - Combine profiles only when the request or concrete risk calls for both; retain the distinct
   correctness and exploitability claims. Natural language is sufficient to select a profile.
 
@@ -34,10 +35,10 @@ It owns oracle quality, controls, causal error phases, doubles, execution eviden
 evidence reuse. Use the project's testing profile for commands and isolation; do not reproduce those
 procedures here. If the dependency is unavailable, report it rather than claiming to have applied it.
 
-Use [contract-auditor](../contract-auditor/SKILL.md) for an explicitly requested formal contract or
-rollout audit; its frozen read-only verdict is not an invitation to enter this skill's repair loop.
-Reading contracts as sources here does not invoke that audit or import its mandatory fan-out,
-confirmation matrix and stop-on-blocker procedure. If both are requested, keep their phases explicit.
+For an explicitly requested formal contract or rollout audit, read
+[contract-auditor](../contract-auditor/SKILL.md) before that phase. It owns the read-only audit
+procedure and verdict. Reading a contract as evidence here does not trigger a formal audit.
+When both phases are requested, keep the audit separate from any authorized repairs.
 [feature-closeout](../feature-closeout/SKILL.md) owns completion of the overall implementation task.
 This investigation can supply evidence to it without automatically invoking another audit.
 

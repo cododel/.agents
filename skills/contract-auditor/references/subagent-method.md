@@ -23,7 +23,9 @@ contract assigned to the vector. Do not trust summaries when the source artifact
    budget. Report newly discovered normative owners to the orchestrator for shared rule IDs; hand
    off concerns outside the assignment rather than silently expanding it.
 2. Map each applicable contract rule to exact implementation evidence.
-3. Locate existing tests or declared executable evidence and run focused checks when authorized.
+3. Locate existing tests or declared executable evidence. Before selecting or interpreting checks,
+   apply [testing-evidence](../../testing-evidence/SKILL.md) when its conditions hold, including a
+   new probe, disputed evidence or a persistence risk. Run authorized checks under the project profile.
 4. Inspect negative paths appropriate to the vector; do not infer cleanup, rollback, or retry
    safety from a happy-path test.
 5. Reverse-check changed durable behavior for missing ownership.
