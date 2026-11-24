@@ -1,0 +1,7 @@
+{
+  "name": "visual-review-ui-evidence",
+  "private": true,
+  "dependencies": {
+    "ui-evidence": "https://codeload.github.com/0xBrewing/ui-evidence/tar.gz/3549b2710b7a062b547f1582df7e7947807e5391"
+  }
+}

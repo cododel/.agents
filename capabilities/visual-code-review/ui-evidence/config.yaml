@@ -1,0 +1,43 @@
+version: 1
+project:
+  name: frontend-review
+  rootDir: ..
+artifacts:
+  rootDir: .tmp/ui-evidence/screenshots
+  overviewViewport: desktop
+runtime:
+  stateDir: .tmp/ui-evidence/state
+  tempDir: .tmp/ui-evidence/tmp
+capture:
+  browser:
+    headless: true
+    freezeAnimations: true
+    waitForFonts: true
+  viewports:
+    - id: desktop
+      viewport: { width: 1280, height: 800 }
+      locale: en-US
+      timezoneId: UTC
+      colorScheme: light
+    - id: narrow
+      viewport: { width: 390, height: 844 }
+      locale: en-US
+      timezoneId: UTC
+      colorScheme: light
+servers:
+  before:
+    mode: attach
+    baseUrl: http://127.0.0.1:4173
+  after:
+    mode: attach
+    baseUrl: http://127.0.0.1:4174
+stages:
+  - id: primary-flow
+    title: Primary flow
+    description: Review the same screen in both builds.
+    screens:
+      - id: home
+        label: Home
+        path: /
+        waitFor:
+          testId: screen-home

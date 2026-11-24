@@ -1,94 +1,53 @@
 # .agents
 
-Universal engineering policy, reusable Skills, and scenarios for evaluating agent behavior.
-Project repositories own their architecture, commands, conventions, and project-specific workflows.
+Engineering standards, reusable agent skills and optional tooling for frontend visual review. [AGENTS.md](AGENTS.md) covers authority, Git ownership and verification. Individual project repositories own their architecture, commands and product requirements.
 
-## Repository Map
+## Get started
 
-| Source | Responsibility |
-| --- | --- |
-| [AGENTS.md](AGENTS.md) | Always-on policy: authority, ownership, engineering standards, evidence, and completion. |
-| `skills/<name>/SKILL.md` | A portable Skill's trigger, boundaries, procedure, and expected outcome. |
-| `skills/<name>/references/` | Details loaded only for the relevant stage or question. |
-| `skills/<name>/assets/` | Templates and fallback resources. |
-| [Shared references](skills/_shared/) | Shared guidance, evidence standards and the Markdown review wrapper. |
-| [Code intelligence manifest](capabilities/code-intelligence/manifest.json) | Declarative tool requirements and repair commands. |
-| [Skill scenarios](evals/skill-scenarios.tsv) | Trigger, near-miss, required-outcome, and forbidden-outcome cases. |
-| [Agent behavior scenarios](evals/agent-behavior.tsv) | Policy-level behavior cases. |
-| [Behavior probes](evals/behavior-probes.md) | Concrete prompts, grading criteria, execution method, and dated evidence status. |
-| [Issue triage probes](evals/issue-triage-probes.md) | Ranking, causality, repeat-review, and visual-analysis cases. |
-| [Validator](scripts/check-skills.py) and [tests](tests/) | Structure checks and regression tests for repository utilities. |
-| [.disabled_skills/](.disabled_skills/) | Inactive historical Wiki Skills, outside the active entrypoint matrix. |
+Clone the repository into an ordinary directory with Git. If you already have a checkout, open its root and skip the clone.
 
-Keep each rule in one place: policy in `AGENTS.md`, reusable procedures in Skills, and project facts
-in project sources. Project `AGENTS.md` files should link to global rules instead of copying them;
-repeat only what is needed to make a project-specific difference explicit. Explicit operator
-instructions and applicable project rules refine the defaults within their authority.
+```sh
+git clone https://github.com/cododel/.agents.git engineering-skills
+cd engineering-skills
+```
 
-Not every harness reads `~/.agents/AGENTS.md` automatically. If needed, symlink its supported
-global instruction path to `~/.agents/AGENTS.md`.
+The policy and skills are Markdown and can be read directly. To use them with a coding agent, give it the path to `AGENTS.md` and the relevant `SKILL.md` in this checkout. For example, ask it to “Read `capabilities/visual-code-review/SKILL.md` and prepare a desktop and mobile comparison of the changed screen.” From a different project, supply the absolute path to the skill. Keep the checkout together so relative links to shared guidance, scripts and assets resolve.
 
-## Portable Skills
-
-The repository has **28 portable Skill entrypoints**, matched against the scenario matrix by the
-validator.
-
-- Documentation and design: `adr`, `contract-auditor`, `contract-writer`,
-  `bug-report`, `cododel-post-covers`, `design-system-extractor`, `docs-cleanup`, `humanize`,
-  `issue-writer`, `markdown-preview`, `pr-writer`.
-- Engineering and verification: `chrome-devtools-cli`, `feature-brief`, `feature-closeout`,
-  `adversarial-review`, `git-operations`, `localization`, `troubleshooter`,
-  `testing-evidence`, `repository-test-audit`, `redis`.
-- Context and coordination: `find-docs`, `kaneo-task-workflow`, `task-journal`,
-  `issue-triage`, `process-friction-audit`, `skill-evolution`, `task-finish`.
-
-Each Skill's description and entrypoint explain when to use it. Use context helpers when they
-address a relevant uncertainty or evidence question. Review, cleanup, tracker, and external-write
-workflows need the corresponding operator intent or a declared project workflow. Mentioning a topic
-alone does not authorize a workflow or external action.
-
-[Skill evolution](skills/skill-evolution/SKILL.md) embeds evidence-based learning and scoped promotion
-in a new or existing skill when requested, for example: “Create skill X with a mechanism of evolution.”
-The resulting package works without loading the meta-skill; existing permissions determine which
-repairs may be applied and which remain proposed changes.
-
-[Testing evidence](skills/testing-evidence/SKILL.md) describes how to choose and assess
-verification; project profiles supply commands, isolation requirements, and required checks.
-[Bug report](skills/bug-report/SKILL.md) owns report content; it does not grant tracker write authority.
-[Markdown preview](skills/markdown-preview/SKILL.md) renders README files, documentation, and Issue or PR drafts.
-[PR writer](skills/pr-writer/SKILL.md) covers feature, fix and maintenance descriptions and demonstrations,
-reusing the same preview and shared evidence standard. PRs with media use the preview; simple text-only
-descriptions are delivered as text unless preview is requested.
-[Task journal](skills/task-journal/SKILL.md) records the agreed task
-and work progress under `.tmp/tasks/<task-id>/` when they become hard to retain reliably; `/.tmp/`
-is ignored.
+For automatic discovery in a client that accepts skill roots, select the checkout's `skills/` directory. Optional capabilities can be invoked by path. Policy loading is a separate client setting. Preserve existing instructions when adding a reference to `AGENTS.md`.
 
 ## Close an engineering task
 
 Use [feature-closeout](skills/feature-closeout/SKILL.md) to finish the agreed task. Supply its requirements and the baseline and target when known. The agent checks the implementation, repairs confirmed gaps within its authority and rechecks the affected behavior. For substantial changes, a local visual report explains the final behavior, architecture, decisions, repairs and remaining gaps. Small changes can be handed off directly in the response. Request a read-only assessment when the implementation must remain untouched.
 
-## Validation
+## Set up manual visual review
 
-From the repository root (Python standard library for repository checks, Bun for preview tests):
+[Install ui-evidence](capabilities/visual-code-review/ui-evidence.md#install) to compare frontend screenshots in a local HTML report. The macOS/Linux setup uses the launcher, screen template and dependency lockfile from this checkout. It downloads the CLI and Chromium into a user directory outside the frontend project and requires no agent configuration or hooks.
 
-```bash
+For frontend acceptance, capture the baseline before editing or attach ui-evidence to two running builds. A one-off comparison can keep its configuration and report outside the app. Keep a screen definition in the project when the team will reuse it. The [visual review skill](capabilities/visual-code-review/SKILL.md) describes how to prepare the evidence and report missing coverage.
+
+## Skills and repository map
+
+The packages under [skills/](skills/) each have a `SKILL.md` describing when to use them, the procedure and the expected result. The [scenario matrix](evals/skill-scenarios.tsv) covers these top-level skill packages. The manual visual review capability is documented above.
+
+| Area | Sources |
+| --- | --- |
+| Planning and delivery | [Feature brief](skills/feature-brief/SKILL.md), [Git operations](skills/git-operations/SKILL.md), [localization](skills/localization/SKILL.md), [feature closeout](skills/feature-closeout/SKILL.md), [task finish](skills/task-finish/SKILL.md) |
+| Investigation and verification | [Troubleshooting](skills/troubleshooter/SKILL.md), [testing evidence](skills/testing-evidence/SKILL.md), [test-suite audit](skills/repository-test-audit/SKILL.md), [adversarial review](skills/adversarial-review/SKILL.md), [Chrome DevTools CLI](skills/chrome-devtools-cli/SKILL.md), [Redis](skills/redis/SKILL.md) |
+| Architecture and documentation | [ADRs](skills/adr/SKILL.md), [contract authoring](skills/contract-writer/SKILL.md), [contract audit](skills/contract-auditor/SKILL.md), [documentation cleanup](skills/docs-cleanup/SKILL.md), [external documentation lookup](skills/find-docs/SKILL.md) |
+| Writing and design | [Bug reports](skills/bug-report/SKILL.md), [pull requests](skills/pr-writer/SKILL.md), [Markdown preview](skills/markdown-preview/SKILL.md), [prose editing](skills/humanize/SKILL.md), [design system extraction](skills/design-system-extractor/SKILL.md), [Cododel post covers](skills/cododel-post-covers/SKILL.md) |
+| Task coordination | [Task journal](skills/task-journal/SKILL.md), [issue triage](skills/issue-triage/SKILL.md), [deferred issues](skills/issue-writer/SKILL.md), [Kaneo](skills/kaneo-task-workflow/SKILL.md), [process friction audit](skills/process-friction-audit/SKILL.md), [skill evolution](skills/skill-evolution/SKILL.md) |
+| Shared resources | [Cross-skill guidance](skills/_shared/), [macOS code intelligence manifest](capabilities/code-intelligence/manifest.json), [inactive Wiki skills](.disabled_skills/) |
+| Evaluation | [Agent behavior scenarios](evals/agent-behavior.tsv), [behavior probes and recorded outcomes](evals/behavior-probes.md), [issue triage probes](evals/issue-triage-probes.md), [skill evolution probes](evals/skill-evolution-probes.md) |
+
+## Validate the checkout
+
+Run from the repository root. The Python checks use the standard library. The full set needs Git and [Bun](https://bun.com/docs/installation). The preview tests also need permission to listen on loopback.
+
+```sh
 python3 scripts/check-skills.py
 python3 -m unittest discover -s tests -p 'test_*.py'
 bun test tests/report-preview.test.ts
 git diff --check
 ```
 
-The validator checks Skill metadata, agreement between entrypoints and scenarios, local links in
-Skills, and source portability. It does not check links in this README or model behavior. The tests
-check validator portability and how the session scanner handles non-object JSON, explicit
-subdirectory boundaries, and suspicious token assignments. Bun tests exercise the Markdown preview
-server, canonical source refresh, file containment and process expiry/shutdown.
-`git diff --check` checks patch whitespace.
-
-See [Behavior probes](evals/behavior-probes.md) for the trial method and dated results. This
-repository has no automated model-runner. Older contextual trials remain untested or unverified as
-recorded there. The clarification screening on 2026-10-17 records 24 candidate-only trials that
-passed criteria fixed before execution. Those trials provide no baseline comparison or proof of
-general reliability; the migration-stage scenario remains untested. Local trial artifacts under
-`.tmp/` are not versioned. Structural checks and prose scenarios do not establish behavioral
-success.
+The [structure check](scripts/check-skills.py) matches `skills/*/SKILL.md` against the scenario matrix and checks local references in the skill tree. The [tests](tests/) exercise the validator, the session scanner and the Markdown preview server. For ui-evidence, [verify a first comparison](capabilities/visual-code-review/ui-evidence.md#verify-a-first-comparison). The [behavior probes](evals/behavior-probes.md) describe how to evaluate what an agent actually does and record the limits of each trial.
