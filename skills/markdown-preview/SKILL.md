@@ -63,15 +63,14 @@ an unknown target honestly rather than inventing a repository. Keep operator not
 
 Paths are relative to the manifest folder and must stay inside it, including through symlinks.
 Use a dedicated folder: registered Markdown and supported image/video files inside that folder can
-be served. Store local evidence below it, link relative to the Markdown file, and use new filenames
-when replacing evidence so existing media and annotations do not silently change meaning.
+be served. Store local evidence below it and link relative to the Markdown file.
 PNG/JPEG/GIF/WebP/AVIF and MP4/WebM/MOV/OGG attachments are supported; playback depends on the browser's
 codecs. A Markdown link to MP4/WebM/MOV also displays a video player. Missing attachments must be
 resolved or disclosed before calling the report ready.
 
-Local media URLs are preview locators, not GitHub uploads. Before an authorized publication, resolve
-the destination's attachment URLs in the same Markdown and recheck that render. Do not upload from
-preview preparation alone or claim local paths will work for GitHub readers.
+Before replacing evidence or preparing attachments for authorized publication, follow the
+[shared evidence guidance](../_shared/review-evidence.md). Recheck that the updated canonical
+Markdown renders and its attachments load. Preview preparation alone grants no upload authority.
 
 ## Launch and review
 
