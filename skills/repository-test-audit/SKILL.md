@@ -62,8 +62,7 @@ overlap gaps may remain after source coverage completes: expose exact IDs/eviden
 the agreed axis-specific completion. Full evidence audit requires its agreed proof axes; unavailable
 parts remain blocked/not-run. Mechanical hash/reference QA does not certify semantic conclusions.
 
-Never retire from scores, counts, smells, coverage or no historic failures. Preserve valuable schema,
-API, architecture, source-integrity, graph and mocked decision/interaction guarantees. Consolidation
-or retirement of a live guarantee needs verified surviving/replacement protection. Retirement of a
-legitimately obsolete requirement instead needs evidence of its cancellation and no dependent
-consumers or remaining obligations. Actual deletion always needs separate authorization.
+Before assessing a test for consolidation or retirement, apply the
+[test design criteria](../testing-evidence/references/test-design.md#safe-scoped-legacy-decisions).
+Identify surviving or replacement protection by test ID where applicable. Include schema, API,
+architecture, source-integrity, graph and mocked decision/interaction guarantees in the review.

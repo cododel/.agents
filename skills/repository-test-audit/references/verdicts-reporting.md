@@ -5,7 +5,7 @@
 | retain | Meaningful narrow guarantee with suitable oracle/boundary; preserve it and state limits |
 | strengthen | Valuable requirement with a concrete assertion/oracle/boundary gap; specify scenario/change, prerequisites and acceptance proof |
 | consolidate | Verified equivalence/overlap; name survivor, merged cases and replacement checks preserving unique protection |
-| retire | Live guarantee: verified surviving/replacement protection. Obsolete requirement: evidence of cancellation and no dependent consumers/remaining obligations; no artificial replacement. Exact scope/owner, removal risk and separate deletion authorization in either case |
+| retire | Record which [retirement criterion](../../testing-evidence/references/test-design.md#safe-scoped-legacy-decisions) the evidence satisfies, the exact scope and owner, any survivor or replacement test ID, and removal risk. Deletion requires separate authorization |
 | investigate | Material unresolved contract/helper/dynamics/overlap/proof; exact missing evidence, safe means to obtain it and decision it changes |
 
 One primary verdict per reviewed group, with evidence/confidence, realistic failure, oracle/observable/

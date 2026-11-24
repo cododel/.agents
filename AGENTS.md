@@ -140,15 +140,21 @@ destructive actions still require authorization covering the actual action and t
 
 ## Verification And Evidence
 
-- Do not run E2E tests locally, including through aggregate commands or in headless mode. Leave E2E
-  verification to the operator or the project's existing CI workflow.
+- Run a targeted E2E locally only when a cheaper check misses the failure and the test can run
+  individually, quickly and unattended in the background on an authorized isolated target.
+  Leave heavy, interactive or full-suite E2E runs to the operator or CI, including those invoked
+  by aggregate commands.
 - Follow project rules for other checks. When the project does not specify which checks to run,
   select applicable checks such as type checking, targeted regression tests, and a build. Base the
   selection on the change, regression risk, and expected runtime.
-- For observable behavior changes, default to meaningful RED–GREEN–REFACTOR: establish agreed
-  acceptance, expose the intended gap, implement, then refactor. Extend existing protection before
-  adding duplicate tests; use justified exceptions when RED or a permanent test would mislead or
-  be disproportionate, and disclose material evidence limits.
+- For an ordinary noncritical bug, reproduce the failure before the fix and verify the same
+  scenario afterwards. For a screen that only wires a tested component, verify the result on the
+  screen. Add lasting coverage for a concrete recurrence risk or serious consequences. Prefer
+  extending an existing test. If cheaper tests miss such a failure, an implementation task permits
+  adding a narrow E2E within existing infrastructure. Local execution follows the rule above.
+- Within an implementation task, you may consolidate or remove proven duplicates covering the
+  behavior being changed. Report which tests were merged or removed and which surviving test
+  still detects the same failure. Broader test-suite refactoring is separate work.
 - Load `$testing-evidence` for substantive test design or review, test-failure diagnosis, uncertain
   verification boundaries or evidence reuse, and money/access/persistence/lifecycle risks. Routine
   established checks alone do not require it. Project commands, isolation and required gates apply

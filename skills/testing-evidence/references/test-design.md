@@ -12,7 +12,7 @@ identity obligation are actually exercised; they do not prove all business meani
 Find the existing guarantee before adding tests. Expand an existing case/parameterization when the
 same boundary is being protected. Separate tests are justified by distinct failures, consumers,
 oracles, lifecycle/error phases or platforms. Similar names/shared fixtures do not prove duplication.
-Retain permanent protection when its regression value justifies maintenance; temporary probes can
+Apply the permanent-test criteria in AGENTS.md. Temporary probes can
 be stronger evidence at a difficult seam without becoming a new permanent framework. For behavior-
 preserving refactors, strengthen protection only for a demonstrated gap. Documentation or mechanical
 changes may use source/static/UI evidence; explain material RED/permanent-test limits rather than
@@ -67,8 +67,8 @@ requirement, establish cancellation and absence of dependent consumers or remain
 do not invent replacement protection. Investigate identifies the missing contract, cancellation,
 consumer, helper, selection or replacement evidence and how it changes the decision.
 Never retire from scores, test counts, heuristics, coverage or absence of historic failures.
-Unknown is not permission to remove; review alone does not authorize edits, and deletion requires
-applicable authorization.
+Review alone grants no edit authority. For an authorized implementation, apply the scoped duplicate
+rule in AGENTS.md after verifying equivalent protection at the same boundary with no unique case.
 
 ## Avoid artificial protection
 
