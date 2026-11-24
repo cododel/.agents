@@ -1,6 +1,6 @@
 ---
 name: redis
-description: Redis development guidance for application code, configuration and reviews. Use whenever a task touches Redis: data modeling and key naming, client setup and connection handling, security, monitoring and triage, Redis Cluster, or Redis Search and vector search.
+description: "Redis development guidance for application code, configuration and reviews. Use whenever a task touches Redis: data modeling and key naming, client setup and connection handling, security, monitoring and triage, Redis Cluster, or Redis Search and vector search."
 ---
 
 # Redis
@@ -21,7 +21,7 @@ Entry point to the Redis knowledge base. Do not read every topic. Pick the topic
 ## Rules
 
 - A task that only uses Redis in passing, such as reading an env var with the Redis URL, needs no topic.
-- When a task spans topics, for example a new cache layer, read Core first and then Connections.
+- When a task spans topics, read each matching guide. For a cache that needs both data modeling and client setup, read Core first and then Connections.
 - The local project's conventions and its client library version take priority over this guidance. Say so when they conflict.
 
 Source: [redis/agent-skills](https://github.com/redis/agent-skills), MIT. `upstream/` holds the official skill folders unmodified; update them by re-copying from upstream (pinned commit in `upstream/SOURCE`).
