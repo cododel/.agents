@@ -20,11 +20,9 @@ Treat uncertain lineage as cold audit. Record the context once for the run.
 
 ## 2. Enumerate closed candidates
 
-Follow `../../issue-writer/references/conventions.md` for the repository's status convention.
-Under the stable-name fallback, require the exact body status `Closed`; filenames carry no status.
-Require matching filename/body statuses only under an established status-prefixed convention.
-Missing or conflicting required statuses are `ambiguous` and remain untouched; loose prefixes
-such as `Closed pending verification` or `[CLOSEDNESS]` do not qualify.
+Before selecting candidates, apply the project's status convention using
+[Issue conventions](../../issue-writer/references/conventions.md#status). Require verified closed
+status; leave ambiguous candidates untouched.
 
 Read every candidate body in full. Search existing ADRs and contracts before classification so a new
 record does not duplicate the current owner. Reconcile the current chat and Issue evidence by

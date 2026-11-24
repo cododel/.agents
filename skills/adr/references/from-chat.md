@@ -53,8 +53,7 @@ Read the local convention. Load `path-resolution.md` for the write path and
 ## Step F3 — Write the ADR
 
 Write one self-sufficient decision record. Preserve the operator's actual nuance but do not paste the
-conversation. The title names the decision, not merely the topic. Alternatives and rejection reasons
-are load-bearing. Consequences include costs, not only benefits.
+conversation. The title names the decision, not merely the topic. Preserve the alternatives, costs and rejection reasons that explain the choice.
 
 Decision invariants state when the historical choice remains valid; they do not replace the current
 living contract.

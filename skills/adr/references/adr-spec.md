@@ -54,29 +54,16 @@ A small one-way choice may deserve an ADR; a large but routine reversible implem
 
 ## 4. Required quality
 
-A good ADR has:
-
-- **one decision** that can be superseded independently;
-- **concrete context and forces** specific to this system;
-- **real alternatives** actually considered, including status quo only when it was a viable option;
-- **specific rejection/selection reasons**, not generic best-practice language;
-- **a precise decision outcome** understandable without the original chat;
-- **honest positive and negative consequences**;
-- **material assumptions or decision invariants** that explain when the choice still holds;
-- **validation or revisit triggers** proportionate to reversal cost and uncertainty;
-- **valid lifecycle/status and relationship links**.
-
-A single-option ADR is valid only when the option was genuinely mandated and the document records the
-concrete constraint. Do not invent decorative alternatives.
+Record one independently supersedable choice and its concrete, evidenced reason. A reader should
+understand both without the original conversation. A single-option decision names the constraint
+that required it. Preserve a material trade-off when omitting it would change the meaning.
 
 ## 5. Proportionate depth
 
-Use the smallest document that preserves the decision. Context, alternatives, decision, rationale,
-and consequences are always required. Add assumptions/invariants, validation, references, migration,
-or follow-ups only when they carry decision-specific value.
-
-Irreversible/high-cost choices need explicit assumptions, validation/revisit triggers, and rollback or
-migration consequences. A reversible local precedent should not be padded with generic risk sections.
+One paragraph can be the complete decision body. Include alternatives, consequences, assumptions
+or links where they explain the choice or when to reconsider it. Use separate headings only as
+needed. For irreversible or high-cost choices, explain material assumptions, validation or revisit
+triggers, and rollback or migration consequences.
 
 Never encode implementation completion percentages, checklists, or task status in the ADR filename or
 body unless an established project convention explicitly requires a legacy field. Decision lifecycle

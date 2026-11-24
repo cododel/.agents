@@ -8,7 +8,7 @@ code, Git history, and corpus context.
 ### Decision authority and rationale
 
 - Does the record attribute a real operator decision rather than present implementation as history?
-- Are alternatives and selection/rejection reasons concrete and evidenced?
+- Can a reader understand the decision and its reason? A single paragraph can suffice. Assess alternatives where they are material to the choice.
 - If only one option exists, is the hard constraint explicit rather than decorative?
 - Is the ADR one independently supersedable decision?
 
