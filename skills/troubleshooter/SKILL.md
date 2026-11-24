@@ -39,12 +39,13 @@ interpretation; the project profile supplies execution commands. Diagnosis owns 
 4. When authorized, fix the origin or ownership boundary. Improve directly touched code only when
    it reduces the same failure risk without widening scope. Make the focused probe pass and inspect
    relevant static/type checks, failure paths, validation, typing, security, and resource cleanup.
-   Retain a useful regression, or explain why a durable test was unsuitable.
+   Apply the global permanent-test criteria. Report any material verification gap.
 
 ## Load only relevant detail
 
-Read [references/discovery.md](references/discovery.md) when the origin is unclear or upstream,
-cross-module, event, or lifecycle tracing needs more guidance. Load framework playbooks only when
+Read [references/discovery.md](references/discovery.md) for a requested deep causal analysis,
+conflicting observations across environments, an unclear origin, or upstream, cross-module,
+event or lifecycle tracing that needs more guidance. Load framework playbooks only when
 repository dependencies and runtime/project structure prove that framework on the causal path:
 
 - Django/DRF: [references/playbooks/django.md](references/playbooks/django.md).
@@ -61,5 +62,5 @@ content. An ordinary diagnostic answer does not require a full report.
 
 Report cause versus hypotheses, the semantic fix when authorized, decisive before/after evidence,
 and material gaps. Diagnosis-only reports must omit implementation claims and identify the next
-falsifying observation when uncertain. Briefly report independent debt; record it through
-`$issue-writer` only on a request to record/defer it.
+falsifying observation when uncertain. Briefly report independent debt. When a deferred-work record
+is warranted under the global debt policy, use [issue-writer](../issue-writer/SKILL.md).

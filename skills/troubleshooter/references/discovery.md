@@ -18,6 +18,12 @@ Do not ask for information that the supplied artifact, repository, local logs, o
 can establish. Ask only for an exact missing artifact/input when no repository-local observation can
 resolve it.
 
+Prefer independent local diagnosis when the tools can exercise the reported conditions. A successful
+run establishes what worked in that configuration. If the reported failure persists elsewhere,
+consider both environment differences and an incorrect hypothesis. When an observation on the
+operator's device could distinguish them, you may offer an interactive session. Explain what to
+observe and which predictions differ. Start the session only if the operator explicitly agrees.
+
 ## 2. Find producers, boundaries, and mutations
 
 Search for the value's creation, assignments, transformations, boundary crossings, and consumers
@@ -45,6 +51,11 @@ Treat these as search hypotheses, not probabilities or diagnoses.
 Start at the failing module, then follow proven callers, producers, event/schema edges, configuration,
 persistence, and lifecycle ownership. Verify every decisive edge in source.
 
+Follow the path to the component responsible for the violated guarantee. For duplicate orders,
+two clicks can explain two requests. Reproduce what happens when the order boundary receives
+both, and inspect transaction or balance handling if it participates in that path. Distinguish a
+confirmed defect from a related risk. Report independent risks and propose a separate check.
+
 When hypotheses diverge or the causal chain becomes unclear, summarize privately:
 
 - observations established;
@@ -70,6 +81,15 @@ Before calling a root cause proven, connect:
 2. transformation/control path;
 3. failing assumption;
 4. focused probe/reproduction whose result changes as the cause predicts.
+
+A symptom, correlation or isolated reproduction alone does not establish the path from the
+proposed cause to the observed failure. For a deep diagnosis, reproduce the failure where it
+occurs and vary the suspected cause to check its prediction against plausible alternatives.
+If that observation is unavailable, identify the unverified link. Match the stopping point to
+the task: a device-specific rendering condition verified on the affected device may explain how
+to make a site work across platforms. For a rendering-engine investigation, that same condition
+is the reproduction case. Trace the engine mechanism. Continue to a lower layer when it could
+change the explanation requested, the correct repair, or its safety.
 
 A patch that merely makes the symptom disappear is insufficient. Check that it does not suppress the
 error, broaden a catch/default, weaken validation/types, leak resources, or leave another consumer on
